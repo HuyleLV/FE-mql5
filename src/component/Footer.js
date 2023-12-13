@@ -1,9 +1,9 @@
-import './footer.css'
+import "./footer.css";
 export default function Footer() {
   return (
-    <div >
-      <div className="" id="footer">
-        <div className="links  grid grid-cols-4 gap-4 p-[40px] text-[#42639c]">
+    <div>
+      <div id="footer">
+        <div className="grid grid-cols-4 gap-4 p-[20px] text-[#42639c]">
           <nav>
             <ul>
               <li>
@@ -195,52 +195,75 @@ export default function Footer() {
             </ul>
           </nav>
           <nav className="footer__products">
-            <img url="https://c.mql5.com/i/shared/ico_footer_desktop5_2x.png" ></img>
-            <div class="footer__networks-list">
-                    <a href="https://www.facebook.com/mql5.community/" target="_blank" title="Facebook"><i class="icons-networks icons-networks_fb"></i></a>
-                    <a href="https://t.me/mql5dev" target="_blank" title="Telegram"><i class="icons-networks icons-networks_tg"></i></a>
-                    <a href="https://twitter.com/mql5com" target="_blank" title="X (Twitter)"><i class="icons-networks icons-networks_tw"></i></a>
-                    </div>
-          
-            <div className="footer__networks">
+            <img url="https://c.mql5.com/i/shared/ico_footer_desktop5_2x.png"></img>
             <div className="footer__networks-list">
               <a
                 href="https://www.facebook.com/mql5.community/"
                 target="_blank"
                 title="Facebook"
+                rel="noreferrer"
               >
                 <i className="icons-networks icons-networks_fb"></i>
               </a>
-              <a href="https://t.me/mql5dev" target="_blank" title="Telegram">
+              <a
+                href="https://t.me/mql5dev"
+                target="_blank"
+                title="Telegram"
+                rel="noreferrer"
+              >
                 <i className="icons-networks icons-networks_tg"></i>
               </a>
               <a
                 href="https://twitter.com/mql5com"
                 target="_blank"
                 title="X (Twitter)"
+                rel="noreferrer"
               >
                 <i className="icons-networks icons-networks_tw"></i>
               </a>
             </div>
 
-            <span>
-              Follow us on socials for top articles and CodeBase updates
-            </span>
-          </div>
+            <div className="footer__networks">
+              <div className="footer__networks-list">
+                <a
+                  href="https://www.facebook.com/mql5.community/"
+                  target="_blank"
+                  title="Facebook"
+                  rel="noreferrer"
+                >
+                  <i className="icons-networks icons-networks_fb"></i>
+                </a>
+                <a href="https://t.me/mql5dev" target="_blank" title="Telegram">
+                  <i className="icons-networks icons-networks_tg"></i>
+                </a>
+                <a
+                  href="https://twitter.com/mql5com"
+                  target="_blank"
+                  title="X (Twitter)"
+                >
+                  <i className="icons-networks icons-networks_tw"></i>
+                </a>
+              </div>
 
-          <div className="footer__other">
-            <div className="footer__not-a-broker">
-              Not a broker, no real trading accounts
+              <span>
+                Follow us on socials for top articles and CodeBase updates
+              </span>
             </div>
-            <div className="copyright">
-              35 Dodekanisou str, Germasogeia, 4043,&nbsp;Limassol,&nbsp;Cyprus
+
+            <div className="footer__other">
+              <div className="footer__not-a-broker">
+                Not a broker, no real trading accounts
+              </div>
+              <div className="copyright">
+                35 Dodekanisou str, Germasogeia,
+                4043,&nbsp;Limassol,&nbsp;Cyprus
+              </div>
+              <div className="copyright">
+                Copyright 2000-2023,{" "}
+                <span className="nobr">MetaQuotes Ltd</span>
+              </div>
             </div>
-            <div className="copyright">
-              Copyright 2000-2023, <span className="nobr">MetaQuotes Ltd</span>
-            </div>
-          </div>
           </nav>
-         
         </div>
       </div>
     </div>
