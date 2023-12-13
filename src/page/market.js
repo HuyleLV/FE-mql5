@@ -15,7 +15,7 @@ export default function Market() {
     return (
         <div className='max-w-screen-2xl items-center mx-auto pt-10'>
             <div className='grid grid-cols-12'>
-                <div className='col-span-2 border'>
+                <div className='hidden sm:block col-span-2 border'>
                     <div className='pr-5 py-10 pl-5'>
                         <p className='flex'>
                             <img src={bank} class="h-5 w-5" /> <span className='pl-2'>MetaTrader 5</span>
