@@ -3,13 +3,24 @@
 @tailwind utilities;
 
 :root {
-    --green: #029147;
-    --yellow: #f8c639;
-    --blue: #42639c;
-    --light-gray: #828282;
-    --mid-gray: #c0bfbf;
-    --black: #2d2e32;
-    --red: #e53935;
-    --border: #ccc9c9;
-    --content: #e9e9e9;
-  }
+  --green: #029147;
+  --yellow: #f8c639;
+  --blue: #42639c;
+  --light-gray: #828282;
+  --mid-gray: #c0bfbf;
+  --black: #2d2e32;
+  --red: #e53935;
+  --border: #ccc9c9;
+  --content: #e9e9e9;
+}
+
+:where(.css-dev-only-do-not-override-p7e5j5).ant-tabs-card.ant-tabs-top
+  > .ant-tabs-nav
+  .ant-tabs-tab
+  + .ant-tabs-tab,
+:where(.css-dev-only-do-not-override-p7e5j5).ant-tabs-card.ant-tabs-top
+  > .ant-tabs-nav
+  .ant-tabs-tab {
+  border-radius: 0px;
+  margin-left: 6px
+}
