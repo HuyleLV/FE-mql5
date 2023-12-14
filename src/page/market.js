@@ -15,18 +15,49 @@ export default function Market() {
             <List.Item.Meta
               description={
                 <>
-                 <Link to={`/market/detail/`}>
-                    <div className='text-center border'>
-                        <div className="flex justify-center  w-full" ><img alt='avata-product' src={ae}  /></div>
-                        <p className='p-1 font-semibold'>{item?.name}</p>
-                        <div className='flex items-center justify-center p-5'>
-                            {[1,2,3,4,5]?.map((i) => {
-                                return <img id={i} alt='icon-star' src={star} className="h-4 w-4 ml-1" />
-                            })}   
+                <div className="relative group overflow-hidden hover:overflow-visible">
+                    <div className="absolute z-[2] invisible group-hover:visible duration-300 translate-x-[-50%] group-hover:translate-x-0 translate-y-[50%] group-hover:translate-y-0 bg-white shadow-full p-[10px] pb-0 w-[calc(200%_+_20px)] max-w-[calc(200%_+_20px)] h-full overflow-y-hidden transition-all">
+                        <div class="flex flex-col justify-between h-full">
+                            <div>
+                                <div class="flex relative z-[1]">
+                                    <img src={ae} alt={item?.name} className="w-[36px] h-[36px] object-cover"/>
+                                    <div>
+                                        <p className='p-1'>{item?.name}</p>
+                                        <div class="flex items-center">
+                                            {[1,2,3,4,5]?.map((i) => {
+                                                return <img id={i} alt='icon-star' src={star} className="w-[10px] h-[10px]" />
+                                            })}
+                                            <span className="w-[18px] h-[18px] block">
+                                                
+                                            </span>
+                                            <span>Experts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>        
+                                    Sezar EA was tested and has successfully passed the stress test with slippage and commission approximate to the real market conditions
+                                    using real ticks  quality in a period of 22 years. The Expert Advisor contains the algorithm of statistics collection and slippage control
+                                    with complete statistics control; this  information is   used to protect you from broker’s tricks. Sezar EA controls the quality of the
+                                    broker execution before placing an order and It also has successfully passed strict criter
+                                </div>
+                            </div>
+                            <p className='border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>${item?.price} <span>USD</span></p>
                         </div>
-                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>${item?.price} <span>USD</span></p>
                     </div>
-                </Link>
+
+                    <Link to={`/market/detail/`}>
+                       <div className='text-center border'>
+                           <div className="flex justify-center  w-full" ><img alt='avata-product' src={ae}  /></div>
+                           <p className='p-1 font-semibold'>{item?.name}</p>
+                           <div className='flex items-center justify-center pt-[8px] pb-[16px]'>
+                               {[1,2,3,4,5]?.map((i) => {
+                                   return <img id={i} alt='icon-star' src={star} className="w-[10px] h-[10px]" />
+                               })}   
+                           </div>
+                           <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>${item?.price} <span>USD</span></p>
+                       </div>
+                   </Link>
+                </div>
                 </>
               }
             />
@@ -40,19 +71,49 @@ export default function Market() {
             <List.Item.Meta
               description={
                 <>
+                <div class="relative">
+                    <div className="absolute z-[2] invisible group-hover:visible duration-300 translate-x-[-50%] group-hover:translate-x-0 translate-y-[50%] group-hover:translate-y-0 bg-white shadow-full p-[10px] pb-0 w-[calc(200%_+_20px)] max-w-[calc(200%_+_20px)] h-full overflow-y-hidden transition-all">
+                        <div class="flex flex-col justify-between h-full">
+                            <div>
+                                <div class="flex relative z-[1]">
+                                    <img src={ae} alt={item?.name} className="w-[36px] h-[36px] object-cover"/>
+                                    <div>
+                                        <p className='p-1'>{item?.name}</p>
+                                        <div class="flex items-center">
+                                            {[1,2,3,4,5]?.map((i) => {
+                                                return <img id={i} alt='icon-star' src={star} className="w-[10px] h-[10px]" />
+                                            })}
+                                            <span className="w-[18px] h-[18px] block">
+                                                
+                                            </span>
+                                            <span>Experts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>        
+                                    Sezar EA was tested and has successfully passed the stress test with slippage and commission approximate to the real market conditions
+                                    using real ticks  quality in a period of 22 years. The Expert Advisor contains the algorithm of statistics collection and slippage control
+                                    with complete statistics control; this  information is   used to protect you from broker’s tricks. Sezar EA controls the quality of the
+                                    broker execution before placing an order and It also has successfully passed strict criter
+                                </div>
+                            </div>
+                            <p className='border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>${item?.price} <span>USD</span></p>
+                        </div>
+                    </div>
                     <Link to={`/market/detail/`}>
                         <div className='text-center border'>
                             <div className="flex justify-center  w-full" > <img src={ea} alt='avata-product' /></div>
                            
                             <p className='p-1 font-semibold'>{item?.name}</p>
-                            <div className='flex items-center justify-center p-5'>
+                            <div className='flex items-center justify-center p-[10px]'>
                                 {[1,2,3,4,5]?.map((i) => {
-                                    return <img id={i} alt='icon-star' src={star} className="h-4 w-4 ml-1" />
+                                    return <img id={i} alt='icon-star' src={star} className="w-[10px] h-[10px]" />
                                 })} 
                             </div>
                             <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>${item?.price} <span>USD</span></p>
                         </div>
                     </Link>
+                </div>
                 </>
               }
             />
@@ -101,7 +162,7 @@ export default function Market() {
                     <p className='font-semibold p-5 text-2xl'>MetaTrader 5</p>
                     <List
                         className='ml-[20px]'
-                        grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
+                        grid={{ gutter: 20, xs: 2, sm: 2, md: 4, lg: 4, xl: 6, xxl: 6 }}
                         //loading={loading}
                         itemLayout="horizontal"
                         dataSource={Products}
@@ -110,7 +171,7 @@ export default function Market() {
                     <p className='font-semibold p-5 text-2xl'>MetaTrader 4</p>
                     <List
                         className='ml-[20px]'
-                        grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
+                        grid={{ gutter: 20, xs: 2, sm: 2, md: 4, lg: 4, xl: 6, xxl: 6 }}
                         //loading={loading}
                         itemLayout="horizontal"
                         dataSource={Products}
