@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./footer.css";
 export default function Footer() {
   return (
@@ -7,13 +8,13 @@ export default function Footer() {
           <nav>
             <ul>
               <li>
-                <a
+                <Link
                   href="https://trade.metatrader5.com/"
                   target="_blank"
                   data-fz-event="MQL5+Footer+Trading"
                 >
                   Online trading / WebTerminal
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="/en/code" data-fz-event="MQL5+Footer+CodeBase">
@@ -110,13 +111,13 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a
+                <Link
                   href="https://www.finteza.com/?utm_source=www.mql5.com&amp;utm_medium=cpc&amp;utm_term=cross-link&amp;utm_content=visit.finteza.com&amp;utm_campaign=0791.finteza.cross-link"
                   data-fz-event="MQL5+Footer+Finteza"
                   target="_blank"
                 >
                   End-to-End Analytics
-                </a>
+                </Link>
               </li>
               <li>
                 <a
@@ -195,7 +196,7 @@ export default function Footer() {
             </ul>
           </nav>
           <nav className="footer__products">
-            <img url="https://c.mql5.com/i/shared/ico_footer_desktop5_2x.png"></img>
+            <image url="https://c.mql5.com/i/shared/ico_footer_desktop5_2x.png" ></image>
             <div className="footer__networks-list">
               <a
                 href="https://www.facebook.com/mql5.community/"
@@ -233,16 +234,16 @@ export default function Footer() {
                 >
                   <i className="icons-networks icons-networks_fb"></i>
                 </a>
-                <a href="https://t.me/mql5dev" target="_blank" title="Telegram">
+                <Link href="https://t.me/mql5dev" target="_blank" title="Telegram">
                   <i className="icons-networks icons-networks_tg"></i>
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://twitter.com/mql5com"
                   target="_blank"
                   title="X (Twitter)"
                 >
                   <i className="icons-networks icons-networks_tw"></i>
-                </a>
+                </Link>
               </div>
 
               <span>

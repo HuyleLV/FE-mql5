@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Header() {
   const [openNav, setOpenNav] = React.useState(false);
-  const [show1, setShow1] = useState(false);
 
   return (
     <nav class="sticky top-0 z-10 bg-sky-800 border-gray-200 dark:bg-gray-900 dark:border-gray-700">

@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import  bank  from "../component/image/bank.png";
 import  ae  from "../component/image/ae.png";
-import  ea  from "../component/image/ea.png";
+// import  ea  from "../component/image/ea.png";
 import  star  from "../component/image/star.png";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { List, } from 'antd'
+import { Products } from '../database';
 
 export default function MarketDetail() {
 
@@ -28,9 +30,30 @@ export default function MarketDetail() {
         }
       };
 
-    useEffect(() => {
-        
-    });
+      const renderRecommentProduct = (item) => {
+        return (
+          <List.Item>
+            <List.Item.Meta
+              description={
+                <>
+                    <Link to={`/market/detail/`}>
+                        <div className='text-center border'>
+                            <div className="flex justify-center  w-full" ><img alt='avata-product' src={ae}  /></div>
+                            <p className='p-1 font-semibold'>{item?.name}</p>
+                            <div className='flex items-center justify-center p-5'>
+                                {[1,2,3,4,5]?.map((i) => {
+                                    return <img id={i} alt='icon-star' src={star} className="h-4 w-4 ml-1" />
+                                })}   
+                            </div>
+                            <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>${item?.price} <span>USD</span></p>
+                        </div>
+                    </Link>
+                </>
+              }
+            />
+          </List.Item>
+        )
+      }
 
     return (
         <div className='max-w-screen-2xl items-center mx-auto pt-10'>
@@ -38,7 +61,7 @@ export default function MarketDetail() {
             <div className='grid grid-cols-12'>
                 <div className='col-span-2 border'>
                     <div className='p-5'>
-                        <img src={ae} className='w-50 h-50 rounded-tl-3xl rounded-br-3xl'/>
+                        <img src={ae} className='w-50 h-50 rounded-tl-3xl rounded-br-3xl' alt='name'/>
                         <p className='text-[#42639c] font-bold pt-4'>1 599.99 USD</p>
                         <button className='bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]'>Buy: 1 599.99 USD</button>
                         <button className='border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]'>Free Demo</button>
@@ -54,16 +77,14 @@ export default function MarketDetail() {
                     <div className='flex items-center'>
                         <p className='font-semibold pt-5 pl-5 text-2xl'>Quantum Emperor MT5</p>
                         <div className='flex pt-2 pl-5'>
-                            <img src={star} class="h-4 w-4" />
-                            <img src={star} class="h-4 w-4 ml-1" />
-                            <img src={star} class="h-4 w-4 ml-1" />
-                            <img src={star} class="h-4 w-4 ml-1" />
-                            <img src={star} class="h-4 w-4 ml-1" />
+                            {[1,2,3,4,5]?.map((i) => {
+                                return <img id={i} alt='icon-star' src={star} className="h-4 w-4 ml-1" />
+                            })} 
                         </div>
                     </div>
                     <div className='flex pl-5 pt-1'>
-                        <p className='flex items-center'><img src={bank} class="h-4 w-4" /><span className='pl-2 text-[#42639c] font-semibold'>Experts</span></p>
-                        <p className='flex items-center pl-5'><img src={bank} class="h-4 w-4" /><span className='pl-2 text-[#42639c] font-semibold'>Bogdan Ion Puscasu</span></p>
+                        <p className='flex items-center'><img src={bank} alt='icon' class="h-4 w-4" /><span className='pl-2 text-[#42639c] font-semibold'>Experts</span></p>
+                        <p className='flex items-center pl-5'><img src={bank}  alt='icon' class="h-4 w-4" /><span className='pl-2 text-[#42639c] font-semibold'>Bogdan Ion Puscasu</span></p>
                         <p className='flex items-center pl-5'>Version: <span className='pl-2 text-[#42639c] font-semibold'>3.5</span></p>
                         <p className='flex items-center pl-5'>Updated: <span className='pl-2 text-[#42639c] font-semibold'>30 November 2023</span></p>
                         <p className='flex items-center pl-5'>Activations: <span className='pl-2 text-[#42639c] font-semibold'>30</span></p>
@@ -87,16 +108,16 @@ export default function MarketDetail() {
                         <div>
                             <iframe class="h-[250px] w-[400px]" src="https://www.youtube.com/embed/80oGWcZXil4" title="Quantum Emperor" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                         </div>
-                        <div><img src={ae} class="h-[250px] max-w-xl" /></div>
-                        <div><img src="https://c.mql5.com/31/999/quantum-emperor-mt5-screen-8666-preview.jpg" class="h-[250px] max-w-xl" /></div>
-                        <div><img src="https://c.mql5.com/31/999/quantum-emperor-mt5-screen-8666-preview.jpg" class="h-[250px] max-w-xl" /></div>
+                        <div><img src={ae}  alt='icon' class="h-[250px] max-w-xl" /></div>
+                        <div><img  alt='icon' src="https://c.mql5.com/31/999/quantum-emperor-mt5-screen-8666-preview.jpg" class="h-[250px] max-w-xl" /></div>
+                        <div><img  alt='icon' src="https://c.mql5.com/31/999/quantum-emperor-mt5-screen-8666-preview.jpg" class="h-[250px] max-w-xl" /></div>
                     </Carousel>
                     
                     <div>
                         <p className='font-semibold text-2xl p-5'>Comment</p>
                         <div className='grid grid-cols-12 border'>
                             <div className='col-span-2 p-4'>
-                                <p className='flex justify-center'><img src={ae} className='w-[80px] h-[80px] rounded-tl-lg rounded-br-lg'/></p>
+                                <p className='flex justify-center'><img src={ae}  alt='img' className='w-[80px] h-[80px] rounded-tl-lg rounded-br-lg'/></p>
                                 <p className='text-center pt-1 text-[11px]'>141</p>
                             </div>
                             <div className='col-span-10'>
@@ -104,11 +125,9 @@ export default function MarketDetail() {
                                     <p className='font-bold text-[#42639c]'>Andy Chang</p>
                                     <p className='text-[10px] pl-2 pt-1'>2023.12.12 06:36</p>
                                     <div className='flex pt-1 pl-4'>
-                                        <img src={star} class="h-3 w-3" />
-                                        <img src={star} class="h-3 w-3 ml-1" />
-                                        <img src={star} class="h-3 w-3 ml-1" />
-                                        <img src={star} class="h-3 w-3 ml-1" />
-                                        <img src={star} class="h-3 w-3 ml-1" />
+                                        {[1,2,3,4,5]?.map((i) => {
+                                            return <img id={i} alt='icon-star' src={star} className="h-4 w-4 ml-1" />
+                                        })} 
                                     </div>
                                 </div>
                                 <p>I've been using the QE on my live account for two weeks. It's easy to set up and performs well. Bogdan is very responsive. Thanks, Bogdan!</p>
@@ -116,7 +135,7 @@ export default function MarketDetail() {
                         </div>
                         <div className='grid grid-cols-12 border'>
                             <div className='col-span-2 p-4'>
-                                <p className='flex justify-center'><img src={ae} className='w-[80px] h-[80px] rounded-tl-lg rounded-br-lg'/></p>
+                                <p className='flex justify-center'><img alt='img' src={ae} className='w-[80px] h-[80px] rounded-tl-lg rounded-br-lg'/></p>
                                 <p className='text-center pt-1 text-[11px]'>141</p>
                             </div>
                             <div className='col-span-10'>
@@ -124,11 +143,9 @@ export default function MarketDetail() {
                                     <p className='font-bold text-[#42639c]'>Andy Chang</p>
                                     <p className='text-[10px] pl-2 pt-1'>2023.12.12 06:36</p>
                                     <div className='flex pt-1 pl-4'>
-                                        <img src={star} class="h-3 w-3" />
-                                        <img src={star} class="h-3 w-3 ml-1" />
-                                        <img src={star} class="h-3 w-3 ml-1" />
-                                        <img src={star} class="h-3 w-3 ml-1" />
-                                        <img src={star} class="h-3 w-3 ml-1" />
+                                        {[1,2,3,4,5]?.map((i) => {
+                                            return <img id={i} alt='icon-star' src={star} className="h-4 w-4 ml-1" />
+                                        })} 
                                     </div>
                                 </div>
                                 <p>I've been using the QE on my live account for two weeks. It's easy to set up and performs well. Bogdan is very responsive. Thanks, Bogdan!</p>
@@ -138,184 +155,14 @@ export default function MarketDetail() {
 
                     <div>
                         <p className='font-semibold text-2xl p-5'>Recommended products</p>
-                        <div className='flex grid grid-cols-12'>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className='col-span-2 w-[220px] p-5'>
-                                <Link to="/market/detail">
-                                    <div className='text-center border'>
-                                        <img src={ae} class="h-50 w-50" />
-                                        <p className='p-1 font-semibold'>Quantum Emperor MT5</p>
-                                        <div className='flex items-center justify-center p-5'>
-                                            <img src={star} class="h-4 w-4" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                            <img src={star} class="h-4 w-4 ml-1" />
-                                        </div>
-                                        <p className='border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white'>599.99 <span>USD</span></p>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
+                        <List
+                            className='ml-[20px]'
+                            grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
+                            //loading={loading}
+                            itemLayout="horizontal"
+                            dataSource={Products}
+                            renderItem={renderRecommentProduct}
+                        />
                     </div>
                 </div>
             </div>
