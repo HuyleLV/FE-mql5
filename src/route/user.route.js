@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Market from "../page/Market";
+import Market from "../page/market";
 import MarketDetail from "../page/marketDetail";
 import Login from "../page/login";
 
