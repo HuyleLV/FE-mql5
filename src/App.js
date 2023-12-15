@@ -1,18 +1,13 @@
-import Header from "./component/header";
-import Footer from "./component/footer";
-import User from "./route/user.route";
-import AdminRouter from "./route/admin.route";
+import { useLocation } from 'react-router-dom';
+import { DefaultLayoutAdmin, DefaultLayoutUser } from "./component";
 
-
+const roterAdmin = '/admin'
 function App() {
-  return (
-    <div>
-      <Header />
-      <User />
-      <AdminRouter />
-      <Footer />
-    </div>
-  );
+  const location = useLocation();
+  const currentPath = location.pathname;
+
+  if(currentPath?.includes(roterAdmin)) return <DefaultLayoutAdmin />
+  return <DefaultLayoutUser />
 }
 
 export default App;
