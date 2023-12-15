@@ -16,12 +16,34 @@ export default function Market() {
           description={
             <>
               <div className="relative group overflow-hidden hover:overflow-visible">
+                <Link to={`/market/detail/`} className="item-product group-hover:relative group-hover:opacity-0 group-hover:z-[3]">
+                  <div className="text-center border">
+                    <div className="flex justify-center  w-full">
+                      <img alt="avata-product" src={'/image/ae.png'} />
+                    </div>
+                    <p className="p-1 font-semibold">{item?.name}</p>
+                    <div className="flex items-center justify-center pt-[8px] pb-[16px]">
+                      {[1, 2, 3, 4, 5]?.map((i) => {
+                        return (
+                          <img
+                            id={i}
+                            alt="icon-star"
+                            src={'/image/star.png'}
+                            className="w-[10px] h-[10px]"
+                          />
+                        );
+                      })}
+                    </div>
+                    <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
+                      ${item?.price} <span>USD</span>
+                    </p>
+                  </div>
+                </Link>
                 <div
-                  className={`absolute z-[2] invisible group-hover:visible duration-200 
-                        translate-x-[-100%] 
-                        group-hover:translate-x-0 translate-y-[100%] 
-                        group-hover:translate-y-0 bg-white shadow-full p-[10px] 
-                        pb-0 w-[calc(200%_+_20px)] max-w-[calc(200%_+_20px)] h-full 
+                  className={`absolute z-[2] duration-200 info-item
+                        top-0 left-0 w-0
+                        bg-white p-0
+                        pb-0 max-w-[calc(200%_+_20px)] h-full 
                         overflow-y-hidden transition-all`}
                 >
                   <div className="flex flex-col justify-between h-full">
@@ -50,36 +72,13 @@ export default function Market() {
                           </div>
                         </div>
                       </div>
-                      <div> {item?.description} </div>
+                      <div class="line-clamp-[8]"> <p class="inline">{item?.description}</p>  </div>
                     </div>
                     <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
                       ${item?.price} <span>USD</span>
                     </p>
                   </div>
                 </div>
-                <Link to={`/market/detail/`}>
-                  <div className="text-center border">
-                    <div className="flex justify-center  w-full">
-                      <img alt="avata-product" src={'/image/ae.png'} />
-                    </div>
-                    <p className="p-1 font-semibold">{item?.name}</p>
-                    <div className="flex items-center justify-center pt-[8px] pb-[16px]">
-                      {[1, 2, 3, 4, 5]?.map((i) => {
-                        return (
-                          <img
-                            id={i}
-                            alt="icon-star"
-                            src={'/image/star.png'}
-                            className="w-[10px] h-[10px]"
-                          />
-                        );
-                      })}
-                    </div>
-                    <p className="border-t p-2  font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
-                      ${item?.price} <span>USD</span>
-                    </p>
-                  </div>
-                </Link>
               </div>
             </>
           }
