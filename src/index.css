@@ -24,3 +24,15 @@
   border-radius: 0px;
   margin-left: 6px
 }
+.item-product:hover ~.info-item{
+  width: calc(200% + 20px);
+  padding: 10px;
+  border: 1px solid #eee;
+}
+.item-product:hover{
+  overflow: visible;
+}
+
+.container-item:hover .img-item{
+
+}
