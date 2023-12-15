@@ -1,7 +1,4 @@
 import { Link } from "react-router-dom";
-import bank from "../component/image/bank.png";
-import ae from "../component/image/ae.png";
-import star from "../component/image/star.png";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { List } from "antd";
@@ -36,7 +33,7 @@ export default function MarketDetail() {
               <Link to={`/market/detail/`}>
                 <div className="text-center border">
                   <div className="flex justify-center  w-full">
-                    <img alt="avata-product" src={ae} />
+                    <img alt="avata-product" src={'/image/ae.png'} />
                   </div>
                   <p className="p-1 font-semibold">{item?.name}</p>
                   <div className="flex items-center justify-center p-5">
@@ -45,7 +42,7 @@ export default function MarketDetail() {
                         <img
                           id={i}
                           alt="icon-star"
-                          src={star}
+                          src={'/image/star.png'}
                           className="h-4 w-4 ml-1"
                         />
                       );
@@ -74,7 +71,7 @@ export default function MarketDetail() {
         <div className="col-span-2 border">
           <div className="p-5">
             <img
-              src={ae}
+              src={'/image/ae.png'}
               className="w-50 h-50 rounded-tl-3xl rounded-br-3xl"
               alt="name"
             />
@@ -112,7 +109,7 @@ export default function MarketDetail() {
                   <img
                     id={i}
                     alt="icon-star"
-                    src={star}
+                    src={'/image/star.png'}
                     className="h-4 w-4 ml-1"
                   />
                 );
@@ -121,11 +118,11 @@ export default function MarketDetail() {
           </div>
           <div className="flex pl-5 pt-1">
             <p className="flex items-center">
-              <img src={bank} alt="icon" className="h-4 w-4" />
+              <img src={'/image/bank.png'}alt="icon" className="h-4 w-4" />
               <span className="pl-2 text-[#42639c] font-semibold">Experts</span>
             </p>
             <p className="flex items-center pl-5">
-              <img src={bank} alt="icon" className="h-4 w-4" />
+              <img src={'/image/bank.png'}alt="icon" className="h-4 w-4" />
               <span className="pl-2 text-[#42639c] font-semibold">
                 Bogdan Ion Puscasu
               </span>
@@ -190,7 +187,7 @@ export default function MarketDetail() {
               ></iframe>
             </div>
             <div>
-              <img src={ae} alt="icon" className="h-[250px] max-w-xl" />
+              <img src={'/image/ae.png'} alt="icon" className="h-[250px] max-w-xl" />
             </div>
             <div>
               <img
@@ -214,7 +211,7 @@ export default function MarketDetail() {
               <div className="col-span-2 p-4">
                 <p className="flex justify-center">
                   <img
-                    src={ae}
+                    src={'/image/ae.png'}
                     alt="img"
                     className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
                   />
@@ -231,7 +228,7 @@ export default function MarketDetail() {
                         <img
                           id={i}
                           alt="icon-star"
-                          src={star}
+                          src={'/image/star.png'}
                           className="h-4 w-4 ml-1"
                         />
                       );
@@ -250,7 +247,7 @@ export default function MarketDetail() {
                 <p className="flex justify-center">
                   <img
                     alt="img"
-                    src={ae}
+                    src={'/image/ae.png'}
                     className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
                   />
                 </p>
@@ -266,7 +263,7 @@ export default function MarketDetail() {
                         <img
                           id={i}
                           alt="icon-star"
-                          src={star}
+                          src={'/image/star.png'}
                           className="h-4 w-4 ml-1"
                         />
                       );

@@ -1,7 +1,4 @@
 import { Link } from "react-router-dom";
-import bank from "../component/image/bank.png";
-import ae from "../component/image/ae.png";
-import star from "../component/image/star.png";
 import { Tabs, List, Row, Col } from "antd";
 import { MenuItem, Products } from "../database";
 import { useDevice } from "../hooks";
@@ -31,7 +28,7 @@ export default function Market() {
                     <div>
                       <div className="flex relative z-[1]">
                         <img
-                          src={ae}
+                          src={'/image/ae.png'}
                           alt={item?.name}
                           className="w-[36px] h-[36px] object-cover"
                         />
@@ -43,7 +40,7 @@ export default function Market() {
                                 <img
                                   id={i}
                                   alt="icon-star"
-                                  src={star}
+                                  src={'/image/star.png'}
                                   className="w-[10px] h-[10px]"
                                 />
                               );
@@ -63,7 +60,7 @@ export default function Market() {
                 <Link to={`/market/detail/`}>
                   <div className="text-center border">
                     <div className="flex justify-center  w-full">
-                      <img alt="avata-product" src={ae} />
+                      <img alt="avata-product" src={'/image/ae.png'} />
                     </div>
                     <p className="p-1 font-semibold">{item?.name}</p>
                     <div className="flex items-center justify-center pt-[8px] pb-[16px]">
@@ -72,7 +69,7 @@ export default function Market() {
                           <img
                             id={i}
                             alt="icon-star"
-                            src={star}
+                            src={'/image/star.png'}
                             className="w-[10px] h-[10px]"
                           />
                         );
@@ -95,7 +92,7 @@ export default function Market() {
     return (
       <List.Item>
         <List.Item.Meta
-          avatar={<img alt="avata-product" src={ae} width={80} height={80} />}
+          avatar={<img alt="avata-product" src={'/image/ae.png'} width={80} height={80} />}
           description={
             <>
               <div className="">
@@ -110,7 +107,7 @@ export default function Market() {
                           <img
                             id={i}
                             alt="icon-star"
-                            src={star}
+                            src={'/image/star.png'}
                             className="w-[10px] h-[10px]"
                           />
                         );
@@ -144,14 +141,14 @@ export default function Market() {
           <div className="pr-5 py-10 pl-5">
             <div id={item?.id}>
               <p className="flex">
-                <img alt="icon-menu" src={bank} className="h-5 w-5" />{" "}
+                <img alt="icon-menu" src={'/image/bank.png'} className="h-5 w-5" />{" "}
                 <span className="pl-2">{item?.name}</span>
               </p>
               {children &&
                 children?.map((i) => {
                   return (
                     <p className="flex pl-4 pt-3">
-                      <img alt="icon-menu" src={bank} className="h-5 w-5" />{" "}
+                      <img alt="icon-menu" src={'/image/bank.png'} className="h-5 w-5" />{" "}
                       <span className="pl-2">{i?.name}</span>
                     </p>
                   );
