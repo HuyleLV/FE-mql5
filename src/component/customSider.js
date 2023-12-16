@@ -42,18 +42,18 @@ export default function CustomeSider() {
   
   return (
     <div className="!w-[250px]">
-      <Sider className={"!h-full !w-full !bg-black"}>
-        <div className={"!bg-primary-color h-[68px] px-5 flex cursor-pointer "}>
+      <Sider className={"!h-full !w-full !bg-white"}>
+        <div className={"!bg-primary-color h-[68px] px-5 flex justify-center cursor-pointer "}>
           <div
             className={
-              "text-white text-[28px] font-bold cursor-pointer leading-[26px] text-left self-center"
+              "text-[var(--blue)] text-[28px] font-bold cursor-pointer leading-[26px] self-center "
             }
           >
             MQL5
           </div>
         </div>
         <Menu
-          theme="dark"
+          theme="light"
           mode="inline"
           defaultSelectedKeys={["1"]}
           items={menuItem}

@@ -72,7 +72,7 @@ export default function Market() {
                           </div>
                         </div>
                       </div>
-                      <div class="line-clamp-[8]"> <p class="inline">{item?.description}</p>  </div>
+                      <div className="line-clamp-[8]"> <p className="inline">{item?.description}</p>  </div>
                     </div>
                     <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
                       ${item?.price} <span>USD</span>

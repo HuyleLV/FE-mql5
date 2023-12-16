@@ -128,3 +128,42 @@ export const MenuItem = [
         children: undefined,
     }
 ]
+
+export const Users = [
+    {
+        id: 1,
+        fullName: 'Nguyen van a',
+        phone: '038674079',
+        email: 'manhnguyen@gmail.com',
+        role: 'admin',
+        thumbnail: '',
+        createAt: '16/12/2023'
+    },
+    {
+        id: 2,
+        fullName: 'Nguyen van a',
+        phone: '038674079',
+        email: 'manhnguyen@gmail.com',
+        role: 'admin',
+        thumbnail: '',
+        createAt: '16/12/2023'
+    },
+    {
+        id: 3,
+        fullName: 'Nguyen van a',
+        phone: '038674079',
+        email: 'manhnguyen@gmail.com',
+        role: 'admin',
+        thumbnail: '',
+        createAt: '16/12/2023'
+    },
+    {
+        id: 4,
+        fullName: 'Nguyen van a',
+        phone: '038674079',
+        email: 'manhnguyen@gmail.com',
+        role: 'admin',
+        thumbnail: '',
+        createAt: '16/12/2023'
+    }
+]
