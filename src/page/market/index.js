@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Tabs, List, Row, Col } from "antd";
-import { MenuItem, Products } from "../database";
-import { useDevice } from "../hooks";
+import { MenuItem, Products } from "../../database";
+import { useDevice } from "../../hooks";
 import { DownOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 

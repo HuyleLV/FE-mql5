@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Market from "../page/market";
-import MarketDetail from "../page/marketDetail";
+import MarketDetail from "../page/market/detail";
 import Login from "../page/login";
 
 export default function User () {
