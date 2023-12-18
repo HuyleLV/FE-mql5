@@ -284,7 +284,6 @@ export default function MarketDetail() {
             <List
               className="ml-[20px]"
               grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
-              //loading={loading}
               itemLayout="horizontal"
               dataSource={Products}
               renderItem={renderRecommentProduct}
