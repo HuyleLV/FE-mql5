@@ -29,10 +29,32 @@
   padding: 10px;
   border: 1px solid #eee;
 }
+.item-product:hover ~.info-item-mobile{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #eee;
+}
+.item-cont div div div div:nth-child(6n) .info-item {
+  left: calc(-100% - 20px);
+}
+@media screen and (max-width: 1200px) {
+  .item-cont div div div div:nth-child(4n) .info-item {
+    left: calc(-100% - 20px);
+  }
+}
+@media screen and (max-width: 768px) {
+  .item-cont div div div div:nth-child(2n) .info-item {
+    left: calc(-100% - 20px);
+  }
+}
 .item-product:hover{
   overflow: visible;
 }
-
-.container-item:hover .img-item{
-
+.ant-tooltip-inner{
+  color: #000 !important;
+  text-align: center !important;
+  padding: 10px;
+}
+.ant-tooltip-placement-top{
+  width: 170px;
 }

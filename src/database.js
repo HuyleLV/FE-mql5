@@ -42,7 +42,7 @@ export const Products = [
     },
     {
         id: 6,
-        name: 'Quantum Emperor MT5',
+        name: 'Quantum Emperor MT51',
         description,
         price: '599.99'
     },

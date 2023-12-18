@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Tabs, List, Row, Col } from "antd";
+import { Tabs, List, Row, Col, Tooltip } from "antd";
 import { MenuItem, Products } from "../../database";
 import { useDevice } from "../../hooks";
 import { DownOutlined } from "@ant-design/icons";
@@ -15,7 +15,7 @@ export default function Market() {
         <List.Item.Meta
           description={
             <>
-              <div className="relative group overflow-hidden hover:overflow-visible">
+              <div className="relative group overflow-hidden hover:overflow-visible item-container">
                 <Link to={`/market/detail/`} className="item-product group-hover:relative group-hover:opacity-0 group-hover:z-[3]">
                   <div className="text-center border">
                     <div className="flex justify-center  w-full">
@@ -40,12 +40,11 @@ export default function Market() {
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-[2] duration-200 info-item
+                  className="absolute z-[2] duration-200 info-item
                         top-0 left-0 w-0
                         bg-white p-0
                         pb-0 max-w-[calc(200%_+_20px)] h-full 
-                        overflow-y-hidden transition-all`}
-                >
+                        overflow-y-hidden transition-all">
                   <div className="flex flex-col justify-between h-full">
                     <div>
                       <div className="flex relative z-[1]">
@@ -91,16 +90,22 @@ export default function Market() {
     return (
       <List.Item>
         <List.Item.Meta
-          avatar={<img alt="avata-product" src={'/image/ae.png'} width={80} height={80} />}
           description={
             <>
-              <div className="">
-                <Link to={`/market/detail/`}>
+              <div className="relative">
+              
+                <div className="absolute right-0 bottom-0 flex items-center justify-center w-[103px] h-[35px] border border-[#ccc] font-bold text-[#0873bc] text-[15px]">
+                  <span>
+                  {item?.price} USD
+                  </span>
+                </div>
+                <Link to={`/market/detail/`} className="flex items-center">
+                <img alt="avata-product" src={'/image/ae.png'} width={80} height={80} className="mr-[20px]"/>
                   <div className="">
-                    <p className="text-[18px] text-[var(--black)]">
+                    <p className="text-[18px] font-bold text-[var(--black)]">
                       {item?.name}
                     </p>
-                    <div className="flex items-center pt-[8px] pb-[16px]">
+                    <div className="flex items-center pt-[8px] pb-[10px]">
                       {[1, 2, 3, 4, 5]?.map((i) => {
                         return (
                           <img
@@ -112,9 +117,6 @@ export default function Market() {
                         );
                       })}
                     </div>
-                    <p className="">
-                      ${item?.price} <span>USD</span>
-                    </p>
                   </div>
                 </Link>
               </div>
@@ -209,7 +211,7 @@ export default function Market() {
                 />
                 <p className="font-semibold p-5 text-2xl">MetaTrader 5</p>
                 <List
-                  className="ml-[20px]"
+                  className="ml-[20px] " rootClassName="item-cont"
                   grid={{
                     gutter: 20,
                     xs: 1,
@@ -225,7 +227,7 @@ export default function Market() {
                 />
                 <p className="font-semibold p-5 text-2xl">MetaTrader 4</p>
                 <List
-                  className="ml-[20px]"
+                  className="ml-[20px]"  rootClassName="item-cont"
                   grid={{
                     gutter: 20,
                     xs: 1,

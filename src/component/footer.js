@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
+import { Flex, Tooltip } from "antd";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+const apple = <div>
+  <img src="https://c.mql5.com/qr/F1qzfrtIhDI.png" width={148} height={148}></img><p>Scan to install from Google Play</p>
+</div>;
 export default function Footer() {
   return (
     <div>
       <div id="footer">
-        <div className="grid grid-cols-4 gap-4 p-[20px] text-[#42639c]">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-[20px] text-[#42639c]">
           <nav>
             <ul>
               <li>
@@ -194,75 +200,89 @@ export default function Footer() {
               </li>
             </ul>
           </nav>
+          
           <nav className="footer__products">
-            <image url="https://c.mql5.com/i/shared/ico_footer_desktop5_2x.png" ></image>
-            <div className="footer__networks-list">
-              <a
-                href="https://www.facebook.com/mql5.community/"
-                target="_blank"
-                title="Facebook"
-                rel="noreferrer"
-              >
-                <i className="icons-networks icons-networks_fb"></i>
-              </a>
-              <a
-                href="https://t.me/mql5dev"
-                target="_blank"
-                title="Telegram"
-                rel="noreferrer"
-              >
-                <i className="icons-networks icons-networks_tg"></i>
-              </a>
-              <a
-                href="https://twitter.com/mql5com"
-                target="_blank"
-                title="X (Twitter)"
-                rel="noreferrer"
-              >
-                <i className="icons-networks icons-networks_tw"></i>
-              </a>
-            </div>
-
-            <div className="footer__networks">
-              <div className="footer__networks-list">
-                <a
-                  href="https://www.facebook.com/mql5.community/"
-                  target="_blank"
-                  title="Facebook"
-                  rel="noreferrer"
-                >
-                  <i className="icons-networks icons-networks_fb"></i>
-                </a>
-                <Link href="https://t.me/mql5dev" target="_blank" title="Telegram">
-                  <i className="icons-networks icons-networks_tg"></i>
-                </Link>
-                <Link
-                  href="https://twitter.com/mql5com"
-                  target="_blank"
-                  title="X (Twitter)"
-                >
-                  <i className="icons-networks icons-networks_tw"></i>
-                </Link>
+            <p className="text-[#42639c] pb-[8px]">Meta Trader 5</p>
+            <Flex gap={'20px'}>
+             <Tooltip style={{width: '170px'}} placement="top" title={`Download MetaTrader 5 for Windows`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false} >
+                <FontAwesomeIcon icon={icon({name: 'windows', style: 'brands'})} className="w-[24px] h-[24px]" style={{color: "#65A6EB"}}/> 
+              </Tooltip>
+              <Tooltip placement="top" title={`Download MetaTrader 5 for MacOS`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                <div>
+                  <img srcset="https://img.icons8.com/?size=256&id=vCiwbOh7Uo7G&format=png 1x" alt="" width={24} height={24}></img>
+                </div>
+              </Tooltip>
+              <Tooltip placement="top" title={`Download MetaTrader 5 for Linux`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                <div>
+                  <img srcset="https://img.icons8.com/?size=256&id=17842&format=png 1x" alt="" width={24} height={24}></img>
+                </div>
+              </Tooltip>
+              <Tooltip placement="top" title={`Open MetaTrader 5 WebTerminal`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                <div>
+                  <img srcset="https://img.icons8.com/?size=256&id=2963&format=png 1x" alt="" width={24} height={24}></img>
+                </div>
+              </Tooltip>
+              <Tooltip placement="top" title={apple} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                <FontAwesomeIcon icon={icon({name: 'apple', style: 'brands'})} className="w-[24px] h-[24px] " style={{color: "#000"}}/>
+              </Tooltip>
+              <Tooltip placement="top" title={apple} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                <div>
+                  <img srcset="https://img.icons8.com/?size=256&id=FzggIjJKPC03&format=png 1x" alt="" width={24} height={24}></img>
+                </div>
+              </Tooltip>
+            </Flex>
+          
+            <Flex gap={'8px'} className="my-[20px]">
+              <div>
+              <p className="text-[#42639c] pb-[8px]">MQL5 Channels</p>
+                <Flex gap={'8px'}>
+                <Tooltip style={{width: '170px'}} placement="top" title={`Download MetaTrader 5 for Windows`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false} >
+                  <FontAwesomeIcon icon={icon({name: 'windows', style: 'brands'})} className="w-[24px] h-[24px]" style={{color: "#65A6EB"}}/> 
+                </Tooltip>
+                <Tooltip placement="top" title={`Download MetaTrader 5 for MacOS`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                  <div>
+                    <img srcset="https://img.icons8.com/?size=256&id=vCiwbOh7Uo7G&format=png 1x" alt="" width={24} height={24}></img>
+                  </div>
+                </Tooltip>
+                <Tooltip placement="top" title={`Download MetaTrader 5 for Linux`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                  <div>
+                    <img srcset="https://img.icons8.com/?size=256&id=17842&format=png 1x" alt="" width={24} height={24}></img>
+                  </div>
+                </Tooltip>
+                <Tooltip placement="top" title={`Open MetaTrader 5 WebTerminal`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                  <div>
+                    <img srcset="https://img.icons8.com/?size=256&id=2963&format=png 1x" alt="" width={24} height={24}></img>
+                  </div>
+                </Tooltip>
+                </Flex>
               </div>
-
-              <span>
-                Follow us on socials for top articles and CodeBase updates
-              </span>
-            </div>
-
-            <div className="footer__other">
-              <div className="footer__not-a-broker">
-                Not a broker, no real trading accounts
+              <div>
+              <p className="text-[#42639c] pb-[8px]">Economic Calendar</p>
+                <Flex gap={'8px'}>
+                  <Tooltip placement="top" title={`Download MetaTrader 5 for Linux`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                    <div>
+                      <img srcset="https://img.icons8.com/?size=256&id=17842&format=png 1x" alt="" width={24} height={24}></img>
+                    </div>
+                  </Tooltip>
+                  <Tooltip placement="top" title={`Open MetaTrader 5 WebTerminal`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                    <div>
+                      <img srcset="https://img.icons8.com/?size=256&id=2963&format=png 1x" alt="" width={24} height={24}></img>
+                    </div>
+                  </Tooltip>
+                  <Tooltip placement="top" title={apple} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                    <FontAwesomeIcon icon={icon({name: 'apple', style: 'brands'})} className="w-[24px] h-[24px] " style={{color: "#000"}}/>
+                  </Tooltip>
+                  <Tooltip placement="top" title={apple} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                    <div>
+                      <img srcset="https://img.icons8.com/?size=256&id=FzggIjJKPC03&format=png 1x" alt="" width={24} height={24}></img>
+                    </div>
+                  </Tooltip>`
+                </Flex>
               </div>
-              <div className="copyright">
-                35 Dodekanisou str, Germasogeia,
-                4043,&nbsp;Limassol,&nbsp;Cyprus
-              </div>
-              <div className="copyright">
-                Copyright 2000-2023,{" "}
-                <span className="nobr">MetaQuotes Ltd</span>
-              </div>
-            </div>
+              
+              
+            </Flex>
+            
           </nav>
         </div>
       </div>
