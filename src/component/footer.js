@@ -1,11 +1,20 @@
 import { Link } from "react-router-dom";
-import { Flex, Tooltip } from "antd";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-const apple = <div>
-  <img src="https://c.mql5.com/qr/F1qzfrtIhDI.png" width={148} height={148}></img><p>Scan to install from Google Play</p>
-</div>;
+import { Flex, Tooltip, Image } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
+
 export default function Footer() {
+  const apple = (
+    <div>
+      <Image
+        preview={false}
+        src="https://c.mql5.com/qr/F1qzfrtIhDI.png"
+        width={148}
+        height={148}
+      ></Image>
+      <p>Scan to install from Google Play</p>
+    </div>
+  );
   return (
     <div>
       <div id="footer">
@@ -200,89 +209,253 @@ export default function Footer() {
               </li>
             </ul>
           </nav>
-          
+
           <nav className="footer__products">
             <p className="text-[#42639c] pb-[8px]">Meta Trader 5</p>
-            <Flex gap={'20px'}>
-             <Tooltip style={{width: '170px'}} placement="top" title={`Download MetaTrader 5 for Windows`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false} >
-                <FontAwesomeIcon icon={icon({name: 'windows', style: 'brands'})} className="w-[24px] h-[24px]" style={{color: "#65A6EB"}}/> 
+            <Flex gap={"20px"}>
+              <Tooltip
+                style={{ width: "170px" }}
+                placement="top"
+                title={`Download MetaTrader 5 for Windows`}
+                trigger={`hover`}
+                color="#fff"
+                key={`#fff`}
+                arrow={false}
+              >
+                <FontAwesomeIcon
+                  icon={icon({ name: "windows", style: "brands" })}
+                  className="w-[24px] h-[24px]"
+                  style={{ color: "#65A6EB" }}
+                />
               </Tooltip>
-              <Tooltip placement="top" title={`Download MetaTrader 5 for MacOS`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+              <Tooltip
+                placement="top"
+                title={`Download MetaTrader 5 for MacOS`}
+                trigger={`hover`}
+                color="#fff"
+                key={`#fff`}
+                arrow={false}
+              >
                 <div>
-                  <img srcset="https://img.icons8.com/?size=256&id=vCiwbOh7Uo7G&format=png 1x" alt="" width={24} height={24}></img>
+                  <img
+                    srcSet="https://img.icons8.com/?size=256&id=vCiwbOh7Uo7G&format=png 1x"
+                    alt=""
+                    width={24}
+                    height={24}
+                  ></img>
                 </div>
               </Tooltip>
-              <Tooltip placement="top" title={`Download MetaTrader 5 for Linux`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+              <Tooltip
+                placement="top"
+                title={`Download MetaTrader 5 for Linux`}
+                trigger={`hover`}
+                color="#fff"
+                key={`#fff`}
+                arrow={false}
+              >
                 <div>
-                  <img srcset="https://img.icons8.com/?size=256&id=17842&format=png 1x" alt="" width={24} height={24}></img>
+                  <img
+                    srcSet="https://img.icons8.com/?size=256&id=17842&format=png 1x"
+                    alt=""
+                    width={24}
+                    height={24}
+                  ></img>
                 </div>
               </Tooltip>
-              <Tooltip placement="top" title={`Open MetaTrader 5 WebTerminal`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+              <Tooltip
+                placement="top"
+                title={`Open MetaTrader 5 WebTerminal`}
+                trigger={`hover`}
+                color="#fff"
+                key={`#fff`}
+                arrow={false}
+              >
                 <div>
-                  <img srcset="https://img.icons8.com/?size=256&id=2963&format=png 1x" alt="" width={24} height={24}></img>
+                  <img
+                    srcSet="https://img.icons8.com/?size=256&id=2963&format=png 1x"
+                    alt=""
+                    width={24}
+                    height={24}
+                  ></img>
                 </div>
               </Tooltip>
-              <Tooltip placement="top" title={apple} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
-                <FontAwesomeIcon icon={icon({name: 'apple', style: 'brands'})} className="w-[24px] h-[24px] " style={{color: "#000"}}/>
+              <Tooltip
+                placement="top"
+                title={apple}
+                trigger={`hover`}
+                color="#fff"
+                key={`#fff`}
+                arrow={false}
+              >
+                <FontAwesomeIcon
+                  icon={icon({ name: "apple", style: "brands" })}
+                  className="w-[24px] h-[24px] "
+                  style={{ color: "#000" }}
+                />
               </Tooltip>
-              <Tooltip placement="top" title={apple} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+              <Tooltip
+                placement="top"
+                title={apple}
+                trigger={`hover`}
+                color="#fff"
+                key={`#fff`}
+                arrow={false}
+              >
                 <div>
-                  <img srcset="https://img.icons8.com/?size=256&id=FzggIjJKPC03&format=png 1x" alt="" width={24} height={24}></img>
+                  <img
+                    srcSet="https://img.icons8.com/?size=256&id=FzggIjJKPC03&format=png 1x"
+                    alt=""
+                    width={24}
+                    height={24}
+                  ></img>
                 </div>
               </Tooltip>
             </Flex>
-          
-            <Flex gap={'8px'} className="my-[20px]">
+
+            <Flex gap={"8px"} className="my-[20px]">
               <div>
-              <p className="text-[#42639c] pb-[8px]">MQL5 Channels</p>
-                <Flex gap={'8px'}>
-                <Tooltip style={{width: '170px'}} placement="top" title={`Download MetaTrader 5 for Windows`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false} >
-                  <FontAwesomeIcon icon={icon({name: 'windows', style: 'brands'})} className="w-[24px] h-[24px]" style={{color: "#65A6EB"}}/> 
-                </Tooltip>
-                <Tooltip placement="top" title={`Download MetaTrader 5 for MacOS`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
-                  <div>
-                    <img srcset="https://img.icons8.com/?size=256&id=vCiwbOh7Uo7G&format=png 1x" alt="" width={24} height={24}></img>
-                  </div>
-                </Tooltip>
-                <Tooltip placement="top" title={`Download MetaTrader 5 for Linux`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
-                  <div>
-                    <img srcset="https://img.icons8.com/?size=256&id=17842&format=png 1x" alt="" width={24} height={24}></img>
-                  </div>
-                </Tooltip>
-                <Tooltip placement="top" title={`Open MetaTrader 5 WebTerminal`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
-                  <div>
-                    <img srcset="https://img.icons8.com/?size=256&id=2963&format=png 1x" alt="" width={24} height={24}></img>
-                  </div>
-                </Tooltip>
+                <p className="text-[#42639c] pb-[8px]">MQL5 Channels</p>
+                <Flex gap={"8px"}>
+                  <Tooltip
+                    style={{ width: "170px" }}
+                    placement="top"
+                    title={`Download MetaTrader 5 for Windows`}
+                    trigger={`hover`}
+                    color="#fff"
+                    key={`#fff`}
+                    arrow={false}
+                  >
+                    <FontAwesomeIcon
+                      icon={icon({ name: "windows", style: "brands" })}
+                      className="w-[24px] h-[24px]"
+                      style={{ color: "#65A6EB" }}
+                    />
+                  </Tooltip>
+                  <Tooltip
+                    placement="top"
+                    title={`Download MetaTrader 5 for MacOS`}
+                    trigger={`hover`}
+                    color="#fff"
+                    key={`#fff`}
+                    arrow={false}
+                  >
+                    <div>
+                      <img
+                        srcSet="https://img.icons8.com/?size=256&id=vCiwbOh7Uo7G&format=png 1x"
+                        alt=""
+                        width={24}
+                        height={24}
+                      ></img>
+                    </div>
+                  </Tooltip>
+                  <Tooltip
+                    placement="top"
+                    title={`Download MetaTrader 5 for Linux`}
+                    trigger={`hover`}
+                    color="#fff"
+                    key={`#fff`}
+                    arrow={false}
+                  >
+                    <div>
+                      <img
+                        srcSet="https://img.icons8.com/?size=256&id=17842&format=png 1x"
+                        alt=""
+                        width={24}
+                        height={24}
+                      ></img>
+                    </div>
+                  </Tooltip>
+                  <Tooltip
+                    placement="top"
+                    title={`Open MetaTrader 5 WebTerminal`}
+                    trigger={`hover`}
+                    color="#fff"
+                    key={`#fff`}
+                    arrow={false}
+                  >
+                    <div>
+                      <img
+                        srcSet="https://img.icons8.com/?size=256&id=2963&format=png 1x"
+                        alt=""
+                        width={24}
+                        height={24}
+                      ></img>
+                    </div>
+                  </Tooltip>
                 </Flex>
               </div>
               <div>
-              <p className="text-[#42639c] pb-[8px]">Economic Calendar</p>
-                <Flex gap={'8px'}>
-                  <Tooltip placement="top" title={`Download MetaTrader 5 for Linux`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                <p className="text-[#42639c] pb-[8px]">Economic Calendar</p>
+                <Flex gap={"8px"}>
+                  <Tooltip
+                    placement="top"
+                    title={`Download MetaTrader 5 for Linux`}
+                    trigger={`hover`}
+                    color="#fff"
+                    key={`#fff`}
+                    arrow={false}
+                  >
                     <div>
-                      <img srcset="https://img.icons8.com/?size=256&id=17842&format=png 1x" alt="" width={24} height={24}></img>
+                      <img
+                        srcSet="https://img.icons8.com/?size=256&id=17842&format=png 1x"
+                        alt=""
+                        width={24}
+                        height={24}
+                      ></img>
                     </div>
                   </Tooltip>
-                  <Tooltip placement="top" title={`Open MetaTrader 5 WebTerminal`} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                  <Tooltip
+                    placement="top"
+                    title={`Open MetaTrader 5 WebTerminal`}
+                    trigger={`hover`}
+                    color="#fff"
+                    key={`#fff`}
+                    arrow={false}
+                  >
                     <div>
-                      <img srcset="https://img.icons8.com/?size=256&id=2963&format=png 1x" alt="" width={24} height={24}></img>
+                      <img
+                        srcSet="https://img.icons8.com/?size=256&id=2963&format=png 1x"
+                        alt=""
+                        width={24}
+                        height={24}
+                      ></img>
                     </div>
                   </Tooltip>
-                  <Tooltip placement="top" title={apple} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
-                    <FontAwesomeIcon icon={icon({name: 'apple', style: 'brands'})} className="w-[24px] h-[24px] " style={{color: "#000"}}/>
+                  <Tooltip
+                    placement="top"
+                    title={apple}
+                    trigger={`hover`}
+                    color="#fff"
+                    key={`#fff`}
+                    arrow={false}
+                  >
+                    <FontAwesomeIcon
+                      icon={icon({ name: "apple", style: "brands" })}
+                      className="w-[24px] h-[24px] "
+                      style={{ color: "#000" }}
+                    />
                   </Tooltip>
-                  <Tooltip placement="top" title={apple} trigger={`hover`} color="#fff" key={`#fff`} arrow={false}>
+                  <Tooltip
+                    placement="top"
+                    title={apple}
+                    trigger={`hover`}
+                    color="#fff"
+                    key={`#fff`}
+                    arrow={false}
+                  >
                     <div>
-                      <img srcset="https://img.icons8.com/?size=256&id=FzggIjJKPC03&format=png 1x" alt="" width={24} height={24}></img>
+                      <img
+                        srcSet="https://img.icons8.com/?size=256&id=FzggIjJKPC03&format=png 1x"
+                        alt=""
+                        width={24}
+                        height={24}
+                      ></img>
                     </div>
-                  </Tooltip>`
+                  </Tooltip>
+                  `
                 </Flex>
               </div>
-              
-              
             </Flex>
-            
           </nav>
         </div>
       </div>

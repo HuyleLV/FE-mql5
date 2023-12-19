@@ -33,9 +33,9 @@ export default function Header() {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M1 1h15M1 7h15M1 13h15"
                 />
               </svg>
@@ -71,7 +71,7 @@ export default function Header() {
               </Link>
             </li>
             <li className="hover:bg-yellow-400 hover:text-black p-3">
-              <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+              <Link className="block md:p-0 md:hover:text-black" to={"/login"}>
                 Login
               </Link>
             </li>

@@ -1,41 +1,60 @@
 import { Link } from "react-router-dom";
-import { Tabs, List, Row, Col, Tooltip } from "antd";
-import { MenuItem, Products } from "../../database";
+import { Tabs, List, Row, Col, message } from "antd";
+import { MenuItem } from "../../database";
 import { useDevice } from "../../hooks";
 import { DownOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Market() {
   const { isMobile } = useDevice();
   const [showMenu, setShowMenu] = useState(false);
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/product/getAll`)
+      .then((res) => {
+        const data = res?.data;
+        setProducts(data || []);
+      })
+      .catch(() => message.error("Error server!"));
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const renderItem = (item) => {
     return (
-      <List.Item>
+      <List.Item key={item?.product_id}>
         <List.Item.Meta
           description={
             <>
               <div className="relative group overflow-hidden hover:overflow-visible item-container">
-                <Link to={`/market/detail/`} className="item-product group-hover:relative group-hover:opacity-0 group-hover:z-[3]">
+                <Link
+                  to={`/market/${item?.product_id}`}
+                  className="item-product group-hover:relative group-hover:opacity-0 group-hover:z-[3]"
+                >
                   <div className="text-center border">
                     <div className="flex justify-center  w-full">
-                      <img alt="avata-product" src={'/image/ae.png'} />
+                      <img alt="avata-product" src={"/image/ae.png"} />
                     </div>
-                    <p className="p-1 font-semibold">{item?.name}</p>
+                    <p className="p-1 font-semibold">{item?.product_name}</p>
                     <div className="flex items-center justify-center pt-[8px] pb-[16px]">
                       {[1, 2, 3, 4, 5]?.map((i) => {
                         return (
                           <img
                             id={i}
                             alt="icon-star"
-                            src={'/image/star.png'}
+                            src={"/image/star.png"}
                             className="w-[10px] h-[10px]"
                           />
                         );
                       })}
                     </div>
                     <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
-                      ${item?.price} <span>USD</span>
+                      ${item?.product_price} <span>USD</span>
                     </p>
                   </div>
                 </Link>
@@ -44,24 +63,25 @@ export default function Market() {
                         top-0 left-0 w-0
                         bg-white p-0
                         pb-0 max-w-[calc(200%_+_20px)] h-full 
-                        overflow-y-hidden transition-all">
+                        overflow-y-hidden transition-all"
+                >
                   <div className="flex flex-col justify-between h-full">
                     <div>
                       <div className="flex relative z-[1]">
                         <img
-                          src={'/image/ae.png'}
-                          alt={item?.name}
+                          src={"/image/ae.png"}
+                          alt={item?.product_name}
                           className="w-[36px] h-[36px] object-cover"
                         />
                         <div>
-                          <p className="p-1">{item?.name}</p>
+                          <p className="p-1">{item?.product_name}</p>
                           <div className="flex items-center">
                             {[1, 2, 3, 4, 5]?.map((i) => {
                               return (
                                 <img
                                   id={i}
                                   alt="icon-star"
-                                  src={'/image/star.png'}
+                                  src={"/image/star.png"}
                                   className="w-[10px] h-[10px]"
                                 />
                               );
@@ -71,10 +91,12 @@ export default function Market() {
                           </div>
                         </div>
                       </div>
-                      <div className="line-clamp-[8]"> <p className="inline">{item?.description}</p>  </div>
+                      <div className="line-clamp-[8]">
+                        <p className="inline">{item?.product_description}</p>
+                      </div>
                     </div>
                     <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
-                      ${item?.price} <span>USD</span>
+                      ${item?.product_price} <span>USD</span>
                     </p>
                   </div>
                 </div>
@@ -88,22 +110,28 @@ export default function Market() {
 
   const renderItemForMobile = (item) => {
     return (
-      <List.Item>
+      <List.Item key={item?.product_id}>
         <List.Item.Meta
           description={
             <>
               <div className="relative">
-              
                 <div className="absolute right-0 bottom-0 flex items-center justify-center w-[103px] h-[35px] border border-[#ccc] font-bold text-[#0873bc] text-[15px]">
-                  <span>
-                  {item?.price} USD
-                  </span>
+                  <span>{item?.price} USD</span>
                 </div>
-                <Link to={`/market/detail/`} className="flex items-center">
-                <img alt="avata-product" src={'/image/ae.png'} width={80} height={80} className="mr-[20px]"/>
+                <Link
+                  to={`/market/${item?.product_id}`}
+                  className="flex items-center"
+                >
+                  <img
+                    alt="avata-product"
+                    src={"/image/ae.png"}
+                    width={80}
+                    height={80}
+                    className="mr-[20px]"
+                  />
                   <div className="">
                     <p className="text-[18px] font-bold text-[var(--black)]">
-                      {item?.name}
+                      {item?.product_name}
                     </p>
                     <div className="flex items-center pt-[8px] pb-[10px]">
                       {[1, 2, 3, 4, 5]?.map((i) => {
@@ -111,7 +139,7 @@ export default function Market() {
                           <img
                             id={i}
                             alt="icon-star"
-                            src={'/image/star.png'}
+                            src={"/image/star.png"}
                             className="w-[10px] h-[10px]"
                           />
                         );
@@ -141,17 +169,29 @@ export default function Market() {
         <div className="border">
           <div className="pr-5 py-10 pl-5">
             <div id={item?.id}>
-              <p className="flex">
-                <img alt="icon-menu" src={'/image/bank.png'} className="h-5 w-5" />{" "}
-                <span className="pl-2">{item?.name}</span>
-              </p>
+              <a href={`/${item?.name}`}>
+                <p className="flex">
+                  <img
+                    alt="icon-menu"
+                    src={"/image/bank.png"}
+                    className="h-5 w-5"
+                  />{" "}
+                  <span className="pl-2">{item?.name}</span>
+                </p>
+              </a>
               {children &&
                 children?.map((i) => {
                   return (
-                    <p className="flex pl-4 pt-3">
-                      <img alt="icon-menu" src={'/image/bank.png'} className="h-5 w-5" />{" "}
-                      <span className="pl-2">{i?.name}</span>
-                    </p>
+                    <a href={`/${i?.name}`}>
+                      <p className="flex pl-4 pt-3">
+                        <img
+                          alt="icon-menu"
+                          src={"/image/bank.png"}
+                          className="h-5 w-5"
+                        />{" "}
+                        <span className="pl-2">{i?.name}</span>
+                      </p>
+                    </a>
                   );
                 })}
             </div>
@@ -182,7 +222,9 @@ export default function Market() {
             <Col
               xs={24}
               sm={4}
-              className={`${!isMobile || (isMobile && showMenu ) ? "block" : "hidden"}`}
+              className={`${
+                !isMobile || (isMobile && showMenu) ? "block" : "hidden"
+              }`}
             >
               {renderMenuItem()}
             </Col>
@@ -211,7 +253,8 @@ export default function Market() {
                 />
                 <p className="font-semibold p-5 text-2xl">MetaTrader 5</p>
                 <List
-                  className="ml-[20px] " rootClassName="item-cont"
+                  className="ml-[20px] "
+                  rootClassName="item-cont"
                   grid={{
                     gutter: 20,
                     xs: 1,
@@ -222,12 +265,13 @@ export default function Market() {
                     xxl: 6,
                   }}
                   itemLayout="horizontal"
-                  dataSource={Products}
+                  dataSource={products}
                   renderItem={isMobile ? renderItemForMobile : renderItem}
                 />
                 <p className="font-semibold p-5 text-2xl">MetaTrader 4</p>
                 <List
-                  className="ml-[20px]"  rootClassName="item-cont"
+                  className="ml-[20px]"
+                  rootClassName="item-cont"
                   grid={{
                     gutter: 20,
                     xs: 1,
@@ -238,7 +282,7 @@ export default function Market() {
                     xxl: 6,
                   }}
                   itemLayout="horizontal"
-                  dataSource={Products}
+                  dataSource={products}
                   renderItem={isMobile ? renderItemForMobile : renderItem}
                 />
               </div>

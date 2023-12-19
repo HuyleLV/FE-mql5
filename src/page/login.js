@@ -6,18 +6,18 @@ const Login = () => {
   return (
     <div>
       <div className="mb-[10px]">
-      <div className="pt-[20px] text-[40px] text-[var(--red)] flex justify-center">
-        Sing in
-      </div>
-      <div className="text-[24px] flex justify-center">
-        and access all MetaTrader 4 and MetaTrader 5 services{" "}
-      </div>
-      <div className="flex justify-center">
-        If you do not have an account, please &nbsp;
-        <Link href="#" className="text-[var(--blue)] underline">
-          register
-        </Link>
-      </div>
+        <div className="pt-[20px] text-[40px] text-[var(--red)] flex justify-center">
+          Sing in
+        </div>
+        <div className="text-[24px] flex justify-center">
+          and access all MetaTrader 4 and MetaTrader 5 services{" "}
+        </div>
+        <div className="flex justify-center">
+          If you do not have an account, please &nbsp;
+          <Link href="#" className="text-[var(--blue)] underline">
+            register
+          </Link>
+        </div>
       </div>
       <Row justify={"center"} align={"middle"} style={{ height: "300px" }}>
         <Col lg={14} xs={22} style={{ maxWidth: 380 }}>
@@ -49,13 +49,14 @@ const Login = () => {
                 <span>Login</span>
               </Button>
 
-              <Button
-                className="!rounded-none !w-full !h-[50px] bg-[var(--content)] mt-[20px] before:bg-[var(--yellow)]"
-                size={"large"}
-                htmlType="submit"
-              >
-                <span >Log in With Google</span>
-              </Button>
+              <Link to={`${process.env.REACT_APP_API_URL}/auth/google`}>
+                <Button
+                  className="!rounded-none !w-full !h-[50px] bg-[var(--content)] mt-[20px] before:bg-[var(--yellow)]"
+                  size={"large"}
+                >
+                  <span>Log in With Google</span>
+                </Button>
+              </Link>
             </Form.Item>
           </Form>
         </Col>

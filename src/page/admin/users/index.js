@@ -1,4 +1,4 @@
-import { Table, Row, Col } from "antd";
+import { Table } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { Users } from "../../../database";
 import dayjsInstance from "../../../utils/dayjs";
@@ -10,6 +10,7 @@ export default function UsersDashboard() {
       title: <div className={"base-table-cell-label"}>ID</div>,
       key: "id",
       dataIndex: "id",
+      width: 100,
       render: (_, record) => <div>{record?.id}</div>,
     },
     {
@@ -61,24 +62,6 @@ export default function UsersDashboard() {
             //onClick={() => redirectMaterials(record)}
           >
             {record?.role}
-          </div>
-        );
-      },
-    },
-    {
-      title: <div className={"base-table-cell-label "}>Ngày tạo</div>,
-      key: "createdAt",
-      dataIndex: "createdAt",
-      width: 100,
-      render: (_, record) => {
-        return (
-          <div
-            //onClick={() => redirectMaterials(record)}
-            className={"cursor-pointer text-[14px] font-normal"}
-          >
-            <span className={"!inline-block min-w-[100px]"}>
-              {dayjsInstance(record?.createdAt).format("DD/MM/YYYY")}
-            </span>
           </div>
         );
       },

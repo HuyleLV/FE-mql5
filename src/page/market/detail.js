@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { List } from "antd";
+import { List, message } from "antd";
 import { Products } from "../../database";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export default function MarketDetail() {
+  const [product, setProduct] = useState();
+  const params = useParams();
+
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -24,6 +30,22 @@ export default function MarketDetail() {
     },
   };
 
+  const fetchproduct = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/product/getById/${params?.id}`)
+      .then((res) => {
+        const data = res?.data;
+        console.log("data", data);
+        setProduct(data);
+      })
+      .catch(() => message.error("Error server!"));
+  };
+
+  useEffect(() => {
+    if (params?.id) fetchproduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params?.id]);
+
   const renderRecommentProduct = (item) => {
     return (
       <List.Item>
@@ -33,7 +55,7 @@ export default function MarketDetail() {
               <Link to={`/market/detail/`}>
                 <div className="text-center border">
                   <div className="flex justify-center  w-full">
-                    <img alt="avata-product" src={'/image/ae.png'} />
+                    <img alt="avata-product" src={"/image/ae.png"} />
                   </div>
                   <p className="p-1 font-semibold">{item?.name}</p>
                   <div className="flex items-center justify-center p-5">
@@ -42,7 +64,7 @@ export default function MarketDetail() {
                         <img
                           id={i}
                           alt="icon-star"
-                          src={'/image/star.png'}
+                          src={"/image/star.png"}
                           className="h-4 w-4 ml-1"
                         />
                       );
@@ -64,20 +86,19 @@ export default function MarketDetail() {
     <div className="max-w-screen-2xl items-center mx-auto pt-10">
       <p className="font-semibold p-5 text-xl">
         <span className="text-[#42639c]">Market</span> /{" "}
-        <span className="text-[#42639c]">MetaTrader 5</span> / Quantum Emperor
-        MT5
+        <span className="text-[#42639c]">MetaTrader 5</span> / {product?.[0].product_name}
       </p>
       <div className="grid grid-cols-12">
         <div className="col-span-2 border">
           <div className="p-5">
             <img
-              src={'/image/ae.png'}
+              src={"/image/ae.png"}
               className="w-50 h-50 rounded-tl-3xl rounded-br-3xl"
               alt="name"
             />
-            <p className="text-[#42639c] font-bold pt-4">1 599.99 USD</p>
+            <p className="text-[#42639c] font-bold pt-4">{product?.[0].product_price} USD</p>
             <button className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]">
-              Buy: 1 599.99 USD
+              Buy: {product?.[0].product_price} USD
             </button>
             <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
               Free Demo
@@ -100,8 +121,8 @@ export default function MarketDetail() {
         </div>
         <div className="col-span-10 border">
           <div className="flex items-center">
-            <p className="font-semibold pt-5 pl-5 text-2xl">
-              Quantum Emperor MT5
+            <p className="font-semibold pt-5 pl-5 text-2xl capitalize">
+              {product?.[0].product_name}
             </p>
             <div className="flex pt-2 pl-5">
               {[1, 2, 3, 4, 5]?.map((i) => {
@@ -109,7 +130,7 @@ export default function MarketDetail() {
                   <img
                     id={i}
                     alt="icon-star"
-                    src={'/image/star.png'}
+                    src={"/image/star.png"}
                     className="h-4 w-4 ml-1"
                   />
                 );
@@ -118,11 +139,11 @@ export default function MarketDetail() {
           </div>
           <div className="flex pl-5 pt-1">
             <p className="flex items-center">
-              <img src={'/image/bank.png'}alt="icon" className="h-4 w-4" />
+              <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
               <span className="pl-2 text-[#42639c] font-semibold">Experts</span>
             </p>
             <p className="flex items-center pl-5">
-              <img src={'/image/bank.png'}alt="icon" className="h-4 w-4" />
+              <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
               <span className="pl-2 text-[#42639c] font-semibold">
                 Bogdan Ion Puscasu
               </span>
@@ -187,7 +208,11 @@ export default function MarketDetail() {
               ></iframe>
             </div>
             <div>
-              <img src={'/image/ae.png'} alt="icon" className="h-[250px] max-w-xl" />
+              <img
+                src={"/image/ae.png"}
+                alt="icon"
+                className="h-[250px] max-w-xl"
+              />
             </div>
             <div>
               <img
@@ -211,7 +236,7 @@ export default function MarketDetail() {
               <div className="col-span-2 p-4">
                 <p className="flex justify-center">
                   <img
-                    src={'/image/ae.png'}
+                    src={"/image/ae.png"}
                     alt="img"
                     className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
                   />
@@ -228,7 +253,7 @@ export default function MarketDetail() {
                         <img
                           id={i}
                           alt="icon-star"
-                          src={'/image/star.png'}
+                          src={"/image/star.png"}
                           className="h-4 w-4 ml-1"
                         />
                       );
@@ -247,7 +272,7 @@ export default function MarketDetail() {
                 <p className="flex justify-center">
                   <img
                     alt="img"
-                    src={'/image/ae.png'}
+                    src={"/image/ae.png"}
                     className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
                   />
                 </p>
@@ -263,7 +288,7 @@ export default function MarketDetail() {
                         <img
                           id={i}
                           alt="icon-star"
-                          src={'/image/star.png'}
+                          src={"/image/star.png"}
                           className="h-4 w-4 ml-1"
                         />
                       );
