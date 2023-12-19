@@ -3,7 +3,7 @@ import { Form, Input, Button, Row, Col } from "antd";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  return (
+    return (
     <div>
       <div className="mb-[10px]">
         <div className="pt-[20px] text-[40px] text-[var(--red)] flex justify-center">

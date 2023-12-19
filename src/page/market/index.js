@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Tabs, List, Row, Col, message } from "antd";
-import { MenuItem } from "../../database";
+import { MenuItem, Products } from "../../database";
 import { useDevice } from "../../hooks";
 import { DownOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
@@ -173,7 +173,7 @@ export default function Market() {
                 <p className="flex">
                   <img
                     alt="icon-menu"
-                    src={"/image/bank.png"}
+                    src={item?.url}
                     className="h-5 w-5"
                   />{" "}
                   <span className="pl-2">{item?.name}</span>
@@ -186,7 +186,7 @@ export default function Market() {
                       <p className="flex pl-4 pt-3">
                         <img
                           alt="icon-menu"
-                          src={"/image/bank.png"}
+                          src={i?.url}
                           className="h-5 w-5"
                         />{" "}
                         <span className="pl-2">{i?.name}</span>

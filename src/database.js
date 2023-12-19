@@ -11,64 +11,64 @@ strict criter`
 
 export const Products = [
     {
-        id: 1,
-        name: 'Quantum Emperor MT5',
-        description,
-        price: '599.99'
+        product_id: 1,
+        product_name: 'Quantum Emperor MT5',
+        product_description: description,
+        product_price: '599.99'
     },
     {
-        id: 2,
-        name: 'Quantum Emperor MT5',
-        description,
-        price: '599.99'
+        product_id: 2,
+        product_name: 'Quantum Emperor MT5',
+        product_description: description,
+        product_price: '599.99'
     },
     {
-        id: 3,
-        name: 'Quantum Emperor MT5',
-        description,
-        price: '599.99'
+        product_id: 3,
+        product_name: 'Quantum Emperor MT5',
+        product_description: description,
+        product_price: '599.99'
     },
     {
-        id: 4,
-        name: 'Quantum Emperor MT5',
-        description,
-        price: '599.99'
+        product_id: 4,
+        product_name: 'Quantum Emperor MT5',
+        product_description: description,
+        product_price: '599.99'
     },
     {
-        id: 5,
-        name: 'Quantum Emperor MT5',
-        description,
-        price: '599.99'
+        product_id: 5,
+        product_name: 'Quantum Emperor MT5',
+        product_description: description,
+        product_price: '599.99'
     },
     {
-        id: 6,
-        name: 'Quantum Emperor MT51',
-        description,
-        price: '599.99'
+        product_id: 6,
+        product_name: 'Quantum Emperor MT51',
+        product_description: description,
+        product_price: '599.99'
     },
     {
-        id: 7,
-        name: 'Quantum Emperor MT5',
-        description,
-        price: '599.99'
+        product_id: 7,
+        product_name: 'Quantum Emperor MT5',
+        product_description: description,
+        product_price: '599.99'
     },
     {
-        id: 8,
-        name: 'Quantum Emperor MT5',
-        description,
-        price: '599.99'
+        product_id: 8,
+        product_name: 'Quantum Emperor MT5',
+        product_description: description,
+        product_price: '599.99'
     },
     {
-        id: 9,
-        name: 'Quantum Emperor MT5',
-        description,
-        price: '599.99'
+        product_id: 9,
+        product_name: 'Quantum Emperor MT5',
+        product_description: description,
+        product_price: '599.99'
     },
     {
-        id: 10,
-        name: 'Quantum Emperor MT5',
-        description,
-        price: '599.99'
+        product_id: 10,
+        product_name: 'Quantum Emperor MT5',
+        product_description: description,
+        product_price: '599.99'
     }
 ]
 
@@ -76,55 +76,67 @@ export const MenuItem = [
     {
         id: 1,
         name: 'MetaTrader 5',
+        url: '/image/bank.png',
         children: [
             {
                 id: 1,
-                name: 'Experts'
+                name: 'Experts',
+                url: '/image/experts.png'
             },
             {
                 id: 2,
-                name: 'Indicators'
+                name: 'Indicators',
+                url: '/image/indicatior.png'
             },
             {
                 id: 3,
-                name: 'Libraries'
+                name: 'Libraries',
+                url: '/image/indicatior.png'
             },
             {
                 id: 4,
-                name: 'Utilities'
+                name: 'Utilities',
+                url: '/image/until.png'
             },
         ]
     },
     {
         id: 2,
         name: 'MetaTrader 4',
+        url: '/image/bank.png',
         children: [
             {
                 id: 1,
-                name: 'Experts'
+                name: 'Experts',
+                url: '/image/experts.png'
             },
             {
                 id: 2,
-                name: 'Indicators'
+                name: 'Indicators',
+                url: '/image/indicatior.png'
             },
             {
                 id: 3,
-                name: 'Libraries'
+                name: 'Libraries',
+                url: '/image/indicatior.png'
             },
             {
                 id: 4,
-                name: 'Utilities'
+                name: 'Utilities',
+                url: '/image/until.png'
             },
         ]
     },
     {
         id: 3,
         name: 'MetaTrader 4',
+        url: '/image/widget.png',
         children: undefined,
     },
     {
         id: 4,
-        name: 'MetaTrader 4',
+        name: 'Widgets',
+        url: '/image/rules.png',
         children: undefined,
     }
 ]
