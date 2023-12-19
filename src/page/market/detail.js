@@ -6,10 +6,12 @@ import { Products } from "../../database";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDevice } from "../../hooks";
 
 export default function MarketDetail() {
   const [product, setProduct] = useState();
   const params = useParams();
+  const { isMobile } = useDevice();
 
   const responsive = {
     superLargeDesktop: {
@@ -39,6 +41,136 @@ export default function MarketDetail() {
         setProduct(data);
       })
       .catch(() => message.error("Error server!"));
+  };
+
+  const renderItem = (item) => {
+    return (
+      <List.Item key={item?.product_id}>
+        <List.Item.Meta
+          description={
+            <>
+              <div className="relative group overflow-hidden hover:overflow-visible item-container">
+                <Link
+                  to={`/market/${item?.product_id}`}
+                  className="item-product group-hover:relative group-hover:opacity-0 group-hover:z-[3]"
+                >
+                  <div className="text-center border">
+                    <div className="flex justify-center  w-full">
+                      <img alt="avata-product" src={"/image/ae.png"} />
+                    </div>
+                    <p className="p-1 font-semibold">{item?.product_name}</p>
+                    <div className="flex items-center justify-center pt-[8px] pb-[16px]">
+                      {[1, 2, 3, 4, 5]?.map((i) => {
+                        return (
+                          <img
+                            id={i}
+                            alt="icon-star"
+                            src={"/image/star.png"}
+                            className="w-[10px] h-[10px]"
+                          />
+                        );
+                      })}
+                    </div>
+                    <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
+                      ${item?.product_price} <span>USD</span>
+                    </p>
+                  </div>
+                </Link>
+                <div
+                  className="absolute z-[2] duration-200 info-item
+                        top-0 left-0 w-0
+                        bg-white p-0
+                        pb-0 max-w-[calc(200%_+_20px)] h-full 
+                        overflow-y-hidden transition-all"
+                >
+                  <div className="flex flex-col justify-between h-full">
+                    <div>
+                      <div className="flex relative z-[1]">
+                        <img
+                          src={"/image/ae.png"}
+                          alt={item?.product_name}
+                          className="w-[36px] h-[36px] object-cover"
+                        />
+                        <div>
+                          <p className="p-1">{item?.product_name}</p>
+                          <div className="flex items-center">
+                            {[1, 2, 3, 4, 5]?.map((i) => {
+                              return (
+                                <img
+                                  id={i}
+                                  alt="icon-star"
+                                  src={"/image/star.png"}
+                                  className="w-[10px] h-[10px]"
+                                />
+                              );
+                            })}
+                            <span className="w-[18px] h-[18px] block"></span>
+                            <span>Experts</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="line-clamp-[8]">
+                        <p className="inline">{item?.product_description}</p>
+                      </div>
+                    </div>
+                    <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
+                      ${item?.product_price} <span>USD</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </>
+          }
+        />
+      </List.Item>
+    );
+  };
+
+  const renderItemForMobile = (item) => {
+    return (
+      <List.Item key={item?.product_id}>
+        <List.Item.Meta
+          description={
+            <>
+              <div className="relative">
+                <div className="absolute right-0 bottom-0 flex items-center justify-center w-[103px] h-[35px] border border-[#ccc] font-bold text-[#0873bc] text-[15px]">
+                  <span>{item?.price} USD</span>
+                </div>
+                <Link
+                  to={`/market/${item?.product_id}`}
+                  className="flex items-center"
+                >
+                  <img
+                    alt="avata-product"
+                    src={"/image/ae.png"}
+                    width={80}
+                    height={80}
+                    className="mr-[20px]"
+                  />
+                  <div className="">
+                    <p className="text-[18px] font-bold text-[var(--black)]">
+                      {item?.product_name}
+                    </p>
+                    <div className="flex items-center pt-[8px] pb-[10px]">
+                      {[1, 2, 3, 4, 5]?.map((i) => {
+                        return (
+                          <img
+                            id={i}
+                            alt="icon-star"
+                            src={"/image/star.png"}
+                            className="w-[10px] h-[10px]"
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </>
+          }
+        />
+      </List.Item>
+    );
   };
 
   useEffect(() => {
@@ -311,7 +443,7 @@ export default function MarketDetail() {
               grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
               itemLayout="horizontal"
               dataSource={Products}
-              renderItem={renderRecommentProduct}
+              renderItem={isMobile ? renderItemForMobile : renderItem}
             />
           </div>
         </div>
