@@ -157,9 +157,6 @@ export default function Market() {
 
   const tabItem = [
     { key: "poupler", label: "Poupler" },
-    { key: "new", label: "New" },
-    { key: "free", label: "Free" },
-    { key: "paid", label: "Paid" },
   ];
 
   const renderMenuItem = () => {
