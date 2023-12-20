@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
@@ -8,6 +8,10 @@ import { Image } from "antd";
 export default function Header() {
   const [openNav, setOpenNav] = React.useState(false);
   const [cookies] = useCookies(["user"]);
+
+  useEffect(()=> {
+    console.log(cookies);
+  })
 
   return (
     <nav className="sticky top-0 z-10 bg-[#4a76b8] border-gray-200 text-white">
@@ -51,19 +55,11 @@ export default function Header() {
                   Quotes
                 </Link>
               </li>
-              <li className="hover:bg-yellow-400 hover:text-black p-3">
-                <Link
-                  className="block md:p-0 md:hover:text-black"
-                  to={"/login"}
-                >
-                  Login
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
         <div class="flex items-center min-w-fit gap-x-[20px] pr-[15px] md:pr-[20px] text-[14px]">
-          {!cookies ? (
+          {Object.keys(cookies).length === 0 ? (
             <>
               <Link to={"/login"}>
                 <div class="flex items-center">
@@ -87,11 +83,22 @@ export default function Header() {
               <div class="flex items-center">
                 <Image
                   preview={false}
-                  src={cookies?.user?.photos}
+                  src={cookies.user?.photos}
                   width={30}
                   height={30}
                 />
-                <div className="ml-[10px] font-bold">{cookies?.user?.displayName}</div>
+                <div className="ml-[10px] font-bold">{cookies.user?.displayName}</div>
+                
+                <Link to={`${process.env.REACT_APP_API_URL}/auth/logout`}>
+                  <div class="flex items-center">
+                    <FontAwesomeIcon
+                      icon={icon({ name: "user" })}
+                      className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
+                      style={{ color: "rgb(250 204 21 )" }}
+                    />
+                    <span className="underline cursor-pointer">logout</span>
+                  </div>
+                </Link>
               </div>
               <div className={"!flex justify-between"}>
                 <button
