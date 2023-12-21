@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
@@ -7,15 +7,11 @@ import { Image } from "antd";
 
 export default function Header() {
   const [openNav, setOpenNav] = React.useState(false);
-  const [cookies] = useCookies(["user"]);
-
-  useEffect(()=> {
-    console.log(cookies);
-  })
+  const [cookies, removeCookie] = useCookies(["user"]);
 
   return (
     <nav className="sticky top-0 z-10 bg-[#4a76b8] border-gray-200 text-white">
-      <div class="flex justify-between">
+      <div className="flex justify-between">
         <div className="w-full flex flex-wrap items-center mx-auto">
           <div className={"flex justify-between max-md:w-full"}>
             <a href="/" className="flex items-center pr-4">
@@ -58,11 +54,11 @@ export default function Header() {
             </ul>
           </div>
         </div>
-        <div class="flex items-center min-w-fit gap-x-[20px] pr-[15px] md:pr-[20px] text-[14px]">
-          {Object.keys(cookies).length === 0 ? (
+        <div className="flex items-center min-w-fit gap-x-[20px] pr-[15px] md:pr-[20px] text-[14px]">
+          {!cookies?.user ? (
             <>
               <Link to={"/login"}>
-                <div class="flex items-center">
+                <div className="flex items-center">
                   <FontAwesomeIcon
                     icon={icon({ name: "user" })}
                     className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
@@ -73,14 +69,14 @@ export default function Header() {
               </Link>
               <Link
                 href=""
-                class="flex items-center justify-center w-[135px] h-[26px] bg-[#edbd37] rounded-[3px] max-sm:hidden text-black"
+                className="flex items-center justify-center w-[135px] h-[26px] bg-[#edbd37] rounded-[3px] max-sm:hidden text-black"
               >
                 Create an account
               </Link>
             </>
           ) : (
             <>
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <Image
                   preview={false}
                   src={cookies.user?.photos}
@@ -89,8 +85,8 @@ export default function Header() {
                 />
                 <div className="ml-[10px] font-bold">{cookies.user?.displayName}</div>
                 
-                <Link to={`${process.env.REACT_APP_API_URL}/auth/logout`}>
-                  <div class="flex items-center">
+                <Link to={`${process.env.REACT_APP_API_URL}/auth/logout`} className="ml-[10px]">
+                  <div className="flex items-center" onClick={() => removeCookie("user")}>
                     <FontAwesomeIcon
                       icon={icon({ name: "user" })}
                       className="w-[18px] h-[18px] mr-[4px] cursor-pointer"

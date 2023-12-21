@@ -27,7 +27,7 @@ export default function Market() {
 
   const renderItem = (item) => {
     return (
-      <List.Item key={item?.product_id}>
+      <List.Item >
         <List.Item.Meta
           description={
             <>
@@ -110,7 +110,7 @@ export default function Market() {
 
   const renderItemForMobile = (item) => {
     return (
-      <List.Item key={item?.product_id}>
+      <List.Item>
         <List.Item.Meta
           description={
             <>

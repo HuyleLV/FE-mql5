@@ -45,7 +45,6 @@ export default function ProductsDashboard() {
         return (
           <div
             className={"cursor-pointer text-[14px] font-normal"}
-            //onClick={() => redirectMaterials(record)}
           >
             {record?.product_slug}
           </div>
@@ -77,7 +76,6 @@ export default function ProductsDashboard() {
         return (
           <div
             className={"cursor-pointer text-[14px] font-normal"}
-            //onClick={() => redirectMaterials(record)}
           >
             {record?.product_version}
           </div>
@@ -92,7 +90,6 @@ export default function ProductsDashboard() {
       render: (_, record) => {
         return (
           <div
-            //onClick={() => redirectMaterials(record)}
             className={"cursor-pointer text-[14px] font-normal"}
           >
             <span className={"!inline-block min-w-[100px]"}>
@@ -109,7 +106,7 @@ export default function ProductsDashboard() {
       render: (_, record) => {
         return (
           <Link
-            to={`/admin/users/${record?.id}`}
+            to={`/admin/products/${record?.product_id}`}
             className={"text-[var(--blue)]"}
           >
             <EditOutlined />
