@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Row, Col, Button } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { Users } from "../../../database";
 import dayjsInstance from "../../../utils/dayjs";
@@ -90,7 +90,10 @@ export default function UsersDashboard() {
       width: 100,
       render: (_, record) => {
         return (
-          <Link to={`/admin/users/${record?.id}`} className={'text-[var(--blue)]'}>
+          <Link
+            to={`/admin/users/${record?.id}`}
+            className={"text-[var(--blue)]"}
+          >
             <EditOutlined />
           </Link>
         );
@@ -99,11 +102,25 @@ export default function UsersDashboard() {
   ];
 
   return (
-    <Table
-      className={"custom-table"}
-      rowKey={(record) => record?.id + ""}
-      dataSource={Users}
-      columns={columns}
-    />
+    <>
+      <Row gutter={10} className={"mb-[8px]"}>
+        <Col flex={1}>
+          <div className={"text-[20px] font-medium"}>Người dùng</div>
+        </Col>
+        <Col>
+          <Link to={"/admin/products/create"}>
+            <Button type={"primary"} onClick={() => {}}>
+              Tạo
+            </Button>
+          </Link>
+        </Col>
+      </Row>
+      <Table
+        className={"custom-table"}
+        rowKey={(record) => record?.id + ""}
+        dataSource={Users}
+        columns={columns}
+      />
+    </>
   );
 }

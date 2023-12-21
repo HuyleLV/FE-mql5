@@ -220,12 +220,12 @@ export default function MarketDetail() {
         <span className="text-[#42639c]">Market</span> /{" "}
         <span className="text-[#42639c]">MetaTrader 5</span> / {product?.[0].product_name}
       </p>
-      <div className="grid grid-cols-12">
-        <div className="col-span-2 border">
-          <div className="p-5">
+      <div className="flex max-lg:flex-wrap">
+        <div className="w-full md:w-1/2 mx-auto md:border">
+          <div className="flex flex-col justify-center p-5">
             <img
               src={"/image/ae.png"}
-              className="w-50 h-50 rounded-tl-3xl rounded-br-3xl"
+              className="w-[100px] md:w-[200px] h-[100px] md:h-[200px] rounded-tl-3xl rounded-br-3xl object-cover"
               alt="name"
             />
             <p className="text-[#42639c] font-bold pt-4">{product?.[0].product_price} USD</p>
@@ -251,7 +251,7 @@ export default function MarketDetail() {
             </button>
           </div>
         </div>
-        <div className="col-span-10 border">
+        <div className="max-lg:w-full w-4/5 border">
           <div className="flex items-center">
             <p className="font-semibold pt-5 pl-5 text-2xl capitalize">
               {product?.[0].product_name}
@@ -269,28 +269,28 @@ export default function MarketDetail() {
               })}
             </div>
           </div>
-          <div className="flex pl-5 pt-1">
+          <div className="flex flex-wrap gap-[20px] pl-5 pt-1">
             <p className="flex items-center">
               <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
               <span className="pl-2 text-[#42639c] font-semibold">Experts</span>
             </p>
-            <p className="flex items-center pl-5">
+            <p className="flex items-center">
               <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
               <span className="pl-2 text-[#42639c] font-semibold">
                 Bogdan Ion Puscasu
               </span>
             </p>
-            <p className="flex items-center pl-5">
+            <p className="flex items-center">
               Version:{" "}
               <span className="pl-2 text-[#42639c] font-semibold">3.5</span>
             </p>
-            <p className="flex items-center pl-5">
+            <p className="flex items-center">
               Updated:{" "}
               <span className="pl-2 text-[#42639c] font-semibold">
                 30 November 2023
               </span>
             </p>
-            <p className="flex items-center pl-5">
+            <p className="flex items-center">
               Activations:{" "}
               <span className="pl-2 text-[#42639c] font-semibold">30</span>
             </p>
@@ -364,29 +364,29 @@ export default function MarketDetail() {
 
           <div>
             <p className="font-semibold text-2xl p-5">Comment</p>
-            <div className="grid grid-cols-12 border">
-              <div className="col-span-2 p-4">
+            <div className="flex border">
+              <div className="w-1/3 md:w-1/6 p-4">
                 <p className="flex justify-center">
                   <img
-                    src={"/image/ae.png"}
                     alt="img"
+                    src={"/image/ae.png"}
                     className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
                   />
                 </p>
                 <p className="text-center pt-1 text-[11px]">141</p>
               </div>
-              <div className="col-span-10">
-                <div className="flex py-5">
+              <div className="w-2/3 md:w-5/6">
+                <div className="flex py-5 max-md:flex-col">
                   <p className="font-bold text-[#42639c]">Andy Chang</p>
-                  <p className="text-[10px] pl-2 pt-1">2023.12.12 06:36</p>
-                  <div className="flex pt-1 pl-4">
+                  <p className="text-[10px] pt-1">2023.12.12 06:36</p>
+                  <div className="flex pt-1">
                     {[1, 2, 3, 4, 5]?.map((i) => {
                       return (
                         <img
                           id={i}
                           alt="icon-star"
                           src={"/image/star.png"}
-                          className="h-4 w-4 ml-1"
+                          className="h-4 w-4 ml-1 first:ml-0"
                         />
                       );
                     })}
@@ -399,8 +399,8 @@ export default function MarketDetail() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-12 border">
-              <div className="col-span-2 p-4">
+            <div className="flex border">
+              <div className="w-1/3 md:w-1/6 p-4">
                 <p className="flex justify-center">
                   <img
                     alt="img"
@@ -410,18 +410,18 @@ export default function MarketDetail() {
                 </p>
                 <p className="text-center pt-1 text-[11px]">141</p>
               </div>
-              <div className="col-span-10">
-                <div className="flex py-5">
+              <div className="w-2/3 md:w-5/6">
+                <div className="flex py-5 max-md:flex-col">
                   <p className="font-bold text-[#42639c]">Andy Chang</p>
-                  <p className="text-[10px] pl-2 pt-1">2023.12.12 06:36</p>
-                  <div className="flex pt-1 pl-4">
+                  <p className="text-[10px] pt-1">2023.12.12 06:36</p>
+                  <div className="flex pt-1">
                     {[1, 2, 3, 4, 5]?.map((i) => {
                       return (
                         <img
                           id={i}
                           alt="icon-star"
                           src={"/image/star.png"}
-                          className="h-4 w-4 ml-1"
+                          className="h-4 w-4 ml-1 first:ml-0"
                         />
                       );
                     })}

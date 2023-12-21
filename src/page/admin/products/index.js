@@ -1,4 +1,4 @@
-import { Table, message } from "antd";
+import { Table, message, Button, Row, Col } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link, redirect } from "react-router-dom";
@@ -43,9 +43,7 @@ export default function ProductsDashboard() {
       width: 150,
       render: (_, record) => {
         return (
-          <div
-            className={"cursor-pointer text-[14px] font-normal"}
-          >
+          <div className={"cursor-pointer text-[14px] font-normal"}>
             {record?.product_slug}
           </div>
         );
@@ -74,9 +72,7 @@ export default function ProductsDashboard() {
       width: 200,
       render: (_, record) => {
         return (
-          <div
-            className={"cursor-pointer text-[14px] font-normal"}
-          >
+          <div className={"cursor-pointer text-[14px] font-normal"}>
             {record?.product_version}
           </div>
         );
@@ -89,9 +85,7 @@ export default function ProductsDashboard() {
       width: 100,
       render: (_, record) => {
         return (
-          <div
-            className={"cursor-pointer text-[14px] font-normal"}
-          >
+          <div className={"cursor-pointer text-[14px] font-normal"}>
             <span className={"!inline-block min-w-[100px]"}>
               {dayjsInstance(record?.createdAt).format("DD/MM/YYYY")}
             </span>
@@ -102,7 +96,7 @@ export default function ProductsDashboard() {
     {
       key: "operation",
       dataIndex: "operation",
-      width: 100,
+      width: 50,
       render: (_, record) => {
         return (
           <Link
@@ -117,11 +111,27 @@ export default function ProductsDashboard() {
   ];
 
   return (
-    <Table
-      className={"custom-table"}
-      rowKey={(record) => record?.id + ""}
-      dataSource={products}
-      columns={columns}
-    />
+    <>
+      <div>
+        <Row gutter={10} className={"mb-[8px]"}>
+          <Col flex={1}>
+            <div className={"text-[20px] font-medium"}>Sản phẩm</div>
+          </Col>
+          <Col>
+            <Link to={"/admin/products/create"}>
+              <Button type={"primary"} onClick={() => {}}>
+                Tạo
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+      </div>
+      <Table
+        className={"custom-table"}
+        rowKey={(record) => record?.product_id + ""}
+        dataSource={products}
+        columns={columns}
+      />
+    </>
   );
 }

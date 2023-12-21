@@ -1,11 +1,10 @@
 import { Form, Row, Col, Input, Space, Button, Upload } from "antd";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import {  UploadOutlined } from "@ant-design/icons"
+import { UploadOutlined } from "@ant-design/icons";
 
 export default function ProductForm({
   id = "",
-  loading = false,
   initialValues = {},
   onSubmit = () => {},
 }) {
@@ -63,37 +62,42 @@ export default function ProductForm({
             >
               <Input size="large" placeholder={"Nhập"} />
             </Form.Item>
-
-            <Form.Item
-              label={"Link"}
-              name="product_link"
-              rules={[{ required: true, message: "Vui lòng nhập link" }]}
-            >
-              <Input size="large" placeholder={"Nhập"} />
-            </Form.Item>
-
-            <Form.Item
-              name="product_link"
-              rules={[{ required: true, message: "Vui lòng nhập giá" }]}
-            >
-              <Upload>
-                <Button icon={<UploadOutlined />}>Upload</Button>
-              </Upload>
-            </Form.Item>
           </Col>
           <Col xs={24} lg={12}>
-            
-
             <Form.Item label={"Image"} name="product_image">
               <Input size="large" placeholder={"Nhập"} />
             </Form.Item>
+
+            <Row gutter={20}>
+              <Col xs={24} lg={20}>
+                <Form.Item
+                  label={"Link"}
+                  name="product_link"
+                  rules={[{ required: true, message: "Vui lòng nhập link" }]}
+                >
+                  <Input size="large" placeholder={"Nhập"} />
+                </Form.Item>
+              </Col>
+              <Col xs={24} lg={4}>
+                <Form.Item label={<div className="hidden">Upload</div>} name="product_link">
+                  <Upload>
+                    <Button size="middle" icon={<UploadOutlined />}>Upload</Button>
+                  </Upload>
+                </Form.Item>
+              </Col>
+            </Row>
           </Col>
         </Row>
         <Row gutter={40} className={"py-[20px] pl-[20px]"}>
           <Space align="center">
             <Button type={"primary"} htmlType={"submit"}>
-              {"Create"}
+              {id ? "Update" : "Create"}
             </Button>
+            {id && (
+              <Button type={"primary"} danger>
+                Delete
+              </Button>
+            )}
           </Space>
         </Row>
       </Form>
