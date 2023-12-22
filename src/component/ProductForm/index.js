@@ -128,11 +128,12 @@ export default function ProductForm({
           </Col>
         </Row>
 
-        <Form.Item name="product_description" label={"Mô tả"}>
-          <ReactQuill theme="snow" value={value} onChange={setValue} />
-        </Form.Item>
-       
         <Row gutter={8}>
+          <Col xs={48} lg={24}>
+            <Form.Item name="product_description" label={"Mô tả"}>
+              <ReactQuill className="h-[400px] pb-10" theme="snow" value={value} onChange={setValue} />
+            </Form.Item>
+          </Col>
           <Col xs={6} lg={3}>
             <Form.Item name="product_image" label={"Ảnh slide"}>
               <Upload action="/upload.do" listType="picture-card">
@@ -227,10 +228,6 @@ export default function ProductForm({
                 </Form.Item>
               </Col>
             </Row>
-
-            <Form.Item label="Mô tả" name={"product_description"}>
-              <TextArea rows={4} />
-            </Form.Item>
           </Col>
         </Row>
         <Row gutter={40} className={"py-[20px] pl-[20px]"}>
