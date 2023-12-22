@@ -1,8 +1,10 @@
 import { Form, Row, Col, Input, Space, Button, Upload, message, InputNumber } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { UploadOutlined } from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const { TextArea } = Input;
 
@@ -13,12 +15,20 @@ export default function ProductForm({
 }) {
   const [form] = Form.useForm();
   const [uploading, setUploading] = useState(false);
+  const [categoryChild, setCatgoryChild] = useState([]);
+  const [value, setValue] = useState('');
 
-  useEffect(() => {
-    if (Object.keys(initialValues)?.length > 0) {
-      form.resetFields();
-    }
-  }, [form, initialValues]);
+  const CategoryChild  = async () => {
+    try {
+      const result = await axios.get(
+        `${process.env.REACT_APP_API_URL}/categoryChild/getAll`
+      );
+      setCatgoryChild(result?.data);
+
+    } catch (e) {
+      message.error(e);
+    } 
+  };
 
   const uploadFile = async (file) => {
     setUploading(true);
@@ -38,6 +48,14 @@ export default function ProductForm({
       setUploading(false);
     }
   };
+
+  useEffect(() => {
+
+    CategoryChild();
+    if (Object.keys(initialValues)?.length > 0) {
+      form.resetFields();
+    }
+  }, [form, initialValues]);
 
   return (
     <div className={"p-[40px] bg-white rounded-[10px]"}>
@@ -60,49 +78,103 @@ export default function ProductForm({
         onFinishFailed={(e) => console.log(e)}
         onFinish={onSubmit}
       >
-        <Row gutter={20}>
+        <Form.Item
+          label={"Slug"}
+          name="product_slug"
+          rules={[{ required: true, message: "Vui lòng nhập slug!" }]}
+        >
+          <Input size="large" placeholder={"Nhập"} />
+        </Form.Item>
+
+        <Form.Item
+          label={"Tên"}
+          name="product_name"
+          rules={[{ required: true, message: "Vui lòng nhập tên!" }]}
+        >
+          <Input size="large" placeholder={"Nhập"} />
+        </Form.Item>
+
+        <Form.Item
+          label={"Giá"}
+          name="product_price"
+          rules={[{ required: true, message: "Vui lòng nhập giá" }]}
+        >
+          <InputNumber className="!w-full" size="large" placeholder={"Nhập"} />
+        </Form.Item>
+        <Row gutter={8}>
           <Col xs={24} lg={12}>
             <Form.Item
-              label={"Tên"}
-              name="product_name"
-              rules={[{ required: true, message: "Vui lòng nhập tên!" }]}
+              label={"Danh mục con"}
+              name="categoryChild_id"
             >
-              <Input size="large" placeholder={"Nhập"} />
+              <select className="!w-full border p-2 rounded-[6px]" value={categoryChild}>
+                {
+                  categoryChild?.map((_) => (
+                    
+                    <option value={_.categoryChild_id}>{_.categoryChild_name}</option>
+                  ))
+                }
+              </select>
             </Form.Item>
+          </Col>
 
-            <Form.Item
-              label={"Slug"}
-              name="product_slug"
-              rules={[{ required: true, message: "Vui lòng nhập slug!" }]}
-            >
-              <Input size="large" placeholder={"Nhập"} />
-            </Form.Item>
-
-            <Form.Item
-              label={"Giá"}
-              name="product_price"
-              rules={[{ required: true, message: "Vui lòng nhập giá" }]}
-            >
-              <InputNumber className="!w-full" size="large" placeholder={"Nhập"} />
-            </Form.Item>
-
+          <Col xs={24} lg={12}>
             <Form.Item
               label={"Version"}
               name="product_version"
             >
               <InputNumber className="!w-full" size="large" placeholder={"Nhập"} />
             </Form.Item>
-            
           </Col>
+        </Row>
+
+        <Form.Item name="product_description" label={"Mô tả"}>
+          <ReactQuill theme="snow" value={value} onChange={setValue} />
+        </Form.Item>
+       
+        <Row gutter={8}>
+          <Col xs={6} lg={3}>
+            <Form.Item name="product_image" label={"Ảnh slide"}>
+              <Upload action="/upload.do" listType="picture-card">
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              </Upload>
+            </Form.Item>
+          </Col>
+          <Col xs={6} lg={3}>
+            <Form.Item name="product_image" label={"Ảnh slide"}>
+              <Upload action="/upload.do" listType="picture-card">
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              </Upload>
+            </Form.Item>
+          </Col>
+          <Col xs={6} lg={3}>
+            <Form.Item name="product_image" label={"Ảnh slide"}>
+              <Upload action="/upload.do" listType="picture-card">
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              </Upload>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={20}>
           <Col xs={24} lg={12}>
             <Row gutter={20}>
               <Col xs={24} lg={20}>
-                <Form.Item label={"Image"} name="product_image">
-                  <Input size="large" placeholder={"Nhập"} />
+                <Form.Item name="product_image">
+                  <Input type="hidden" size="large" placeholder={"Nhập"} />
                 </Form.Item>
               </Col>
               <Col xs={24} lg={4}>
-                <Form.Item label={<div className="hidden">upload</div>}>
+                <Form.Item label={"Image"}>
                   <Upload
                     action={false}
                     accept='.png, .jpg, .jpeg, .jfif'
@@ -112,8 +184,8 @@ export default function ProductForm({
                     }}
                     showUploadList={false}
                   >
-                    <Button
-                      size="middle"
+                    <Button 
+                      className="p-5"
                       icon={<UploadOutlined />}
                       loading={uploading}
                     >

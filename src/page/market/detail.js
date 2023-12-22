@@ -232,9 +232,11 @@ export default function MarketDetail() {
             <button className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]">
               Buy: {product?.[0].product_price} USD
             </button>
-            <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
-              Free Demo
-            </button>
+            <a href={product?.[0].product_link} >
+              <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
+                Free Demo
+              </button>
+            </a>
             <div className="mt-4 text-sm w-full">
               <p>
                 Demo downloaded: <span className="pl-2">9 427</span>
