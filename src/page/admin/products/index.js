@@ -1,7 +1,7 @@
 import { Table, message, Button, Row, Col } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -55,10 +55,7 @@ export default function ProductsDashboard() {
       dataIndex: "product_price",
       width: 150,
       render: (_, record) => (
-        <div
-          onClick={() => redirect(`/admin/products/${record?.product_id}`)}
-          className={"cursor-pointer"}
-        >
+        <div className={"cursor-pointer"}>
           <div className={"text-[14px] font-normal text"}>
             {record?.product_price}
           </div>

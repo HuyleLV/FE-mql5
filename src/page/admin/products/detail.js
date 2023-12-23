@@ -1,9 +1,10 @@
-import { Form } from "antd";
-import { useParams } from "react-router-dom";
+import { Form, message } from "antd";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProductForm } from "../../../component";
-import { useNavigate } from 'react-router-dom';
+import { parseSafe } from "../../../helper";
+
 export default function ProductsDetail() {
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -15,38 +16,54 @@ export default function ProductsDetail() {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/product/getById/${params?.id}`)
       .then((res) => {
-        const data = res?.data;
-        setInitialValues(...data);
+        const data = res?.data[0];
+        const values = {
+          ...data,
+          product_image: data?.product_image
+            ? parseSafe(data?.product_image)
+            : undefined,
+        }
+        setInitialValues(values);
       });
   };
 
   const createProduct = async (values) => {
-    await axios.post(`${process.env.REACT_APP_API_URL}/product/create`, values)
+    await axios.post(`${process.env.REACT_APP_API_URL}/product/create`, values);
   };
 
   const updateProduct = async (id, values) => {
-    await axios.post(`${process.env.REACT_APP_API_URL}/product/update/${id}`, values)
+    await axios.post(
+      `${process.env.REACT_APP_API_URL}/product/update/${id}`,
+      values
+    );
   };
 
   useEffect(() => {
     if (id && id !== "create") {
       fetchProduct();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const onSubmit = async (values) => {
+    const submitValues = {
+      ...values,
+      product_image: JSON.stringify(values?.product_image),
+    };
+
     try {
-      if (id && id !== 'create') {
-        await updateProduct(id, values)
+      if (id && id !== "create") {
+        await updateProduct(id, submitValues);
+        message.success('Cập nhập thành công')
       } else {
-        await createProduct(values)
+        await createProduct(submitValues);
+        message.success('Tạo mới thành công')
       }
-      navigate('/admin/products')
+      navigate("/admin/products");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     if (id) fetchProduct();
@@ -56,7 +73,7 @@ export default function ProductsDetail() {
 
   return (
     <ProductForm
-      id={id !== 'create' ? id : undefined}
+      id={id !== "create" ? id : undefined}
       initialValues={initialValues}
       onSubmit={onSubmit}
     />

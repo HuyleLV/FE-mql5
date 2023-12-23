@@ -1,62 +1,74 @@
-import { Form, Row, Col, Input, Space, Button, Upload, message, InputNumber } from "antd";
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  Form,
+  Row,
+  Col,
+  Input,
+  Space,
+  Button,
+  message,
+  InputNumber,
+  Select,
+  Modal,
+} from "antd";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
-const { TextArea } = Input;
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import CustomUpload from "../customUpload";
 
 export default function ProductForm({
   id = "",
   initialValues = {},
   onSubmit = () => {},
 }) {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [uploading, setUploading] = useState(false);
-  const [categoryChild, setCatgoryChild] = useState([]);
-  const [value, setValue] = useState('');
+  const [categoryChild, setCategoryChild] = useState([]);
 
-  const CategoryChild  = async () => {
+  const fetchCategoryChild = async () => {
     try {
       const result = await axios.get(
         `${process.env.REACT_APP_API_URL}/categoryChild/getAll`
       );
-      setCatgoryChild(result?.data);
-
+      setCategoryChild(result?.data);
     } catch (e) {
       message.error(e);
-    } 
-  };
-
-  const uploadFile = async (file) => {
-    setUploading(true);
-    try {
-      const uploadForm = new FormData();
-      uploadForm.append("product_link", file);
-      const result = await axios.post(
-        `${process.env.REACT_APP_API_URL}/upload/file`,
-        uploadForm
-      );
-      const url = `${process.env.REACT_APP_API_URL}${result?.data}`;
-
-      return url;
-    } catch (e) {
-      message.error(e);
-    } finally {
-      setUploading(false);
     }
   };
 
-  useEffect(() => {
+  const deleteProduct = async() => {
+    await axios.delete(
+      `${process.env.REACT_APP_API_URL}/product/delete/${id}`
+    ).then(() => message.success('Xoá sản phẩm thành công'))
+  }
 
-    CategoryChild();
+  useEffect(() => {
+    fetchCategoryChild();
     if (Object.keys(initialValues)?.length > 0) {
       form.resetFields();
     }
   }, [form, initialValues]);
 
+  const removeProduct = async () => {
+    try {
+      await deleteProduct()
+      return navigate("/admin/products");
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const confirmDeleteBusiness = () => {
+    Modal.confirm({
+      icon: <ExclamationCircleOutlined />,
+      content: "Bạn có chắc chắn xoá sản phẩm này?",
+      okText: "Xác nhận",
+      cancelText: "Huỷ",
+      onOk: () => removeProduct(),
+    });
+  };
   return (
     <div className={"p-[40px] bg-white rounded-[10px]"}>
       <div className={"!text-[#2d2e32] pb-[10px]"}>
@@ -66,7 +78,7 @@ export default function ProductForm({
             "text-[18px] sm:text-[24px] md:text-[26px] xl:text-[26px] font-[500] cursor-pointer "
           }
         >
-          {"Product Information"}
+          {"Thông tin sản phẩm"}
         </Link>
       </div>
 
@@ -101,143 +113,67 @@ export default function ProductForm({
         >
           <InputNumber className="!w-full" size="large" placeholder={"Nhập"} />
         </Form.Item>
-        <Row gutter={8}>
+        <Row gutter={40}>
           <Col xs={24} lg={12}>
-            <Form.Item
-              label={"Danh mục con"}
-              name="categoryChild_id"
-            >
-              <select className="!w-full border p-2 rounded-[6px]" value={categoryChild}>
-                {
-                  categoryChild?.map((_) => (
-                    
-                    <option value={_.categoryChild_id}>{_.categoryChild_name}</option>
-                  ))
-                }
-              </select>
+            <Form.Item label={"Danh mục con"} name="categoryChild_id">
+              <Select
+                showSearch
+                size="large"
+                placeholder="Select a person"
+                optionFilterProp="children"
+                options={categoryChild?.map((value) => ({
+                  value: value.categoryChild_id,
+                  label: value.categoryChild_name,
+                }))}
+              />
             </Form.Item>
           </Col>
 
           <Col xs={24} lg={12}>
-            <Form.Item
-              label={"Version"}
-              name="product_version"
-            >
-              <InputNumber className="!w-full" size="large" placeholder={"Nhập"} />
+            <Form.Item label={"Version"} name="product_version">
+              <InputNumber
+                className="!w-full"
+                size="large"
+                placeholder={"Nhập"}
+              />
             </Form.Item>
           </Col>
         </Row>
 
         <Row gutter={8}>
-          <Col xs={48} lg={24}>
+          <Col xs={24}>
             <Form.Item name="product_description" label={"Mô tả"}>
-              <ReactQuill className="h-[400px] pb-10" theme="snow" value={value} onChange={setValue} />
+              <ReactQuill className="h-[400px] pb-10" theme="snow" />
             </Form.Item>
           </Col>
-          <Col xs={6} lg={3}>
+          <Col xs={24}>
             <Form.Item name="product_image" label={"Ảnh slide"}>
-              <Upload action="/upload.do" listType="picture-card">
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              </Upload>
-            </Form.Item>
-          </Col>
-          <Col xs={6} lg={3}>
-            <Form.Item name="product_image" label={"Ảnh slide"}>
-              <Upload action="/upload.do" listType="picture-card">
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              </Upload>
-            </Form.Item>
-          </Col>
-          <Col xs={6} lg={3}>
-            <Form.Item name="product_image" label={"Ảnh slide"}>
-              <Upload action="/upload.do" listType="picture-card">
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              </Upload>
+              <CustomUpload
+                type="image"
+                accept=".png, .jpg, .jpeg, .jfif"
+                multiple
+              />
             </Form.Item>
           </Col>
         </Row>
 
         <Row gutter={20}>
-          <Col xs={24} lg={12}>
-            <Row gutter={20}>
-              <Col xs={24} lg={20}>
-                <Form.Item name="product_image">
-                  <Input type="hidden" size="large" placeholder={"Nhập"} />
-                </Form.Item>
-              </Col>
-              <Col xs={24} lg={4}>
-                <Form.Item label={"Image"}>
-                  <Upload
-                    action={false}
-                    accept='.png, .jpg, .jpeg, .jfif'
-                    beforeUpload={async (file) => {
-                      const url = await uploadFile(file);
-                      form.setFieldValue("product_image", url);
-                    }}
-                    showUploadList={false}
-                  >
-                    <Button 
-                      className="p-5"
-                      icon={<UploadOutlined />}
-                      loading={uploading}
-                    >
-                      Upload
-                    </Button>
-                  </Upload>
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row gutter={20}>
-              <Col xs={24} lg={20}>
-                <Form.Item
-                  label={"Link"}
-                  name="product_link"
-                  rules={[{ required: true, message: "Vui lòng nhập link" }]}
-                >
-                  <Input size="large" placeholder={"Nhập"} />
-                </Form.Item>
-              </Col>
-              <Col xs={24} lg={4}>
-                <Form.Item label={<div className="hidden">upload</div>}>
-                  <Upload
-                    accept='.exe'
-                    beforeUpload={async (file) => {
-                      const url = await uploadFile(file);
-                      form.setFieldValue("product_link", url);
-                    }}
-                    showUploadList={false}
-                  >
-                    <Button
-                      size="middle"
-                      icon={<UploadOutlined />}
-                      loading={uploading}
-                    >
-                      Upload
-                    </Button>
-                  </Upload>
-                </Form.Item>
-              </Col>
-            </Row>
-          </Col>
+          <Form.Item
+            label={"Link"}
+            name="product_link"
+            rules={[{ required: true, message: "Vui lòng nhập link" }]}
+          >
+            <CustomUpload type="file" accept=".exe" />
+          </Form.Item>
         </Row>
-        <Row gutter={40} className={"py-[20px] pl-[20px]"}>
+        <Row gutter={40} className={"my-[40px] pl-[20px]"}>
           <Space align="center">
             <Button type={"primary"} htmlType={"submit"}>
-              {id ? "Update" : "Create"}
+              {id ? "Cập nhập" : "Tạo"}
             </Button>
             {id && (
-              <Button type={"primary"} danger>
-                Delete
+              <Button type={"primary"} danger onClick={confirmDeleteBusiness}>
+                Xoá
               </Button>
             )}
           </Space>

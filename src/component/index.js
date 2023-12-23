@@ -4,6 +4,7 @@ import DefaultLayoutUser from "./defaultLayoutUser/index";
 import DefaultLayoutAdmin from "./defaultLayoutAdmin";
 import CustomeSider from "./customSider";
 import ProductForm from "./ProductForm";
+import CustomUpload from "./customUpload";
 
 export {
   Header,
@@ -12,4 +13,5 @@ export {
   DefaultLayoutAdmin,
   CustomeSider,
   ProductForm,
+  CustomUpload,
 };
