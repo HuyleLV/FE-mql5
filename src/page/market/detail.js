@@ -297,38 +297,7 @@ export default function MarketDetail() {
               <span className="pl-2 text-[#42639c] font-semibold">30</span>
             </p>
           </div>
-          <div className="p-5">
-            <p>
-              Introducing <span className="font-bold">Quantum Emperor EA</span>,
-              the groundbreaking MQL5 expert advisor that's transforming the way
-              you trade the prestigious GBPUSD pair! Developed by a team of
-              experienced traders with trading experience of over 13 years.
-            </p>
-            <p className="pt-2">
-              ***Buy <span className="font-bold">Quantum Emperor EA</span> and
-              you could Quantum Trade EA or Quantum Gold Emperor for free !***
-              Ask in private for more details
-            </p>
-            <p className="pt-2">
-              <span className="font-bold">Quantum Emperor EA</span> utilizes a
-              unique strategy where it continuously splits a single trade into
-              seven smaller trades. This means that each time the EA executes a
-              trade, it automatically divides it into seven smaller positions.
-            </p>
-            <p className="pt-2">
-              <span className="font-bold">Quantum Emperor EA</span> stands out
-              from other expert advisors due to its remarkable approach to
-              handling losing trades. Unlike traditional methods that solely
-              rely on Stop Loss orders to limit losses, Quantum Emperor EA
-              employs a sophisticated technique to manage losing positions
-              effectively.When faced with a losing seven trades batch, instead
-              of closing them immediately, Quantum Emperor EA divides the next
-              position into seven smaller ones. It then strategically uses the
-              profits from winning trades to gradually close the losing
-              positions, one by one, until all of them are successfully
-              discarded.
-            </p>
-          </div>
+          <div className="p-5" dangerouslySetInnerHTML={{ __html: product?.[0].product_description }}></div>
 
           <Carousel responsive={responsive} className="p-5">
             <div>
