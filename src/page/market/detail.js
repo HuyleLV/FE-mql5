@@ -13,7 +13,7 @@ export default function MarketDetail() {
   const params = useParams();
   const { isMobile } = useDevice();
 
-  console.log(product?.[0].product_image !== undefined);
+  console.log(product);
 
   const responsive = {
     superLargeDesktop: {
@@ -276,7 +276,7 @@ export default function MarketDetail() {
           <div className="flex flex-wrap gap-[20px] pl-5 pt-1">
             <p className="flex items-center">
               <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
-              <span className="pl-2 text-[#42639c] font-semibold">Experts</span>
+              <span className="pl-2 text-[#42639c] font-semibold">{product?.[0].categoryChild_name}</span>
             </p>
             <p className="flex items-center">
               <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
@@ -296,7 +296,7 @@ export default function MarketDetail() {
             </p>
             <p className="flex items-center">
               Activations:{" "}
-              <span className="pl-2 text-[#42639c] font-semibold">30</span>
+              <span className="pl-2 text-[#42639c] font-semibold">{product?.[0].product_activations}</span>
             </p>
           </div>
           <div className="p-5" dangerouslySetInnerHTML={{ __html: product?.[0].product_description }}></div>
