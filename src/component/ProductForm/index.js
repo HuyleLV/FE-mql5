@@ -119,8 +119,7 @@ export default function ProductForm({
               <Select
                 showSearch
                 size="large"
-                placeholder="Select a person"
-                optionFilterProp="children"
+                placeholder="Nhập"
                 options={categoryChild?.map((value) => ({
                   value: value.categoryChild_id,
                   label: value.categoryChild_name,

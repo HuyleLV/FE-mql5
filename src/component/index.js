@@ -5,6 +5,7 @@ import DefaultLayoutAdmin from "./defaultLayoutAdmin";
 import CustomeSider from "./customSider";
 import ProductForm from "./ProductForm";
 import CustomUpload from "./customUpload";
+import CategoryChilDetail from "../page/admin/categories/detail";
 
 export {
   Header,
@@ -14,4 +15,5 @@ export {
   CustomeSider,
   ProductForm,
   CustomUpload,
+  CategoryChilDetail,
 };
