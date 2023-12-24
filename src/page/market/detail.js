@@ -13,6 +13,8 @@ export default function MarketDetail() {
   const params = useParams();
   const { isMobile } = useDevice();
 
+  console.log(product?.[0].product_image !== undefined);
+
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -284,12 +286,12 @@ export default function MarketDetail() {
             </p>
             <p className="flex items-center">
               Version:{" "}
-              <span className="pl-2 text-[#42639c] font-semibold">3.5</span>
+              <span className="pl-2 text-[#42639c] font-semibold">{product?.[0].product_version}</span>
             </p>
             <p className="flex items-center">
               Updated:{" "}
               <span className="pl-2 text-[#42639c] font-semibold">
-                30 November 2023
+                {product?.[0].create_at}
               </span>
             </p>
             <p className="flex items-center">
@@ -300,37 +302,17 @@ export default function MarketDetail() {
           <div className="p-5" dangerouslySetInnerHTML={{ __html: product?.[0].product_description }}></div>
 
           <Carousel responsive={responsive} className="p-5">
-            <div>
-              <iframe
-                className="h-[250px] w-[400px]"
-                src="https://www.youtube.com/embed/80oGWcZXil4"
-                title="Quantum Emperor"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              ></iframe>
-            </div>
-            <div>
-              <img
-                src={"/image/ae.png"}
-                alt="icon"
-                className="h-[250px] max-w-xl"
-              />
-            </div>
-            <div>
-              <img
-                alt="icon"
-                src="https://c.mql5.com/31/999/quantum-emperor-mt5-screen-8666-preview.jpg"
-                className="h-[250px] max-w-xl"
-              />
-            </div>
-            <div>
-              <img
-                alt="icon"
-                src="https://c.mql5.com/31/999/quantum-emperor-mt5-screen-8666-preview.jpg"
-                className="h-[250px] max-w-xl"
-              />
-            </div>
+            {product?.[0].product_image !== undefined ?
+              JSON.parse(product?.[0].product_image).map((_) => (
+                <div>
+                  <img
+                    alt="icon"
+                    src={_}
+                    className="h-[250px] max-w-xl"
+                  />
+                </div>
+              )) : <></>
+            }
           </Carousel>
 
           <div>
