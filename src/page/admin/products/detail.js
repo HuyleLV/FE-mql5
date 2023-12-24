@@ -22,7 +22,7 @@ export default function ProductsDetail() {
           product_image: data?.product_image
             ? parseSafe(data?.product_image)
             : undefined,
-        }
+        };
         setInitialValues(values);
       });
   };
@@ -46,6 +46,10 @@ export default function ProductsDetail() {
   }, [id]);
 
   const onSubmit = async (values) => {
+    const imageLength = values?.product_image?.length < 4;
+    if (imageLength)
+      return message.warning("Ảnh slide phải có tối thiểu 4 ảnh!");
+
     const submitValues = {
       ...values,
       product_image: JSON.stringify(values?.product_image),
@@ -54,10 +58,10 @@ export default function ProductsDetail() {
     try {
       if (id && id !== "create") {
         await updateProduct(id, submitValues);
-        message.success('Cập nhập thành công')
+        message.success("Cập nhập thành công");
       } else {
         await createProduct(submitValues);
-        message.success('Tạo mới thành công')
+        message.success("Tạo mới thành công");
       }
       navigate("/admin/products");
     } catch (error) {

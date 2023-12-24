@@ -1,15 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { List, message } from "antd";
-import { Products } from "../../database";
+import { List, message, Button } from "antd";
+import { Comment, Products } from "../../database";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useDevice } from "../../hooks";
+import { useCookies } from "react-cookie";
 
 export default function MarketDetail() {
   const [product, setProduct] = useState();
+  const [cookies] = useCookies(["user"]);
   const params = useParams();
   const { isMobile } = useDevice();
 
@@ -178,47 +179,12 @@ export default function MarketDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.id]);
 
-  const renderRecommentProduct = (item) => {
-    return (
-      <List.Item>
-        <List.Item.Meta
-          description={
-            <>
-              <Link to={`/market/detail/`}>
-                <div className="text-center border">
-                  <div className="flex justify-center  w-full">
-                    <img alt="avata-product" src={"/image/ae.png"} />
-                  </div>
-                  <p className="p-1 font-semibold">{item?.name}</p>
-                  <div className="flex items-center justify-center p-5">
-                    {[1, 2, 3, 4, 5]?.map((i) => {
-                      return (
-                        <img
-                          id={i}
-                          alt="icon-star"
-                          src={"/image/star.png"}
-                          className="h-4 w-4 ml-1"
-                        />
-                      );
-                    })}
-                  </div>
-                  <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
-                    ${item?.price} <span>USD</span>
-                  </p>
-                </div>
-              </Link>
-            </>
-          }
-        />
-      </List.Item>
-    );
-  };
-
   return (
     <div className="max-w-screen-2xl items-center mx-auto pt-10">
       <p className="font-semibold p-5 text-xl">
         <span className="text-[#42639c]">Market</span> /{" "}
-        <span className="text-[#42639c]">MetaTrader 5</span> / {product?.[0].product_name}
+        <span className="text-[#42639c]">MetaTrader 5</span> /{" "}
+        {product?.[0].product_name}
       </p>
       <div className="flex max-lg:flex-wrap">
         <div className="w-full md:w-1/2 mx-auto md:border">
@@ -228,11 +194,13 @@ export default function MarketDetail() {
               className="w-[100px] md:w-[200px] h-[100px] md:h-[200px] rounded-tl-3xl rounded-br-3xl object-cover"
               alt="name"
             />
-            <p className="text-[#42639c] font-bold pt-4">{product?.[0].product_price} USD</p>
+            <p className="text-[#42639c] font-bold pt-4">
+              {product?.[0].product_price} USD
+            </p>
             <button className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]">
               Buy: {product?.[0].product_price} USD
             </button>
-            <a href={product?.[0].product_link} >
+            <a href={product?.[0].product_link}>
               <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
                 Free Demo
               </button>
@@ -297,7 +265,12 @@ export default function MarketDetail() {
               <span className="pl-2 text-[#42639c] font-semibold">30</span>
             </p>
           </div>
-          <div className="p-5" dangerouslySetInnerHTML={{ __html: product?.[0].product_description }}></div>
+          <div
+            className="p-5"
+            dangerouslySetInnerHTML={{
+              __html: product?.[0].product_description,
+            }}
+          ></div>
 
           <Carousel responsive={responsive} className="p-5">
             <div>
@@ -305,7 +278,6 @@ export default function MarketDetail() {
                 className="h-[250px] w-[400px]"
                 src="https://www.youtube.com/embed/80oGWcZXil4"
                 title="Quantum Emperor"
-                frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
               ></iframe>
@@ -335,76 +307,56 @@ export default function MarketDetail() {
 
           <div>
             <p className="font-semibold text-2xl p-5">Comment</p>
-            <div className="flex border">
-              <div className="w-1/3 md:w-1/6 p-4">
-                <p className="flex justify-center">
-                  <img
-                    alt="img"
-                    src={"/image/ae.png"}
-                    className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
-                  />
-                </p>
-                <p className="text-center pt-1 text-[11px]">141</p>
-              </div>
-              <div className="w-2/3 md:w-5/6">
-                <div className="flex py-5 max-md:flex-col">
-                  <p className="font-bold text-[#42639c]">Andy Chang</p>
-                  <p className="text-[10px] pt-1">2023.12.12 06:36</p>
-                  <div className="flex pt-1">
-                    {[1, 2, 3, 4, 5]?.map((i) => {
-                      return (
-                        <img
-                          id={i}
-                          alt="icon-star"
-                          src={"/image/star.png"}
-                          className="h-4 w-4 ml-1 first:ml-0"
-                        />
-                      );
-                    })}
+            {Comment.map((i) => {
+              return (
+                <div className="flex border">
+                  <div className="w-1/3 md:w-1/6 p-4">
+                    <p className="flex justify-center">
+                      <img
+                        alt="img"
+                        src={"/image/ae.png"}
+                        className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
+                      />
+                    </p>
+                    <p className="text-center pt-1 text-[11px]">141</p>
+                  </div>
+                  <div className="w-2/3 md:w-5/6">
+                    <div className="flex py-5 max-md:flex-col">
+                      <p className="font-bold text-[#42639c]">{i.userName}</p>
+                      <p className="text-[10px] pt-1">{i.createAt}</p>
+                      <div className="flex pt-1">
+                        {[1, 2, 3, 4, 5]?.map((i) => {
+                          return (
+                            <img
+                              id={i}
+                              alt="icon-star"
+                              src={"/image/star.png"}
+                              className="h-4 w-4 ml-1 first:ml-0"
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <p>{i.content}</p>
                   </div>
                 </div>
-                <p>
-                  I've been using the QE on my live account for two weeks. It's
-                  easy to set up and performs well. Bogdan is very responsive.
-                  Thanks, Bogdan!
-                </p>
-              </div>
-            </div>
-            <div className="flex border">
-              <div className="w-1/3 md:w-1/6 p-4">
-                <p className="flex justify-center">
-                  <img
-                    alt="img"
-                    src={"/image/ae.png"}
-                    className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
-                  />
-                </p>
-                <p className="text-center pt-1 text-[11px]">141</p>
-              </div>
-              <div className="w-2/3 md:w-5/6">
-                <div className="flex py-5 max-md:flex-col">
-                  <p className="font-bold text-[#42639c]">Andy Chang</p>
-                  <p className="text-[10px] pt-1">2023.12.12 06:36</p>
-                  <div className="flex pt-1">
-                    {[1, 2, 3, 4, 5]?.map((i) => {
-                      return (
-                        <img
-                          id={i}
-                          alt="icon-star"
-                          src={"/image/star.png"}
-                          className="h-4 w-4 ml-1 first:ml-0"
-                        />
-                      );
-                    })}
-                  </div>
+              );
+            })}
+
+            {cookies?.user && (
+              <div className="p-[10px]">
+                <div className="mb-[10px] w-full">
+                  <textarea
+                    id="comment"
+                    name="comment"
+                    rows="4"
+                    className="w-full px-3 py-2 border rounded-md"
+                    placeholder="Gửi nhận xét về sản phẩm"
+                  ></textarea>
                 </div>
-                <p>
-                  I've been using the QE on my live account for two weeks. It's
-                  easy to set up and performs well. Bogdan is very responsive.
-                  Thanks, Bogdan!
-                </p>
+                <Button>Gửi</Button>
               </div>
-            </div>
+            )}
           </div>
 
           <div>

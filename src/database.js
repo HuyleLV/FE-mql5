@@ -179,3 +179,23 @@ export const Users = [
         createAt: '16/12/2023'
     }
 ]
+
+const contentComment = `
+I've been using the QE on my live account for two weeks. It's
+easy to set up and performs well. Bogdan is very responsive.
+Thanks, Bogdan!
+`
+export const Comment = [
+    {
+        id: 1,
+        userName: 'Andy Chang',
+        content: contentComment,
+        createAt: '023.12.12 06:36'
+    },
+    {
+        id: 2,
+        userName: 'Andy Chang',
+        content: contentComment,
+        createAt: '023.12.12 06:36'
+    }
+]

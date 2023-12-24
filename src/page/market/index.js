@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Tabs, List, Row, Col, message } from "antd";
-import { MenuItem, Products } from "../../database";
+import { MenuItem } from "../../database";
 import { useDevice } from "../../hooks";
 import { DownOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
@@ -92,7 +92,7 @@ export default function Market() {
                         </div>
                       </div>
                       <div className="line-clamp-[8]">
-                        <p className="inline">{item?.product_description}</p>
+                        <div dangerouslySetInnerHTML={{ __html: item?.product_description}}></div>
                       </div>
                     </div>
                     <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
