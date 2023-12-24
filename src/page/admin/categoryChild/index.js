@@ -1,4 +1,4 @@
-import { Table, message, Button, Row, Col } from "antd";
+import { Table, message, Button, Row, Col, Image } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
@@ -33,8 +33,24 @@ export default function CategoryChildDashboard() {
       title: <div>Tên</div>,
       key: "categoryChild_name",
       dataIndex: "categoryChild_name",
-      width: 150,
-      render: (_, record) => <div>{record?.categoryChild_name}</div>,
+      width: 250,
+      render: (_, record) => {
+        return (
+          <div className={"flex items-center"}>
+            {record?.categoryChild_link && (
+              <div>
+                <Image
+                  preview={false}
+                  src={`${record?.categoryChild_link}`}
+                  width={50}
+                  height={50}
+                />
+              </div>
+            )}
+            <div className={"ml-[10px]"}>{record?.categoryChild_name}</div>
+          </div>
+        );
+      },
     },
     {
       title: <div>Mô tả</div>,
