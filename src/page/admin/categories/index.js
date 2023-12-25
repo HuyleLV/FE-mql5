@@ -12,7 +12,7 @@ export default function CategoriesDashboard() {
       .get(`${process.env.REACT_APP_API_URL}/category/getAll`)
       .then((res) => {
         const data = res?.data;
-        setCategories(data || []);
+        setCategories(data);
       })
       .catch(() => message.error("Error server!"));
   };
@@ -24,67 +24,42 @@ export default function CategoriesDashboard() {
   const columns = [
     {
       title: <div>ID</div>,
-      key: "product_id",
-      dataIndex: "product_id",
+      key: "category_id",
+      dataIndex: "category_id",
       width: 100,
-      render: (_, record) => <div>{record?.product_id}</div>,
+      render: (_, record) => <div>{record?.category_id}</div>,
     },
     {
       title: <div>Tên</div>,
-      key: "product_name",
-      dataIndex: "product_name",
+      key: "category_name",
+      dataIndex: "category_name",
       width: 150,
-      render: (_, record) => <div>{record?.product_name}</div>,
+      render: (_, record) => <div>{record?.category_name}</div>,
     },
     {
-      title: <div>Slug</div>,
-      key: "product_slug",
-      dataIndex: "product_slug",
+      title: <div>Mô tả</div>,
+      key: "category_description",
+      dataIndex: "category_description",
       width: 150,
-      render: (_, record) => {
-        return (
-          <div className={"cursor-pointer text-[14px] font-normal"}>
-            {record?.product_slug}
-          </div>
-        );
-      },
+      render: (_, record) => <div>{record?.category_description}</div>,
     },
     {
-      title: <div>Giá</div>,
-      key: "product_price",
-      dataIndex: "product_price",
+      title: <div>Icon</div>,
+      key: "category_link",
+      dataIndex: "category_link",
       width: 150,
-      render: (_, record) => (
-        <div className={"cursor-pointer"}>
-          <div className={"text-[14px] font-normal text"}>
-            {record?.product_price}
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: <div>Phiên bản</div>,
-      key: "product_version",
-      dataIndex: "product_version",
-      width: 200,
-      render: (_, record) => {
-        return (
-          <div className={"cursor-pointer text-[14px] font-normal"}>
-            {record?.product_version}
-          </div>
-        );
-      },
+      render: (_, record) => <div><img src={record?.category_link} className="h-10 w-10"/></div>,
     },
     {
       title: <div className={"base-table-cell-label "}>Ngày tạo</div>,
-      key: "createdAt",
-      dataIndex: "createdAt",
+      key: "create_at",
+      dataIndex: "create_at",
       width: 100,
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>
             <span className={"!inline-block min-w-[100px]"}>
-              {dayjsInstance(record?.createdAt).format("DD/MM/YYYY")}
+              {dayjsInstance(record?.create_at).format("DD/MM/YYYY")}
             </span>
           </div>
         );
@@ -97,7 +72,7 @@ export default function CategoriesDashboard() {
       render: (_, record) => {
         return (
           <Link
-            to={`/admin/categories/${record?.product_id}`}
+            to={`/admin/categories/${record?.category_id}`}
             className={"text-[var(--blue)]"}
           >
             <EditOutlined />
@@ -123,12 +98,12 @@ export default function CategoriesDashboard() {
           </Col>
         </Row>
       </div>
-      {/* <Table
+      <Table
         className={"custom-table"}
         rowKey={(record) => record?.product_id + ""}
         dataSource={categories}
         columns={columns}
-      /> */}
+      />
     </>
   );
 }

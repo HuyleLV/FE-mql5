@@ -15,7 +15,7 @@ export default function MarketDetail() {
   const params = useParams();
   const { isMobile } = useDevice();
 
-  console.log(product);
+  console.log(params);
 
   const responsive = {
     superLargeDesktop: {
@@ -179,7 +179,6 @@ export default function MarketDetail() {
 
   useEffect(() => {
     if (params?.id) fetchproduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.id]);
 
   return (

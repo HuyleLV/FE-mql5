@@ -38,7 +38,6 @@ export default function CategoryChilDetail() {
     if (id && id !== "create") {
         fetchCategoryChild();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const onSubmit = async (values) => {
@@ -63,7 +62,6 @@ export default function CategoryChilDetail() {
   useEffect(() => {
     if (id) fetchCategoryChild();
     form.resetFields();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form, id]);
 
   return (

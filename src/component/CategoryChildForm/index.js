@@ -9,7 +9,7 @@ import {
   Select,
   Modal,
 } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -22,6 +22,18 @@ export default function CategoryChildForm({
 }) {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [category, setCategory] = useState([]);
+
+  const fetchCategory = async () => {
+    try {
+      const result = await axios.get(
+        `${process.env.REACT_APP_API_URL}/category/getAll`
+      );
+      setCategory(result?.data);
+    } catch (e) {
+      message.error(e);
+    }
+  };
 
   const deleteCategoryChild = async () => {
     await axios
@@ -30,6 +42,7 @@ export default function CategoryChildForm({
   };
 
   useEffect(() => {
+    fetchCategory();
     if (Object.keys(initialValues)?.length > 0) {
       form.resetFields();
     }
@@ -88,7 +101,10 @@ export default function CategoryChildForm({
             size="large"
             placeholder="Select a person"
             optionFilterProp="children"
-            options={[]}
+            options={category?.map((value) => ({
+              value: value.category_id,
+              label: value.category_name,
+            }))}
           />
         </Form.Item>
 

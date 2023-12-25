@@ -10,6 +10,7 @@ export default function Market() {
   const { isMobile } = useDevice();
   const [showMenu, setShowMenu] = useState(false);
   const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState([]);
 
   const fetchProducts = async () => {
     await axios
@@ -21,8 +22,20 @@ export default function Market() {
       .catch(() => message.error("Error server!"));
   };
 
+  const fetchCategory = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/category/getAll`)
+      .then((res) => {
+        const data = res?.data;
+        setCategory(data);
+      })
+      .catch(() => message.error("Error server!"));
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchCategory();
+    console.log(category);
   }, []);
 
   const renderItem = (item) => {
@@ -160,33 +173,32 @@ export default function Market() {
   ];
 
   const renderMenuItem = () => {
-    return MenuItem?.map((item) => {
-      const children = item?.children;
+    return category?.map((item) => {
       return (
         <div className="border">
           <div className="pr-5 py-10 pl-5">
-            <div id={item?.id}>
-              <a href={`/${item?.name}`}>
+            <div id={item?.category_id}>
+              <a href={`/${item?.category_name}`}>
                 <p className="flex">
                   <img
                     alt="icon-menu"
-                    src={item?.url}
-                    className="h-5 w-5"
+                    src={item?.category_link}
+                    className="h-5 w-5 rounded-full"
                   />{" "}
-                  <span className="pl-2">{item?.name}</span>
+                  <span className="pl-2">{item?.category_name}</span>
                 </p>
               </a>
-              {children &&
-                children?.map((i) => {
+              {item?.categoryChild &&
+                item?.categoryChild?.map((i) => {
                   return (
-                    <a href={`/${i?.name}`}>
+                    <a href={`/${i?.categoryChild_name}`}>
                       <p className="flex pl-4 pt-3">
                         <img
                           alt="icon-menu"
-                          src={i?.url}
-                          className="h-5 w-5"
+                          src={i?.categoryChild_link}
+                          className="h-5 w-5 rounded-full"
                         />{" "}
-                        <span className="pl-2">{i?.name}</span>
+                        <span className="pl-2">{i?.categoryChild_name}</span>
                       </p>
                     </a>
                   );
