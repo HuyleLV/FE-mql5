@@ -190,12 +190,12 @@ export const Comment = [
         id: 1,
         userName: 'Andy Chang',
         content: contentComment,
-        createAt: '023.12.12 06:36'
+        createAt: '20/12/2023 06:36:22'
     },
     {
         id: 2,
         userName: 'Andy Chang',
         content: contentComment,
-        createAt: '023.12.12 06:36'
+        createAt: '20/12/2023 06:36:22'
     }
 ]

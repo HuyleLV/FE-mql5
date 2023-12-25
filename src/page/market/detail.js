@@ -7,6 +7,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDevice } from "../../hooks";
 import { useCookies } from "react-cookie";
+import dayjs from "dayjs";
 
 export default function MarketDetail() {
   const [product, setProduct] = useState();
@@ -259,7 +260,7 @@ export default function MarketDetail() {
             <p className="flex items-center">
               Updated:{" "}
               <span className="pl-2 text-[#42639c] font-semibold">
-                {product?.[0].create_at}
+                {dayjs(product?.[0].create_at).format('DD/MM/YYYY')}
               </span>
             </p>
             <p className="flex items-center">
@@ -306,7 +307,7 @@ export default function MarketDetail() {
                   <div className="w-2/3 md:w-5/6">
                     <div className="flex py-5 max-md:flex-col">
                       <p className="font-bold text-[#42639c]">{i.userName}</p>
-                      <p className="text-[10px] pt-1">{i.createAt}</p>
+                      <p className="text-[10px] pt-1 px-2">{i.createAt}</p>
                       <div className="flex pt-1">
                         {[1, 2, 3, 4, 5]?.map((i) => {
                           return (
