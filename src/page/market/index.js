@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Tabs, List, Row, Col, message } from "antd";
+import { Tabs, List, Row, Col, message, Rate } from "antd";
 import { MenuItem } from "../../database";
 import { useDevice } from "../../hooks";
 import { DownOutlined } from "@ant-design/icons";
@@ -189,7 +189,7 @@ export default function Market() {
                 </p>
               </a>
               {item?.categoryChild &&
-                item?.categoryChild?.map((i) => {
+                item?.categoryChild?.map((i) => { 
                   return (
                     <a href={`/${i?.categoryChild_name}`}>
                       <p className="flex pl-4 pt-3">

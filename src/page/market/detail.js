@@ -1,8 +1,8 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { List, message, Button } from "antd";
-import { Comment, Products } from "../../database";
+import { List, message, Button, Rate } from "antd";
+import { Products } from "../../database";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDevice } from "../../hooks";
@@ -11,9 +11,13 @@ import dayjs from "dayjs";
 
 export default function MarketDetail() {
   const [product, setProduct] = useState();
+  const [comment, setComment] = useState();
   const [cookies] = useCookies(["user"]);
   const params = useParams();
   const { isMobile } = useDevice();
+  
+  const [rateComment, setRateComment] = useState(5);
+  const [comment_content, setcomment_content] = useState("");
 
   console.log(params);
 
@@ -41,10 +45,37 @@ export default function MarketDetail() {
       .get(`${process.env.REACT_APP_API_URL}/product/getById/${params?.id}`)
       .then((res) => {
         const data = res?.data;
-        console.log("data", data);
         setProduct(data);
       })
       .catch(() => message.error("Error server!"));
+  };
+  
+  const fetchcomment = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/comment/getById/${params?.id}`)
+      .then((res) => {
+        const data = res?.data;
+        console.log(data);
+        setComment(data);
+      })
+      .catch(() => message.error("Error server!"));
+  };
+  
+  const postcomment = async () => {
+    const value = {
+      comment_content: comment_content.target.value,
+      comment_star: rateComment,
+      product_id: params?.id,
+      create_by: cookies?.user.user_id
+    }
+
+    console.log(value);
+
+    await axios.post(`${process.env.REACT_APP_API_URL}/comment/create`, value)
+          .then((res) => {
+            message.success('Bình luận thành công');
+            fetchcomment();
+          })
   };
 
   const renderItem = (item) => {
@@ -63,18 +94,7 @@ export default function MarketDetail() {
                       <img alt="avata-product" src={"/image/ae.png"} />
                     </div>
                     <p className="p-1 font-semibold">{item?.product_name}</p>
-                    <div className="flex items-center justify-center pt-[8px] pb-[16px]">
-                      {[1, 2, 3, 4, 5]?.map((i) => {
-                        return (
-                          <img
-                            id={i}
-                            alt="icon-star"
-                            src={"/image/star.png"}
-                            className="w-[10px] h-[10px]"
-                          />
-                        );
-                      })}
-                    </div>
+                    <Rate className="" allowHalf defaultValue={4.5} />
                     <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
                       ${item?.product_price} <span>USD</span>
                     </p>
@@ -178,7 +198,10 @@ export default function MarketDetail() {
   };
 
   useEffect(() => {
-    if (params?.id) fetchproduct();
+    if (params?.id) {
+      fetchproduct();
+      fetchcomment();
+    }
   }, [params?.id]);
 
   return (
@@ -229,16 +252,7 @@ export default function MarketDetail() {
               {product?.[0].product_name}
             </p>
             <div className="flex pt-2 pl-5">
-              {[1, 2, 3, 4, 5]?.map((i) => {
-                return (
-                  <img
-                    id={i}
-                    alt="icon-star"
-                    src={"/image/star.png"}
-                    className="h-4 w-4 ml-1"
-                  />
-                );
-              })}
+              <Rate allowHalf value={5} />
             </div>
           </div>
           <div className="flex flex-wrap gap-[20px] pl-5 pt-1">
@@ -290,54 +304,47 @@ export default function MarketDetail() {
 
           <div>
             <p className="font-semibold text-2xl p-5">Comment</p>
-            {Comment.map((i) => {
-              return (
-                <div className="flex border">
-                  <div className="w-1/3 md:w-1/6 p-4">
-                    <p className="flex justify-center">
-                      <img
-                        alt="img"
-                        src={"/image/ae.png"}
-                        className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
-                      />
-                    </p>
-                    <p className="text-center pt-1 text-[11px]">141</p>
-                  </div>
-                  <div className="w-2/3 md:w-5/6">
-                    <div className="flex py-5 max-md:flex-col">
-                      <p className="font-bold text-[#42639c]">{i.userName}</p>
-                      <p className="text-[10px] pt-1 px-2">{i.createAt}</p>
-                      <div className="flex pt-1">
-                        {[1, 2, 3, 4, 5]?.map((i) => {
-                          return (
-                            <img
-                              id={i}
-                              alt="icon-star"
-                              src={"/image/star.png"}
-                              className="h-4 w-4 ml-1 first:ml-0"
-                            />
-                          );
-                        })}
-                      </div>
+            { comment!== undefined ?
+              comment.map((i) => {
+                return (
+                  <div className="flex border">
+                    <div className="w-1/3 md:w-1/6 p-4">
+                      <p className="flex justify-center">
+                        <img
+                          alt="img"
+                          src={i.photos}
+                          className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
+                        />
+                      </p>
                     </div>
-                    <p>{i.content}</p>
+                    <div className="w-2/3 md:w-5/6">
+                      <div className="flex py-5 max-md:flex-col">
+                        <p className="font-bold text-[#42639c]">{i.displayName}</p>
+                        <p className="text-[10px] pt-1 px-2">{dayjs(i.create_at).format('DD/MM/YYYY hh:mm')}</p>
+                        <Rate allowHalf value={i.comment_star} disabled />
+                      </div>
+                      <p>{i.comment_content}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+              : <></>
+            }
 
             {cookies?.user && (
               <div className="p-[10px]">
                 <div className="mb-[10px] w-full">
                   <textarea
-                    id="comment"
-                    name="comment"
+                    id="comment_content"
+                    name="comment_content"
                     rows="4"
                     className="w-full px-3 py-2 border rounded-md"
                     placeholder="Gửi nhận xét về sản phẩm"
+                    onChange={setcomment_content}
                   ></textarea>
                 </div>
-                <Button>Gửi</Button>
+                <p><Rate allowHalf onChange={setRateComment} value={rateComment} /></p>
+                <Button className="my-5 w-[200px] h-10" onClick={postcomment}>Gửi</Button>
               </div>
             )}
           </div>

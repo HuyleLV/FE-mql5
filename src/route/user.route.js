@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Market from "../page/market";
 import MarketDetail from "../page/market/detail";
 import Login from "../page/login";
+import LoginAdmin from "../page/admin/login";
 
 export default function User () {
     return (
@@ -10,8 +11,7 @@ export default function User () {
         <Route path="/:id" element={<Market />} />
         <Route path="/login" element={<Login />} />
         <Route path="/market/:id/" element={<MarketDetail />} />
-        {/* <Route path="/lesson/detail/:lesson_id" element={<LessonDetail />} />
-        <Route path="/lesson/speaking/:lesson_id" element={<Speaking />} /> */}
+        <Route path="/loginAdmin" element={<LoginAdmin />} />
       </Routes>
     );
   };

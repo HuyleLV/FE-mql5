@@ -7,7 +7,7 @@ const Login = () => {
     <div>
       <div className="mb-[10px]">
         <div className="pt-[20px] text-[40px] text-[var(--red)] flex justify-center">
-          Sing in
+          Sign in
         </div>
         <div className="text-[24px] flex justify-center">
           and access all MetaTrader 4 and MetaTrader 5 services{" "}
