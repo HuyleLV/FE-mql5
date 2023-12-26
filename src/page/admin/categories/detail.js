@@ -2,9 +2,6 @@ import { Form, message } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { ProductForm } from "../../../component";
-import { parseSafe } from "../../../helper";
-import CategoryChildForm from "../../../component/CategoryChildForm";
 import CategoryForm from "../../../component/Category";
 
 export default function CategoryDetail() {
@@ -21,13 +18,16 @@ export default function CategoryDetail() {
         const data = res?.data[0];
         const values = {
           ...data,
-        }
+        };
         setInitialValues(values);
       });
   };
 
   const createCategory = async (values) => {
-    await axios.post(`${process.env.REACT_APP_API_URL}/category/create`, values);
+    await axios.post(
+      `${process.env.REACT_APP_API_URL}/category/create`,
+      values
+    );
   };
 
   const updateCategory = async (id, values) => {
@@ -41,6 +41,7 @@ export default function CategoryDetail() {
     if (id && id !== "create") {
       fetchCategory();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const onSubmit = async (values) => {
@@ -51,10 +52,10 @@ export default function CategoryDetail() {
     try {
       if (id && id !== "create") {
         await updateCategory(id, submitValues);
-        message.success('Cập nhập thành công')
+        message.success("Cập nhập thành công");
       } else {
         await createCategory(submitValues);
-        message.success('Tạo mới thành công')
+        message.success("Tạo mới thành công");
       }
       navigate("/admin/categories");
     } catch (error) {
@@ -65,6 +66,7 @@ export default function CategoryDetail() {
   useEffect(() => {
     if (id) fetchCategory();
     form.resetFields();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form, id]);
 
   return (

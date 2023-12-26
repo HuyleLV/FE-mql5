@@ -3,12 +3,53 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useCookies } from "react-cookie";
-import { Image } from "antd";
+import { Image, Dropdown } from "antd";
+import { useDevice } from "../hooks";
 
 export default function Header() {
+  const { isMobile } = useDevice();
   const [openNav, setOpenNav] = React.useState(false);
   const [cookies, removeCookie] = useCookies(["user"]);
 
+  const items = [
+    {
+      key: "profile",
+      label: (
+        <Link to={'/profile'}>
+          <div
+            className="flex items-center"
+            onClick={() => removeCookie("user")}
+          >
+            <FontAwesomeIcon
+              icon={icon({ name: "user" })}
+              className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
+              style={{ color: "rgb(250 204 21 )" }}
+            />
+            <span className="cursor-pointer">Profile</span>
+          </div>
+        </Link>
+      ),
+    },
+    {
+      key: "logout",
+      label: (
+        <Link to={`${process.env.REACT_APP_API_URL}/auth/logout`}>
+          <div
+            className="flex items-center"
+            onClick={() => removeCookie("user")}
+          >
+            <FontAwesomeIcon
+              icon={icon({ name: "sign-out" })}
+              className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
+              style={{ color: "rgb(250 204 21 )" }}
+            />
+            
+            <span className="cursor-pointer">Logout</span>
+          </div>
+        </Link>
+      ),
+    },
+  ];
   return (
     <nav className="sticky top-0 z-10 bg-[#4a76b8] border-gray-200 text-white">
       <div className="flex justify-between">
@@ -76,26 +117,23 @@ export default function Header() {
             </>
           ) : (
             <>
-              <div className="flex items-center">
-                <Image
-                  preview={false}
-                  src={cookies.user?.photos}
-                  width={30}
-                  height={30}
-                />
-                <div className="ml-[10px] font-bold">{cookies.user?.displayName}</div>
-                
-                <Link to={`${process.env.REACT_APP_API_URL}/auth/logout`} className="ml-[10px]">
-                  <div className="flex items-center" onClick={() => removeCookie("user")}>
-                    <FontAwesomeIcon
-                      icon={icon({ name: "user" })}
-                      className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
-                      style={{ color: "rgb(250 204 21 )" }}
+              {!isMobile && (
+                <div className="flex items-center">
+                  <Dropdown placement="bottomRight" menu={{ items }}>
+                    <Image
+                      preview={false}
+                      src={cookies.user?.photos}
+                      width={30}
+                      height={30}
                     />
-                    <span className="underline cursor-pointer">logout</span>
-                  </div>
-                </Link>
-              </div>
+                  </Dropdown>
+
+                  {/* <div className="ml-[10px] font-bold">
+                    {cookies.user?.displayName}
+                  </div> */}
+                </div>
+              )}
+
               <div className={"!flex justify-between"}>
                 <button
                   data-collapse-toggle="navbar-dropdown"
