@@ -16,6 +16,7 @@ export default function CustomUpload({
   type = 'image', //image, file
   //disabled = false,
   multiple = false,
+  showUploadList= true,
   accept = '.png, .jpg, .jpeg, .jfif',
 }) {
 
@@ -105,6 +106,7 @@ export default function CustomUpload({
   return (
     <>
       <Upload
+        showUploadList={showUploadList}
         fileList={getFileList()}
         listType={type === 'image' ? 'picture-card' : 'text'}
         beforeUpload={handleUpload}

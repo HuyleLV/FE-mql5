@@ -17,11 +17,17 @@ export default function ProductsDetail() {
       .get(`${process.env.REACT_APP_API_URL}/product/getById/${params?.id}`)
       .then((res) => {
         const data = res?.data[0];
+        const coverProductImage = data?.product_image
+          ? parseSafe(data?.product_image)
+          : undefined;
+  
+        const linkVideo = coverProductImage?.filter((i) => i.type === 'video')
+        const linkImage = coverProductImage?.filter((i) => i.type === 'image')
+
         const values = {
           ...data,
-          product_image: data?.product_image
-            ? parseSafe(data?.product_image)
-            : undefined,
+          link_video: linkVideo?.[0]?.data,
+          product_image: linkImage?.[0]?.data
         };
         setInitialValues(values);
       });
@@ -50,9 +56,14 @@ export default function ProductsDetail() {
     if (imageLength)
       return message.warning("Ảnh slide phải có tối thiểu 4 ảnh!");
 
+    const mergeLinkProduct = [
+      { type: "video", data: values?.link_video },
+      { type: "image", data: values?.product_image },
+    ];
+    const coverString = JSON.stringify(mergeLinkProduct);
     const submitValues = {
       ...values,
-      product_image: JSON.stringify(values?.product_image),
+      product_image: coverString,
     };
 
     try {

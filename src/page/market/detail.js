@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import { List, message, Button, Rate, Modal } from "antd";
 import { Products } from "../../database";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDevice } from "../../hooks";
 import { useCookies } from "react-cookie";
 import dayjs from "dayjs";
@@ -16,7 +16,7 @@ export default function MarketDetail() {
   const params = useParams();
   const { isMobile } = useDevice();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   const [rateComment, setRateComment] = useState(5);
   const [comment_content, setcomment_content] = useState("");
 
@@ -47,8 +47,8 @@ export default function MarketDetail() {
       transfer_price: product?.[0].product_price,
       transfer_status: 1,
       product_id: product?.[0].product_id,
-      created_by: cookies?.user.user_id
-    }
+      created_by: cookies?.user.user_id,
+    };
     setIsModalOpen(false);
   };
 
@@ -61,7 +61,7 @@ export default function MarketDetail() {
       })
       .catch(() => message.error("Error server!"));
   };
-  
+
   const fetchcomment = async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/comment/getById/${params?.id}`)
@@ -72,22 +72,23 @@ export default function MarketDetail() {
       })
       .catch(() => message.error("Error server!"));
   };
-  
+
   const postcomment = async () => {
     const value = {
       comment_content: comment_content.target.value,
       comment_star: rateComment,
       product_id: params?.id,
-      create_by: cookies?.user.user_id
-    }
+      create_by: cookies?.user.user_id,
+    };
 
     console.log(value);
 
-    await axios.post(`${process.env.REACT_APP_API_URL}/comment/create`, value)
-          .then((res) => {
-            message.success('Bình luận thành công');
-            fetchcomment();
-          })
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/comment/create`, value)
+      .then((res) => {
+        message.success("Bình luận thành công");
+        fetchcomment();
+      });
   };
 
   const renderItem = (item) => {
@@ -216,6 +217,22 @@ export default function MarketDetail() {
     }
   }, [params?.id]);
 
+  const productLink = useMemo(() => {
+    const productImage = product?.[0]?.product_image;
+    const coverImage = productImage ? JSON.parse(productImage) : undefined;
+    return coverImage;
+  }, [product]);
+
+  const linkVideo = useMemo(() => {
+    const link = productLink?.filter((i) => i?.type === "video");
+    return link?.[0]?.data;
+  }, [productLink]);
+
+  const linkProduct = useMemo(() => {
+    const link = productLink?.filter((i) => i?.type === "image");
+    return link?.[0]?.data;
+  }, [productLink]);
+
   return (
     <div className="max-w-screen-2xl items-center mx-auto pt-10">
       <p className="font-semibold p-5 text-xl">
@@ -234,7 +251,10 @@ export default function MarketDetail() {
             <p className="text-[#42639c] font-bold pt-4">
               {product?.[0].product_price} USD
             </p>
-            <button className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]" onClick={()=>setIsModalOpen(true)}>
+            <button
+              className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]"
+              onClick={() => setIsModalOpen(true)}
+            >
               Buy: {product?.[0].product_price} USD
             </button>
             <a href={product?.[0].product_link}>
@@ -270,7 +290,9 @@ export default function MarketDetail() {
           <div className="flex flex-wrap gap-[20px] pl-5 pt-1">
             <p className="flex items-center">
               <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
-              <span className="pl-2 text-[#42639c] font-semibold">{product?.[0].categoryChild_name}</span>
+              <span className="pl-2 text-[#42639c] font-semibold">
+                {product?.[0].categoryChild_name}
+              </span>
             </p>
             <p className="flex items-center">
               <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
@@ -280,17 +302,21 @@ export default function MarketDetail() {
             </p>
             <p className="flex items-center">
               Version:{" "}
-              <span className="pl-2 text-[#42639c] font-semibold">{product?.[0].product_version}</span>
+              <span className="pl-2 text-[#42639c] font-semibold">
+                {product?.[0].product_version}
+              </span>
             </p>
             <p className="flex items-center">
               Updated:{" "}
               <span className="pl-2 text-[#42639c] font-semibold">
-                {dayjs(product?.[0].create_at).format('DD/MM/YYYY')}
+                {dayjs(product?.[0].create_at).format("DD/MM/YYYY")}
               </span>
             </p>
             <p className="flex items-center">
               Activations:{" "}
-              <span className="pl-2 text-[#42639c] font-semibold">{product?.[0].product_activations}</span>
+              <span className="pl-2 text-[#42639c] font-semibold">
+                {product?.[0].product_activations}
+              </span>
             </p>
           </div>
           <div
@@ -301,22 +327,29 @@ export default function MarketDetail() {
           ></div>
 
           <Carousel responsive={responsive} className="p-5">
-            {product?.[0].product_image !== undefined ?
-              JSON.parse(product?.[0].product_image).map((_) => (
+            {linkVideo && (
+              <iframe
+              className="h-[250px] w-[400px]"
+              src={linkVideo}
+              title="Quantum Emperor"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            )}
+            {linkProduct && linkProduct?.map((i) => {
+              return (
                 <div>
-                  <img
-                    alt="icon"
-                    src={_}
-                    className="h-[250px] max-w-xl"
-                  />
+                  <img alt="icon" src={i} className="h-[250px] max-w-xl" />
                 </div>
-              )) : <></>
-            }
+              )
+            }) 
+          }
           </Carousel>
 
           <div>
             <p className="font-semibold text-2xl p-5">Comment</p>
-            { comment!== undefined ?
+            {comment !== undefined ? (
               comment.map((i) => {
                 return (
                   <div className="flex border">
@@ -331,8 +364,12 @@ export default function MarketDetail() {
                     </div>
                     <div className="w-2/3 md:w-5/6">
                       <div className="flex py-5 max-md:flex-col">
-                        <p className="font-bold text-[#42639c]">{i.displayName}</p>
-                        <p className="text-[10px] pt-1 px-2">{dayjs(i.create_at).format('DD/MM/YYYY hh:mm')}</p>
+                        <p className="font-bold text-[#42639c]">
+                          {i.displayName}
+                        </p>
+                        <p className="text-[10px] pt-1 px-2">
+                          {dayjs(i.create_at).format("DD/MM/YYYY hh:mm")}
+                        </p>
                         <Rate allowHalf value={i.comment_star} disabled />
                       </div>
                       <p>{i.comment_content}</p>
@@ -340,8 +377,9 @@ export default function MarketDetail() {
                   </div>
                 );
               })
-              : <></>
-            }
+            ) : (
+              <></>
+            )}
 
             {cookies?.user && (
               <div className="p-[10px]">
@@ -355,8 +393,16 @@ export default function MarketDetail() {
                     onChange={setcomment_content}
                   ></textarea>
                 </div>
-                <p><Rate allowHalf onChange={setRateComment} value={rateComment} /></p>
-                <Button className="my-5 w-[200px] h-10" onClick={postcomment}>Gửi</Button>
+                <p>
+                  <Rate
+                    allowHalf
+                    onChange={setRateComment}
+                    value={rateComment}
+                  />
+                </p>
+                <Button className="my-5 w-[200px] h-10" onClick={postcomment}>
+                  Gửi
+                </Button>
               </div>
             )}
           </div>
@@ -373,31 +419,46 @@ export default function MarketDetail() {
           </div>
         </div>
       </div>
-      {cookies?.user ?
+      {cookies?.user ? (
         <Modal
           title="Thanh toán qua mã QR"
           className="flex justify-center"
           open={isModalOpen}
           onOk={handleOk}
-          onCancel={()=>setIsModalOpen(false)}
+          onCancel={() => setIsModalOpen(false)}
           okButtonProps={{ className: "bg-blue-500" }}
         >
-          <img src={"https://vinacheck.vn/media/2019/05/ma-qr-code_vinacheck.vm_001.jpg"} className="p-5"/>
-          <p className="p-5 text-lg">Nội dung CK: <span className="font-bold p-5 text-xl">{cookies?.user?.displayName} chuyen tien</span></p>
-          <p className="px-5 pb-5 text-lg">Giá: <span className="font-bold p-5 text-xl text-red-500">{product?.[0].product_price} USD</span></p>
+          <img
+            src={
+              "https://vinacheck.vn/media/2019/05/ma-qr-code_vinacheck.vm_001.jpg"
+            }
+            className="p-5"
+          />
+          <p className="p-5 text-lg">
+            Nội dung CK:{" "}
+            <span className="font-bold p-5 text-xl">
+              {cookies?.user?.displayName} chuyen tien
+            </span>
+          </p>
+          <p className="px-5 pb-5 text-lg">
+            Giá:{" "}
+            <span className="font-bold p-5 text-xl text-red-500">
+              {product?.[0].product_price} USD
+            </span>
+          </p>
         </Modal>
-      :
+      ) : (
         <Modal
           title="Bạn chưa đăng nhập?"
           className="flex justify-center"
           open={isModalOpen}
-          onOk={()=>setIsModalOpen(false)}
-          onCancel={()=>setIsModalOpen(false)}
+          onOk={() => setIsModalOpen(false)}
+          onCancel={() => setIsModalOpen(false)}
           okButtonProps={{ className: "bg-blue-500" }}
         >
           <p className="p-5">Vui lòng đăng nhập để được thanh toán</p>
         </Modal>
-      }
+      )}
     </div>
   );
 }

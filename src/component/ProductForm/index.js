@@ -38,11 +38,11 @@ export default function ProductForm({
     }
   };
 
-  const deleteProduct = async() => {
-    await axios.delete(
-      `${process.env.REACT_APP_API_URL}/product/delete/${id}`
-    ).then(() => message.success('Xoá sản phẩm thành công'))
-  }
+  const deleteProduct = async () => {
+    await axios
+      .delete(`${process.env.REACT_APP_API_URL}/product/delete/${id}`)
+      .then(() => message.success("Xoá sản phẩm thành công"));
+  };
 
   useEffect(() => {
     fetchCategoryChild();
@@ -53,7 +53,7 @@ export default function ProductForm({
 
   const removeProduct = async () => {
     try {
-      await deleteProduct()
+      await deleteProduct();
       return navigate("/admin/products");
     } catch (err) {
       console.log(err.message);
@@ -145,6 +145,34 @@ export default function ProductForm({
               <ReactQuill className="h-[400px] pb-10" theme="snow" />
             </Form.Item>
           </Col>
+
+          <Col xs={24}>
+            <Row gutter={40}>
+              <Col xs={20}>
+                <Form.Item label={"Link video"} name="link_video">
+                  <Input
+                    size="large"
+                    placeholder={"Nhập"}
+                    className={"!w-full"}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={4}>
+                <Form.Item
+                  label={<div className={"hidden"}>Link video</div>}
+                  name="link_video"
+                >
+                  <CustomUpload
+                    type="file"
+                    accept=".mp4"
+                    multiple
+                    showUploadList={false}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Col>
+
           <Col xs={24}>
             <Form.Item name="product_image" label={"Ảnh slide"}>
               <CustomUpload
