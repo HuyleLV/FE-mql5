@@ -7,6 +7,7 @@ import axios from "axios";
 
 export default function CommentDashboard() {
   const [comments, setComments] = useState([]);
+  
   const fetchcomments = async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/comment/getAll`)
@@ -17,14 +18,9 @@ export default function CommentDashboard() {
       .catch(() => message.error("Error server!"));
   };
 
-  useEffect(() => {
-    fetchcomments();
-  }, []);
-
-
-  const removeProduct = async (id) => {
+  const removeComment = async (id) => {
     await axios.delete(
-      `${process.env.REACT_APP_API_URL}/product/delete/${id}`
+      `${process.env.REACT_APP_API_URL}/comment/delete/${id}`
     ).finally(() => {
       fetchcomments()
       message.success('Xoá thành công')
@@ -37,9 +33,14 @@ export default function CommentDashboard() {
       content: "Bạn có chắc chắn xoá comment này?",
       okText: "Xác nhận",
       cancelText: "Huỷ",
-      onOk: () => removeProduct(id),
+      onOk: () => removeComment(id),
     });
   };
+  
+  useEffect(() => {
+    fetchcomments();
+  }, []);
+
   const columns = [
     {
       title: <div>ID</div>,
@@ -50,11 +51,15 @@ export default function CommentDashboard() {
     },
 
     {
-      title: <div>Id sản phẩm</div>,
-      key: "product_id",
-      dataIndex: "product_id",
+      title: <div>Tên sản phẩm</div>,
+      key: "product_name",
+      dataIndex: "product_name",
       width: 150,
-      render: (_, record) => <div>{record?.product_id}</div>,
+      render: (_, record) => (
+        <div>
+          {record?.product_name}
+        </div>
+      ),
     },
     {
       title: <div>Nội dung</div>,

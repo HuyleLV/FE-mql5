@@ -128,9 +128,9 @@ export default function Header() {
                     />
                   </Dropdown>
 
-                  {/* <div className="ml-[10px] font-bold">
+                  <div className="ml-[10px] font-bold">
                     {cookies.user?.displayName}
-                  </div> */}
+                  </div>
                 </div>
               )}
 

@@ -1,50 +1,69 @@
-import { Table, Row, Col, Button } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { Table, Row, Col, Button, message, Modal, Space } from "antd";
+import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Users } from "../../../database";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link, redirect } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function UsersDashboard() {
+  const [user, setUser] = useState([]);
+  const fetchUser = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/user/getAll`)
+      .then((res) => {
+        const data = res?.data;
+        setUser(data || []);
+      })
+      .catch(() => message.error("Error server!"));
+  };
+
+  const removeUser = async (user_id) => {
+    await axios.delete(
+      `${process.env.REACT_APP_API_URL}/user/delete/${user_id}`
+    ).finally(() => {
+      fetchUser()
+      message.success('Xoá thành công')
+    })
+  };
+  
+  const confirmDelete = (user_id) => {
+    Modal.confirm({
+      icon: <ExclamationCircleOutlined />,
+      content: "Bạn có chắc chắn xoá comment này?",
+      okText: "Xác nhận",
+      cancelText: "Huỷ",
+      onOk: () => removeUser(user_id),
+    });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   const columns = [
     {
       title: <div className={"base-table-cell-label"}>ID</div>,
-      key: "id",
-      dataIndex: "id",
-      width: 100,
-      render: (_, record) => <div>{record?.id}</div>,
+      key: "user_id",
+      dataIndex: "user_id",
+      width: 50,
+      render: (_, record) => <div>{record?.user_id}</div>,
     },
     {
       title: <div className={"base-table-cell-label"}>Họ và Tên</div>,
-      key: "fullName",
-      dataIndex: "fullName",
-      width: 400,
-      render: (_, record) => <div>{record?.fullName}</div>,
-    },
-    {
-      title: <div className={"base-table-cell-label"}>Số phone</div>,
-      key: "phone",
-      dataIndex: "phone",
-      width: 150,
-      render: (_, record) => (
-        <div
-          onClick={() => redirect(`/admin/users/${record?.id}`)}
-          className={"cursor-pointer"}
-        >
-          <div className={"text-[14px] font-normal text"}>{record?.phone}</div>
-        </div>
-      ),
+      key: "displayName",
+      dataIndex: "displayName",
+      width: 280,
+      render: (_, record) => <div>{record?.displayName}</div>,
     },
     {
       title: <div className={"base-table-cell-label"}>Email</div>,
       key: "email",
       dataIndex: "email",
-      width: 200,
+      width: 280,
       render: (_, record) => {
         return (
-          <div
-            className={"cursor-pointer text-[14px] font-normal"}
-            //onClick={() => redirectMaterials(record)}
-          >
+          <div>
             {record?.email}
           </div>
         );
@@ -54,31 +73,25 @@ export default function UsersDashboard() {
       title: <div className={"base-table-cell-label"}>Vài trò</div>,
       key: "role",
       dataIndex: "role",
-      width: 150,
+      width: 280,
       render: (_, record) => {
         return (
-          <div
-            className={"cursor-pointer text-[14px] font-normal"}
-            //onClick={() => redirectMaterials(record)}
-          >
-            {record?.role}
+          <div>
+            {record?.role == 1 ? ("user") : ("Admin")}
           </div>
         );
       },
     },
     {
       title: <div className={"base-table-cell-label "}>Ngày tạo</div>,
-      key: "createdAt",
-      dataIndex: "createdAt",
-      width: 100,
+      key: "create_at",
+      dataIndex: "create_at",
+      width: 280,
       render: (_, record) => {
         return (
-          <div
-            //onClick={() => redirectMaterials(record)}
-            className={"cursor-pointer text-[14px] font-normal"}
-          >
+          <div>
             <span className={"!inline-block min-w-[100px]"}>
-              {dayjsInstance(record?.createdAt).format("DD/MM/YYYY")}
+              {dayjsInstance(record?.create_at).format("DD/MM/YYYY")}
             </span>
           </div>
         );
@@ -90,12 +103,17 @@ export default function UsersDashboard() {
       width: 100,
       render: (_, record) => {
         return (
-          <Link
-            to={`/admin/users/${record?.id}`}
-            className={"text-[var(--blue)]"}
-          >
-            <EditOutlined />
-          </Link>
+          <Space>
+            {/* <Link
+              to={`/admin/users/${record?.user_id}`}
+              className={"text-[var(--blue)] px-8"}
+            >
+              <EditOutlined />
+            </Link> */}
+            <div className={"text-[var(--red)]"} onClick={() => confirmDelete(record?.user_id)}>
+              <DeleteOutlined />
+            </div>
+          </Space>
         );
       },
     },
@@ -108,7 +126,7 @@ export default function UsersDashboard() {
           <div className={"text-[20px] font-medium"}>Người dùng</div>
         </Col>
         <Col>
-          <Link to={"/admin/products/create"}>
+          <Link to={"/admin/users/create"}>
             <Button type={"primary"} onClick={() => {}}>
               Tạo
             </Button>
@@ -117,8 +135,8 @@ export default function UsersDashboard() {
       </Row>
       <Table
         className={"custom-table"}
-        rowKey={(record) => record?.id + ""}
-        dataSource={Users}
+        rowKey={(record) => record?.user_id + ""}
+        dataSource={user}
         columns={columns}
       />
     </>

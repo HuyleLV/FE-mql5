@@ -1,7 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { List, message, Button, Rate } from "antd";
+import { List, message, Button, Rate, Modal } from "antd";
 import { Products } from "../../database";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -15,11 +15,12 @@ export default function MarketDetail() {
   const [cookies] = useCookies(["user"]);
   const params = useParams();
   const { isMobile } = useDevice();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const [rateComment, setRateComment] = useState(5);
   const [comment_content, setcomment_content] = useState("");
 
-  console.log(params);
+  console.log(cookies);
 
   const responsive = {
     superLargeDesktop: {
@@ -38,6 +39,17 @@ export default function MarketDetail() {
       breakpoint: { max: 464, min: 0 },
       items: 1,
     },
+  };
+
+  const handleOk = () => {
+    const transfer = {
+      transfer_content: cookies?.user?.displayName + "chuyen tien",
+      transfer_price: product?.[0].product_price,
+      transfer_status: 1,
+      product_id: product?.[0].product_id,
+      created_by: cookies?.user.user_id
+    }
+    setIsModalOpen(false);
   };
 
   const fetchproduct = async () => {
@@ -222,7 +234,7 @@ export default function MarketDetail() {
             <p className="text-[#42639c] font-bold pt-4">
               {product?.[0].product_price} USD
             </p>
-            <button className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]">
+            <button className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]" onClick={()=>setIsModalOpen(true)}>
               Buy: {product?.[0].product_price} USD
             </button>
             <a href={product?.[0].product_link}>
@@ -361,6 +373,31 @@ export default function MarketDetail() {
           </div>
         </div>
       </div>
+      {cookies?.user ?
+        <Modal
+          title="Thanh toán qua mã QR"
+          className="flex justify-center"
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={()=>setIsModalOpen(false)}
+          okButtonProps={{ className: "bg-blue-500" }}
+        >
+          <img src={"https://vinacheck.vn/media/2019/05/ma-qr-code_vinacheck.vm_001.jpg"} className="p-5"/>
+          <p className="p-5 text-lg">Nội dung CK: <span className="font-bold p-5 text-xl">{cookies?.user?.displayName} chuyen tien</span></p>
+          <p className="px-5 pb-5 text-lg">Giá: <span className="font-bold p-5 text-xl text-red-500">{product?.[0].product_price} USD</span></p>
+        </Modal>
+      :
+        <Modal
+          title="Bạn chưa đăng nhập?"
+          className="flex justify-center"
+          open={isModalOpen}
+          onOk={()=>setIsModalOpen(false)}
+          onCancel={()=>setIsModalOpen(false)}
+          okButtonProps={{ className: "bg-blue-500" }}
+        >
+          <p className="p-5">Vui lòng đăng nhập để được thanh toán</p>
+        </Modal>
+      }
     </div>
   );
 }
