@@ -20,8 +20,6 @@ export default function MarketDetail() {
   const [rateComment, setRateComment] = useState(5);
   const [comment_content, setcomment_content] = useState("");
 
-  console.log(cookies);
-
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -67,7 +65,6 @@ export default function MarketDetail() {
       .get(`${process.env.REACT_APP_API_URL}/comment/getById/${params?.id}`)
       .then((res) => {
         const data = res?.data;
-        console.log(data);
         setComment(data);
       })
       .catch(() => message.error("Error server!"));
@@ -80,8 +77,6 @@ export default function MarketDetail() {
       product_id: params?.id,
       create_by: cookies?.user.user_id,
     };
-
-    console.log(value);
 
     await axios
       .post(`${process.env.REACT_APP_API_URL}/comment/create`, value)
@@ -215,6 +210,7 @@ export default function MarketDetail() {
       fetchproduct();
       fetchcomment();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.id]);
 
   const productLink = useMemo(() => {
@@ -225,15 +221,15 @@ export default function MarketDetail() {
 
   const linkVideo = useMemo(() => {
     const link = productLink?.filter((i) => i?.type === "video");
-    return link?.[0]?.data;
+    const data = link?.[0]?.data;
+    return data !== "" ? data : undefined;
   }, [productLink]);
 
-  const linkProduct = useMemo(() => {
+  const linkImage = useMemo(() => {
     const link = productLink?.filter((i) => i?.type === "image");
     return link?.[0]?.data;
   }, [productLink]);
 
-  console.log("linkProduct", linkProduct);
   return (
     <div className="max-w-screen-2xl items-center mx-auto pt-10">
       <p className="font-semibold p-5 text-xl">
@@ -258,7 +254,7 @@ export default function MarketDetail() {
             >
               Buy: {product?.[0].product_price} USD
             </button>
-            <a href={product?.[0].product_link}>
+            <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
               <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
                 Free Demo
               </button>
@@ -334,13 +330,12 @@ export default function MarketDetail() {
                   className="h-[250px] w-[400px]"
                   src={linkVideo}
                   title="Quantum Emperor"
-                  frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
                 ></iframe>
               )}
-              {linkProduct &&
-                linkProduct?.map((i) => {
+              {linkImage &&
+                linkImage?.map((i) => {
                   return (
                     <div>
                       <img alt="icon" src={i} className="h-[250px] max-w-xl" />

@@ -166,7 +166,7 @@ export default function ProductForm({
                     type="file"
                     accept=".mp4"
                     multiple
-                    showUploadList={false}
+                    //showUploadList={false}
                   />
                 </Form.Item>
               </Col>

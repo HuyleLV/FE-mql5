@@ -1,8 +1,7 @@
-import { Table, Row, Col, Button, message, Modal, Space } from "antd";
-import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import { Users } from "../../../database";
+import { Table, Row, Col, Button, message, Modal, Space, Select } from "antd";
+import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -19,14 +18,14 @@ export default function UsersDashboard() {
   };
 
   const removeUser = async (user_id) => {
-    await axios.delete(
-      `${process.env.REACT_APP_API_URL}/user/delete/${user_id}`
-    ).finally(() => {
-      fetchUser()
-      message.success('Xoá thành công')
-    })
+    await axios
+      .delete(`${process.env.REACT_APP_API_URL}/user/delete/${user_id}`)
+      .finally(() => {
+        fetchUser();
+        message.success("Xoá thành công");
+      });
   };
-  
+
   const confirmDelete = (user_id) => {
     Modal.confirm({
       icon: <ExclamationCircleOutlined />,
@@ -41,6 +40,21 @@ export default function UsersDashboard() {
     fetchUser();
   }, []);
 
+  const updateUser = async (value, id) => {
+    console.log("values", value, id);
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/user/update/${id}`)
+      .finally(() => {
+        fetchUser();
+        message.success("Cập nhập thành công!");
+      });
+    
+  };
+
+  const optionRole = [
+    { value: 1, label: "User" },
+    { value: 2, label: "Admin" },
+  ];
   const columns = [
     {
       title: <div className={"base-table-cell-label"}>ID</div>,
@@ -62,11 +76,7 @@ export default function UsersDashboard() {
       dataIndex: "email",
       width: 280,
       render: (_, record) => {
-        return (
-          <div>
-            {record?.email}
-          </div>
-        );
+        return <div>{record?.email}</div>;
       },
     },
     {
@@ -77,7 +87,12 @@ export default function UsersDashboard() {
       render: (_, record) => {
         return (
           <div>
-            {record?.role == 1 ? ("user") : ("Admin")}
+            <Select
+              options={optionRole}
+              className={"w-[100px]"}
+              defaultValue={record?.role}
+              onChange={(value) => updateUser(value, record?.user_id)}
+            />
           </div>
         );
       },
@@ -104,13 +119,10 @@ export default function UsersDashboard() {
       render: (_, record) => {
         return (
           <Space>
-            {/* <Link
-              to={`/admin/users/${record?.user_id}`}
-              className={"text-[var(--blue)] px-8"}
+            <div
+              className={"text-[var(--red)]"}
+              onClick={() => confirmDelete(record?.user_id)}
             >
-              <EditOutlined />
-            </Link> */}
-            <div className={"text-[var(--red)]"} onClick={() => confirmDelete(record?.user_id)}>
               <DeleteOutlined />
             </div>
           </Space>
