@@ -233,6 +233,7 @@ export default function MarketDetail() {
     return link?.[0]?.data;
   }, [productLink]);
 
+  console.log("linkProduct", linkProduct);
   return (
     <div className="max-w-screen-2xl items-center mx-auto pt-10">
       <p className="font-semibold p-5 text-xl">
@@ -326,26 +327,28 @@ export default function MarketDetail() {
             }}
           ></div>
 
-          <Carousel responsive={responsive} className="p-5">
-            {linkVideo && (
-              <iframe
-              className="h-[250px] w-[400px]"
-              src={linkVideo}
-              title="Quantum Emperor"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            ></iframe>
-            )}
-            {linkProduct && linkProduct?.map((i) => {
-              return (
-                <div>
-                  <img alt="icon" src={i} className="h-[250px] max-w-xl" />
-                </div>
-              )
-            }) 
-          }
-          </Carousel>
+          {productLink && (
+            <Carousel responsive={responsive} className="p-5">
+              {linkVideo && (
+                <iframe
+                  className="h-[250px] w-[400px]"
+                  src={linkVideo}
+                  title="Quantum Emperor"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              )}
+              {linkProduct &&
+                linkProduct?.map((i) => {
+                  return (
+                    <div>
+                      <img alt="icon" src={i} className="h-[250px] max-w-xl" />
+                    </div>
+                  );
+                })}
+            </Carousel>
+          )}
 
           <div>
             <p className="font-semibold text-2xl p-5">Comment</p>
