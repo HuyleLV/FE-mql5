@@ -1,13 +1,16 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { List, message, Button, Rate, Modal } from "antd";
+import { List, message, Button, Rate, Modal, Upload } from "antd";
 import { Products } from "../../database";
 import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
 import { useDevice } from "../../hooks";
 import { useCookies } from "react-cookie";
 import dayjs from "dayjs";
+import parse from "html-react-parser";
+import { InboxOutlined } from "@ant-design/icons";
+import CustomUpload from "../../component/customUpload";
 
 export default function MarketDetail() {
   const [product, setProduct] = useState();
@@ -16,9 +19,12 @@ export default function MarketDetail() {
   const params = useParams();
   const { isMobile } = useDevice();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [hide, setHide] = useState(false);
   const [rateComment, setRateComment] = useState(5);
   const [comment_content, setcomment_content] = useState("");
+  const [imgTransfer, setImgTransfer] = useState("");
+
+  console.log(imgTransfer);
 
   const responsive = {
     superLargeDesktop: {
@@ -39,15 +45,27 @@ export default function MarketDetail() {
     },
   };
 
-  const handleOk = () => {
-    const transfer = {
-      transfer_content: cookies?.user?.displayName + "chuyen tien",
-      transfer_price: product?.[0].product_price,
-      transfer_status: 1,
-      product_id: product?.[0].product_id,
-      created_by: cookies?.user.user_id,
-    };
-    setIsModalOpen(false);
+  const handleOk = async () => {
+    if(imgTransfer !== "") {
+      const transfer = {
+        transfer_content: cookies?.user?.displayName + " chuyen tien",
+        transfer_price: product?.[0].product_price,
+        transfer_status: 1,
+        transfer_image: imgTransfer,
+        product_id: product?.[0].product_id,
+        create_by: cookies?.user.user_id,
+      };
+  
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/transfer/create`, transfer)
+        .then((res) => {
+          message.success("Gửi lệnh chuyển tiền thành công!")
+          setIsModalOpen(false);
+        })
+        .catch(() => message.error("Error server!"));
+    } else {
+      message.error("Bạn chưa tải ảnh chứng minh lên!")
+    }
   };
 
   const fetchproduct = async () => {
@@ -316,13 +334,23 @@ export default function MarketDetail() {
               </span>
             </p>
           </div>
-          <div
-            className="p-5"
-            dangerouslySetInnerHTML={{
-              __html: product?.[0].product_description,
-            }}
-          ></div>
-
+          {
+            hide === true 
+            ?
+              <div className="p-5">
+                <div className="max-w-full truncate">
+                  {parse(String(product?.[0].product_description))}
+                </div>
+                <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Hide</button>
+              </div>
+            :
+              <div className="p-5">
+                <div className="h-40 max-w-full truncate">
+                  {parse(String(product?.[0].product_description))}
+                </div>
+                <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
+              </div>
+          }
           {productLink && (
             <Carousel responsive={responsive} className="p-5">
               {linkVideo && (
@@ -420,30 +448,38 @@ export default function MarketDetail() {
       {cookies?.user ? (
         <Modal
           title="Thanh toán qua mã QR"
-          className="flex justify-center"
+          className="grid justify-items-center"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={() => setIsModalOpen(false)}
           okButtonProps={{ className: "bg-blue-500" }}
         >
-          <img
-            src={
-              "https://vinacheck.vn/media/2019/05/ma-qr-code_vinacheck.vm_001.jpg"
-            }
-            className="p-5"
-          />
-          <p className="p-5 text-lg">
+          <center>
+            <img
+              src={
+                "https://vinacheck.vn/media/2019/05/ma-qr-code_vinacheck.vm_001.jpg"
+              }
+              className="w-[300px] h-[300px]"
+            />
+          </center>
+          <p className="px-5 py-3 text-lg">
             Nội dung CK:{" "}
             <span className="font-bold p-5 text-xl">
               {cookies?.user?.displayName} chuyen tien
             </span>
           </p>
-          <p className="px-5 pb-5 text-lg">
+          <p className="px-5 pb-3 text-lg">
             Giá:{" "}
             <span className="font-bold p-5 text-xl text-red-500">
               {product?.[0].product_price} USD
             </span>
           </p>
+          <div className="px-5">
+            <p className="text-lg">Thêm ảnh chứng minh:</p>
+            <div className="px-5 flex justify-center py-3">
+              <p className="flex justify-center"><CustomUpload type="image" accept=".png, .jpg, .jpeg, .jfif" onChange={(transfer_image)=>setImgTransfer(transfer_image)} value={imgTransfer}/></p>
+            </div>
+          </div>
         </Modal>
       ) : (
         <Modal

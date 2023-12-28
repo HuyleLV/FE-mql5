@@ -53,8 +53,8 @@ export default function Market() {
                     <div className="flex justify-center  w-full">
                       <img alt="avata-product" src={"/image/ae.png"} />
                     </div>
-                    <p className="p-1 font-semibold">{item?.product_name}</p>
-                    <div className="flex items-center justify-center pt-[8px] pb-[16px]">
+                    <p className="p-1 h-10 font-semibold text-black">{item?.product_name}</p>
+                    <div className="flex items-center justify-center py-[16px]">
                       {[1, 2, 3, 4, 5]?.map((i) => {
                         return (
                           <img
@@ -238,23 +238,7 @@ export default function Market() {
               {renderMenuItem()}
             </Col>
             <Col xs={24} sm={20}>
-              <div className=" border w-full">
-                <div className="p-5 flex">
-                  <input
-                    type="text"
-                    name="search"
-                    className="block w-full border p-2"
-                    placeholder="Search"
-                  />
-                  <select className="border">
-                    <option value="" className="font-semibold" selected>
-                      MetaTrader 5
-                    </option>
-                    <option value="" className="font-semibold">
-                      MetaTrader 4
-                    </option>
-                  </select>
-                </div>
+              <div className=" border w-full p-5">
                 <Tabs
                   className={"ml-[20px] !rounded-none"}
                   type="card"

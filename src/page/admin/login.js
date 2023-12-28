@@ -1,11 +1,31 @@
 import React from "react";
-import { Form, Input, Button, Row, Col } from "antd";
+import { Form, Input, Button, Row, Col, message } from "antd";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export default function LoginAdmin() {
     const [form] = Form.useForm();
-    const username = Form.useWatch('username', form);
+    const email = Form.useWatch('email', form);
+    const password = Form.useWatch('password', form);
+    const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies(['admin']);
+    
+    const loginAd = async () => {
+        const value = {
+            email: email,
+            password: password
+        };
 
-    console.log(username);
+        await axios
+            .post(`${process.env.REACT_APP_API_URL}/admin/login`, value)
+            .then((res) => {
+                setCookie("admin", res?.data[0]);
+                message.success("Đăng nhập thành công!");
+                navigate("/admin");
+            })
+            .catch(() => message.error("Tài khoản hoặc mật khẩu không đúng!"));
+    };
 
     return (
         <div className="py-20">
@@ -17,29 +37,30 @@ export default function LoginAdmin() {
             <Row justify={"center"} align={"middle"} style={{ height: "300px" }}>
                 <Col lg={14} xs={22} style={{ maxWidth: 380 }}>
                 <Form form={form} name="basic" layout={"vertical"} colon={false}>
-                    <Form.Item name="username">
-                    <Input
-                        className="!rounded-none p-[10px]"
-                        size={"large"}
-                        placeholder="Login"
-                    />
+                    <Form.Item name="email">
+                        <Input
+                            className="!rounded-none p-[10px]"
+                            size={"large"}
+                            placeholder="Email"
+                        />
                     </Form.Item>
                     <Form.Item name="password" className="mt-[-6px]">
-                    <Input.Password
-                        className="!rounded-none p-[10px]"
-                        size={"large"}
-                        placeholder="Password"
-                    />
+                        <Input.Password
+                            className="!rounded-none p-[10px]"
+                            size={"large"}
+                            placeholder="Password"
+                        />
                     </Form.Item>
 
                     <Form.Item>
-                    <Button
-                        className="!rounded-none !w-full !h-[50px] bg-[var(--yellow)]"
-                        size={"large"}
-                        htmlType="submit"
-                    >
-                        <span>Login</span>
-                    </Button>
+                        <Button
+                            className="!rounded-none !w-full !h-[50px] bg-[var(--yellow)]"
+                            size={"large"}
+                            htmlType="submit"
+                            onClick={loginAd}
+                        >
+                            <span>Login</span>
+                        </Button>
                     </Form.Item>
                 </Form>
                 </Col>

@@ -1,22 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Image, Row, Col, Space } from "antd";
+import { Form, Input, Button, Image, Row, Col, Space, Table } from "antd";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import dayjs from "dayjs";
+import dayjsInstance from "../../utils/dayjs";
+import { WarningOutlined } from "@ant-design/icons";
 
 export default function ProfilePage() {
   const [cookies] = useCookies(["user"]);
   const [form] = Form.useForm();
   const [profile, setProfile] = useState({});
+  const [transfer, setTransfer] = useState([]);
   const [editProfile, setEditProfile] = useState(false);
 
   console.log('cookies', cookies, profile)
   const fetchProfile = async () => {
     await axios
       .get(
-        `${process.env.REACT_APP_API_URL}/user/getByEmail/${cookies.user.email}`
+        `${process.env.REACT_APP_API_URL}/user/getByEmail/${cookies.user?.email}`
       )
       .then(({ data }) => {
         if (data) setProfile({ ...data?.[0] });
+      });
+  };
+
+  const fetchTransfer = async () => {
+    await axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/transfer/getByIdUser/${cookies.user?.user_id}`
+      )
+      .then(( res ) => {
+        const data = res?.data;
+        setTransfer(data);
       });
   };
 
@@ -28,6 +43,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetchProfile();
+    fetchTransfer()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -42,13 +58,98 @@ export default function ProfilePage() {
         setEditProfile(false);
       });
   };
+
+
+  const columns = [
+    {
+      title: <div>ID</div>,
+      key: "transfer_id",
+      dataIndex: "transfer_id",
+      width: 50,
+      render: (_, record) => <div>{record?.transfer_id}</div>,
+    },
+    {
+      title: <div>Nội dung</div>,
+      key: "transfer_content",
+      dataIndex: "transfer_content",
+      width: 160,
+      render: (_, record) => <div>{record?.transfer_content}</div>,
+    },
+    {
+      title: <div>Giá</div>,
+      key: "transfer_price",
+      dataIndex: "transfer_price",
+      width: 160,
+      render: (_, record) => <div>{record?.transfer_price}</div>,
+    },
+    {
+      title: <div>Trạng thái</div>,
+      key: "transfer_status",
+      dataIndex: "transfer_status",
+      width: 160,
+      render: (_, record) => (
+        <div>
+          {record?.transfer_status === "1" ?
+            <p className="font-bold text-yellow-500">Đang chờ xác nhận</p>
+            : <p className="font-bold text-green-500">Đã xác nhận</p>
+          }
+        </div>
+      ),
+    },
+    {
+      title: <div>Ảnh</div>,
+      key: "transfer_price",
+      dataIndex: "transfer_price",
+      width: 160,
+      render: (_, record) => <div><img src={record?.transfer_image} className="h-20"/></div>,
+    },
+    {
+      title: <div>Sản phẩm</div>,
+      key: "product_id",
+      dataIndex: "product_id",
+      width: 160,
+      render: (_, record) => <div>{record?.product_id}</div>,
+    },,
+    {
+      title: <div className={"base-table-cell-label "}>Ngày tạo</div>,
+      key: "create_at",
+      dataIndex: "create_at",
+      width: 160,
+      render: (_, record) => {
+        return (
+          <div>
+            <span className={"!inline-block min-w-[100px]"}>
+              {dayjsInstance(record?.create_at).format("DD/MM/YYYY")}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      key: "operation",
+      dataIndex: "operation",
+      width: 50,
+      render: (_, record) => {
+        return (
+          <Space>
+            <div
+              className={"text-[var(--red)]"}
+            >
+              <WarningOutlined />
+            </div>
+          </Space>
+        );
+      },
+    }
+  ];
+
   return (
     <div className="my-[60px]">
       <Row justify={"center"} align={"middle"}>
         <Col
           lg={20}
           xs={24}
-          className="p-[20px] border border-[var(--mid-gray)]"
+          className="p-[20px] border border-[var(--mid-gray)] rounded"
         >
           <Row gutter={20}>
             <Col>
@@ -109,6 +210,18 @@ export default function ProfilePage() {
               </Space>
             </Col>
           </Form>
+        </Col>
+        <Col
+          lg={20}
+          xs={24}
+          className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
+        >
+          <Table 
+            className={"custom-table"}
+            rowKey={(record) => record?.transfer_id + ""}
+            dataSource={transfer} 
+            columns={columns} 
+          />
         </Col>
       </Row>
     </div>

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CategoryForm from "../../../component/Category";
+import { useCookies } from "react-cookie";
 
 export default function CategoryDetail() {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ export default function CategoryDetail() {
   const [initialValues, setInitialValues] = useState({});
   const params = useParams();
   const id = params?.id;
+  const [cookies, setCookie, removeCookie] = useCookies(['admin']);
+
 
   const fetchCategory = async () => {
     await axios
@@ -47,6 +50,7 @@ export default function CategoryDetail() {
   const onSubmit = async (values) => {
     const submitValues = {
       ...values,
+      create_by: cookies.admin?.user_id
     };
 
     try {

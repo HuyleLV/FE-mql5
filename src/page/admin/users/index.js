@@ -41,9 +41,8 @@ export default function UsersDashboard() {
   }, []);
 
   const updateUser = async (value, id) => {
-    console.log("values", value, id);
     await axios
-      .post(`${process.env.REACT_APP_API_URL}/user/update/${id}`)
+      .post(`${process.env.REACT_APP_API_URL}/user/update/${id}`, {role: value})
       .finally(() => {
         fetchUser();
         message.success("Cập nhập thành công!");

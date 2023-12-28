@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProductForm } from "../../../component";
 import { parseSafe } from "../../../helper";
+import { useCookies } from "react-cookie";
 
 export default function ProductsDetail() {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ export default function ProductsDetail() {
   const [initialValues, setInitialValues] = useState({});
   const params = useParams();
   const id = params?.id;
+  const [cookies, setCookie, removeCookie] = useCookies(['admin']);
 
   const fetchProduct = async () => {
     await axios
@@ -64,6 +66,7 @@ export default function ProductsDetail() {
     const submitValues = {
       ...values,
       product_image: coverString,
+      create_by: cookies.admin?.user_id
     };
 
     try {
