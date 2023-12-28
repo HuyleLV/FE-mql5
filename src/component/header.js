@@ -109,7 +109,7 @@ export default function Header() {
                 </div>
               </Link>
               <Link
-                href=""
+                to="/register"
                 className="flex items-center justify-center w-[135px] h-[26px] bg-[#edbd37] rounded-[3px] max-sm:hidden text-black"
               >
                 Create an account

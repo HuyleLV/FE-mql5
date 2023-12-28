@@ -1,11 +1,9 @@
 import React from "react";
 import { Form, Input, Button, Row, Col } from "antd";
 import { Link } from "react-router-dom";
-import { StyleProvider } from "@ant-design/cssinjs";
 
 const Login = () => {
     return (
-    <StyleProvider hashPriority="high">
       <div>
         <div className="mb-[10px]">
           <div className="pt-[20px] text-[40px] text-[var(--red)] flex justify-center">
@@ -16,7 +14,7 @@ const Login = () => {
           </div>
           <div className="flex justify-center">
             If you do not have an account, please &nbsp;
-            <Link href="#" className="text-[var(--blue)] underline">
+            <Link to="/register" className="text-[var(--blue)] underline">
               register
             </Link>
           </div>
@@ -41,9 +39,7 @@ const Login = () => {
               <div className="text-[#42639c] mt-[-12px] mb-[10px]">
                 <Link href="#">Forgot your login/password?</Link>
               </div>
-
-              <Form.Item>
-                <Button
+              <Button
                   className="!rounded-none !w-full !h-[50px] bg-[var(--yellow)]"
                   size={"large"}
                   htmlType="submit"
@@ -53,18 +49,17 @@ const Login = () => {
 
                 <Link to={`${process.env.REACT_APP_API_URL}/auth/google`}>
                   <Button
-                    className="!rounded-none !w-full !h-[50px] bg-[var(--content)] mt-[20px] before:bg-[var(--yellow)]"
+                   className="bg-blue-500 text-white"
+                   style={{ background: 'var(--yellow)', width: '100%', height: 50, borderRadius: 0, marginTop: 10 }}
                     size={"large"}
                   >
                     <span>Log in With Google</span>
                   </Button>
                 </Link>
-              </Form.Item>
             </Form>
           </Col>
         </Row>
       </div>
-    </StyleProvider>
   );
 };
 

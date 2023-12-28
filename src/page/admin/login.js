@@ -54,7 +54,7 @@ export default function LoginAdmin() {
 
                     <Form.Item>
                         <Button
-                            className="!rounded-none !w-full !h-[50px] bg-[var(--yellow)]"
+                            style={{ background: 'var(--yellow)', width: '100%', height: 50, borderRadius: 0 }}
                             size={"large"}
                             htmlType="submit"
                             onClick={loginAd}
