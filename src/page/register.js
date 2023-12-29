@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Row, Col, Image, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,17 +6,31 @@ import axios from "axios";
 const Register = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [loadding, setLoadding] = useState(false)
 
   const onSubmit = async (values) => {
     await axios
       .post(`${process.env.REACT_APP_API_URL}/user/create`, values)
-      .then((res) => {
-        if (res) return navigate(`/register/accept?email=${values?.email}`);
+      .then(async (res) => {
+        await handleSendMail(values?.email);
       })
       .catch(({ response }) => {
         message.error(response?.data?.message);
       });
   };
+  const handleSendMail = async (email) => {
+    setLoadding(true)
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/auth/send-mail?email=${email}`)
+      .then((res) => {
+        message.success(res?.data?.message);
+        return navigate(`/register/accept?email=${email}`);
+      })
+      .catch(({ response }) => {
+        message.error(response?.data?.message);
+      }).finally(() => setLoadding(false))
+  };
+
   return (
     <div className={"bg-[#f5f8fd]"}>
       <Row gutter={40} className={"p-[40px]"}>
@@ -74,6 +88,7 @@ const Register = () => {
               }}
               size={"large"}
               htmlType="submit"
+              loading={loadding}
             >
               <span>Register</span>
             </Button>
@@ -87,6 +102,7 @@ const Register = () => {
                   borderRadius: 0,
                   marginTop: 10,
                 }}
+                loading={loadding}
               >
                 <span>Log in With Google</span>
               </Button>

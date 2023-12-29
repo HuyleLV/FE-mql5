@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
-import { Form, Input, Button, Row, Col, Image } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { Form, Input, Button, Row, Col, Image, message } from "antd";
+import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const AcceptEmail = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParams = queryString.parse(location.search);
   const [form] = Form.useForm();
+  const [cookies ,setCookie] = useCookies(['user']);
 
    useEffect(() => {
       if (Object.keys(queryParams)?.length > 0) {
@@ -14,7 +18,18 @@ const AcceptEmail = () => {
       }
     }, [form, queryParams]);
 
-  console.log("hello", queryParams);
+  const onSubmit = async (values) => {
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/auth/login`, values)
+      .then(async ({ data }) => {
+        setCookie('user', data.data[0]);
+        return navigate(`/`);   
+      })
+      .catch(({ response }) => {
+        message.error(response?.data?.message);
+      });
+  }
+
   return (
     <div className="m-[60px]">
       <Row justify={"center"}>
@@ -50,8 +65,9 @@ const AcceptEmail = () => {
             form={form}
             colon={false}
             initialValues={queryParams}
+            onFinish={onSubmit}
           >
-            <Form.Item name="username">
+            <Form.Item name="email">
               <Input
                 className="!rounded-none p-[10px]"
                 size={"large"}
@@ -65,8 +81,7 @@ const AcceptEmail = () => {
                 placeholder="Password"
               />
             </Form.Item>
-            <Link to={`${process.env.REACT_APP_API_URL}/auth/google`}>
-              <Button
+            <Button
                 className="bg-blue-500 text-white"
                 style={{
                   background: "#43b344",
@@ -75,13 +90,13 @@ const AcceptEmail = () => {
                   borderRadius: 0,
                   marginTop: 10,
                 }}
+                htmlType="submit"
                 size={"large"}
               >
                 <span className="text-white font-semibold text-[18px]">
                   Activte account
                 </span>
               </Button>
-            </Link>
           </Form>
         </Col>
       </Row>
