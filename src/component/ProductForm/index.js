@@ -115,14 +115,14 @@ export default function ProductForm({
         </Form.Item>
         <Row gutter={40}>
           <Col xs={24} lg={12}>
-            <Form.Item label={"Danh mục con"} name="categoryChild_id">
+            <Form.Item label={"[Danh mục cha] Danh mục con"} name="categoryChild_id">
               <Select
                 showSearch
                 size="large"
                 placeholder="Nhập"
                 options={categoryChild?.map((value) => ({
                   value: value.categoryChild_id,
-                  label: value.categoryChild_name,
+                  label: "["+ value.category_name + "] " + value.categoryChild_name,
                 }))}
               />
             </Form.Item>
