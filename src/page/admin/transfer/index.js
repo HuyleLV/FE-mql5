@@ -119,6 +119,13 @@ export default function TransferDashboard() {
       ),
     },
     {
+      title: <div>Người tạo</div>,
+      key: "displayName",
+      dataIndex: "displayName",
+      width: 200,
+      render: (_, record) => <div>{record?.displayName}</div>,
+    },
+    {
       title: <div className={"base-table-cell-label "}>Ngày tạo</div>,
       key: "create_at",
       dataIndex: "create_at",

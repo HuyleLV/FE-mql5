@@ -66,6 +66,19 @@ export default function CategoryChildDashboard() {
       },
     },
     {
+      title: <div>Danh mục cha</div>,
+      key: "category_name",
+      dataIndex: "category_name",
+      width: 150,
+      render: (_, record) => {
+        return (
+          <div className={"cursor-pointer text-[14px] font-normal"}>
+            {record?.category_name}
+          </div>
+        );
+      },
+    },
+    {
       title: <div className={"base-table-cell-label "}>Ngày tạo</div>,
       key: "createdAt",
       dataIndex: "createdAt",
@@ -75,6 +88,21 @@ export default function CategoryChildDashboard() {
           <div className={"cursor-pointer text-[14px] font-normal"}>
             <span className={"!inline-block min-w-[100px]"}>
               {dayjsInstance(record?.createdAt).format("DD/MM/YYYY")}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      title: <div className={"base-table-cell-label "}>Người tạo</div>,
+      key: "displayName",
+      dataIndex: "displayName",
+      width: 100,
+      render: (_, record) => {
+        return (
+          <div className={"cursor-pointer text-[14px] font-normal"}>
+            <span className={"!inline-block min-w-[100px]"}>
+              {record?.displayName}
             </span>
           </div>
         );

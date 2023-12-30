@@ -1,4 +1,4 @@
-import { Table, message, Space, Row, Col, Modal } from "antd";
+import { Table, message, Space, Row, Col, Modal, Rate } from "antd";
 import { ExclamationCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
@@ -54,7 +54,7 @@ export default function CommentDashboard() {
       title: <div>Tên sản phẩm</div>,
       key: "product_name",
       dataIndex: "product_name",
-      width: 150,
+      width: 200,
       render: (_, record) => (
         <div>
           {record?.product_name}
@@ -65,21 +65,28 @@ export default function CommentDashboard() {
       title: <div>Nội dung</div>,
       key: "comment_content",
       dataIndex: "comment_content",
-      width: 250,
+      width: 200,
       render: (_, record) => <div>{record?.comment_content}</div>,
+    },
+    {
+      title: <div>Đánh giá</div>,
+      key: "comment_star",
+      dataIndex: "comment_star",
+      width: 200,
+      render: (_, record) => <div><Rate allowHalf value={record?.comment_star} disabled /></div>,
     },
     {
       title: <div>Người tạo</div>,
       key: "displayName",
       dataIndex: "displayName",
-      width: 250,
+      width: 200,
       render: (_, record) => <div>{record?.displayName}</div>,
     },
     {
       title: <div className={"base-table-cell-label "}>Ngày tạo</div>,
       key: "create_at",
       dataIndex: "create_at",
-      width: 100,
+      width: 200,
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>

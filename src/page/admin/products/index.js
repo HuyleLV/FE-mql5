@@ -33,14 +33,14 @@ export default function ProductsDashboard() {
       title: <div>Tên</div>,
       key: "product_name",
       dataIndex: "product_name",
-      width: 150,
+      width: 200,
       render: (_, record) => <div>{record?.product_name}</div>,
     },
     {
       title: <div>Slug</div>,
       key: "product_slug",
       dataIndex: "product_slug",
-      width: 150,
+      width: 200,
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>
@@ -53,7 +53,7 @@ export default function ProductsDashboard() {
       title: <div>Giá</div>,
       key: "product_price",
       dataIndex: "product_price",
-      width: 150,
+      width: 200,
       render: (_, record) => (
         <div className={"cursor-pointer"}>
           <div className={"text-[14px] font-normal text"}>
@@ -74,6 +74,13 @@ export default function ProductsDashboard() {
           </div>
         );
       },
+    },
+    {
+      title: <div>Người tạo</div>,
+      key: "displayName",
+      dataIndex: "displayName",
+      width: 200,
+      render: (_, record) => <div>{record?.displayName}</div>,
     },
     {
       title: <div className={"base-table-cell-label "}>Ngày tạo</div>,

@@ -9,10 +9,11 @@ export default function CategoriesDashboard() {
   const [categories, setCategories] = useState([]);
   const fetchcategories = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/category/getAll`)
+      .get(`${process.env.REACT_APP_API_URL}/category/getAllAdmin`)
       .then((res) => {
         const data = res?.data;
         setCategories(data);
+        console.log(data);
       })
       .catch(() => message.error("Error server!"));
   };
@@ -60,6 +61,21 @@ export default function CategoriesDashboard() {
           <div className={"cursor-pointer text-[14px] font-normal"}>
             <span className={"!inline-block min-w-[100px]"}>
               {dayjsInstance(record?.create_at).format("DD/MM/YYYY")}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      title: <div className={"base-table-cell-label "}>Người tạo</div>,
+      key: "displayName",
+      dataIndex: "displayName",
+      width: 100,
+      render: (_, record) => {
+        return (
+          <div className={"cursor-pointer text-[14px] font-normal"}>
+            <span className={"!inline-block min-w-[100px]"}>
+              {record?.displayName}
             </span>
           </div>
         );
