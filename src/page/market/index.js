@@ -14,7 +14,7 @@ export default function Market() {
 
   const fetchProducts = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/product/getAll`)
+      .get(`${process.env.REACT_APP_API_URL}/product/getAllMarket`)
       .then((res) => {
         const data = res?.data;
         setProducts(data || []);
@@ -38,92 +38,103 @@ export default function Market() {
     console.log(category);
   }, []);
 
-  const renderItem = (item) => {
-    return (
-      <List.Item >
-        <List.Item.Meta
-          description={
-            <>
-              <div className="relative group overflow-hidden hover:overflow-visible item-container">
-                <Link
-                  to={`/market/${item?.product_id}`}
-                  className="item-product group-hover:relative group-hover:opacity-0 group-hover:z-[3]"
-                >
-                  <div className="text-center border">
-                    <div className="flex justify-center  w-full">
-                      <img alt="avata-product" src={"/image/ae.png"} />
-                    </div>
-                    <p className="p-1 h-10 font-semibold text-black">{item?.product_name}</p>
-                    <div className="flex items-center justify-center py-[16px]">
-                      {[1, 2, 3, 4, 5]?.map((i) => {
-                        return (
-                          <img
-                            id={i}
-                            alt="icon-star"
-                            src={"/image/star.png"}
-                            className="w-[10px] h-[10px]"
-                          />
-                        );
-                      })}
-                    </div>
-                    <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
-                      ${item?.product_price} <span>USD</span>
-                    </p>
-                  </div>
-                </Link>
-                <div
-                  className="absolute z-[2] duration-200 info-item
-                        top-0 left-0 w-0
-                        bg-white p-0
-                        pb-0 max-w-[calc(200%_+_20px)] h-full 
-                        overflow-y-hidden transition-all"
-                >
-                  <div className="flex flex-col justify-between h-full">
-                    <div>
-                      <div className="flex relative z-[1]">
-                        <img
-                          src={"/image/ae.png"}
-                          alt={item?.product_name}
-                          className="w-[36px] h-[36px] object-cover"
-                        />
+  const renderItem = () => {
+    return products?.map((item) => {
+      return (
+        <>
+          <p className="font-semibold p-5 text-2xl">{item?.category_name}</p>
+          <List dataSource={item?.product} grid={{ gutter: 20, column: 6 }}
+            renderItem={(i)=> (
+              <List.Item>
+                <>
+                  <div className="relative group overflow-hidden hover:overflow-visible item-container">
+                    <Link
+                      to={`/market/${i?.product_id}`}
+                      className="item-product group-hover:relative group-hover:opacity-0 group-hover:z-[3]"
+                    >
+                      <div className="text-center border">
+                        <div className="flex justify-center  w-full">
+                          <img alt="avata-product" src={"/image/ae.png"} />
+                        </div>
+                        <p className="p-1 h-10 font-semibold text-black">{i?.product_name}</p>
+                        <div className="flex items-center justify-center py-[16px]">
+                          {[1, 2, 3, 4, 5]?.map((i) => {
+                            return (
+                              <img
+                                id={i}
+                                alt="icon-star"
+                                src={"/image/star.png"}
+                                className="w-[10px] h-[10px]"
+                              />
+                            );
+                          })}
+                        </div>
+                        <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
+                          ${i?.product_price} <span>USD</span>
+                        </p>
+                      </div>
+                    </Link>
+                    <div
+                      className="absolute z-[2] duration-200 info-item
+                            top-0 left-0 w-0
+                            bg-white p-0
+                            pb-0 max-w-[calc(200%_+_20px)] h-full 
+                            overflow-y-hidden transition-all"
+                    >
+                      <div className="flex flex-col justify-between h-full">
                         <div>
-                          <p className="p-1">{item?.product_name}</p>
-                          <div className="flex items-center">
-                            {[1, 2, 3, 4, 5]?.map((i) => {
-                              return (
-                                <img
-                                  id={i}
-                                  alt="icon-star"
-                                  src={"/image/star.png"}
-                                  className="w-[10px] h-[10px]"
-                                />
-                              );
-                            })}
-                            <span className="w-[18px] h-[18px] block"></span>
-                            <span>Experts</span>
+                          <div className="flex relative z-[1]">
+                            <img
+                              src={"/image/ae.png"}
+                              alt={i?.product_name}
+                              className="w-[36px] h-[36px] object-cover"
+                            />
+                            <div>
+                              <p className="p-1">{i?.product_name}</p>
+                              <div className="flex items-center">
+                                {[1, 2, 3, 4, 5]?.map((i) => {
+                                  return (
+                                    <img
+                                      id={i}
+                                      alt="icon-star"
+                                      src={"/image/star.png"}
+                                      className="w-[10px] h-[10px]"
+                                    />
+                                  );
+                                })}
+                                <span className="w-[18px] h-[18px] block"></span>
+                                <span>Experts</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="line-clamp-[8]">
+                            <div dangerouslySetInnerHTML={{ __html: i?.product_description}}></div>
                           </div>
                         </div>
-                      </div>
-                      <div className="line-clamp-[8]">
-                        <div dangerouslySetInnerHTML={{ __html: item?.product_description}}></div>
+                        <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
+                          ${item?.product_price} <span>USD</span>
+                        </p>
                       </div>
                     </div>
-                    <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
-                      ${item?.product_price} <span>USD</span>
-                    </p>
                   </div>
-                </div>
-              </div>
-            </>
-          }
-        />
-      </List.Item>
-    );
+                </>
+              </List.Item>
+            )}
+          />
+        </>
+      );
+    });
   };
 
   const renderItemForMobile = (item) => {
     return (
       <List.Item>
+        <p className="font-semibold p-5 text-2xl">{item?.category_name}</p>
+        {item?.map((itemPr) => (
+          <>
+
+          </>
+        ))}
         <List.Item.Meta
           description={
             <>
@@ -244,8 +255,7 @@ export default function Market() {
                   type="card"
                   items={tabItem}
                 />
-                <p className="font-semibold p-5 text-2xl">MetaTrader 5</p>
-                <List
+                {/* <List
                   className="ml-[20px] "
                   rootClassName="item-cont"
                   grid={{
@@ -258,26 +268,10 @@ export default function Market() {
                     xxl: 6,
                   }}
                   itemLayout="horizontal"
-                  dataSource={products}
                   renderItem={isMobile ? renderItemForMobile : renderItem}
-                />
-                <p className="font-semibold p-5 text-2xl">MetaTrader 4</p>
-                <List
-                  className="ml-[20px]"
-                  rootClassName="item-cont"
-                  grid={{
-                    gutter: 20,
-                    xs: 1,
-                    sm: 1,
-                    md: 4,
-                    lg: 4,
-                    xl: 6,
-                    xxl: 6,
-                  }}
-                  itemLayout="horizontal"
-                  dataSource={products}
-                  renderItem={isMobile ? renderItemForMobile : renderItem}
-                />
+                /> */}
+                {renderItem()}
+
               </div>
             </Col>
           </Row>

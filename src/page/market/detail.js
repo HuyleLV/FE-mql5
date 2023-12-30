@@ -1,7 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { List, message, Button, Rate, Modal, Upload } from "antd";
+import { List, message, Button, Rate, Modal, Upload, Tooltip } from "antd";
 import { Products } from "../../database";
 import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import parse from "html-react-parser";
 import { InboxOutlined } from "@ant-design/icons";
 import CustomUpload from "../../component/customUpload";
+import Paragraph from "antd/es/typography/Paragraph";
 
 export default function MarketDetail() {
   const [product, setProduct] = useState();
@@ -451,6 +452,8 @@ export default function MarketDetail() {
           className="grid justify-items-center"
           open={isModalOpen}
           onOk={handleOk}
+          okText="Đã chuyển tiền"
+          cancelText="Chưa chuyển tiền"
           onCancel={() => setIsModalOpen(false)}
           okButtonProps={{ className: "bg-blue-500" }}
         >
@@ -462,11 +465,11 @@ export default function MarketDetail() {
               className="w-[300px] h-[300px]"
             />
           </center>
-          <p className="px-5 py-3 text-lg">
+          <p className="flex px-5 pt-5 text-lg">
             Nội dung CK:{" "}
-            <span className="font-bold p-5 text-xl">
-              {cookies?.user?.displayName} chuyen tien
-            </span>
+              <Paragraph copyable={{ text: cookies?.user?.displayName + " chuyen tien", tooltips: false }}>
+                <span className="font-semibold text-xl pl-5">{cookies?.user?.displayName} chuyen tien</span>
+              </Paragraph>
           </p>
           <p className="px-5 pb-3 text-lg">
             Giá:{" "}
@@ -474,7 +477,7 @@ export default function MarketDetail() {
               {product?.[0].product_price} USD
             </span>
           </p>
-          <div className="px-5">
+          <div className="px-5 pb-3">
             <p className="text-lg">Thêm ảnh chứng minh:</p>
             <div className="px-5 flex justify-center py-3">
               <p className="flex justify-center"><CustomUpload type="image" accept=".png, .jpg, .jpeg, .jfif" onChange={(transfer_image)=>setImgTransfer(transfer_image)} value={imgTransfer}/></p>
