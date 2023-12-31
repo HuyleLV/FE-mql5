@@ -1,4 +1,4 @@
-import { Table, message, Space, Row, Col, Modal, Image, Select } from "antd";
+import { Table, message, Space, Row, Col, Modal, Image, Select, Pagination } from "antd";
 import { ExclamationCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
@@ -7,10 +7,14 @@ import axios from "axios";
 
 export default function TransferDashboard() {
   const [transfer, setTransfer] = useState([]);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 5,
+  });
   
   const fetchTransfer = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/transfer/getAll`)
+      .get(`${process.env.REACT_APP_API_URL}/transfer/getAll`, {params: pagination})
       .then((res) => {
         const data = res?.data;
         setTransfer(data);
@@ -54,7 +58,7 @@ export default function TransferDashboard() {
   
   useEffect(() => {
     fetchTransfer();
-  }, []);
+  }, [pagination]);
 
   const columns = [
     {
@@ -102,7 +106,7 @@ export default function TransferDashboard() {
       render: (_, record) => 
         <div>
             <Image
-                width={100}
+                width={80}
                 src={record?.transfer_image}
                 />
         </div>,
@@ -157,6 +161,7 @@ export default function TransferDashboard() {
         );
       },
     }
+    
   ];
 
   return (
@@ -168,12 +173,27 @@ export default function TransferDashboard() {
           </Col>
         </Row>
       </div>
-      <Table
-        className={"custom-table"}
-        rowKey={(record) => record?.transfer_id + ""}
-        dataSource={transfer}
-        columns={columns}
-      />
+      <div className="w-full h-full mt-5 relative">
+        <Table
+          className={"custom-table"}
+          dataSource={transfer?.data}
+          columns={columns}
+          pagination={false}
+        />
+      
+        <Pagination 
+          className="flex justify-center absolute inset-x-0 bottom-28"
+          current={pagination.page}
+          total={transfer?.total}
+          pageSize={pagination.pageSize}
+          onChange={(p)=> {
+            setPagination({
+              page: p,
+              pageSize: pagination.pageSize
+            })
+          }}
+        />
+      </div>
     </>
   );
 }

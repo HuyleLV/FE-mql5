@@ -1,4 +1,4 @@
-import { Table, message, Space, Row, Col, Modal, Rate } from "antd";
+import { Table, message, Space, Row, Col, Modal, Rate, Pagination } from "antd";
 import { ExclamationCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
@@ -7,12 +7,17 @@ import axios from "axios";
 
 export default function CommentDashboard() {
   const [comments, setComments] = useState([]);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 10,
+  });
   
   const fetchcomments = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/comment/getAll`)
+      .get(`${process.env.REACT_APP_API_URL}/comment/getAll`, {params: pagination})
       .then((res) => {
         const data = res?.data;
+        console.log(data)
         setComments(data);
       })
       .catch(() => message.error("Error server!"));
@@ -35,11 +40,11 @@ export default function CommentDashboard() {
       cancelText: "Huỷ",
       onOk: () => removeComment(id),
     });
-  };
+  }; 
   
   useEffect(() => {
     fetchcomments();
-  }, []);
+  }, [pagination]);
 
   const columns = [
     {
@@ -130,12 +135,27 @@ export default function CommentDashboard() {
           </Col>
         </Row>
       </div>
-      <Table
-        className={"custom-table"}
-        rowKey={(record) => record?.product_id + ""}
-        dataSource={comments}
-        columns={columns}
-      />
+
+      <div className="w-full h-full mt-5 relative">
+        <Table
+          className={"custom-table"}
+          dataSource={comments?.data}
+          columns={columns}
+          pagination={false}
+        />
+        <Pagination 
+          className="flex justify-center absolute inset-x-0 bottom-10"
+          current={pagination.page}
+          total={comments?.total}
+          pageSize={pagination.pageSize}
+          onChange={(p)=> {
+            setPagination({
+              page: p,
+              pageSize: pagination.pageSize
+            })
+          }}
+        />
+      </div>
     </>
   );
 }
