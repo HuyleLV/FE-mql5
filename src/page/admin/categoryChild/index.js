@@ -1,4 +1,4 @@
-import { Table, message, Button, Row, Col, Image } from "antd";
+import { Table, message, Button, Row, Col, Image, Pagination } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
@@ -7,9 +7,14 @@ import axios from "axios";
 
 export default function CategoryChildDashboard() {
   const [categories, setCategories] = useState([]);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 8,
+  });
+
   const fetchcategories = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/categoryChild/getAll`)
+      .get(`${process.env.REACT_APP_API_URL}/categoryChild/getAll`, {params: pagination})
       .then((res) => {
         const data = res?.data;
         setCategories(data || []);
@@ -19,7 +24,7 @@ export default function CategoryChildDashboard() {
 
   useEffect(() => {
     fetchcategories();
-  }, []);
+  }, [pagination]);
 
   const columns = [
     {
@@ -42,8 +47,8 @@ export default function CategoryChildDashboard() {
                 <Image
                   preview={false}
                   src={`${record?.categoryChild_link}`}
-                  width={50}
-                  height={50}
+                  width={40}
+                  height={40}
                 />
               </div>
             )}
@@ -141,12 +146,26 @@ export default function CategoryChildDashboard() {
           </Col>
         </Row>
       </div>
-      <Table
-        className={"custom-table"}
-        rowKey={(record) => record?.product_id + ""}
-        dataSource={categories}
-        columns={columns}
-      />
+      <div className="w-full h-full mt-5 relative">
+        <Table
+          className={"custom-table"}
+          dataSource={categories?.data}
+          columns={columns}
+          pagination={false}
+        />
+        <Pagination
+          className="flex justify-center absolute inset-x-0 bottom-10"
+          current={pagination.page}
+          total={categories?.total}
+          pageSize={pagination.pageSize}
+          onChange={(p)=> {
+            setPagination({
+              page: p,
+              pageSize: pagination.pageSize
+            })
+          }}
+        />
+      </div>
     </>
   );
 }

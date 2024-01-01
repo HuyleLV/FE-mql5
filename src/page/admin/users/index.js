@@ -1,4 +1,4 @@
-import { Table, Row, Col, Button, message, Modal, Space, Select } from "antd";
+import { Table, Row, Col, Button, message, Modal, Space, Select, Pagination } from "antd";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
@@ -7,9 +7,14 @@ import axios from "axios";
 
 export default function UsersDashboard() {
   const [user, setUser] = useState([]);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 10,
+  });
+
   const fetchUser = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/user/getAll`)
+      .get(`${process.env.REACT_APP_API_URL}/user/getAll`, {params: pagination})
       .then((res) => {
         const data = res?.data;
         setUser(data || []);
@@ -38,7 +43,7 @@ export default function UsersDashboard() {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [pagination]);
 
   const updateUser = async (value, id) => {
     await axios
@@ -144,12 +149,27 @@ export default function UsersDashboard() {
           </Link>
         </Col>
       </Row>
-      <Table
-        className={"custom-table"}
-        rowKey={(record) => record?.user_id + ""}
-        dataSource={user}
-        columns={columns}
-      />
+
+      <div className="w-full h-full mt-5 relative">
+        <Table
+          className={"custom-table"}
+          dataSource={user?.data}
+          columns={columns}
+          pagination={false}
+        />
+        <Pagination
+          className="flex justify-center absolute inset-x-0 bottom-10"
+          current={pagination.page}
+          total={user?.total}
+          pageSize={pagination.pageSize}
+          onChange={(p)=> {
+            setPagination({
+              page: p,
+              pageSize: pagination.pageSize
+            })
+          }}
+        />
+      </div>
     </>
   );
 }

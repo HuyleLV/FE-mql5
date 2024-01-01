@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Image, Row, Col, Space, Table } from "antd";
+import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination } from "antd";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -12,6 +12,10 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState({});
   const [transfer, setTransfer] = useState([]);
   const [editProfile, setEditProfile] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 8,
+  });
 
   console.log('cookies', cookies, profile)
   const fetchProfile = async () => {
@@ -27,8 +31,7 @@ export default function ProfilePage() {
   const fetchTransfer = async () => {
     await axios
       .get(
-        `${process.env.REACT_APP_API_URL}/transfer/getByIdUser/${cookies.user?.user_id}`
-      )
+        `${process.env.REACT_APP_API_URL}/transfer/getByIdUser/${cookies.user?.user_id}`, {params: pagination})
       .then(( res ) => {
         const data = res?.data;
         setTransfer(data);
@@ -44,8 +47,7 @@ export default function ProfilePage() {
   useEffect(() => {
     fetchProfile();
     fetchTransfer()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pagination]);
 
   const onSubmit = async (values) => {
     await axios
@@ -217,10 +219,23 @@ export default function ProfilePage() {
           className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
         >
           <Table 
-            className={"custom-table"}
+            className={"custom-table pb-10"}
             rowKey={(record) => record?.transfer_id + ""}
-            dataSource={transfer} 
+            dataSource={transfer?.data} 
             columns={columns} 
+            pagination={false}
+          />
+          <Pagination
+            className="flex justify-center"
+            current={pagination.page}
+            total={transfer?.total}
+            pageSize={pagination.pageSize}
+            onChange={(p)=> {
+              setPagination({
+                page: p,
+                pageSize: pagination.pageSize
+              })
+            }}
           />
         </Col>
       </Row>
