@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Tabs, List, Row, Col, message, Rate } from "antd";
+import { Tabs, List, Row, Col, message, Rate, Select, Dropdown, Space } from "antd";
 import { MenuItem } from "../../database";
 import { useDevice } from "../../hooks";
 import { DownOutlined } from "@ant-design/icons";
@@ -38,13 +38,18 @@ export default function Market() {
     console.log(category);
   }, []);
 
-  const renderItem = () => {
-    return products?.map((item) => {
-      if(item?.product?.length > 0){
-        return (
-          <>
+  const renderItem = (item) => {
+    if(item?.product?.length > 0){
+      return (
+        <>
+          <List.Item
+            key={item?.category_name}
+          >
             <p className="font-semibold p-5 text-2xl">{item?.category_name}</p>
-            <List dataSource={item?.product} grid={{ gutter: 20, column: 6 }}
+            <List 
+              itemLayout="horizontal"
+              dataSource={item?.product} 
+              grid={{ gutter: 20, column: 6 } }
               renderItem={(i)=> (
                 <List.Item>
                   <>
@@ -122,63 +127,65 @@ export default function Market() {
                 </List.Item>
               )}
             />
-          </>
-        );
-      }
-    });
+          </List.Item>
+        </>
+      );
+    }
   };
 
   const renderItemForMobile = (item) => {
-    return (
-      <List.Item>
-        <p className="font-semibold p-5 text-2xl">{item?.category_name}</p>
-        {item?.map((itemPr) => (
-          <>
-
-          </>
-        ))}
-        <List.Item.Meta
-          description={
-            <>
-              <div className="relative">
-                <div className="absolute right-0 bottom-0 flex items-center justify-center w-[103px] h-[35px] border border-[#ccc] font-bold text-[#0873bc] text-[15px]">
-                  <span>{item?.price} USD</span>
-                </div>
-                <Link
-                  to={`/market/${item?.product_id}`}
-                  className="flex items-center"
-                >
-                  <img
-                    alt="avata-product"
-                    src={"/image/ae.png"}
-                    width={80}
-                    height={80}
-                    className="mr-[20px]"
-                  />
-                  <div className="">
-                    <p className="text-[18px] font-bold text-[var(--black)]">
-                      {item?.product_name}
-                    </p>
-                    <div className="flex items-center pt-[8px] pb-[10px]">
-                      {[1, 2, 3, 4, 5]?.map((i) => {
-                        return (
-                          <img
-                            id={i}
-                            alt="icon-star"
-                            src={"/image/star.png"}
-                            className="w-[10px] h-[10px]"
-                          />
-                        );
-                      })}
+    
+    if(item?.product?.length > 0){
+      return (
+        <List.Item>
+          <p className="font-semibold p-5 text-2xl">{item?.category_name}</p>
+          <List
+              itemLayout="vertical"
+              dataSource={item?.product} 
+              renderItem={(i)=> (
+                <List.Item>
+                  <>
+                    <div className="relative">
+                      <div className="absolute right-0 bottom-0 flex items-center justify-center w-[103px] h-[35px] border border-[#ccc] font-bold text-[#0873bc] text-[15px]">
+                        <span>{i?.product_price} USD</span>
+                      </div>
+                      <Link
+                        to={`/market/${i?.product_id}`}
+                        className="flex items-center"
+                      >
+                        <img
+                          alt="avata-product"
+                          src={"/image/ae.png"}
+                          width={80}
+                          height={80}
+                          className="mr-[20px]"
+                        />
+                        <div className="">
+                          <p className="text-[18px] font-bold text-[var(--black)]">
+                            {i?.product_name}
+                          </p>
+                          <div className="flex items-center pt-[8px] pb-[10px]">
+                            {[1, 2, 3, 4, 5]?.map((i) => {
+                              return (
+                                <img
+                                  id={i}
+                                  alt="icon-star"
+                                  src={"/image/star.png"}
+                                  className="w-[10px] h-[10px]"
+                                />
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </Link>
                     </div>
-                  </div>
-                </Link>
-              </div>
-            </>
-          }
-        />
-      </List.Item>
-    );
+                  </>
+                </List.Item>
+            )}
+          />
+        </List.Item>
+      );
+    }
   };
 
   const tabItem = [
@@ -228,19 +235,6 @@ export default function Market() {
       <div className="max-w-screen-2xl items-center mx-auto pt-10">
         <div className="">
           <Row>
-            {isMobile && (
-              <div
-                className="!flex justify-between "
-                onClick={() => setShowMenu(!showMenu)}
-              >
-                <div className={"ml-[10px] mb-[10px]"}>
-                  MetaTrader 4 / Experts{" "}
-                </div>
-                <div className={"ml-[10px]"}>
-                  <DownOutlined />
-                </div>
-              </div>
-            )}
             <Col
               xs={24}
               sm={4}
@@ -248,7 +242,67 @@ export default function Market() {
                 !isMobile || (isMobile && showMenu) ? "block" : "hidden"
               }`}
             >
-              {renderMenuItem()}
+              {
+                isMobile ? (
+                  <>
+                    <Dropdown
+                      className="bg-white w-full"
+                      dropdownRender={(menu) => (
+                        <div className="bg-white border py-2">
+                          {menu}
+                          {category?.map((item) => {
+                              return (
+                                <div className="w-full">
+                                  <div className="pr-5 py-2 pl-8">
+                                    <div id={item?.category_id}>
+                                      <a href={`/category/${item?.category_id}`}>
+                                        <p className="flex">
+                                          <img
+                                            alt="icon-menu"
+                                            src={item?.category_link}
+                                            className="h-6 w-6 rounded-full"
+                                          />{" "}
+                                          <span className="pl-2 text-[#404040] font-semibold text-[16px]">{item?.category_name}</span>
+                                        </p>
+                                      </a>
+                                      {item?.categoryChild &&
+                                        item?.categoryChild?.map((i) => { 
+                                          return (
+                                            <a href={`/${i?.categoryChild_id}`}>
+                                              <p className="flex pl-6 pt-2">
+                                                <img
+                                                  alt="icon-menu"
+                                                  src={i?.categoryChild_link}
+                                                  className="h-6 w-6 rounded-full"
+                                                />{" "}
+                                                <span className="pl-2 text-[#404040] font-medium text-[15px]">{i?.categoryChild_name}</span>
+                                              </p>
+                                            </a>
+                                          );
+                                        })}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      )}
+                      openClassName="select-none"
+                      trigger={['click']}
+                    >
+                      <Space
+                        className="text-black relative w-full py-2 px-4 border"
+                      >
+                        <span className="font-semibold text-[16px]">All</span>
+                        <DownOutlined className="absolute right-2 top-3"/>
+                      </Space>
+                    </Dropdown>
+                  </>
+                ) : (
+                  renderMenuItem()
+                )
+                
+              }
             </Col>
             <Col xs={24} sm={20}>
               <div className=" border w-full p-5">
@@ -257,23 +311,13 @@ export default function Market() {
                   type="card"
                   items={tabItem}
                 />
-                {/* <List
-                  className="ml-[20px] "
+                <List
+                  className="ml-[20px]"
                   rootClassName="item-cont"
-                  grid={{
-                    gutter: 20,
-                    xs: 1,
-                    sm: 1,
-                    md: 4,
-                    lg: 4,
-                    xl: 6,
-                    xxl: 6,
-                  }}
-                  itemLayout="horizontal"
+                  itemLayout="vertical"
+                  dataSource={products}
                   renderItem={isMobile ? renderItemForMobile : renderItem}
-                /> */}
-                {renderItem()}
-
+                />
               </div>
             </Col>
           </Row>
