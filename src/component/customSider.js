@@ -1,5 +1,5 @@
 import { Image, Layout, Menu } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   MessageOutlined,
   UserOutlined,
@@ -15,8 +15,8 @@ const { Sider } = Layout;
 
 export default function CustomeSider() {
 
+  const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
-  console.log(cookies);
   
 
   const menuItem = [
@@ -61,6 +61,12 @@ export default function CustomeSider() {
       label: <Link to={"/loginAdmin"} onClick={()=>removeCookie("admin")}>Thoát</Link>,
     },
   ];
+
+  useEffect(() => {
+    if(!cookies?.admin) {
+      navigate("/loginAdmin");
+    }
+  }, [cookies?.admin]);
   
   return (
     <div className="!w-[250px]">
@@ -78,28 +84,23 @@ export default function CustomeSider() {
             MQL5
           </div>
         </div>
-        {cookies.admin ?
-          <>
-            <div className="flex items-center px-5 border">
-              <Image
-                preview={false}
-                src={cookies.admin?.photos}
-                width={30}
-                height={30}
-              />
-              <div className="ml-[10px] font-bold">
-                {cookies.admin?.displayName}
-              </div>
-            </div>
-          <Menu
-            theme="light"
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            items={menuItem}
+        <div className="flex items-center px-5 border">
+          <Image
+            preview={false}
+            src={cookies.admin?.photos}
+            width={30}
+            height={30}
           />
-        </>
-        : <></>
-      }
+          <div className="ml-[10px] font-bold">
+            {cookies.admin?.displayName}
+          </div>
+        </div>
+        <Menu
+          theme="light"
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          items={menuItem}
+        />
       </Sider>
     </div>
   );
