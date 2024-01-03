@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useCookies } from "react-cookie";
-import { Image, Dropdown } from "antd";
+import { Image, Dropdown, Space, Select } from "antd";
 import { useDevice } from "../hooks";
+import { DownOutlined } from "@ant-design/icons";
 
 export default function Header() {
   const { isMobile } = useDevice();
-  const [openNav, setOpenNav] = React.useState(false);
   const [cookies, removeCookie] = useCookies(["user"]);
 
   const items = [
@@ -50,52 +50,132 @@ export default function Header() {
       ),
     },
   ];
+
   return (
     <nav className="sticky top-0 z-10 bg-[#4a76b8] border-gray-200 text-white">
       <div className="flex justify-between">
         <div className="w-full flex flex-wrap items-center mx-auto">
-          <div className={"flex justify-between max-md:w-full"}>
+          <div className={"flex max-md:w-full"}>
             <a href="/" className="flex items-center pr-4">
               {/* <img src={logo} className="h-8 mr-3" alt="Flowbite Logo" /> */}
-              <span className="self-center text-2xl font-bold whitespace-nowrap text-white">
+              <span className="self-center text-2xl font-bold whitespace-nowrap text-white pl-4">
                 MQL<span className="text-yellow-400">5</span>
               </span>
             </a>
+
+            {isMobile ? 
+              <div className="flex text-black font-semibold">
+                {/* <Select
+                  defaultValue="Market"
+                  className="w-full text-black"
+                  dropdownStyle={{width: 150, color: "yellow"}}
+                  options={[
+                    { label: (
+                      <Link className="text-black" to={"/"}>
+                        Forum
+                      </Link>
+                    ) },
+                    { label: (
+                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                        Market
+                      </Link>
+                    ) },
+                    { label: (
+                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                        Signals
+                      </Link>
+                    ) },
+                    { label: (
+                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                        Freelance
+                      </Link>
+                    ) },
+                    { label: (
+                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                        Quotes
+                      </Link>
+                    ) },
+                  ]}
+                /> */}
+                  <Dropdown 
+                    className="flex justify-center px-2 rounded-md bg-[#edbd37]" 
+                    dropdownRender={()=> (
+                      <div className="bg-white border rounded-md pr-2">
+                        <ul className="flex flex-col font-normal px-4 md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
+                          <li className="hover:bg-yellow-400 hover:text-black p-1">
+                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                              <p className="text-black text-lg">Forum</p>
+                            </Link>
+                          </li>
+                          <li className="hover:bg-yellow-400 hover:text-black p-1">
+                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                              <p className="text-black text-lg">Market</p>
+                            </Link>
+                          </li>
+                          <li className="hover:bg-yellow-400 hover:text-black p-1">
+                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                              <p className="text-black text-lg">Signals</p>
+                            </Link>
+                          </li>
+                          <li className="hover:bg-yellow-400 hover:text-black p-1">
+                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                              <p className="text-black text-lg">Freelance</p>
+                            </Link>
+                          </li>
+                          <li className="hover:bg-yellow-400 hover:text-black p-1">
+                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                              <p className="text-black text-lg">Quotes</p>
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                    trigger={['click']}>
+                    <Space>
+                      Market
+                      <DownOutlined className="w-3"/>
+                    </Space>
+                  </Dropdown>
+              </div>
+            : 
+              <>
+                <div
+                  className={`hidden w-full md:block md:w-auto`}
+                >
+                  <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
+                    <li className="hover:bg-yellow-400 hover:text-black p-3">
+                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                        Forum
+                      </Link>
+                    </li>
+                    <li className="hover:bg-yellow-400 hover:text-black p-3">
+                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                        Market
+                      </Link>
+                    </li>
+                    <li className="hover:bg-yellow-400 hover:text-black p-3">
+                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                        Signals
+                      </Link>
+                    </li>
+                    <li className="hover:bg-yellow-400 hover:text-black p-3">
+                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                        Freelance
+                      </Link>
+                    </li>
+                    <li className="hover:bg-yellow-400 hover:text-black p-3">
+                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                        Quotes
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </>
+          }
           </div>
 
-          <div
-            className={`${openNav ? "" : "hidden"} w-full md:block md:w-auto`}
-          >
-            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
-              <li className="hover:bg-yellow-400 hover:text-black p-3">
-                <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                  Forum
-                </Link>
-              </li>
-              <li className="hover:bg-yellow-400 hover:text-black p-3">
-                <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                  Market
-                </Link>
-              </li>
-              <li className="hover:bg-yellow-400 hover:text-black p-3">
-                <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                  Signals
-                </Link>
-              </li>
-              <li className="hover:bg-yellow-400 hover:text-black p-3">
-                <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                  Freelance
-                </Link>
-              </li>
-              <li className="hover:bg-yellow-400 hover:text-black p-3">
-                <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                  Quotes
-                </Link>
-              </li>
-            </ul>
-          </div>
         </div>
-        <div className="flex items-center min-w-fit gap-x-[20px] pr-[15px] md:pr-[20px] text-[14px]">
+        <div className="flex items-center min-w-fit gap-x-[20px] pr-[15px] md:pr-[20px] text-[14px] py-2">
           {!cookies?.user ? (
             <>
               <Link to={"/login"}>
@@ -117,49 +197,30 @@ export default function Header() {
             </>
           ) : (
             <>
-              {!isMobile && (
-                <div className="flex items-center">
-                  <Dropdown placement="bottomRight" menu={{ items }}>
-                    <Image
-                      preview={false}
-                      src={cookies.user?.photos}
-                      width={30}
-                      height={30}
-                    />
-                  </Dropdown>
+              <div className="flex items-center">
+                <Dropdown placement="bottomRight" menu={{ items }}>
+                  {
+                    isMobile ? (
+                      <Image
+                        preview={false}
+                        src={cookies.user?.photos}
+                        width={25}
+                        height={25}
+                      />
+                    ) : (
+                      <Image
+                        preview={false}
+                        src={cookies.user?.photos}
+                        width={30}
+                        height={30}
+                      />
+                    )
+                  }
+                </Dropdown>
 
-                  <div className="ml-[10px] font-bold">
-                    {cookies.user?.displayName}
-                  </div>
+                <div className="ml-[10px] font-bold">
+                  {cookies.user?.displayName}
                 </div>
-              )}
-
-              <div className={"!flex justify-between"}>
-                <button
-                  data-collapse-toggle="navbar-dropdown"
-                  type="button"
-                  className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-yellow-400 rounded-lg md:hidden  dark:focus:ring-gray-600"
-                  aria-controls="navbar-dropdown"
-                  aria-expanded="false"
-                  onClick={() => setOpenNav(!openNav)}
-                >
-                  <span className="sr-only">Open main menu</span>
-                  <svg
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 17 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M1 1h15M1 7h15M1 13h15"
-                    />
-                  </svg>
-                </button>
               </div>
             </>
           )}
