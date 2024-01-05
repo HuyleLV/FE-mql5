@@ -3,7 +3,7 @@ import { Tabs, List, Row, Col, message, Rate, Select, Dropdown, Space } from "an
 import { MenuItem } from "../../database";
 import { useDevice } from "../../hooks";
 import { DownOutlined } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 
 export default function Market() {
@@ -32,11 +32,23 @@ export default function Market() {
       .catch(() => message.error("Error server!"));
   };
 
+  const productLink = useMemo(() => {
+    const productImage = products?.[0]?.product_image;
+    const coverImage = productImage ? JSON.parse(productImage) : undefined;
+    return coverImage;
+  }, [products]);
+
+  const logo = useMemo(() => {
+    const link = productLink?.filter((i) => i?.type === "logo");
+    const data = link?.[0]?.data;
+    return data !== "" ? data : undefined;
+  }, [productLink]);
+
   useEffect(() => {
     fetchProducts();
     fetchCategory();
-    console.log(category);
   }, []);
+
 
   const renderItem = (item) => {
     if(item?.product?.length > 0){
@@ -60,20 +72,11 @@ export default function Market() {
                       >
                         <div className="text-center border">
                           <div className="flex justify-center  w-full">
-                            <img alt="avata-product" src={"/image/ae.png"} />
+                            <img alt="avata-product" src={i?.product_image ? JSON.parse(i?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : null} />
                           </div>
                           <p className="p-1 h-10 font-semibold text-black">{i?.product_name}</p>
                           <div className="flex items-center justify-center py-[16px]">
-                            {[1, 2, 3, 4, 5]?.map((i) => {
-                              return (
-                                <img
-                                  id={i}
-                                  alt="icon-star"
-                                  src={"/image/star.png"}
-                                  className="w-[10px] h-[10px]"
-                                />
-                              );
-                            })}
+                            <Rate style={{ fontSize: 15 }} allowHalf defaultValue={5} disabled/>
                           </div>
                           <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
                             ${i?.product_price} <span>USD</span>
@@ -91,23 +94,14 @@ export default function Market() {
                           <div>
                             <div className="flex relative z-[1]">
                               <img
-                                src={"/image/ae.png"}
+                                src={i?.product_image ? JSON.parse(i?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : null}
                                 alt={i?.product_name}
                                 className="w-[36px] h-[36px] object-cover"
                               />
                               <div>
                                 <p className="p-1">{i?.product_name}</p>
                                 <div className="flex items-center">
-                                  {[1, 2, 3, 4, 5]?.map((i) => {
-                                    return (
-                                      <img
-                                        id={i}
-                                        alt="icon-star"
-                                        src={"/image/star.png"}
-                                        className="w-[10px] h-[10px]"
-                                      />
-                                    );
-                                  })}
+                                  <Rate style={{ fontSize: 15 }} allowHalf defaultValue={5} disabled/>
                                   <span className="w-[18px] h-[18px] block"></span>
                                   <span>Experts</span>
                                 </div>
@@ -138,7 +132,7 @@ export default function Market() {
     if(item?.product?.length > 0){
       return (
         <List.Item>
-          <p className="font-semibold p-5 text-2xl">{item?.category_name}</p>
+          <p className="font-semibold p-2 text-2xl">{item?.category_name}</p>
           <List
               itemLayout="vertical"
               dataSource={item?.product} 
@@ -146,7 +140,7 @@ export default function Market() {
                 <List.Item>
                   <>
                     <div className="relative">
-                      <div className="absolute right-0 bottom-0 flex items-center justify-center w-[103px] h-[35px] border border-[#ccc] font-bold text-[#0873bc] text-[15px]">
+                      <div className="absolute right-0 bottom-2 flex items-center justify-center w-[103px] h-[35px] border border-[#ccc] font-bold text-[#0873bc] text-[15px]">
                         <span>{i?.product_price} USD</span>
                       </div>
                       <Link
@@ -155,26 +149,17 @@ export default function Market() {
                       >
                         <img
                           alt="avata-product"
-                          src={"/image/ae.png"}
+                          src={i?.product_image ? JSON.parse(i?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : null}
                           width={80}
                           height={80}
-                          className="mr-[20px]"
+                          className="mr-[10px]"
                         />
                         <div className="">
                           <p className="text-[18px] font-bold text-[var(--black)]">
                             {i?.product_name}
                           </p>
                           <div className="flex items-center pt-[8px] pb-[10px]">
-                            {[1, 2, 3, 4, 5]?.map((i) => {
-                              return (
-                                <img
-                                  id={i}
-                                  alt="icon-star"
-                                  src={"/image/star.png"}
-                                  className="w-[10px] h-[10px]"
-                                />
-                              );
-                            })}
+                            <Rate style={{ fontSize: 15 }} allowHalf defaultValue={5} disabled/>
                           </div>
                         </div>
                       </Link>

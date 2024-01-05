@@ -54,12 +54,13 @@ export default function ProductsDetail() {
   }, [id]);
 
   const onSubmit = async (values) => {
-    const imageLength = values?.product_image?.length < 4;
+    const imageLength = values?.product_image?.length < 3;
     if (imageLength)
-      return message.warning("Ảnh slide phải có tối thiểu 4 ảnh!");
+      return message.warning("Ảnh slide phải có tối thiểu 3 ảnh!");
 
     const mergeLinkProduct = [
       { type: "video", data: values?.link_video },
+      { type: "logo", data: values?.product_logo },
       { type: "image", data: values?.product_image },
     ];
     const coverString = JSON.stringify(mergeLinkProduct);

@@ -3,6 +3,7 @@ import { Form, Input, Button, Row, Col, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import google from "../component/image/google.png"
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -30,12 +31,12 @@ const Login = () => {
 
 
   return (
-    <div className="py-[100px]">
+    <div className="pb-[100px] pt-[50px]">
       <div className="mb-[10px]">
         <div className="pt-[20px] text-[40px] text-[var(--red)] flex justify-center">
           Sign in
         </div>
-        <div className="text-[24px] flex justify-center">
+        <div className="text-[24px] flex justify-center text-center">
           and access all MetaTrader 4 and MetaTrader 5 services{" "}
         </div>
         <div className="flex justify-center">
@@ -77,7 +78,7 @@ const Login = () => {
               htmlType="submit"
               onClick={loginUser}
             >
-              <span>Login</span>
+              <span className="font-semibold text-lg">Log in</span>
             </Button>
 
             <Link to={`${process.env.REACT_APP_API_URL}/auth/google`}>
@@ -87,10 +88,14 @@ const Login = () => {
                   height: 50,
                   borderRadius: 0,
                   marginTop: 10,
+                  backgroundColor: "rgb(241 245 249)"
                 }}
                 size={"large"}
               >
-                <span>Log in With Google</span>
+                <p className="flex justify-center w-full">
+                  <img src={google} className="w-7 h-7 mr-4"/>
+                  <span className="font-semibold text-lg text-[#696969]">Log in With Google</span>
+                </p>
               </Button>
             </Link>
           </Form>

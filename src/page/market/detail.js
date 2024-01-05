@@ -1,7 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { List, message, Button, Rate, Modal, Upload, Tooltip } from "antd";
+import { List, message, Button, Rate, Modal, Upload, Tooltip, Pagination } from "antd";
 import { Products } from "../../database";
 import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
@@ -15,6 +15,7 @@ import Paragraph from "antd/es/typography/Paragraph";
 
 export default function MarketDetail() {
   const [product, setProduct] = useState();
+  const [productRecommend, setProductRecommend] = useState();
   const [comment, setComment] = useState();
   const [cookies] = useCookies(["user"]);
   const params = useParams();
@@ -24,8 +25,12 @@ export default function MarketDetail() {
   const [rateComment, setRateComment] = useState(5);
   const [comment_content, setcomment_content] = useState("");
   const [imgTransfer, setImgTransfer] = useState("");
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 10,
+  });
 
-  console.log(imgTransfer);
+  console.log(product?.[0].category_id);
 
   const responsive = {
     superLargeDesktop: {
@@ -75,6 +80,17 @@ export default function MarketDetail() {
       .then((res) => {
         const data = res?.data;
         setProduct(data);
+        fetchProductRecommend(data?.[0].category_id)
+      })
+      .catch(() => message.error("Error server!"));
+  };
+
+  const fetchProductRecommend = async (category_id) => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/category/getByProduct/${category_id}`, {params: pagination})
+      .then((res) => {
+        const data = res?.data;
+        setProductRecommend(data);
       })
       .catch(() => message.error("Error server!"));
   };
@@ -118,10 +134,12 @@ export default function MarketDetail() {
                 >
                   <div className="text-center border">
                     <div className="flex justify-center  w-full">
-                      <img alt="avata-product" src={"/image/ae.png"} />
+                      <img alt="avata-product" src={item?.product_image ? JSON.parse(item?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : null} />
                     </div>
-                    <p className="p-1 font-semibold">{item?.product_name}</p>
-                    <Rate className="" allowHalf defaultValue={4.5} />
+                    <p className="p-1 h-10 font-semibold text-black">{item?.product_name}</p>
+                    <div className="flex items-center justify-center py-[16px]">
+                      <Rate style={{ fontSize: 15 }} allowHalf defaultValue={5} disabled/>
+                    </div>
                     <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
                       ${item?.product_price} <span>USD</span>
                     </p>
@@ -138,25 +156,16 @@ export default function MarketDetail() {
                     <div>
                       <div className="flex relative z-[1]">
                         <img
-                          src={"/image/ae.png"}
+                          src={item?.product_image ? JSON.parse(item?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : null}
                           alt={item?.product_name}
                           className="w-[36px] h-[36px] object-cover"
                         />
                         <div>
                           <p className="p-1">{item?.product_name}</p>
                           <div className="flex items-center">
-                            {[1, 2, 3, 4, 5]?.map((i) => {
-                              return (
-                                <img
-                                  id={i}
-                                  alt="icon-star"
-                                  src={"/image/star.png"}
-                                  className="w-[10px] h-[10px]"
-                                />
-                              );
-                            })}
+                            <Rate className="" allowHalf defaultValue={4.5} disabled/>
                             <span className="w-[18px] h-[18px] block"></span>
-                            <span>Experts</span>
+                            <span>{item?.categoryChild_name}</span>
                           </div>
                         </div>
                       </div>
@@ -238,6 +247,12 @@ export default function MarketDetail() {
     return coverImage;
   }, [product]);
 
+  const logo = useMemo(() => {
+    const link = productLink?.filter((i) => i?.type === "logo");
+    const data = link?.[0]?.data;
+    return data !== "" ? data : undefined;
+  }, [productLink]);
+
   const linkVideo = useMemo(() => {
     const link = productLink?.filter((i) => i?.type === "video");
     const data = link?.[0]?.data;
@@ -250,202 +265,354 @@ export default function MarketDetail() {
   }, [productLink]);
 
   return (
-    <div className="max-w-screen-2xl items-center mx-auto pt-10">
-      <p className="font-semibold p-5 text-xl">
+    <div className="max-w-screen-2xl items-center mx-auto pt-5">
+      <p className="font-semibold px-5 py-1 text-xl border-b">
         <span className="text-[#42639c]">Market</span> /{" "}
         <span className="text-[#42639c]">MetaTrader 5</span> /{" "}
         {product?.[0].product_name}
       </p>
-      <div className="flex max-lg:flex-wrap">
-        <div className="w-full md:w-1/2 mx-auto md:border">
-          <div className="flex flex-col justify-center p-5">
+      {isMobile ? (
+        <div>
+          <div className="flex px-4 py-2">
             <img
-              src={"/image/ae.png"}
-              className="w-[100px] md:w-[200px] h-[100px] md:h-[200px] rounded-tl-3xl rounded-br-3xl object-cover"
+              src={logo}
+              className="w-[120px] h-[120px] rounded-tl-3xl rounded-br-3xl object-cover"
               alt="name"
             />
-            <p className="text-[#42639c] font-bold pt-4">
-              {product?.[0].product_price} USD
-            </p>
+            <div className="pl-5">
+              <p className="font-bold text-xl">{product?.[0].product_name}</p>
+              <p className="text-sm font-medium text-slate-500 py-1">by {product?.[0].displayName}</p>
+              <Rate style={{fontSize: 18}} allowHalf value={5} disabled />
+              <p className="text-lg font-bold text-[#1ba921] py-1">{product?.[0].product_price} USD</p>
+            </div>
+          </div>
+          <div className="px-4">
             <button
-              className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]"
+              className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
               onClick={() => setIsModalOpen(true)}
             >
               Buy: {product?.[0].product_price} USD
             </button>
-            <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
-              <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
-                Free Demo
-              </button>
-            </a>
-            <div className="mt-4 text-sm w-full">
-              <p>
-                Demo downloaded: <span className="pl-2">9 427</span>
-              </p>
-              <p>
-                Published: <span className="pl-2">8 August 2023</span>
-              </p>
-              <p>
-                Current version: <span className="pl-2">3.5</span>
-              </p>
+          </div>
+          <div className="px-4 py-4">
+            <div class="relative">
+              <p class="absolute left-0">Category:</p>
+              <p class="absolute right-0">{product?.[0].categoryChild_name}</p>
             </div>
-            <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-lg text-[#42639c] text-sm">
-              More from author
-            </button>
+            <div class="relative py-8">
+              <p class="absolute left-0">Activations:</p>
+              <p class="absolute right-0">{product?.[0].product_activations}</p>
+            </div>
+            <div class="relative">
+              <p class="absolute left-0">Demo downloaded:</p>
+              <p class="absolute right-0">1909</p>
+            </div>
+            <div class="relative py-8">
+              <p class="absolute left-0">Author:</p>
+              <p class="absolute right-0">{product?.[0].displayName}</p>
+            </div>
+            <div class="relative">
+              <p class="absolute left-0">Published:</p>
+              <p class="absolute right-0">{dayjs(product?.[0].create_at).format("DD/MM/YYYY")}</p>
+            </div>
+            <div class="relative py-8">
+              <p class="absolute left-0">Current version:</p>
+              <p class="absolute right-0">{product?.[0].product_version}</p>
+            </div>
+          </div>
+          <div className="border-t pt-2">
+            <p className="font-bold text-xl px-4">{product?.[0].product_name}</p>
+            {
+              hide === true 
+              ?
+                <div className="p-5">
+                  <div className="max-w-full">
+                    {parse(String(product?.[0].product_description))}
+                  </div>
+                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Hide</button>
+                </div>
+              :
+                <div className="p-5">
+                  <div className="h-full max-w-full truncate">
+                    {parse(String(product?.[0].product_description))}
+                  </div>
+                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
+                </div>
+            }
+            {productLink && (
+              <Carousel responsive={responsive} className="p-5">
+                {linkVideo && (
+                  <iframe
+                    className="h-[250px] w-[400px]"
+                    src={linkVideo}
+                    title="Quantum Emperor"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                  ></iframe>
+                )}
+                {linkImage &&
+                  linkImage?.map((i) => {
+                    return (
+                      <div>
+                        <img alt="icon" src={i} className="h-[250px] max-w-xl" />
+                      </div>
+                    );
+                  })}
+              </Carousel>
+            )}
+
+            {comment?.lenght > 0 ? 
+              <div className="pb-10">
+                <p className="font-semibold text-2xl p-5">Comment</p>
+                {comment.map((i) => {
+                  return (
+                    <div className="flex border">
+                      <div className="w-1/3 md:w-1/6 p-4">
+                        <p className="flex justify-center">
+                          <img
+                            alt="img"
+                            src={i.photos}
+                            className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
+                          />
+                        </p>
+                      </div>
+                      <div className="w-2/3 md:w-5/6">
+                        <div className="flex py-5 max-md:flex-col">
+                          <p className="font-bold text-[#42639c]">
+                            {i.displayName}
+                          </p>
+                          <p className="text-[10px] pt-1 px-2">
+                            {dayjs(i.create_at).format("DD/MM/YYYY hh:mm")}
+                          </p>
+                          <Rate allowHalf value={i.comment_star} disabled />
+                        </div>
+                        <p>{i.comment_content}</p>
+                      </div>
+                    </div>
+                  )})
+                }
+              </div>  
+               : 
+                <></>
+              }          
+            <div className="px-4">
+              <p className="font-semibold text-2xl py-5">Recommended products</p>
+              <List
+                className="ml-[20px]"
+                grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
+                itemLayout="horizontal"
+                dataSource={Products}
+                renderItem={isMobile ? renderItemForMobile : renderItem}
+              />
+            </div>
           </div>
         </div>
-        <div className="max-lg:w-full w-4/5 border">
-          <div className="flex items-center">
-            <p className="font-semibold pt-5 pl-5 text-2xl capitalize">
-              {product?.[0].product_name}
-            </p>
-            <div className="flex pt-2 pl-5">
-              <Rate allowHalf value={5} />
+      ): (
+        <div className="flex max-lg:flex-wrap">
+          <div className="w-full md:w-1/2 mx-auto md:border">
+            <div className="flex flex-col justify-center p-5">
+              <img
+                src={logo}
+                className="w-[100px] md:w-[200px] h-[100px] md:h-[200px] rounded-tl-3xl rounded-br-3xl object-cover"
+                alt="name"
+              />
+              <p className="text-[#42639c] font-bold pt-4">
+                {product?.[0].product_price} USD
+              </p>
+              <button
+                className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Buy: {product?.[0].product_price} USD
+              </button>
+              <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
+                <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
+                  Free Demo
+                </button>
+              </a>
+              <div className="mt-4 text-sm w-full">
+                <p>
+                  Demo downloaded: <span className="pl-2">9 427</span>
+                </p>
+                <p>
+                  Published: <span className="pl-2">{dayjs(product?.[0].create_at).format("DD/MM/YYYY")}</span>
+                </p>
+                <p>
+                  Current version: <span className="pl-2">3.5</span>
+                </p>
+              </div>
+              <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-lg text-[#42639c] text-sm">
+                More from author
+              </button>
             </div>
           </div>
-          <div className="flex flex-wrap gap-[20px] pl-5 pt-1">
-            <p className="flex items-center">
-              <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
-              <span className="pl-2 text-[#42639c] font-semibold">
-                {product?.[0].categoryChild_name}
-              </span>
-            </p>
-            <p className="flex items-center">
-              <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
-              <span className="pl-2 text-[#42639c] font-semibold">
-                Bogdan Ion Puscasu
-              </span>
-            </p>
-            <p className="flex items-center">
-              Version:{" "}
-              <span className="pl-2 text-[#42639c] font-semibold">
-                {product?.[0].product_version}
-              </span>
-            </p>
-            <p className="flex items-center">
-              Updated:{" "}
-              <span className="pl-2 text-[#42639c] font-semibold">
-                {dayjs(product?.[0].create_at).format("DD/MM/YYYY")}
-              </span>
-            </p>
-            <p className="flex items-center">
-              Activations:{" "}
-              <span className="pl-2 text-[#42639c] font-semibold">
-                {product?.[0].product_activations}
-              </span>
-            </p>
-          </div>
-          {
-            hide === true 
-            ?
-              <div className="p-5">
-                <div className="max-w-full truncate">
-                  {parse(String(product?.[0].product_description))}
-                </div>
-                <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Hide</button>
+          <div className="max-lg:w-full w-4/5 border">
+            <div className="flex items-center">
+              <p className="font-semibold pt-5 pl-5 text-2xl capitalize">
+                {product?.[0].product_name}
+              </p>
+              <div className="flex pt-2 pl-5">
+                <Rate allowHalf value={5} disabled />
               </div>
-            :
-              <div className="p-5">
-                <div className="h-40 max-w-full truncate">
-                  {parse(String(product?.[0].product_description))}
+            </div>
+            <div className="flex flex-wrap gap-[20px] pl-5 pt-1">
+              <p className="flex items-center">
+                <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
+                <span className="pl-2 text-[#42639c] font-semibold">
+                  {product?.[0].categoryChild_name}
+                </span>
+              </p>
+              <p className="flex items-center">
+                <img src={"/image/bank.png"} alt="icon" className="h-4 w-4" />
+                <span className="pl-2 text-[#42639c] font-semibold">
+                  by {product?.[0].displayName}
+                </span>
+              </p>
+              <p className="flex items-center">
+                Version:{" "}
+                <span className="pl-2 text-[#42639c] font-semibold">
+                  {product?.[0].product_version}
+                </span>
+              </p>
+              <p className="flex items-center">
+                Updated:{" "}
+                <span className="pl-2 text-[#42639c] font-semibold">
+                  {dayjs(product?.[0].create_at).format("DD/MM/YYYY")}
+                </span>
+              </p>
+              <p className="flex items-center">
+                Activations:{" "}
+                <span className="pl-2 text-[#42639c] font-semibold">
+                  {product?.[0].product_activations}
+                </span>
+              </p>
+            </div>
+            {
+              hide === true 
+              ?
+                <div className="p-5">
+                  <div>
+                    {parse(String(product?.[0].product_description))}
+                  </div>
+                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Hide</button>
                 </div>
-                <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
-              </div>
-          }
-          {productLink && (
-            <Carousel responsive={responsive} className="p-5">
-              {linkVideo && (
-                <iframe
-                  className="h-[250px] w-[400px]"
-                  src={linkVideo}
-                  title="Quantum Emperor"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                ></iframe>
-              )}
-              {linkImage &&
-                linkImage?.map((i) => {
+              :
+                <div className="p-5">
+                  <div className="h-full truncate">
+                    {parse(String(product?.[0].product_description))}
+                  </div>
+                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
+                </div>
+            }
+
+            {productLink && (
+              <Carousel responsive={responsive} className="p-5">
+                {linkVideo && (
+                  <iframe
+                    className="h-[250px] w-[400px]"
+                    src={linkVideo}
+                    title="Quantum Emperor"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                  ></iframe>
+                )}
+                {linkImage &&
+                  linkImage?.map((i) => {
+                    return (
+                      <div>
+                        <img alt="icon" src={i} className="h-[250px] max-w-xl" />
+                      </div>
+                    );
+                  })}
+              </Carousel>
+            )}
+
+            <div>
+              <p className="font-semibold text-2xl p-5">Comment</p>
+              {comment !== undefined ? (
+                comment.map((i) => {
                   return (
-                    <div>
-                      <img alt="icon" src={i} className="h-[250px] max-w-xl" />
+                    <div className="flex border">
+                      <div className="w-1/3 md:w-1/6 p-4">
+                        <p className="flex justify-center">
+                          <img
+                            alt="img"
+                            src={i.photos}
+                            className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
+                          />
+                        </p>
+                      </div>
+                      <div className="w-2/3 md:w-5/6">
+                        <div className="flex py-5 max-md:flex-col">
+                          <p className="font-bold text-[#42639c]">
+                            {i.displayName}
+                          </p>
+                          <p className="text-[10px] pt-1 px-2">
+                            {dayjs(i.create_at).format("DD/MM/YYYY hh:mm")}
+                          </p>
+                          <Rate allowHalf value={i.comment_star} disabled />
+                        </div>
+                        <p>{i.comment_content}</p>
+                      </div>
                     </div>
                   );
-                })}
-            </Carousel>
-          )}
+                })
+              ) : (
+                <></>
+              )}
 
-          <div>
-            <p className="font-semibold text-2xl p-5">Comment</p>
-            {comment !== undefined ? (
-              comment.map((i) => {
-                return (
-                  <div className="flex border">
-                    <div className="w-1/3 md:w-1/6 p-4">
-                      <p className="flex justify-center">
-                        <img
-                          alt="img"
-                          src={i.photos}
-                          className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
-                        />
-                      </p>
-                    </div>
-                    <div className="w-2/3 md:w-5/6">
-                      <div className="flex py-5 max-md:flex-col">
-                        <p className="font-bold text-[#42639c]">
-                          {i.displayName}
-                        </p>
-                        <p className="text-[10px] pt-1 px-2">
-                          {dayjs(i.create_at).format("DD/MM/YYYY hh:mm")}
-                        </p>
-                        <Rate allowHalf value={i.comment_star} disabled />
-                      </div>
-                      <p>{i.comment_content}</p>
-                    </div>
+              {cookies?.user && (
+                <div className="p-[10px]">
+                  <div className="mb-[10px] w-full">
+                    <textarea
+                      id="comment_content"
+                      name="comment_content"
+                      rows="4"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="Gửi nhận xét về sản phẩm"
+                      onChange={setcomment_content}
+                    ></textarea>
                   </div>
-                );
-              })
-            ) : (
-              <></>
-            )}
-
-            {cookies?.user && (
-              <div className="p-[10px]">
-                <div className="mb-[10px] w-full">
-                  <textarea
-                    id="comment_content"
-                    name="comment_content"
-                    rows="4"
-                    className="w-full px-3 py-2 border rounded-md"
-                    placeholder="Gửi nhận xét về sản phẩm"
-                    onChange={setcomment_content}
-                  ></textarea>
+                  <p>
+                    <Rate
+                      allowHalf
+                      onChange={setRateComment}
+                      value={rateComment}
+                    />
+                  </p>
+                  <Button className="my-5 w-[200px] h-10" onClick={postcomment}>
+                    Gửi
+                  </Button>
                 </div>
-                <p>
-                  <Rate
-                    allowHalf
-                    onChange={setRateComment}
-                    value={rateComment}
-                  />
-                </p>
-                <Button className="my-5 w-[200px] h-10" onClick={postcomment}>
-                  Gửi
-                </Button>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
 
-          <div>
-            <p className="font-semibold text-2xl p-5">Recommended products</p>
-            <List
-              className="ml-[20px]"
-              grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
-              itemLayout="horizontal"
-              dataSource={Products}
-              renderItem={isMobile ? renderItemForMobile : renderItem}
-            />
+            <div className="px-2 py-10">
+              <p className="font-semibold text-2xl py-5">Recommended products</p>
+              <List
+                className="ml-[20px]"
+                grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
+                itemLayout="horizontal"
+                dataSource={productRecommend?.data}
+                renderItem={isMobile ? renderItemForMobile : renderItem}
+              />
+              <Pagination
+                className="flex justify-center"
+                current={pagination.page}
+                total={productRecommend?.total}
+                pageSize={pagination.pageSize}
+                onChange={(p)=> {
+                  setPagination({
+                    page: p,
+                    pageSize: pagination.pageSize
+                  })
+                }}
+              />
+            </div>
           </div>
-        </div>
       </div>
+      )}
+
       {cookies?.user ? (
         <Modal
           title="Thanh toán qua mã QR"

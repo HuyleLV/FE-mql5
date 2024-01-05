@@ -30,7 +30,10 @@ export default function ProductForm({
   const fetchCategoryChild = async () => {
     try {
       const result = await axios.get(
-        `${process.env.REACT_APP_API_URL}/categoryChild/getAll`
+        `${process.env.REACT_APP_API_URL}/categoryChild/getAll`, {params: {
+          page: 1,
+          pageSize: 10
+        }}
       );
       setCategoryChild(result?.data);
     } catch (e) {
@@ -106,6 +109,15 @@ export default function ProductForm({
           <Input size="large" placeholder={"Nhập"} />
         </Form.Item>
 
+        <Col xs={24}>
+            <Form.Item name="product_logo" label={"Ảnh sản phẩm"}>
+              <CustomUpload
+                type="image"
+                accept=".png, .jpg, .jpeg, .jfif"
+              />
+            </Form.Item>
+          </Col>
+
         <Form.Item
           label={"Giá"}
           name="product_price"
@@ -120,7 +132,7 @@ export default function ProductForm({
                 showSearch
                 size="large"
                 placeholder="Nhập"
-                options={categoryChild?.map((value) => ({
+                options={categoryChild?.data?.map((value) => ({
                   value: value.categoryChild_id,
                   label: "["+ value.category_name + "] " + value.categoryChild_name,
                 }))}
@@ -149,7 +161,7 @@ export default function ProductForm({
           <Col xs={24}>
             <Row gutter={40}>
               <Col xs={20}>
-                <Form.Item label={"Link video"} name="link_video">
+                <Form.Item label={"Link video (https://www.youtube.com/embed/<id của video>)"} name="link_video">
                   <Input
                     size="large"
                     placeholder={"Nhập"}
