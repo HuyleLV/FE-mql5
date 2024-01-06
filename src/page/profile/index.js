@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination } from "antd";
+import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination, message } from "antd";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import dayjs from "dayjs";
 import dayjsInstance from "../../utils/dayjs";
 import { WarningOutlined } from "@ant-design/icons";
+import { CustomUpload } from "../../component";
 
 export default function ProfilePage() {
   const [cookies] = useCookies(["user"]);
@@ -17,7 +18,6 @@ export default function ProfilePage() {
     pageSize: 8,
   });
 
-  console.log('cookies', cookies, profile)
   const fetchProfile = async () => {
     await axios
       .get(
@@ -50,17 +50,23 @@ export default function ProfilePage() {
   }, [pagination]);
 
   const onSubmit = async (values) => {
-    await axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/user/updateProfile/${profile?.user_id}`,
-        values
-      )
-      .finally(() => {
-        fetchProfile();
-        setEditProfile(false);
-      });
-  };
+    console.log(values);
+    if (values?.passwordNew === values?.comfirmPassword && values?.passwordNew !== undefined) {    
+      await axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/user/updateProfile/${profile?.user_id}`,
+          values
+        )
+        .finally(() => {
+          fetchProfile();
+          setEditProfile(false);
+          message.success("Cập nhật thông tin thành công !");
+        });
+    }else {
+      message.error("Thông tin điền bị sai hoặc thiếu!");
+    }
 
+  };
 
   const columns = [
     {
@@ -153,14 +159,33 @@ export default function ProfilePage() {
           xs={24}
           className="p-[20px] border border-[var(--mid-gray)] rounded"
         >
+        <Form
+          layout={"vertical"}
+          colon={false}
+          form={form}
+          initialValues={profile}
+          onFinishFailed={(e) => console.log(e)}
+          onFinish={onSubmit}
+        >
           <Row gutter={20}>
             <Col>
+            {!editProfile ? (
               <Image
                 preview={false}
                 src={profile?.photos}
                 width={120}
                 height={120}
               />
+            ): (
+              <>
+                <Form.Item name="photos">
+                  <CustomUpload
+                    type="image"
+                    accept=".png, .jpg, .jpeg, .jfif"
+                  />
+                </Form.Item>
+              </>
+            )}
             </Col>
             <Col>
               <div className="text-[26px] font-medium">
@@ -169,49 +194,66 @@ export default function ProfilePage() {
               <div className="text-[18px] font-normal">{profile?.email}</div>
             </Col>
           </Row>
-          <Form
-            className="pt-[20px]"
-            layout={"vertical"}
-            colon={false}
-            form={form}
-            initialValues={profile}
-            onFinishFailed={(e) => console.log(e)}
-            onFinish={onSubmit}
-          >
-            <Col xs={24} lg={12}>
-              {!editProfile ? (
-                <Form.Item label="Password">
-                  <Input
-                    disabled={!editProfile}
-                    size="large"
-                    placeholder="*********"
-                  />
-                </Form.Item>
-              ) : (
-                <Form.Item label="Password" name="password">
-                  <Input disabled={!editProfile} size="large" />
-                </Form.Item>
-              )}
-
-              <Form.Item label="Phone number" name="phone">
-                <Input disabled={!editProfile} size="large" />
+          <Row xs={24} lg={12} className="pt-10">
+            {!editProfile ? (
+              <Form.Item label="Password" className="w-[300px]">
+                <Input
+                  disabled={!editProfile}
+                  size="large"
+                  placeholder="*********"
+                />
               </Form.Item>
-
-              <Space>
-                <Button
-                  type={"primary"}
-                  onClick={() => setEditProfile(!editProfile)}
-                >
-                  Edit profile
-                </Button>
-                {editProfile && (
-                  <Button type={"primary"} htmlType={"submit"}>
-                    Save
-                  </Button>
-                )}
-              </Space>
+            ) : (
+              <>
+                <Col xs={6}>
+                  <Form.Item label="Password Current" name="password" className="w-[300px]">
+                    <Input
+                      disabled={!editProfile}
+                      size="large"
+                      placeholder="*********"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={6}>
+                  <Form.Item label="Password New" name="passwordNew" className="w-[300px]">
+                    <Input
+                      disabled={!editProfile}
+                      size="large"
+                      placeholder="*********"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={6}>
+                  <Form.Item label="Confirm Password" name="comfirmPassword" className="w-[300px]">
+                    <Input
+                      disabled={!editProfile}
+                      size="large"
+                      placeholder="*********"
+                    />
+                  </Form.Item>
+                </Col>
+              </>
+            )}
+            <Col xs={24}>
+              <Form.Item label="Phone number" name="phone" className="w-[300px]">
+                <Input disabled={!editProfile} size="large"/>
+              </Form.Item>
             </Col>
-          </Form>
+            <Space>
+              <Button
+                type={"primary"}
+                onClick={() => setEditProfile(!editProfile)}
+              >
+                Edit profile
+              </Button>
+              {editProfile && (
+                <Button type={"primary"} htmlType={"submit"}>
+                  Save
+                </Button>
+              )}
+            </Space>
+          </Row>
+        </Form>
         </Col>
         <Col
           lg={20}

@@ -110,13 +110,13 @@ export default function ProductForm({
         </Form.Item>
 
         <Col xs={24}>
-            <Form.Item name="product_logo" label={"Ảnh sản phẩm"}>
-              <CustomUpload
-                type="image"
-                accept=".png, .jpg, .jpeg, .jfif"
-              />
-            </Form.Item>
-          </Col>
+          <Form.Item name="product_logo" label={"Ảnh sản phẩm"}>
+            <CustomUpload
+              type="image"
+              accept=".png, .jpg, .jpeg, .jfif"
+            />
+          </Form.Item>
+        </Col>
 
         <Form.Item
           label={"Giá"}
@@ -135,7 +135,7 @@ export default function ProductForm({
                 options={categoryChild?.data?.map((value) => ({
                   value: value.categoryChild_id,
                   label: "["+ value.category_name + "] " + value.categoryChild_name,
-                }))}
+                }))}  
               />
             </Form.Item>
           </Col>
@@ -186,7 +186,7 @@ export default function ProductForm({
           </Col>
 
           <Col xs={24}>
-            <Form.Item name="product_image" label={"Ảnh slide"}>
+            <Form.Item name="product_image" label={"Ảnh slide ( Up tối đa 6 ảnh )"}>
               <CustomUpload
                 type="image"
                 accept=".png, .jpg, .jpeg, .jfif"

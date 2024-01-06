@@ -24,11 +24,13 @@ export default function ProductsDetail() {
           : undefined;
   
         const linkVideo = coverProductImage?.filter((i) => i.type === 'video')
+        const linklogo = coverProductImage?.filter((i) => i.type === 'logo')
         const linkImage = coverProductImage?.filter((i) => i.type === 'image')
 
         const values = {
           ...data,
           link_video: linkVideo?.[0]?.data,
+          product_logo: linklogo?.[0]?.data,
           product_image: linkImage?.[0]?.data
         };
         setInitialValues(values);

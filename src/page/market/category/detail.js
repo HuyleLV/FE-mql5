@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MenuItemMarket from "../../../component/MenuItemMarket";
 
-export default function Category() {
+export default function CategoryDetail() {
   const { isMobile } = useDevice();
   const [products, setProducts] = useState([]);
   const params = useParams();
@@ -17,7 +17,12 @@ export default function Category() {
 
   const fetchProducts = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/category/getProductById/${params?.category_id}`, {params: pagination})
+      .get(`${process.env.REACT_APP_API_URL}/categoryChild/getProductById`, {params: {
+        page: pagination?.page,
+        pageSize: pagination?.pageSize,
+        category_id: params?.category_id,
+        categoryChild_id: params?.categoryChild_id
+      }})
       .then((res) => {
         const data = res?.data;
         setProducts(data || []);
@@ -133,7 +138,6 @@ export default function Category() {
     { key: "poupler", label: "Poupler" },
   ];
 
-
   return (
     <>
       <div className="max-w-screen-2xl items-center mx-auto pt-10">
@@ -142,7 +146,7 @@ export default function Category() {
             {MenuItemMarket()}
             <Col xs={24} sm={20} className="pb-10">
               <div className="border w-full p-5">
-                <p className="p-5 font-bold text-2xl text-[#42639c]">{products?.category_name}</p>
+                <p className="p-5 font-bold text-2xl text-[#42639c]">{products?.category_name}/ {products?.categoryChild_name}</p>
                 <Tabs
                   className={"ml-[20px] !rounded-none"}
                   type="card"

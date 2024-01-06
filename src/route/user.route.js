@@ -7,6 +7,7 @@ import ProfilePage from "../page/profile";
 import Register from "../page/register";
 import AcceptEmail from "../page/acceptEmail";
 import Category from "../page/market/category";
+import CategoryDetail from "../page/market/category/detail";
 
 export default function User () {
     return (
@@ -19,6 +20,7 @@ export default function User () {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/market/:id/" element={<MarketDetail />} />
         <Route path="/category/:category_id" element={<Category />} />
+        <Route path="/category-child/:category_id/:categoryChild_id" element={<CategoryDetail />} />
         <Route path="/loginAdmin" element={<LoginAdmin />} />
       </Routes>
     );

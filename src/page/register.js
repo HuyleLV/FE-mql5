@@ -12,8 +12,13 @@ const Register = () => {
   const { isMobile } = useDevice();
 
   const onSubmit = async (values) => {
+    const submitValues = {
+      ...values,
+      photos: "https://cdn-icons-png.flaticon.com/512/848/848006.png",
+      role: 1
+    };
     await axios
-      .post(`${process.env.REACT_APP_API_URL}/user/create`, values)
+      .post(`${process.env.REACT_APP_API_URL}/user/create`, submitValues)
       .then(async (res) => {
         await handleSendMail(values?.email);
       })
@@ -47,7 +52,13 @@ const Register = () => {
               </div>
             </div>
             <Col lg={14} xs={22} style={{ maxWidth: 380 }}>
-              <Form form={form} name="basic" layout={"vertical"} colon={false}>
+            <Form
+                name="basic"
+                layout={"vertical"}
+                colon={false}
+                form={form}
+                onFinish={onSubmit}
+                style={{ maxWidth: 380 }} >
                 <Form.Item
                   name="displayName"
                   rules={[{ required: true, message: "Enter display name!" }]}

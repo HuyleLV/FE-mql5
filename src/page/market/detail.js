@@ -29,8 +29,10 @@ export default function MarketDetail() {
     page: 1,
     pageSize: 10,
   });
-
-  console.log(product?.[0].category_id);
+  const [paginationComment, setPaginationComment] = useState({
+    page: 1,
+    pageSize: 6,
+  });
 
   const responsive = {
     superLargeDesktop: {
@@ -80,6 +82,7 @@ export default function MarketDetail() {
       .then((res) => {
         const data = res?.data;
         setProduct(data);
+        
         fetchProductRecommend(data?.[0].category_id)
       })
       .catch(() => message.error("Error server!"));
@@ -97,7 +100,7 @@ export default function MarketDetail() {
 
   const fetchcomment = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/comment/getById/${params?.id}`)
+      .get(`${process.env.REACT_APP_API_URL}/comment/getById/${params?.id}`, {params: paginationComment})
       .then((res) => {
         const data = res?.data;
         setComment(data);
@@ -120,7 +123,7 @@ export default function MarketDetail() {
         fetchcomment();
       });
   };
-
+  
   const renderItem = (item) => {
     return (
       <List.Item key={item?.product_id}>
@@ -138,7 +141,7 @@ export default function MarketDetail() {
                     </div>
                     <p className="p-1 h-10 font-semibold text-black">{item?.product_name}</p>
                     <div className="flex items-center justify-center py-[16px]">
-                      <Rate style={{ fontSize: 15 }} allowHalf defaultValue={5} disabled/>
+                      <Rate style={{ fontSize: 15 }} allowHalf defaultValue={item?.average !== null ? item?.average : 5} disabled/>
                     </div>
                     <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
                       ${item?.product_price} <span>USD</span>
@@ -152,31 +155,31 @@ export default function MarketDetail() {
                         pb-0 max-w-[calc(200%_+_20px)] h-full 
                         overflow-y-hidden transition-all"
                 >
-                  <div className="flex flex-col justify-between h-full">
-                    <div>
-                      <div className="flex relative z-[1]">
-                        <img
-                          src={item?.product_image ? JSON.parse(item?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : null}
-                          alt={item?.product_name}
-                          className="w-[36px] h-[36px] object-cover"
-                        />
-                        <div>
-                          <p className="p-1">{item?.product_name}</p>
-                          <div className="flex items-center">
-                            <Rate className="" allowHalf defaultValue={4.5} disabled/>
-                            <span className="w-[18px] h-[18px] block"></span>
-                            <span>{item?.categoryChild_name}</span>
-                          </div>
+                <div className="flex flex-col justify-between h-full text-black">
+                  <div>
+                    <div className="flex relative z-[1]">
+                      <img
+                        src={item?.product_image ? JSON.parse(item?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : null}
+                        alt={item?.product_name}
+                        className="w-[50px] h-[50px] object-cover"
+                      />
+                      <div className="px-4">
+                        <p className="font-bold">{item?.product_name}</p>
+                        <div className="flex items-center">
+                          <Rate style={{ fontSize: 15 }} allowHalf defaultValue={item?.average !== null ? item?.average : 5} disabled/>
+                          <span className="w-[18px] h-[18px] block"></span>
+                          <span>{item?.categoryChild_name}</span>
                         </div>
                       </div>
-                      <div className="line-clamp-[8]">
-                        <p className="inline">{item?.product_description}</p>
-                      </div>
                     </div>
-                    <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
-                      ${item?.product_price} <span>USD</span>
-                    </p>
+                    <div className="line-clamp-[8]">
+                      <div dangerouslySetInnerHTML={{ __html: item?.product_description}}></div>
+                    </div>
                   </div>
+                  <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
+                    ${item?.product_price} <span>USD</span>
+                  </p>
+                </div>
                 </div>
               </div>
             </>
@@ -202,7 +205,7 @@ export default function MarketDetail() {
                 >
                   <img
                     alt="avata-product"
-                    src={"/image/ae.png"}
+                    src={item?.product_image ? JSON.parse(item?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : null}
                     width={80}
                     height={80}
                     className="mr-[20px]"
@@ -212,16 +215,7 @@ export default function MarketDetail() {
                       {item?.product_name}
                     </p>
                     <div className="flex items-center pt-[8px] pb-[10px]">
-                      {[1, 2, 3, 4, 5]?.map((i) => {
-                        return (
-                          <img
-                            id={i}
-                            alt="icon-star"
-                            src={"/image/star.png"}
-                            className="w-[10px] h-[10px]"
-                          />
-                        );
-                      })}
+                      <Rate style={{ fontSize: 15 }} allowHalf defaultValue={item?.average !== null ? item?.average : 5} disabled/>
                     </div>
                   </div>
                 </Link>
@@ -238,8 +232,7 @@ export default function MarketDetail() {
       fetchproduct();
       fetchcomment();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params?.id]);
+  }, [params?.id, pagination, paginationComment]);
 
   const productLink = useMemo(() => {
     const productImage = product?.[0]?.product_image;
@@ -267,8 +260,8 @@ export default function MarketDetail() {
   return (
     <div className="max-w-screen-2xl items-center mx-auto pt-5">
       <p className="font-semibold px-5 py-1 text-xl border-b">
-        <span className="text-[#42639c]">Market</span> /{" "}
-        <span className="text-[#42639c]">MetaTrader 5</span> /{" "}
+      <a href={`/market`}><span className="text-[#42639c] font-bold">Market</span></a> /{" "}
+        <a href={`/category/${product?.[0].category_id}`}><span className="text-[#42639c] font-bold">{product?.[0].category_name}</span></a> /{" "}
         {product?.[0].product_name}
       </p>
       {isMobile ? (
@@ -282,7 +275,7 @@ export default function MarketDetail() {
             <div className="pl-5">
               <p className="font-bold text-xl">{product?.[0].product_name}</p>
               <p className="text-sm font-medium text-slate-500 py-1">by {product?.[0].displayName}</p>
-              <Rate style={{fontSize: 18}} allowHalf value={5} disabled />
+              <Rate style={{fontSize: 18}} allowHalf value={product?.[0].average !== null ? product?.[0].average : 5} disabled />
               <p className="text-lg font-bold text-[#1ba921] py-1">{product?.[0].product_price} USD</p>
             </div>
           </div>
@@ -293,6 +286,11 @@ export default function MarketDetail() {
             >
               Buy: {product?.[0].product_price} USD
             </button>
+            <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
+              <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
+                Free Demo
+              </button>
+            </a>
           </div>
           <div className="px-4 py-4">
             <div class="relative">
@@ -333,7 +331,7 @@ export default function MarketDetail() {
                 </div>
               :
                 <div className="p-5">
-                  <div className="h-full max-w-full truncate">
+                  <div className=" h-40 truncate">
                     {parse(String(product?.[0].product_description))}
                   </div>
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
@@ -394,17 +392,29 @@ export default function MarketDetail() {
               </div>  
                : 
                 <></>
-              }          
-            <div className="px-4">
-              <p className="font-semibold text-2xl py-5">Recommended products</p>
-              <List
-                className="ml-[20px]"
-                grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
-                itemLayout="horizontal"
-                dataSource={Products}
-                renderItem={isMobile ? renderItemForMobile : renderItem}
-              />
-            </div>
+              }      
+              <div className="px-2 py-6">
+                <p className="font-semibold text-2xl py-5">Recommended products</p>
+                <List
+                  className="ml-[20px]"
+                  grid={{ gutter: 20, xs: 1, sm: 1, md: 4, lg: 4, xl: 6, xxl: 6 }}
+                  itemLayout="horizontal"
+                  dataSource={productRecommend?.data}
+                  renderItem={isMobile ? renderItemForMobile : renderItem}
+                />
+                <Pagination
+                  className="flex justify-center"
+                  current={pagination.page}
+                  total={productRecommend?.total}
+                  pageSize={pagination.pageSize}
+                  onChange={(p)=> {
+                    setPagination({
+                      page: p,
+                      pageSize: pagination.pageSize
+                    })
+                  }}
+                />
+              </div>
           </div>
         </div>
       ): (
@@ -432,13 +442,13 @@ export default function MarketDetail() {
               </a>
               <div className="mt-4 text-sm w-full">
                 <p>
-                  Demo downloaded: <span className="pl-2">9 427</span>
+                  Demo downloaded: <span className="pl-2">{product?.[0].product_activations}</span>
                 </p>
                 <p>
                   Published: <span className="pl-2">{dayjs(product?.[0].create_at).format("DD/MM/YYYY")}</span>
                 </p>
                 <p>
-                  Current version: <span className="pl-2">3.5</span>
+                  Current version: <span className="pl-2">{product?.[0].product_version}</span>
                 </p>
               </div>
               <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-lg text-[#42639c] text-sm">
@@ -452,7 +462,7 @@ export default function MarketDetail() {
                 {product?.[0].product_name}
               </p>
               <div className="flex pt-2 pl-5">
-                <Rate allowHalf value={5} disabled />
+                <Rate allowHalf value={product?.[0].average !== null ? product?.[0].average : 5} disabled />
               </div>
             </div>
             <div className="flex flex-wrap gap-[20px] pl-5 pt-1">
@@ -498,7 +508,7 @@ export default function MarketDetail() {
                 </div>
               :
                 <div className="p-5">
-                  <div className="h-full truncate">
+                  <div className="h-40 truncate">
                     {parse(String(product?.[0].product_description))}
                   </div>
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
@@ -529,37 +539,54 @@ export default function MarketDetail() {
 
             <div>
               <p className="font-semibold text-2xl p-5">Comment</p>
-              {comment !== undefined ? (
-                comment.map((i) => {
-                  return (
-                    <div className="flex border">
-                      <div className="w-1/3 md:w-1/6 p-4">
-                        <p className="flex justify-center">
-                          <img
-                            alt="img"
-                            src={i.photos}
-                            className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
-                          />
-                        </p>
-                      </div>
-                      <div className="w-2/3 md:w-5/6">
-                        <div className="flex py-5 max-md:flex-col">
-                          <p className="font-bold text-[#42639c]">
-                            {i.displayName}
-                          </p>
-                          <p className="text-[10px] pt-1 px-2">
-                            {dayjs(i.create_at).format("DD/MM/YYYY hh:mm")}
-                          </p>
-                          <Rate allowHalf value={i.comment_star} disabled />
+              {comment?.data !== undefined ? 
+                <>
+                  {comment.data?.map((i) => {
+                    return (
+                      <>
+                        <div className="flex border">
+                          <div className="w-1/3 md:w-1/6 p-4">
+                            <p className="flex justify-center">
+                              <img
+                                alt="img"
+                                src={i.photos}
+                                className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
+                              />
+                            </p>
+                          </div>
+                          <div className="w-2/3 md:w-5/6">
+                            <div className="flex py-5 max-md:flex-col">
+                              <p className="font-bold text-[#42639c]">
+                                {i.displayName}
+                              </p>
+                              <p className="text-[10px] pt-1 px-2">
+                                {dayjs(i.create_at).format("DD/MM/YYYY hh:mm")}
+                              </p>
+                              <Rate allowHalf value={i.comment_star} disabled />
+                            </div>
+                            <p>{i.comment_content}</p>
+                          </div>
                         </div>
-                        <p>{i.comment_content}</p>
-                      </div>
-                    </div>
-                  );
-                })
-              ) : (
-                <></>
-              )}
+                      </>
+                    );
+                  })}
+                  <div className="py-6">
+                    <Pagination
+                      className="flex justify-center"
+                      current={paginationComment.page}
+                      total={comment?.total}
+                      pageSize={paginationComment.pageSize}
+                      onChange={(p)=> {
+                        setPaginationComment({
+                          page: p,
+                          pageSize: paginationComment.pageSize
+                        })
+                      }}
+                    />
+                  </div>
+                </>
+               : <></>
+              }
 
               {cookies?.user && (
                 <div className="p-[10px]">
