@@ -336,14 +336,14 @@ export default function MarketDetail() {
               ?
                 <div className="p-5">
                   <div className="max-w-full">
-                    {parse(String(product?.[0].product_description))}
+                    {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Hide</button>
                 </div>
               :
                 <div className="p-5">
-                  <div className=" h-40 truncate">
-                    {parse(String(product?.[0].product_description))}
+                  <div className="h-24 truncate">
+                    {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
                 </div>
@@ -513,14 +513,14 @@ export default function MarketDetail() {
               ?
                 <div className="p-5">
                   <div>
-                    {parse(String(product?.[0].product_description))}
+                    {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Hide</button>
                 </div>
               :
                 <div className="p-5">
-                  <div className="h-40 truncate">
-                    {parse(String(product?.[0].product_description))}
+                  <div className="h-24 truncate">
+                    {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
                 </div>
