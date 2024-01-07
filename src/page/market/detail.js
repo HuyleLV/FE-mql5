@@ -82,7 +82,6 @@ export default function MarketDetail() {
       .then((res) => {
         const data = res?.data;
         setProduct(data);
-        
         fetchProductRecommend(data?.[0].category_id)
       })
       .catch(() => message.error("Error server!"));
@@ -123,6 +122,18 @@ export default function MarketDetail() {
         fetchcomment();
       });
   };
+
+  const activate = async () => {
+    const i =  product?.[0].product_activations + 1;
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/product/updateActivation/${product?.[0].product_id}`, {
+        product_activations: i
+      })
+      .then((res) => {
+        fetchproduct()
+        // message.success("Download demo");
+      });
+  }
   
   const renderItem = (item) => {
     return (
@@ -287,7 +298,7 @@ export default function MarketDetail() {
               Buy: {product?.[0].product_price} USD
             </button>
             <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
-              <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
+              <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
                 Free Demo
               </button>
             </a>
@@ -303,7 +314,7 @@ export default function MarketDetail() {
             </div>
             <div class="relative">
               <p class="absolute left-0">Demo downloaded:</p>
-              <p class="absolute right-0">1909</p>
+              <p class="absolute right-0">{product?.[0].product_activations}</p>
             </div>
             <div class="relative py-8">
               <p class="absolute left-0">Author:</p>
@@ -436,7 +447,7 @@ export default function MarketDetail() {
                 Buy: {product?.[0].product_price} USD
               </button>
               <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
-                <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]">
+                <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
                   Free Demo
                 </button>
               </a>

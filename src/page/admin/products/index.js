@@ -4,6 +4,8 @@ import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SearchProps from "../../../component/SearchProps";
+import dayjs from "dayjs";
 
 export default function ProductsDashboard() {
   const [products, setProducts] = useState([]);
@@ -32,6 +34,7 @@ export default function ProductsDashboard() {
       key: "product_id",
       dataIndex: "product_id",
       width: 100,
+      sorter: (a, b) => a.product_id - b.product_id,
       render: (_, record) => <div>{record?.product_id}</div>,
     },
     {
@@ -39,6 +42,7 @@ export default function ProductsDashboard() {
       key: "product_name",
       dataIndex: "product_name",
       width: 200,
+      ...SearchProps("product_name"),
       render: (_, record) => <div>{record?.product_name}</div>,
     },
     {
@@ -46,6 +50,7 @@ export default function ProductsDashboard() {
       key: "product_slug",
       dataIndex: "product_slug",
       width: 200,
+      ...SearchProps("product_slug"),
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>
@@ -59,6 +64,7 @@ export default function ProductsDashboard() {
       key: "product_price",
       dataIndex: "product_price",
       width: 200,
+      sorter: (a, b) => a.product_price - b.product_price,
       render: (_, record) => (
         <div className={"cursor-pointer"}>
           <div className={"text-[14px] font-normal text"}>
@@ -72,6 +78,7 @@ export default function ProductsDashboard() {
       key: "product_version",
       dataIndex: "product_version",
       width: 200,
+      sorter: (a, b) => a.product_version - b.product_version,
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>
@@ -85,6 +92,7 @@ export default function ProductsDashboard() {
       key: "displayName",
       dataIndex: "displayName",
       width: 200,
+      ...SearchProps("displayName"),
       render: (_, record) => <div>{record?.displayName}</div>,
     },
     {
@@ -92,6 +100,7 @@ export default function ProductsDashboard() {
       key: "createdAt",
       dataIndex: "createdAt",
       width: 100,
+      sorter: (a, b) => dayjs(a.create_at) - dayjs(b.create_at),
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>
@@ -135,7 +144,7 @@ export default function ProductsDashboard() {
           </Col>
         </Row>
       </div>
-      <div className="w-full h-full mt-5 relative">
+      <div className="w-full h-full mt-5 pb-20 relative">
         <Table
           className={"custom-table"}
           dataSource={products?.data}
@@ -147,10 +156,11 @@ export default function ProductsDashboard() {
           current={pagination.page}
           total={products?.total}
           pageSize={pagination.pageSize}
-          onChange={(p)=> {
+          showSizeChanger
+          onChange={(p, ps)=> {
             setPagination({
               page: p,
-              pageSize: pagination.pageSize
+              pageSize: ps
             })
           }}
         />

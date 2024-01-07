@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import { Image, Dropdown, Space, Select } from "antd";
 import { useDevice } from "../hooks";
 import { DownOutlined } from "@ant-design/icons";
+import logo from "../component/image/logo.jpg"
 
 export default function Header() {
   const { isMobile } = useDevice();
@@ -57,10 +58,10 @@ export default function Header() {
         <div className="w-full flex flex-wrap items-center mx-auto">
           <div className={"flex max-md:w-full"}>
             <a href="/" className="flex items-center pr-4">
-              {/* <img src={logo} className="h-8 mr-3" alt="Flowbite Logo" /> */}
-              <span className="self-center text-2xl font-bold whitespace-nowrap text-white pl-4">
+              <img src={logo} className="h-8 pl-4" alt="Flowbite Logo" />
+              {/* <span className="self-center text-2xl font-bold whitespace-nowrap text-white pl-4">
                 MQL<span className="text-yellow-400">5</span>
-              </span>
+              </span> */}
             </a>
 
             {isMobile ? 

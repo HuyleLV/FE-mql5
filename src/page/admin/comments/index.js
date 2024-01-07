@@ -4,6 +4,8 @@ import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SearchProps from "../../../component/SearchProps";
+import dayjs from "dayjs";
 
 export default function CommentDashboard() {
   const [comments, setComments] = useState([]);
@@ -52,6 +54,7 @@ export default function CommentDashboard() {
       key: "comment_id",
       dataIndex: "comment_id",
       width: 100,
+      sorter: (a, b) => a.comment_id - b.comment_id,
       render: (_, record) => <div>{record?.comment_id}</div>,
     },
 
@@ -60,6 +63,7 @@ export default function CommentDashboard() {
       key: "product_name",
       dataIndex: "product_name",
       width: 200,
+      ...SearchProps("product_name"),
       render: (_, record) => (
         <div>
           {record?.product_name}
@@ -78,6 +82,16 @@ export default function CommentDashboard() {
       key: "comment_star",
       dataIndex: "comment_star",
       width: 200,
+      filters: [
+        { text: '5', value: 5 },
+        { text: '4', value: 4 },
+        { text: '3', value: 3 },
+        { text: '2', value: 2 },
+        { text: '1', value: 1 },
+      ],
+      onFilter: (value, record) => {
+        return record?.comment_star === value;
+      },
       render: (_, record) => <div><Rate allowHalf value={record?.comment_star} disabled /></div>,
     },
     {
@@ -85,6 +99,7 @@ export default function CommentDashboard() {
       key: "displayName",
       dataIndex: "displayName",
       width: 200,
+      ...SearchProps("displayName"),
       render: (_, record) => <div>{record?.displayName}</div>,
     },
     {
@@ -92,6 +107,7 @@ export default function CommentDashboard() {
       key: "create_at",
       dataIndex: "create_at",
       width: 200,
+      sorter: (a, b) => dayjs(a.create_at) - dayjs(b.create_at),
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>
@@ -136,7 +152,7 @@ export default function CommentDashboard() {
         </Row>
       </div>
 
-      <div className="w-full h-full mt-5 relative">
+      <div className="w-full h-full mt-5 pb-20 relative">
         <Table
           className={"custom-table"}
           dataSource={comments?.data}
@@ -148,10 +164,11 @@ export default function CommentDashboard() {
           current={pagination.page}
           total={comments?.total}
           pageSize={pagination.pageSize}
-          onChange={(p)=> {
+          showSizeChanger
+          onChange={(p, ps)=> {
             setPagination({
               page: p,
-              pageSize: pagination.pageSize
+              pageSize: ps
             })
           }}
         />

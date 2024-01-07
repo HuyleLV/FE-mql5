@@ -4,6 +4,8 @@ import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SearchProps from "../../../component/SearchProps";
+import dayjs from "dayjs";
 
 export default function CategoriesDashboard() {
   const [categories, setCategories] = useState([]);
@@ -33,6 +35,7 @@ export default function CategoriesDashboard() {
       key: "category_id",
       dataIndex: "category_id",
       width: 100,
+      sorter: (a, b) => a.category_id - b.category_id,
       render: (_, record) => <div>{record?.category_id}</div>,
     },
     {
@@ -40,6 +43,7 @@ export default function CategoriesDashboard() {
       key: "category_name",
       dataIndex: "category_name",
       width: 150,
+      ...SearchProps("category_name"),
       render: (_, record) => <div>{record?.category_name}</div>,
     },
     {
@@ -61,6 +65,7 @@ export default function CategoriesDashboard() {
       key: "create_at",
       dataIndex: "create_at",
       width: 100,
+      sorter: (a, b) => dayjs(a.create_at) - dayjs(b.create_at),
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>
@@ -119,7 +124,7 @@ export default function CategoriesDashboard() {
           </Col>
         </Row>
       </div>
-      <div className="w-full h-full mt-5 relative">
+      <div className="w-full h-full mt-5 pb-20 relative">
         <Table
           className={"custom-table"}
           dataSource={categories?.data}
@@ -131,10 +136,11 @@ export default function CategoriesDashboard() {
           current={pagination.page}
           total={categories?.total}
           pageSize={pagination.pageSize}
-          onChange={(p)=> {
+          showSizeChanger
+          onChange={(p, ps)=> {
             setPagination({
               page: p,
-              pageSize: pagination.pageSize
+              pageSize: ps
             })
           }}
         />

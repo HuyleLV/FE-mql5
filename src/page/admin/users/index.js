@@ -4,6 +4,8 @@ import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SearchProps from "../../../component/SearchProps";
+import dayjs from "dayjs";
 
 export default function UsersDashboard() {
   const [user, setUser] = useState([]);
@@ -64,6 +66,7 @@ export default function UsersDashboard() {
       title: <div className={"base-table-cell-label"}>ID</div>,
       key: "user_id",
       dataIndex: "user_id",
+      sorter: (a, b) => a.user_id - b.user_id,
       width: 50,
       render: (_, record) => <div>{record?.user_id}</div>,
     },
@@ -72,6 +75,7 @@ export default function UsersDashboard() {
       key: "displayName",
       dataIndex: "displayName",
       width: 280,
+      ...SearchProps("displayName"),
       render: (_, record) => <div>{record?.displayName}</div>,
     },
     {
@@ -79,6 +83,7 @@ export default function UsersDashboard() {
       key: "email",
       dataIndex: "email",
       width: 280,
+      ...SearchProps("email"),
       render: (_, record) => {
         return <div>{record?.email}</div>;
       },
@@ -88,13 +93,21 @@ export default function UsersDashboard() {
       key: "role",
       dataIndex: "role",
       width: 280,
+      filters: [
+        { text: 'User', value: 1 },
+        { text: 'Admin', value: 2 },
+      ],
+      onFilter: (value, record) => {
+        return record?.role === value;
+      },
       render: (_, record) => {
         return (
           <div>
             <Select
               options={optionRole}
               className={"w-[100px]"}
-              defaultValue={record?.role}
+              value={record?.role === 1 ? "User" : "Admin"}
+              defaultValue={record?.role === 1 ? "User" : "Admin"}
               onChange={(value) => updateUser(value, record?.user_id)}
             />
           </div>
@@ -106,6 +119,7 @@ export default function UsersDashboard() {
       key: "create_at",
       dataIndex: "create_at",
       width: 280,
+      sorter: (a, b) => dayjs(a.create_at) - dayjs(b.create_at),
       render: (_, record) => {
         return (
           <div>
@@ -150,7 +164,7 @@ export default function UsersDashboard() {
         </Col>
       </Row>
 
-      <div className="w-full h-full mt-5 relative">
+      <div className="w-full h-full mt-5 pb-20 relative">
         <Table
           className={"custom-table"}
           dataSource={user?.data}
@@ -162,10 +176,11 @@ export default function UsersDashboard() {
           current={pagination.page}
           total={user?.total}
           pageSize={pagination.pageSize}
-          onChange={(p)=> {
+          showSizeChanger
+          onChange={(p, ps)=> {
             setPagination({
               page: p,
-              pageSize: pagination.pageSize
+              pageSize: ps
             })
           }}
         />

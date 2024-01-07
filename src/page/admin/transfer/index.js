@@ -4,6 +4,8 @@ import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SearchProps from "../../../component/SearchProps";
+import dayjs from "dayjs";
 
 export default function TransferDashboard() {
   const [transfer, setTransfer] = useState([]);
@@ -66,6 +68,7 @@ export default function TransferDashboard() {
       key: "transfer_id",
       dataIndex: "transfer_id",
       width: 50,
+      sorter: (a, b) => a.transfer_id - b.transfer_id,
       render: (_, record) => <div>{record?.transfer_id}</div>,
     },
     {
@@ -80,6 +83,7 @@ export default function TransferDashboard() {
       key: "transfer_price",
       dataIndex: "transfer_price",
       width: 160,
+      sorter: (a, b) => a.transfer_price - b.transfer_price,
       render: (_, record) => <div>{record?.transfer_price}</div>,
     },
     {
@@ -87,12 +91,20 @@ export default function TransferDashboard() {
       key: "transfer_status",
       dataIndex: "transfer_status",
       width: 160,
+      filters: [
+        { text: 'Chờ xác nhận', value: "1" },
+        { text: 'Xác nhận', value: "2" },
+      ],
+      onFilter: (value, record) => {
+        return record?.transfer_status === value;
+      },
       render: (_, record) => (
         <div>
             <Select
                 options={optionTransfer}
                 className={"w-[150px]"}
-                defaultValue={record?.transfer_status}
+                value={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
+                defaultValue={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
                 onChange={(value) => updateTransfer(value, record?.transfer_id)}
                 />
         </div>
@@ -116,6 +128,7 @@ export default function TransferDashboard() {
       key: "product_id",
       dataIndex: "product_id",
       width: 160,
+      ...SearchProps("product_id"),
       render: (_, record) => (
         <div>
             {record?.product_name}
@@ -127,6 +140,7 @@ export default function TransferDashboard() {
       key: "displayName",
       dataIndex: "displayName",
       width: 200,
+      ...SearchProps("displayName"),
       render: (_, record) => <div>{record?.displayName}</div>,
     },
     {
@@ -134,6 +148,7 @@ export default function TransferDashboard() {
       key: "create_at",
       dataIndex: "create_at",
       width: 160,
+      sorter: (a, b) => dayjs(a.create_at) - dayjs(b.create_at),
       render: (_, record) => {
         return (
           <div>
@@ -173,7 +188,7 @@ export default function TransferDashboard() {
           </Col>
         </Row>
       </div>
-      <div className="w-full h-full mt-5 relative">
+      <div className="w-full h-full mt-5 pb-20 relative">
         <Table
           className={"custom-table"}
           dataSource={transfer?.data}
@@ -182,14 +197,15 @@ export default function TransferDashboard() {
         />
       
         <Pagination 
-          className="flex justify-center absolute inset-x-0 bottom-28"
+          className="flex justify-center absolute inset-x-0 bottom-24"
           current={pagination.page}
           total={transfer?.total}
           pageSize={pagination.pageSize}
-          onChange={(p)=> {
+          showSizeChanger
+          onChange={(p, ps)=> {
             setPagination({
               page: p,
-              pageSize: pagination.pageSize
+              pageSize: ps
             })
           }}
         />

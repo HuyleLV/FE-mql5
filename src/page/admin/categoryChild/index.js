@@ -4,6 +4,8 @@ import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SearchProps from "../../../component/SearchProps";
+import dayjs from "dayjs";
 
 export default function CategoryChildDashboard() {
   const [categories, setCategories] = useState([]);
@@ -32,6 +34,7 @@ export default function CategoryChildDashboard() {
       key: "categoryChild_id",
       dataIndex: "categoryChild_id",
       width: 100,
+      sorter: (a, b) => a.categoryChild_id - b.categoryChild_id,
       render: (_, record) => <div>{record?.categoryChild_id}</div>,
     },
     {
@@ -39,6 +42,7 @@ export default function CategoryChildDashboard() {
       key: "categoryChild_name",
       dataIndex: "categoryChild_name",
       width: 250,
+      ...SearchProps("categoryChild_name"),
       render: (_, record) => {
         return (
           <div className={"flex items-center"}>
@@ -75,6 +79,15 @@ export default function CategoryChildDashboard() {
       key: "category_name",
       dataIndex: "category_name",
       width: 150,
+      filters: [
+        { text: 'MetaTrader 6', value: "MetaTrader 6" },
+        { text: 'MetaTrader 5', value: "MetaTrader 5" },
+        { text: 'MetaTrader 4', value: "MetaTrader 4" },
+        { text: 'MetaTrader 3', value: "MetaTrader 3" },
+      ],
+      onFilter: (value, record) => {
+        return record?.category_name === value;
+      },
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>
@@ -88,6 +101,7 @@ export default function CategoryChildDashboard() {
       key: "createdAt",
       dataIndex: "createdAt",
       width: 100,
+      sorter: (a, b) => dayjs(a.create_at) - dayjs(b.create_at),
       render: (_, record) => {
         return (
           <div className={"cursor-pointer text-[14px] font-normal"}>
@@ -146,7 +160,7 @@ export default function CategoryChildDashboard() {
           </Col>
         </Row>
       </div>
-      <div className="w-full h-full mt-5 relative">
+      <div className="w-full h-full mt-5 pb-20 relative">
         <Table
           className={"custom-table"}
           dataSource={categories?.data}
@@ -158,10 +172,11 @@ export default function CategoryChildDashboard() {
           current={pagination.page}
           total={categories?.total}
           pageSize={pagination.pageSize}
-          onChange={(p)=> {
+          showSizeChanger
+          onChange={(p, ps)=> {
             setPagination({
               page: p,
-              pageSize: pagination.pageSize
+              pageSize: ps
             })
           }}
         />
