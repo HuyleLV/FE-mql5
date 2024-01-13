@@ -22,18 +22,6 @@ import {
   }) {
     const navigate = useNavigate();
     const [form] = Form.useForm();
-    const [category, setCategory] = useState([]);
-  
-    const fetchCategory = async () => {
-      try {
-        const result = await axios.get(
-          `${process.env.REACT_APP_API_URL}/category/getAll`
-        );
-        setCategory(result?.data);
-      } catch (e) {
-        message.error(e);
-      }
-    };
   
     const deleteCategory = async () => {
       await axios
@@ -42,7 +30,6 @@ import {
     };
   
     useEffect(() => {
-      fetchCategory();
       if (Object.keys(initialValues)?.length > 0) {
         form.resetFields();
       }

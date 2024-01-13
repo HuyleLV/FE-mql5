@@ -1,34 +1,50 @@
-import React from "react";
-import { Form, Input, Button, Row, Col, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { Button, Col, Form, Input, Row, message } from "antd";
 import axios from "axios";
-import google from "../component/image/google.png"
+import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
+import google from "../component/image/google.png";
 
 const Login = () => {
   const [form] = Form.useForm();
-  const email = Form.useWatch('email', form);
-  const password = Form.useWatch('password', form);
+  const email = Form.useWatch("email", form);
+  const password = Form.useWatch("password", form);
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
 
   const loginUser = async () => {
     const value = {
-        email: email,
-        password: password
+      email: email,
+      password: password,
     };
 
-    console.log(value);
     await axios
-        .post(`${process.env.REACT_APP_API_URL}/user/login`, value)
-        .then((res) => {
-            setCookie("user", res?.data[0]);
-            message.success("Đăng nhập thành công!");
-            navigate("/");
-        })
-        .catch(() => message.error("Tài khoản hoặc mật khẩu không đúng!"));
+      .post(`${process.env.REACT_APP_API_URL}/user/login`, value)
+      .then((res) => {
+        console.log(res?.data);
+        setCookieToken("accessToken", res?.data);
+        message.success("Đăng nhập thành công!");
+        navigate("/");
+      })
+      .catch(() => message.error("Tài khoản hoặc mật khẩu không đúng!"));
   };
 
+  // const loginGoogle = async () => {
+  //   await axios
+  //     .get(`${process.env.REACT_APP_API_URL}/auth/protected`)
+  //     .then((res) => {
+  //       console.log(res);
+  //       setCookie("user", res?.data[0]);
+  //       // message.success("Đăng nhập thành công!");
+  //       // navigate("/");
+  //     })
+  //     .catch();
+  // };
+
+  useEffect(() => {
+
+  }, []);
 
   return (
     <div className="pb-[100px] pt-[50px]">
@@ -88,13 +104,15 @@ const Login = () => {
                   height: 50,
                   borderRadius: 0,
                   marginTop: 10,
-                  backgroundColor: "rgb(241 245 249)"
+                  backgroundColor: "rgb(241 245 249)",
                 }}
                 size={"large"}
               >
                 <p className="flex justify-center w-full">
-                  <img src={google} className="w-7 h-7 mr-4"/>
-                  <span className="font-semibold text-lg text-[#696969]">Log in With Google</span>
+                  <img src={google} className="w-7 h-7 mr-4" />
+                  <span className="font-semibold text-lg text-[#696969]">
+                    Log in With Google
+                  </span>
                 </p>
               </Button>
             </Link>

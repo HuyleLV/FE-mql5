@@ -1,16 +1,45 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { React, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useCookies } from "react-cookie";
-import { Image, Dropdown, Space, Select } from "antd";
+import { Image, Dropdown, Space, Select, message } from "antd";
 import { useDevice } from "../hooks";
 import { DownOutlined } from "@ant-design/icons";
-import logo from "../component/image/logo.jpg"
+import logo from "../component/image/logo.png"
+import axios from "axios";
 
 export default function Header() {
   const { isMobile } = useDevice();
-  const [cookies, removeCookie] = useCookies(["user"]);
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
+
+  const getUser = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/user/getById`, {
+        headers: {
+          'accesstoken': cookiesToken.accessToken
+        }
+      })
+      .then((res) => {
+        setCookie("user", res?.data)
+      })
+      .catch(() => message.error("Error server!"));
+  };
+
+  const logout = () => {
+    removeCookie("user");
+    removeCookieToken("accessToken");
+    message.success("Đăng xuất thành công!")
+    navigate("/login");
+  }
+
+  useEffect(() => {
+    if(cookiesToken.accessToken !== undefined){
+      getUser();
+    }
+  }, [cookiesToken]);
 
   const items = [
     {
@@ -19,7 +48,6 @@ export default function Header() {
         <Link to={'/profile'}>
           <div
             className="flex items-center"
-            onClick={() => removeCookie("user")}
           >
             <FontAwesomeIcon
               icon={icon({ name: "user" })}
@@ -34,20 +62,18 @@ export default function Header() {
     {
       key: "logout",
       label: (
-        <Link to={`${process.env.REACT_APP_API_URL}/auth/logout`}>
-          <div
-            className="flex items-center"
-            onClick={() => removeCookie("user")}
-          >
-            <FontAwesomeIcon
-              icon={icon({ name: "sign-out" })}
-              className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
-              style={{ color: "rgb(250 204 21 )" }}
-            />
-            
-            <span className="cursor-pointer">Logout</span>
-          </div>
-        </Link>
+        <div
+          className="flex items-center"
+          onClick={() => logout()}
+        >
+          <FontAwesomeIcon
+            icon={icon({ name: "sign-out" })}
+            className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
+            style={{ color: "rgb(250 204 21 )" }}
+          />
+          
+          <span className="cursor-pointer">Logout</span>
+        </div>
       ),
     },
   ];

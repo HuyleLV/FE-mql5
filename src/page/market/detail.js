@@ -1,7 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { List, message, Button, Rate, Modal, Upload, Tooltip, Pagination } from "antd";
+import { List, message, Button, Rate, Modal, Upload, Tooltip, Pagination, Image } from "antd";
 import { Products } from "../../database";
 import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
@@ -12,6 +12,33 @@ import parse from "html-react-parser";
 import { InboxOutlined } from "@ant-design/icons";
 import CustomUpload from "../../component/customUpload";
 import Paragraph from "antd/es/typography/Paragraph";
+
+import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", background: "gray", borderRadius: "5px"}}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", background: "gray", borderRadius: "5px"}}
+      onClick={onClick}
+    />
+  );
+}
 
 export default function MarketDetail() {
   const [product, setProduct] = useState();
@@ -33,6 +60,19 @@ export default function MarketDetail() {
     page: 1,
     pageSize: 6,
   });
+  
+  const [VideoYoutube, setVideoYoutube] = useState(false);
+
+  var settings = {
+    className: "slider variable-width",
+    dots: true,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    variableWidth: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
 
   const responsive = {
     superLargeDesktop: {
@@ -348,7 +388,7 @@ export default function MarketDetail() {
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
                 </div>
             }
-            {productLink && (
+            {/* {productLink && (
               <Carousel responsive={responsive} className="p-5">
                 {linkVideo && (
                   <iframe
@@ -368,7 +408,27 @@ export default function MarketDetail() {
                     );
                   })}
               </Carousel>
-            )}
+            )} */}
+
+            <Slider {...settings}>
+              {linkVideo && (
+                  <iframe
+                    className="h-[250px] w-[400px]"
+                    src={linkVideo}
+                    title="Quantum Emperor"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                  ></iframe>
+                )}
+
+              {linkImage &&
+                linkImage?.map((i) => {
+                  return (
+                    <Image alt="icon" height={"250px"} src={i} className="px-1"/>
+                  );
+                }
+              )}
+            </Slider>
 
             {comment?.lenght > 0 ? 
               <div className="pb-10">
@@ -526,7 +586,7 @@ export default function MarketDetail() {
                 </div>
             }
 
-            {productLink && (
+            {/* {productLink && (
               <Carousel responsive={responsive} className="p-5">
                 {linkVideo && (
                   <iframe
@@ -546,7 +606,33 @@ export default function MarketDetail() {
                     );
                   })}
               </Carousel>
-            )}
+            )} */}
+
+            <Slider {...settings}>
+              <div>
+                <img src="https://geekflare.com/wp-content/uploads/2022/10/demo-video-creators-800x420.jpg" className="h-[250px]" onClick={()=>setVideoYoutube(true)}/>
+              </div>
+
+              {linkImage &&
+                linkImage?.map((i) => {
+                  return (
+                    <Image alt="icon" height={"250px"} src={i} className="px-1"/>
+                  );
+                }
+              )}
+            </Slider>
+
+            <Modal title="Video demo" width={1000} open={VideoYoutube} onOk={()=>setVideoYoutube(false)} onCancel={()=>setVideoYoutube(false)}>
+              {linkVideo && (
+                <iframe
+                  className="h-[600px] w-full"
+                  src={linkVideo}
+                  title="Quantum Emperor"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              )}
+            </Modal>
 
             <div>
               <p className="font-semibold text-2xl p-5">Comment</p>

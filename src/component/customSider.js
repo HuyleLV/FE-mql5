@@ -31,6 +31,11 @@ export default function CustomeSider() {
       label: <Link to={"/admin/products"}>Quản lí sản phẩm</Link>,
     },
     {
+      key: "license",
+      icon: <UserOutlined />,
+      label: <Link to={"/admin/licenses"}>Quản lí license</Link>,
+    },
+    {
       key: "category",
       icon: <AppstoreOutlined />,
       label: <Link to={"/admin/categories"}>Danh mục</Link>,

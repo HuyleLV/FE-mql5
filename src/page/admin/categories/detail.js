@@ -44,7 +44,6 @@ export default function CategoryDetail() {
     if (id && id !== "create") {
       fetchCategory();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const onSubmit = async (values) => {
@@ -70,7 +69,6 @@ export default function CategoryDetail() {
   useEffect(() => {
     if (id) fetchCategory();
     form.resetFields();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form, id]);
 
   return (

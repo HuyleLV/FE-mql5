@@ -1,14 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Tabs, List, Row, Col, message, Rate, Select, Dropdown, Space } from "antd";
 import { useDevice } from "../../hooks";
 import { DownOutlined } from "@ant-design/icons";
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import MenuItem from "../../component/MenuItemMarket";
+import { useCookies } from "react-cookie";
 
 export default function Market() {
   const { isMobile } = useDevice();
+  const token = useLocation();
   const [products, setProducts] = useState([]);
+  const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
 
   const fetchProducts = async () => {
     await axios
@@ -22,6 +25,9 @@ export default function Market() {
 
   useEffect(() => {
     fetchProducts();
+    if(new URLSearchParams(token.search).get('token') !== null) {
+      setCookieToken("accessToken", new URLSearchParams(token.search).get('token'));
+    }
   }, []);
 
   const renderItem = (item) => {

@@ -23,19 +23,20 @@ const Register = () => {
         await handleSendMail(values?.email);
       })
       .catch(({ response }) => {
-        message.error(response?.data?.message);
+        message.error(JSON.stringify(response?.data?.message));
       });
   };
+
   const handleSendMail = async (email) => {
     setLoadding(true)
     await axios
       .get(`${process.env.REACT_APP_API_URL}/auth/send-mail?email=${email}`)
       .then((res) => {
-        message.success(res?.data?.message);
+        message.success(JSON.stringify(res?.data?.message));
         return navigate(`/register/accept?email=${email}`);
       })
       .catch(({ response }) => {
-        message.error(response?.data?.message);
+        message.error(JSON.stringify(response?.data?.message));
       }).finally(() => setLoadding(false))
   };
 

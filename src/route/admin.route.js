@@ -11,6 +11,7 @@ import CategoriesDetail from "../page/admin/categories/detail";
 import CategoryChildDashboard from "../page/admin/categoryChild";
 import CategoryChilDetail from "../page/admin/categoryChild/detail";
 import TransferDashboard from "../page/admin/transfer";
+import LicensesDashboard from "../page/admin/licenses";
 
 export default function AdminRouter () {
     return (
@@ -24,6 +25,7 @@ export default function AdminRouter () {
         <Route path="/admin/categories/:id" element={<CategoriesDetail />} />
         <Route path="/admin/categoryChild" element={<CategoryChildDashboard />} />
         <Route path="/admin/categoryChild/:id" element={<CategoryChilDetail />} />
+        <Route path="/admin/licenses" element={<LicensesDashboard />} />
         <Route path="/admin/comments" element={<CommentsDashboard />} />
         <Route path="/admin/transfer" element={<TransferDashboard />} />
       </Routes>
