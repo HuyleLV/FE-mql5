@@ -68,10 +68,10 @@ export default function CustomeSider() {
   ];
 
   useEffect(() => {
-    if(!cookies?.admin) {
+    if(cookies?.admin?.role !== 2) {
       navigate("/loginAdmin");
     }
-  }, [cookies?.admin]);
+  }, [cookies?.admin?.role]);
   
   return (
     <div className="!w-[250px]">

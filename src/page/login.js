@@ -30,18 +30,6 @@ const Login = () => {
       .catch(() => message.error("Tài khoản hoặc mật khẩu không đúng!"));
   };
 
-  // const loginGoogle = async () => {
-  //   await axios
-  //     .get(`${process.env.REACT_APP_API_URL}/auth/protected`)
-  //     .then((res) => {
-  //       console.log(res);
-  //       setCookie("user", res?.data[0]);
-  //       // message.success("Đăng nhập thành công!");
-  //       // navigate("/");
-  //     })
-  //     .catch();
-  // };
-
   useEffect(() => {
 
   }, []);

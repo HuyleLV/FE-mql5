@@ -196,25 +196,30 @@ export default function ProfilePage() {
           </Row>
           <Row xs={24} lg={12} className="pt-10">
             {!editProfile ? (
-              <Form.Item label="Password" className="w-[300px]">
-                <Input
-                  disabled={!editProfile}
-                  size="large"
-                  placeholder="*********"
-                />
-              </Form.Item>
+              <>
+                <Form.Item label="Password" className="w-[300px]">
+                  <Input
+                    disabled={!editProfile}
+                    size="large"
+                    placeholder="*********"
+                  />
+                </Form.Item>
+              </>
             ) : (
               <>
-                <Col xs={6}>
-                  <Form.Item label="Password Current" name="password" className="w-[300px]">
-                    <Input
-                      disabled={!editProfile}
-                      size="large"
-                      placeholder="*********"
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={6}>
+                {profile?.password !== null ?
+                  <Col xs={24} xl={8}>
+                    <Form.Item label="Password Current" name="password" className="w-[300px]">
+                      <Input
+                        disabled={!editProfile}
+                        size="large"
+                        placeholder="*********"
+                      />
+                    </Form.Item>
+                  </Col>
+                  : <></>
+                }
+                <Col xs={24} xl={8}>
                   <Form.Item label="Password New" name="passwordNew" className="w-[300px]">
                     <Input
                       disabled={!editProfile}
@@ -223,7 +228,7 @@ export default function ProfilePage() {
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={6}>
+                <Col xs={24} xl={8}>
                   <Form.Item label="Confirm Password" name="comfirmPassword" className="w-[300px]">
                     <Input
                       disabled={!editProfile}
