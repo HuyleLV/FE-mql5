@@ -417,7 +417,7 @@ export default function MarketDetail() {
                     src={linkVideo}
                     title="Quantum Emperor"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
+                    allowFullScreen
                   ></iframe>
                 )}
 
@@ -609,8 +609,16 @@ export default function MarketDetail() {
             )} */}
 
             <Slider {...settings}>
-              <div>
-                <img src="https://geekflare.com/wp-content/uploads/2022/10/demo-video-creators-800x420.jpg" className="h-[250px]" onClick={()=>setVideoYoutube(true)}/>
+              <div>              
+                {linkVideo && (
+                  <iframe
+                    className="h-[250px] w-[400px]"
+                    src={linkVideo}
+                    title="Quantum Emperor"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                )}
               </div>
 
               {linkImage &&
@@ -621,18 +629,6 @@ export default function MarketDetail() {
                 }
               )}
             </Slider>
-
-            <Modal title="Video demo" width={1000} open={VideoYoutube} onOk={()=>setVideoYoutube(false)} onCancel={()=>setVideoYoutube(false)}>
-              {linkVideo && (
-                <iframe
-                  className="h-[600px] w-full"
-                  src={linkVideo}
-                  title="Quantum Emperor"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                ></iframe>
-              )}
-            </Modal>
 
             <div>
               <p className="font-semibold text-2xl p-5">Comment</p>
