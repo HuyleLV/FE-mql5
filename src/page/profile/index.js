@@ -15,7 +15,8 @@ export default function ProfilePage() {
   const { isMobile } = useDevice();
   const [profile, setProfile] = useState({});
   const [transfer, setTransfer] = useState([]);
-  const [checkKey, setCheckKey] = useState(false);
+  const [signal, setSignal] = useState([]);
+  const [masterKey, setMasterKey] = useState([])
   const [editProfile, setEditProfile] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -42,13 +43,28 @@ export default function ProfilePage() {
       });
   };
 
+  const getSignal = async () => {
+    console.log(masterKey?.master_key);
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/signal/getByMasterKey/${masterKey?.master_key}`, {params: pagination})
+      .catch(function (error) {
+        message.error(error.response.status);
+      })
+      .then(( res ) => {
+        const data = res?.data;
+        console.log(data);
+        setSignal(data);
+      });
+  };
+
   const checkMasterKey = async () => {
     const data = await axios.get(`${process.env.REACT_APP_API_URL}/masterLicense/checkMasterKey/${cookies.user?.user_id}`);
-    if(data?.data[0].active_status === 2){
+    if(data?.data[0]?.active_status === 2){
       if(dayjsInstance(data?.data[0]?.exprice_date).format("DD/MM/YYYY") > dayjsInstance(new Date()).format("DD/MM/YYYY")){
-        setCheckKey(true);
+        setMasterKey(data?.data[0]);
         message.success("Đăng nhập master thành công!");
       } else {
+        setMasterKey([]);
         const status = {
           master_license_id: data?.data[0].master_license_id,
           active_status: 1
@@ -58,10 +74,9 @@ export default function ProfilePage() {
           .post(`${process.env.REACT_APP_API_URL}/masterLicense/checkExpriceDate`, status)
           .catch(() => message.error("Error server!"));
 
-        setCheckKey(false);
       }
-    } else{
-      setCheckKey(false);
+    } else {
+      setMasterKey([]);
     }
   }
 
@@ -85,17 +100,41 @@ export default function ProfilePage() {
     }
   }, [form, profile]);
 
-  useEffect(() => {
+  useEffect(() => { 
     fetchProfile();
     fetchTransfer()
   }, [pagination]);
 
   useEffect(() => { 
     checkMasterKey();
-  }, [cookies.user?.user_id]);
+    
+    if(masterKey?.master_key) {
+      getSignal();
+    }
+  }, [masterKey?.master_key]);
+
+  const onSendSignal = async (values) => {
+    try {
+      const merge = {
+        ...values,
+        master_key: masterKey?.master_key
+      }
+      await axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/signal/create`,
+          merge
+        )
+        .finally(() => {
+          fetchProfile();
+          setEditProfile(false);
+          message.success("Gửi lệnh thành công !");
+        });
+    } catch (error) {
+      message.error(error);
+    }
+  }
 
   const onSubmit = async (values) => {
-    console.log(values);
     if (values?.passwordNew === values?.comfirmPassword && values?.passwordNew !== undefined) {    
       await axios
         .post(
@@ -110,8 +149,80 @@ export default function ProfilePage() {
     }else {
       message.error("Thông tin điền bị sai hoặc thiếu!");
     }
-
   };
+
+  const columnSignal = [
+    {
+      title: <div>ID</div>,
+      key: "signal_id",
+      dataIndex: "signal_id",
+      width: 50,
+      render: (_, record) => <div>{record?.signal_id}</div>,
+    },
+    {
+      title: <div>Master Key</div>,
+      key: "master_key",
+      dataIndex: "master_key",
+      width: 50,
+      render: (_, record) => <div>{record?.master_key}</div>,
+    },
+    {
+      title: <div>Type</div>,
+      key: "type",
+      dataIndex: "type",
+      width: 50,
+      render: (_, record) => <div>{record?.type}</div>,
+    },
+    {
+      title: <div>symbol</div>,
+      key: "symbol",
+      dataIndex: "symbol",
+      width: 50,
+      render: (_, record) => <div>{record?.symbol}</div>,
+    },
+    {
+      title: <div>Giá</div>,
+      key: "price",
+      dataIndex: "price",
+      width: 50,
+      render: (_, record) => <div>{record?.price}</div>,
+    },
+    {
+      title: <div>take_profit</div>,
+      key: "take_profit",
+      dataIndex: "take_profit",
+      width: 50,
+      render: (_, record) => <div>{record?.take_profit}</div>,
+    },
+    {
+      title: <div>stop_loss</div>,
+      key: "stop_loss",
+      dataIndex: "stop_loss",
+      width: 50,
+      render: (_, record) => <div>{record?.stop_loss}</div>,
+    },
+    {
+      title: <div>Trạng thái lệnh</div>,
+      key: "signal_status",
+      dataIndex: "signal_status",
+      width: 50,
+      render: (_, record) => <div>{record?.signal_status}</div>,
+    },
+    {
+      title: <div>Ngày tạo</div>,
+      key: "create_at",
+      dataIndex: "create_at",
+      width: 50,
+      render: (_, record) => <div>{dayjsInstance(record?.create_at).format("DD/MM/YYYY")}</div>,
+    },
+    {
+      title: <div>Ngày cập nhật</div>,
+      key: "update_at",
+      dataIndex: "update_at",
+      width: 50,
+      render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY")}</div>,
+    },
+  ]
 
   const columns = [
     {
@@ -308,7 +419,7 @@ export default function ProfilePage() {
           </Row>
         </Form>
         </Col>
-        {checkKey ?
+        {masterKey?.master_license_id ?
           <>
             <Col
               lg={20}
@@ -320,53 +431,126 @@ export default function ProfilePage() {
                   Content of Tab Pane 1
                 </TabPane>
                 <TabPane tab="Quản lý lệnh" key="2">
-                  Content of Tab Pane 2
+                  <div className="w-full h-full mt-5 pb-2 relative">
+                    <Table
+                      className={"custom-table pb-[20px]"}
+                      dataSource={signal?.data}
+                      columns={columnSignal}
+                      pagination={false}
+                    />
+                    <Pagination
+                      className="flex justify-center"
+                      current={pagination.page}
+                      total={signal?.total}
+                      pageSize={pagination.pageSize}
+                      showSizeChanger
+                      onChange={(p, ps)=> {
+                        setPagination({
+                          page: p,
+                          pageSize: ps
+                        })
+                      }}
+                    />
+                  </div>
                 </TabPane>
                 <TabPane tab="Bắn tín hiệu" key="3">  
                   <div className="flex justify-center">
-                    <Row className="w-[500px]">
-                      <Col lg={20} xs={24}>
-                        <Form.Item label={"Type"} name="type">
-                          <Select
-                            size="large"
-                            placeholder="Nhập"
-                            options={[
+                    <Form
+                      layout={"vertical"}
+                      colon={false}
+                      form={form}
+                      onFinishFailed={(e) => console.log(e)}
+                      onFinish={onSendSignal}
+                    >
+                      <Row className="w-[500px]">
+                        <Col lg={20} xs={24}>
+                          <Form.Item 
+                            label={"Type"} 
+                            name="type" 
+                            rules={[
                               {
-                                value: "buy"
+                                required: true,
+                                message: 'Vui lòng nhập!',
                               },
+                            ]}
+                          >
+                            <Select
+                              size="large"
+                              placeholder="Nhập"
+                              options={[
+                                {
+                                  value: "buy"
+                                },
+                                {
+                                  value: "sell"
+                                }
+                              ]}  
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col lg={20} xs={24}>
+                          <Form.Item 
+                            label="Symbol" 
+                            name="symbol"
+                            rules={[
                               {
-                                value: "sell"
-                              }
-                            ]}  
-                          />
-                        </Form.Item>
-                      </Col>
-                      <Col lg={20} xs={24}>
-                        <Form.Item label="Symbol" name="symbol">
-                          <Input size="large" placeholder="Nhập"/>
-                        </Form.Item>
-                      </Col>
-                      <Col lg={20} xs={24}>
-                        <Form.Item label="Price" name="price">
-                          <Input size="large" placeholder="Nhập ..."/>
-                        </Form.Item>
-                      </Col>
-                      <Col lg={20} xs={24}>
-                        <Form.Item label="Take profit" name="takeProfit">
-                          <Input size="large" />
-                        </Form.Item>
-                      </Col>
-                      <Col lg={20} xs={24}>
-                        <Form.Item label="Stop losss" name="stopLoss">
-                          <Input size="large"/>
-                        </Form.Item>
-                      </Col>
-                      <Col lg={20} xs={24}>
-                        <Button type={"primary"} htmlType={"submit"}>
-                          Save
-                        </Button>
-                      </Col>
-                    </Row>
+                                required: true,
+                                message: 'Vui lòng nhập!',
+                              },
+                            ]}
+                          >
+                            <Input size="large" placeholder="Nhập"/>
+                          </Form.Item>
+                        </Col>
+                        <Col lg={20} xs={24}>
+                          <Form.Item 
+                            label="Price" 
+                            name="price"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Vui lòng nhập!',
+                              },
+                            ]}
+                          >
+                            <Input size="large" placeholder="Nhập ..."/>
+                          </Form.Item>
+                        </Col>
+                        <Col lg={20} xs={24}>
+                          <Form.Item 
+                            label="Take profit" 
+                            name="take_profit"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Vui lòng nhập!',
+                              },
+                            ]}
+                          >
+                            <Input size="large" />
+                          </Form.Item>
+                        </Col>
+                        <Col lg={20} xs={24}>
+                          <Form.Item 
+                            label="Stop losss" 
+                            name="stop_loss"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Vui lòng nhập!',
+                              },
+                            ]}
+                          >
+                            <Input size="large"/>
+                          </Form.Item>
+                        </Col>
+                        <Col lg={20} xs={24} >
+                          <Button type={"primary"} htmlType={"submit"} className="w-[200px]">
+                            <p className="font-bold">Send</p>
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Form>
                   </div>
                 </TabPane>
               </Tabs>
