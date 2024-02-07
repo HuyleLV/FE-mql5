@@ -17,6 +17,7 @@ export default function ProfilePage() {
   const [transfer, setTransfer] = useState([]);
   const [signal, setSignal] = useState([]);
   const [masterKey, setMasterKey] = useState([])
+  const [follower, setFollower] = useState([])
   const [editProfile, setEditProfile] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -54,6 +55,18 @@ export default function ProfilePage() {
         const data = res?.data;
         console.log(data);
         setSignal(data);
+      });
+  };
+
+  const getFollowerbyMasterKey = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/follower/getbyMasterKey/${masterKey?.master_key}`, {params: pagination})
+      .catch(function (error) {
+        message.error(error.response.status);
+      })
+      .then(( res ) => {
+        const data = res?.data;
+        setFollower(data);
       });
   };
 
@@ -110,8 +123,48 @@ export default function ProfilePage() {
     
     if(masterKey?.master_key) {
       getSignal();
+      getFollowerbyMasterKey();
     }
   }, [masterKey?.master_key]);
+  
+  const updateActiveStatus =  async (e, values) => {
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/followerLicense/updateStatus`, {
+        follower_license_id: values?.follower_license_id,
+        active_status: e
+      })
+      .finally(() => {
+        fetchProfile();
+        setEditProfile(false);
+        message.success("Cập nhật trạng thái thành công !");
+        getFollowerbyMasterKey();
+      });
+  }
+
+  const updatePaymentStatus =  async (e, values) => {
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/followerLicense/updateStatus`, {
+        follower_license_id: values?.follower_license_id,
+        payment_status: e
+      })
+      .finally(() => {
+        fetchProfile();
+        setEditProfile(false);
+        message.success("Cập nhật trạng thái thành công !");
+        getFollowerbyMasterKey();
+      });
+  }
+
+  const updateStatus =  async (values) => {
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/signal/updateStatus/${values}`)
+      .finally(() => {
+        fetchProfile();
+        setEditProfile(false);
+        message.success("Cập nhật trạng thái thành công !");
+        getSignal();
+      });
+  }
 
   const onSendSignal = async (values) => {
     try {
@@ -125,9 +178,8 @@ export default function ProfilePage() {
           merge
         )
         .finally(() => {
-          fetchProfile();
-          setEditProfile(false);
           message.success("Gửi lệnh thành công !");
+          getSignal();
         });
     } catch (error) {
       message.error(error);
@@ -150,6 +202,110 @@ export default function ProfilePage() {
       message.error("Thông tin điền bị sai hoặc thiếu!");
     }
   };
+
+  const columnFollower = [
+    {
+      title: <div>ID</div>,
+      key: "follower_license_id",
+      dataIndex: "follower_license_id",
+      width: 50,
+      render: (_, record) => <div>{record?.follower_license_id}</div>,
+    },
+    {
+      title: <div>client_key</div>,
+      key: "client_key",
+      dataIndex: "client_key",
+      width: 50,
+      render: (_, record) => <div>{record?.client_key}</div>,
+    },
+    {
+      title: <div>master_key</div>,
+      key: "master_key",
+      dataIndex: "master_key",
+      width: 50,
+      render: (_, record) => <div>{record?.master_key}</div>,
+    },
+    {
+      title: <div>start_date</div>,
+      key: "start_date",
+      dataIndex: "start_date",
+      width: 50,
+      render: (_, record) => <div>{dayjsInstance(record?.start_date).format("DD/MM/YYYY")}</div>,
+    },
+    {
+      title: <div>expire_date</div>,
+      key: "expire_date",
+      dataIndex: "expire_date",
+      width: 50,
+      render: (_, record) => <div>{dayjsInstance(record?.expire_date).format("DD/MM/YYYY")}</div>,
+    },
+    {
+      title: <div>active_status</div>,
+      key: "active_status",
+      dataIndex: "active_status",
+      width: 50,
+      render: (_, record) => 
+      <div>
+        <Select
+          size="large"
+          placeholder="Select a person"
+          optionFilterProp="children"
+          onChange={(e)=>updateActiveStatus(e, record)}
+          value={record?.active_status}
+          options={[
+            { 
+              label: "Active",
+              value: 1
+            },
+            { 
+              label: "Inactive",
+              value: 0
+            }
+          ]}
+        />
+      </div>,
+    },
+    {
+      title: <div>payment_status</div>,
+      key: "payment_status",
+      dataIndex: "payment_status",
+      width: 50,
+      render: (_, record) => 
+      <div>
+        <Select
+          size="large"
+          placeholder="Select a person"
+          optionFilterProp="children"
+          value={record?.payment_status}
+          onChange={(e)=>updatePaymentStatus(e, record)}
+          options={[
+            { 
+              label: "Active",
+              value: 1
+            },
+            { 
+              label: "Inactive",
+              value: 0
+            }
+          ]}
+        />
+      </div>,
+    },
+    {
+      title: <div>Ngày tạo</div>,
+      key: "create_at",
+      dataIndex: "create_at",
+      width: 50,
+      render: (_, record) => <div>{dayjsInstance(record?.create_at).format("DD/MM/YYYY")}</div>,
+    },
+    {
+      title: <div>Ngày cập nhật</div>,
+      key: "update_at",
+      dataIndex: "update_at",
+      width: 50,
+      render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY")}</div>,
+    }
+  ]
 
   const columnSignal = [
     {
@@ -202,11 +358,22 @@ export default function ProfilePage() {
       render: (_, record) => <div>{record?.stop_loss}</div>,
     },
     {
-      title: <div>Trạng thái lệnh</div>,
+      title: <div className="text-center">Trạng thái lệnh</div>,
       key: "signal_status",
       dataIndex: "signal_status",
       width: 50,
-      render: (_, record) => <div>{record?.signal_status}</div>,
+      render: (_, record) => 
+      record?.signal_status === 1 ?
+        <div className="flex justify-center text-center">
+          <Button type={"primary"} onClick={()=>updateStatus(record?.signal_id)}>
+            Close 
+          </Button>
+        </div> 
+      : 
+        <div>
+          <p className="text-center">close</p>
+        </div> 
+      ,
     },
     {
       title: <div>Ngày tạo</div>,
@@ -428,7 +595,27 @@ export default function ProfilePage() {
             >
               <Tabs type="card">
                 <TabPane tab="Quản lý Follower" key="1">
-                  Content of Tab Pane 1
+                  <div className="w-full h-full mt-5 pb-2 relative">
+                    <Table
+                      className={"custom-table pb-[20px]"}
+                      dataSource={follower?.data}
+                      columns={columnFollower}
+                      pagination={false}
+                    />
+                    <Pagination
+                      className="flex justify-center"
+                      current={pagination.page}
+                      total={follower?.total}
+                      pageSize={pagination.pageSize}
+                      showSizeChanger
+                      onChange={(p, ps)=> {
+                        setPagination({
+                          page: p,
+                          pageSize: ps
+                        })
+                      }}
+                    />
+                  </div>
                 </TabPane>
                 <TabPane tab="Quản lý lệnh" key="2">
                   <div className="w-full h-full mt-5 pb-2 relative">
