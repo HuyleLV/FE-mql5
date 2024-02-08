@@ -8,6 +8,7 @@ import { WarningOutlined } from "@ant-design/icons";
 import { CustomUpload } from "../../component";
 import { useDevice } from "../../hooks";
 import TabPane from "antd/es/tabs/TabPane";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
   const [cookies] = useCookies(["user"]);
@@ -45,7 +46,6 @@ export default function ProfilePage() {
   };
 
   const getSignal = async () => {
-    console.log(masterKey?.master_key);
     await axios
       .get(`${process.env.REACT_APP_API_URL}/signal/getByMasterKey/${masterKey?.master_key}`, {params: pagination})
       .catch(function (error) {
@@ -53,7 +53,6 @@ export default function ProfilePage() {
       })
       .then(( res ) => {
         const data = res?.data;
-        console.log(data);
         setSignal(data);
       });
   };
@@ -72,7 +71,7 @@ export default function ProfilePage() {
 
   const checkMasterKey = async () => {
     const data = await axios.get(`${process.env.REACT_APP_API_URL}/masterLicense/checkMasterKey/${cookies.user?.user_id}`);
-    if(data?.data[0]?.active_status === 2){
+    if(data?.data[0]?.active_status === 1){
       if(dayjsInstance(data?.data[0]?.exprice_date).format("DD/MM/YYYY") > dayjsInstance(new Date()).format("DD/MM/YYYY")){
         setMasterKey(data?.data[0]);
         message.success("Đăng nhập master thành công!");
@@ -86,7 +85,6 @@ export default function ProfilePage() {
         await axios
           .post(`${process.env.REACT_APP_API_URL}/masterLicense/checkExpriceDate`, status)
           .catch(() => message.error("Error server!"));
-
       }
     } else {
       setMasterKey([]);
@@ -120,7 +118,6 @@ export default function ProfilePage() {
 
   useEffect(() => { 
     checkMasterKey();
-    
     if(masterKey?.master_key) {
       getSignal();
       getFollowerbyMasterKey();
