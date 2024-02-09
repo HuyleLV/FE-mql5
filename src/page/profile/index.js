@@ -24,6 +24,10 @@ export default function ProfilePage() {
     page: 1,
     pageSize: 8,
   });
+  const [paginationSignal, setPaginationSignal] = useState({
+    page: 1,
+    pageSize: 8,
+  });
 
   const fetchProfile = async () => {
     await axios
@@ -47,7 +51,7 @@ export default function ProfilePage() {
 
   const getSignal = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/signal/getByMasterKey/${masterKey?.master_key}`, {params: pagination})
+      .get(`${process.env.REACT_APP_API_URL}/signal/getByMasterKey/${masterKey?.master_key}`, {params: paginationSignal})
       .catch(function (error) {
         message.error(error.response.status);
       })
@@ -72,14 +76,14 @@ export default function ProfilePage() {
   const checkMasterKey = async () => {
     const data = await axios.get(`${process.env.REACT_APP_API_URL}/masterLicense/checkMasterKey/${cookies.user?.user_id}`);
     if(data?.data[0]?.active_status === 1){
-      if(dayjsInstance(data?.data[0]?.exprice_date).format("DD/MM/YYYY") > dayjsInstance(new Date()).format("DD/MM/YYYY")){
+      if(dayjsInstance(data?.data[0]?.exprice_date).format("DD/MM/YYYY hh:mm:ss") > dayjsInstance(new Date()).format("DD/MM/YYYY hh:mm:ss")){
         setMasterKey(data?.data[0]);
         message.success("Đăng nhập master thành công!");
       } else {
         setMasterKey([]);
         const status = {
           master_license_id: data?.data[0].master_license_id,
-          active_status: 1
+          active_status: 0
         }
 
         await axios
@@ -122,7 +126,7 @@ export default function ProfilePage() {
       getSignal();
       getFollowerbyMasterKey();
     }
-  }, [masterKey?.master_key]);
+  }, [masterKey?.master_key, paginationSignal, pagination]);
   
   const updateActiveStatus =  async (e, values) => {
     await axios
@@ -177,6 +181,7 @@ export default function ProfilePage() {
         .finally(() => {
           message.success("Gửi lệnh thành công !");
           getSignal();
+          form.resetFields();
         });
     } catch (error) {
       message.error(error);
@@ -227,14 +232,14 @@ export default function ProfilePage() {
       key: "start_date",
       dataIndex: "start_date",
       width: 50,
-      render: (_, record) => <div>{dayjsInstance(record?.start_date).format("DD/MM/YYYY")}</div>,
+      render: (_, record) => <div>{dayjsInstance(record?.start_date).format("DD/MM/YYYY hh:mm:ss")}</div>,
     },
     {
       title: <div>expire_date</div>,
       key: "expire_date",
       dataIndex: "expire_date",
       width: 50,
-      render: (_, record) => <div>{dayjsInstance(record?.expire_date).format("DD/MM/YYYY")}</div>,
+      render: (_, record) => <div>{dayjsInstance(record?.expire_date).format("DD/MM/YYYY hh:mm:ss")}</div>,
     },
     {
       title: <div>active_status</div>,
@@ -293,14 +298,14 @@ export default function ProfilePage() {
       key: "create_at",
       dataIndex: "create_at",
       width: 50,
-      render: (_, record) => <div>{dayjsInstance(record?.create_at).format("DD/MM/YYYY")}</div>,
+      render: (_, record) => <div>{dayjsInstance(record?.create_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
     },
     {
       title: <div>Ngày cập nhật</div>,
       key: "update_at",
       dataIndex: "update_at",
       width: 50,
-      render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY")}</div>,
+      render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
     }
   ]
 
@@ -377,14 +382,14 @@ export default function ProfilePage() {
       key: "create_at",
       dataIndex: "create_at",
       width: 50,
-      render: (_, record) => <div>{dayjsInstance(record?.create_at).format("DD/MM/YYYY")}</div>,
+      render: (_, record) => <div>{dayjsInstance(record?.create_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
     },
     {
       title: <div>Ngày cập nhật</div>,
       key: "update_at",
       dataIndex: "update_at",
       width: 50,
-      render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY")}</div>,
+      render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
     },
   ]
 
@@ -624,12 +629,12 @@ export default function ProfilePage() {
                     />
                     <Pagination
                       className="flex justify-center"
-                      current={pagination.page}
+                      current={paginationSignal.page}
                       total={signal?.total}
-                      pageSize={pagination.pageSize}
+                      pageSize={paginationSignal.pageSize}
                       showSizeChanger
                       onChange={(p, ps)=> {
-                        setPagination({
+                        setPaginationSignal({
                           page: p,
                           pageSize: ps
                         })
