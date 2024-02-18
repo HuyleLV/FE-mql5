@@ -38,7 +38,7 @@ export default function CustomeSider() {
     {
       key: "category",
       icon: <AppstoreOutlined />,
-      label: <Link to={"/admin/categories"}>Danh mục</Link>,
+      label: <Link to={"/admin/categories"} style={{color: "black"}}>Danh mục</Link>,
       children: [
         {
           key: "category",
@@ -49,6 +49,11 @@ export default function CustomeSider() {
           label: <Link to={"/admin/categoryChild"}>Danh mục con</Link>,
         },
       ],
+    },
+    {
+      key: "master",
+      icon: <UserOutlined />,
+      label: <Link to={"/admin/master"}>Quản lí master</Link>,
     },
     {
       key: "comment",

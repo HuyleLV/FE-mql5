@@ -12,6 +12,8 @@ import CategoryChildDashboard from "../page/admin/categoryChild";
 import CategoryChilDetail from "../page/admin/categoryChild/detail";
 import TransferDashboard from "../page/admin/transfer";
 import LicensesDashboard from "../page/admin/licenses";
+import MasterDashboard from "../page/admin/master";
+import MasterDetail from "../page/admin/master/detail";
 
 export default function AdminRouter () {
     return (
@@ -26,6 +28,8 @@ export default function AdminRouter () {
         <Route path="/admin/categoryChild" element={<CategoryChildDashboard />} />
         <Route path="/admin/categoryChild/:id" element={<CategoryChilDetail />} />
         <Route path="/admin/licenses" element={<LicensesDashboard />} />
+        <Route path="/admin/master" element={<MasterDashboard />} />
+        <Route path="/admin/master/:id" element={<MasterDetail />} />
         <Route path="/admin/comments" element={<CommentsDashboard />} />
         <Route path="/admin/transfer" element={<TransferDashboard />} />
       </Routes>
