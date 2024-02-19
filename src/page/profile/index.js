@@ -29,6 +29,10 @@ export default function ProfilePage() {
     pageSize: 8,
   });
 
+  const type = Form.useWatch('type', form);
+  const price = Form.useWatch('price', form);
+  const take_profit = Form.useWatch('take_profit', form);
+  
   const fetchProfile = async () => {
     await axios
       .get(
@@ -715,6 +719,17 @@ export default function ProfilePage() {
                                 required: true,
                                 message: 'Vui lòng nhập!',
                               },
+                              {
+                                validator() {
+                                  if(type === "buy" && Number(take_profit) < Number(price)){
+                                    return Promise.reject(`Giá mua phải lớn hơn ${price}!`);
+                                  } else if(type === "sell" && Number(take_profit) > Number(price)){
+                                    return Promise.reject(`Giá bán phải bé hơn ${price}!`);
+                                  } else {
+                                    return Promise.resolve();
+                                  }
+                                }
+                              }
                             ]}
                           >
                             <Input size="large" />

@@ -116,11 +116,11 @@ export default function MasterDashboard() {
             options={[
             { 
                 label: "Active",
-                value: 2
+                value: 1
             },
             { 
                 label: "Inactive",
-                value: 1
+                value: 0
             }
             ]}
         />,
@@ -140,11 +140,11 @@ export default function MasterDashboard() {
             options={[
             { 
                 label: "Active",
-                value: 2
+                value: 1
             },
             { 
                 label: "Inactive",
-                value: 1
+                value: 0
             }
             ]}
         />,
