@@ -14,10 +14,10 @@ export default function Footer() {
         <Row className={isMobile ? "px-[50px]" : "pb-10"}>
           <Col xs={24} xl={6}>
             <img src={logo} width={150}/>
-            <p className="py-1 pt-2"><span className="text-white font-medium">Địa chỉ: <span className="text-[#999999]">138 Trần Bình, Mỹ Đình 2, Nam Từ Liêm,<p> Hà Nội</p></span></span></p>
-            <p><span className="text-white font-medium">Điện thoại: <span className="text-[#999999]">0968345486</span></span></p>
-            <p className="py-1"><span className="text-white font-medium">Email: <span className="text-[#999999]">hi@acecg.com.vn</span></span></p>
-            <p><span className="text-white font-medium">Website: <span className="text-[#999999]">acecg.com.vn </span></span></p>
+            <p className="py-1 pt-2"><span className="text-white font-medium">Địa chỉ: <span className="text-[#999999]">97 Trần Bình, Mỹ Đình 2, Nam Từ Liêm,<p> Hà Nội</p></span></span></p>
+            <p><span className="text-white font-medium">Điện thoại: <span className="text-[#999999]">0356496403</span></span></p>
+            <p className="py-1"><span className="text-white font-medium">Email: <span className="text-[#999999]">invest.netpartner@gmail.com</span></span></p>
+            <p><span className="text-white font-medium">Website: <Link to={"https://netpartner.com.vn"} className="text-[#999999]">netpartner.com.vn</Link></span></p>
           </Col>
           <Col xs={isMobile ? 12 : 24} xl={6}>
             <div className="border-b-2 w-[70px] border-amber-200">
@@ -57,7 +57,7 @@ export default function Footer() {
           </Col>
         </Row>
       </div>
-        <p className="text-center border-t border-gray-600 py-2 text-[#999999]">© 2018-2023 Bản quyền thuộc về ACE Capital Group</p>
+        <p className="text-center border-t border-gray-600 py-2 text-[#999999]">© 2018-2023 Bản quyền thuộc về Netpartner</p>
     </div>
   );
 }
