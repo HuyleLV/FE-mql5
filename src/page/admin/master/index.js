@@ -91,14 +91,14 @@ export default function MasterDashboard() {
       title: "Exprice date",
       key: "exprice_date",
       dataIndex: "exprice_date",
-      width: 100,
+      width: 150,
       render: (_, record) => 
         <div>
-            <DatePicker 
-                onChange={(e)=>updateExpriceDate(e, record)}
-                defaultValue={dayjs(dayjsInstance(record?.exprice_date).format('DD/MM/YYYY'), 'DD/MM/YYYY')} 
-                format={'DD/MM/YYYY'} 
-            />
+          <DatePicker 
+            onChange={(e)=>updateExpriceDate(e, record)}
+            value={dayjsInstance(record?.exprice_date)} 
+            format={'DD/MM/YYYY'} 
+          />
         </div>,
     },
     {
@@ -158,6 +158,26 @@ export default function MasterDashboard() {
         <div>
             <p>{record?.displayName}</p>
             <p>{record?.email}</p>
+        </div>,
+    },
+    {
+      title: "Total active",
+      key: "total_active",
+      dataIndex: "total_active",
+      width: 100,
+      render: (_, record) => 
+        <div>
+            <p>{record?.total_active}</p>
+        </div>,
+    },
+    {
+      title: "Total follow",
+      key: "total_follow",
+      dataIndex: "total_follow",
+      width: 100,
+      render: (_, record) => 
+        <div>
+            <p>{record?.total_follow}</p>
         </div>,
     },
     {
@@ -221,11 +241,11 @@ export default function MasterDashboard() {
           <Col flex={1}>
             <div className={"text-[20px] font-medium"}>Danh mục Master</div>
             <div className="py-2">
-                {master?.data && (
-                    <CSVLink data={master?.data}>
-                        <Button>DownLoad CSV</Button>
-                    </CSVLink>
-                )}
+              {master?.data && (
+                  <CSVLink data={master?.data}>
+                      <Button>DownLoad CSV</Button>
+                  </CSVLink>
+              )}
             </div>
           </Col>
           <Col>

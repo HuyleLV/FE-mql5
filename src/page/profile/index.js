@@ -9,6 +9,7 @@ import { CustomUpload } from "../../component";
 import { useDevice } from "../../hooks";
 import TabPane from "antd/es/tabs/TabPane";
 import { useNavigate } from "react-router-dom";
+import SearchProps from "../../component/SearchProps";
 
 export default function ProfilePage() {
   const [cookies] = useCookies(["user"]);
@@ -80,7 +81,7 @@ export default function ProfilePage() {
   const checkMasterKey = async () => {
     const data = await axios.get(`${process.env.REACT_APP_API_URL}/masterLicense/checkMasterKey/${cookies.user?.user_id}`);
     if(data?.data[0]?.active_status === 1){
-      if(dayjsInstance(data?.data[0]?.exprice_date).format("DD/MM/YYYY hh:mm:ss") > dayjsInstance(new Date()).format("DD/MM/YYYY hh:mm:ss")){
+      if(dayjsInstance(data?.data[0]?.exprice_date) > dayjsInstance(new Date())){
         setMasterKey(data?.data[0]);
         message.success("Đăng nhập master thành công!");
       } else {
@@ -108,7 +109,7 @@ export default function ProfilePage() {
     await axios
       .post(`${process.env.REACT_APP_API_URL}/masterLicense/create`, data)
       .then((res) => {
-        message.success("Gửi lệnh đăng ký làm Master thành công!");
+        message.success(String(res?.data?.message));
       })
       .catch(() => message.error("Error server!"));
   }
@@ -131,34 +132,6 @@ export default function ProfilePage() {
       getFollowerbyMasterKey();
     }
   }, [masterKey?.master_key, paginationSignal, pagination]);
-  
-  const updateActiveStatus =  async (e, values) => {
-    await axios
-      .post(`${process.env.REACT_APP_API_URL}/followerLicense/updateStatus`, {
-        follower_license_id: values?.follower_license_id,
-        active_status: e
-      })
-      .finally(() => {
-        fetchProfile();
-        setEditProfile(false);
-        message.success("Cập nhật trạng thái thành công !");
-        getFollowerbyMasterKey();
-      });
-  }
-
-  const updatePaymentStatus =  async (e, values) => {
-    await axios
-      .post(`${process.env.REACT_APP_API_URL}/followerLicense/updateStatus`, {
-        follower_license_id: values?.follower_license_id,
-        payment_status: e
-      })
-      .finally(() => {
-        fetchProfile();
-        setEditProfile(false);
-        message.success("Cập nhật trạng thái thành công !");
-        getFollowerbyMasterKey();
-      });
-  }
 
   const updateStatus =  async (values) => {
     await axios
@@ -215,6 +188,7 @@ export default function ProfilePage() {
       key: "follower_license_id",
       dataIndex: "follower_license_id",
       width: 50,
+      sorter: (a, b) => a.follower_license_id - b.follower_license_id,
       render: (_, record) => <div>{record?.follower_license_id}</div>,
     },
     {
@@ -222,6 +196,7 @@ export default function ProfilePage() {
       key: "client_key",
       dataIndex: "client_key",
       width: 50,
+      ...SearchProps("client_key"),
       render: (_, record) => <div>{record?.client_key}</div>,
     },
     {
@@ -246,56 +221,18 @@ export default function ProfilePage() {
       render: (_, record) => <div>{dayjsInstance(record?.expire_date).format("DD/MM/YYYY hh:mm:ss")}</div>,
     },
     {
-      title: <div>active_status</div>,
-      key: "active_status",
-      dataIndex: "active_status",
+      title: <div>mt4_acc</div>,
+      key: "mt4_acc",
+      dataIndex: "mt4_acc",
       width: 50,
-      render: (_, record) => 
-      <div>
-        <Select
-          size="large"
-          placeholder="Select a person"
-          optionFilterProp="children"
-          onChange={(e)=>updateActiveStatus(e, record)}
-          value={record?.active_status}
-          options={[
-            { 
-              label: "Active",
-              value: 1
-            },
-            { 
-              label: "Inactive",
-              value: 0
-            }
-          ]}
-        />
-      </div>,
+      render: (_, record) => <div>{record?.mt4_acc}</div>,
     },
     {
-      title: <div>payment_status</div>,
-      key: "payment_status",
-      dataIndex: "payment_status",
+      title: <div>brocker</div>,
+      key: "brocker",
+      dataIndex: "brocker",
       width: 50,
-      render: (_, record) => 
-      <div>
-        <Select
-          size="large"
-          placeholder="Select a person"
-          optionFilterProp="children"
-          value={record?.payment_status}
-          onChange={(e)=>updatePaymentStatus(e, record)}
-          options={[
-            { 
-              label: "Active",
-              value: 1
-            },
-            { 
-              label: "Inactive",
-              value: 0
-            }
-          ]}
-        />
-      </div>,
+      render: (_, record) => <div>{record?.brocker}</div>,
     },
     {
       title: <div>Ngày tạo</div>,

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import SearchProps from "../../../component/SearchProps";
 import dayjs from "dayjs";
+import { CSVLink } from "react-csv";
 
 export default function MasterDetail() {
     const params = useParams();
@@ -28,6 +29,30 @@ export default function MasterDetail() {
         });
     };
 
+    const updateActiveStatus =  async (e, values) => {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/followerLicense/updateStatus`, {
+          follower_license_id: values?.follower_license_id,
+          active_status: e
+        })
+        .finally(() => {
+          message.success("Cập nhật trạng thái thành công !");
+          getFollowerbyMasterKey();
+        });
+    }
+  
+    const updatePaymentStatus =  async (e, values) => {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/followerLicense/updateStatus`, {
+          follower_license_id: values?.follower_license_id,
+          payment_status: e
+        })
+        .finally(() => {
+          message.success("Cập nhật trạng thái thành công !");
+          getFollowerbyMasterKey();
+        });
+    }
+
   useEffect(() => {
     getFollowerbyMasterKey();
   }, [pagination]);
@@ -38,6 +63,7 @@ export default function MasterDetail() {
             key: "follower_license_id",
             dataIndex: "follower_license_id",
             width: 50,
+            sorter: (a, b) => a.follower_license_id - b.follower_license_id,
             render: (_, record) => <div>{record?.follower_license_id}</div>,
         },
         {
@@ -45,6 +71,7 @@ export default function MasterDetail() {
             key: "client_key",
             dataIndex: "client_key",
             width: 50,
+            ...SearchProps("client_key"),
             render: (_, record) => <div>{record?.client_key}</div>,
         },
         {
@@ -69,36 +96,56 @@ export default function MasterDetail() {
             render: (_, record) => <div>{dayjsInstance(record?.expire_date).format("DD/MM/YYYY HH:mm:ss")}</div>,
         },
         {
-            title: <div>active_status</div>,
-            key: "active_status",
-            dataIndex: "active_status",
-            width: 50,
-            render: (_, record) => 
-            record?.active_status === 1 ?
-                <div>
-                    <p>Active</p>
-                </div> 
-            : 
-                <div>
-                    <p>Inactive</p>
-                </div> 
-            ,
+          title: <div>active_status</div>,
+          key: "active_status",
+          dataIndex: "active_status",
+          width: 50,
+          render: (_, record) => 
+          <div>
+            <Select
+              size="large"
+              placeholder="Select a person"
+              optionFilterProp="children"
+              onChange={(e)=>updateActiveStatus(e, record)}
+              value={record?.active_status}
+              options={[
+                { 
+                  label: "Active",
+                  value: 1
+                },
+                { 
+                  label: "Inactive",
+                  value: 0
+                }
+              ]}
+            />
+          </div>,
         },
         {
-            title: <div>payment_status</div>,
-            key: "payment_status",
-            dataIndex: "payment_status",
-            width: 50,
-            render: (_, record) => 
-            record?.payment_status === 1 ?
-                <div>
-                    <p>Active</p>
-                </div> 
-            : 
-                <div>
-                    <p>Inactive</p>
-                </div> 
-            ,
+          title: <div>payment_status</div>,
+          key: "payment_status",
+          dataIndex: "payment_status",
+          width: 50,
+          render: (_, record) => 
+          <div>
+            <Select
+              size="large"
+              placeholder="Select a person"
+              optionFilterProp="children"
+              value={record?.payment_status}
+              onChange={(e)=>updatePaymentStatus(e, record)}
+              options={[
+                { 
+                  label: "Active",
+                  value: 1
+                },
+                { 
+                  label: "Inactive",
+                  value: 0
+                }
+              ]}
+            />
+          </div>,
         },
         {
             title: <div>Ngày tạo</div>,
@@ -132,6 +179,13 @@ export default function MasterDetail() {
                         }
                     ]}
                 />
+            </div>
+            <div className="py-2">
+              {follower?.data && (
+                  <CSVLink data={follower?.data}>
+                      <Button>DownLoad CSV</Button>
+                  </CSVLink>
+              )}
             </div>
           </Col>
         </Row>
