@@ -148,7 +148,8 @@ export default function ProfilePage() {
     try {
       const merge = {
         ...values,
-        master_key: masterKey?.master_key
+        master_key: masterKey?.master_key,
+        type_input: 0
       }
       await axios
         .post(
@@ -536,7 +537,10 @@ export default function ProfilePage() {
               xs={24}
               className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
             >
-              <p className="text-center font-semibold my-5 py-2 bg-blue-100 text-xl">My master Key: {masterKey?.master_key}</p>
+              <div className="flex justify-center py-2">
+                <p className="text-center font-semibold mx-5 p-4 bg-blue-100 text-xl">My master Key: {masterKey?.master_key}</p>
+                <p className="text-center font-semibold mx-5 p-4 bg-blue-100 text-xl">My private key: {masterKey?.private_key}</p>
+              </div>
               <Tabs type="card">
                 <TabPane tab="Quản lý Follower" key="1">
                   <div className="w-full h-full mt-5 pb-2 relative">

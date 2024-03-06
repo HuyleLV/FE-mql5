@@ -8,12 +8,13 @@ import Register from "../page/register";
 import AcceptEmail from "../page/acceptEmail";
 import Category from "../page/market/category";
 import CategoryDetail from "../page/market/category/detail";
+import Home from "../page/home";
 
 export default function User () {
     return (
       <Routes>
-        <Route path="/" element={<Market />} />
-        <Route path="/:id" element={<Market />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/market" element={<Market />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register/accept" element={<AcceptEmail />} />
