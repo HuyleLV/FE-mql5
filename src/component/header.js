@@ -92,38 +92,6 @@ export default function Header() {
 
             {isMobile ? 
               <div className="flex text-black font-semibold">
-                {/* <Select
-                  defaultValue="Market"
-                  className="w-full text-black"
-                  dropdownStyle={{width: 150, color: "yellow"}}
-                  options={[
-                    { label: (
-                      <Link className="text-black" to={"/"}>
-                        Forum
-                      </Link>
-                    ) },
-                    { label: (
-                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                        Market
-                      </Link>
-                    ) },
-                    { label: (
-                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                        Signals
-                      </Link>
-                    ) },
-                    { label: (
-                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                        Freelance
-                      </Link>
-                    ) },
-                    { label: (
-                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                        Quotes
-                      </Link>
-                    ) },
-                  ]}
-                /> */}
                   <Dropdown 
                     className="flex justify-center px-2 mt-2 pb-2 pt-1 rounded-t-lg bg-[#edbd37]" 
                     dropdownRender={()=> (
