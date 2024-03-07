@@ -1,9 +1,11 @@
-import { Button, Col, Form, Input, Row, message } from "antd";
+import { Button, Col, Form, Input, Radio, Row, Space, message } from "antd";
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import google from "../component/image/google.png";
+import image_mk4 from "../component/image/mk4.jpg";
+import logo from "../component/image/logo.png";
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -12,6 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
+  const [value, setValue] = useState(1);
 
   const loginUser = async () => {
     const value = {
@@ -30,81 +33,79 @@ const Login = () => {
       .catch(() => message.error("Tài khoản hoặc mật khẩu không đúng!"));
   };
 
+  const onChange = (e) => {
+    console.log('radio checked', e.target.value);
+    setValue(e.target.value);
+  };
+
   useEffect(() => {
 
   }, []);
 
   return (
-    <div className="pb-[100px] pt-[50px]">
-      <div className="mb-[10px]">
-        <div className="pt-[20px] text-[40px] text-[var(--red)] flex justify-center">
-          Sign in
-        </div>
-        <div className="text-[24px] flex justify-center text-center">
-          and access all MetaTrader 4 and MetaTrader 5 services{" "}
-        </div>
-        <div className="flex justify-center">
-          If you do not have an account, please &nbsp;
-          <Link to="/register" className="text-[var(--blue)] underline">
-            register
-          </Link>
-        </div>
-      </div>
-      <Row justify={"center"} align={"middle"} style={{ height: "300px" }}>
-        <Col lg={14} xs={22} style={{ maxWidth: 380 }}>
-          <Form form={form} name="basic" layout={"vertical"} colon={false}>
-            <Form.Item name="email">
-              <Input
-                className="!rounded-none p-[10px]"
-                size={"large"}
-                placeholder="Login"
-              />
-            </Form.Item>
-            <Form.Item name="password" className="mt-[-6px]">
-              <Input.Password
-                className="!rounded-none p-[10px]"
-                size={"large"}
-                placeholder="Password"
-              />
-            </Form.Item>
-            <div className="text-[#42639c] mt-[-12px] mb-[10px]">
-              <Link href="#">Forgot your login/password?</Link>
-            </div>
-            <Button
-              style={{
-                background: "var(--yellow)",
-                width: "100%",
-                height: 50,
-                borderRadius: 0,
-                marginTop: 10,
-              }}
-              size={"large"}
-              htmlType="submit"
-              onClick={loginUser}
-            >
-              <span className="font-semibold text-lg">Log in</span>
-            </Button>
+    <div className="py-[100px]">
+      <Row>
+        <Col xs={24} xl={14}>
+          <div className="flex justify-center">
+            <img src={image_mk4} width={900} height={900}/>
+          </div>
+        </Col>
+        <Col xs={24} xl={10}>
+          <div className="flex justify-center">
+            <div className="w-[500px] border-4 border-cyan-600 rounded-3xl p-10">
+              <div className="flex justify-center">
+                <img src={logo} width={200}/>
+              </div>
+              <p className="py-5 font-bold text-2xl text-center">Đăng nhập tài khoản</p>
+              <Form form={form} name="basic" layout={"vertical"} colon={false}>
+                <Form.Item name="email">
+                  <Input
+                    className="!rounded-none"
+                    size={"large"}
+                    placeholder="Login"
+                  />
+                </Form.Item>
+                <Form.Item name="password">
+                  <Input.Password
+                    className="!rounded-none"
+                    size={"large"}
+                    placeholder="Password"
+                  />
+                </Form.Item>
+                <div className="flex justify-end mt-[-8px]">
+                  <Link href="#" className="text-cyan-500">Quên mật khẩu?</Link>
+                </div>
+                <div className="pb-5 pt-2">
+                  <Radio.Group onChange={onChange} value={value}>
+                    <Space direction="vertical">
+                      <Radio className="font-semibold" value={1}>Đăng nhập thành viên</Radio>
+                      <Radio className="font-semibold" value={2}>Đăng nhập khách hàng</Radio>
+                    </Space>
+                  </Radio.Group>
+                </div>
+                <button
+                  className="border-2 border-cyan-500 bg-cyan-500 hover:bg-white w-full rounded-2xl py-3 font-semibold text-xl text-white hover:text-cyan-500"
+                  size={"large"}
+                  htmlType="submit"
+                  onClick={loginUser}
+                >
+                  Đăng nhập
+                </button>
 
-            <Link to={`${process.env.REACT_APP_API_URL}/auth/google`}>
-              <Button
-                style={{
-                  width: "100%",
-                  height: 50,
-                  borderRadius: 0,
-                  marginTop: 10,
-                  backgroundColor: "rgb(241 245 249)",
-                }}
-                size={"large"}
-              >
-                <p className="flex justify-center w-full">
-                  <img src={google} className="w-7 h-7 mr-4" />
-                  <span className="font-semibold text-lg text-[#696969]">
-                    Log in With Google
-                  </span>
-                </p>
-              </Button>
-            </Link>
-          </Form>
+                <Link to={`${process.env.REACT_APP_API_URL}/auth/google`}>
+                  <button
+                    size={"large"}
+                    className="border-2 border-cyan-500 bg-white hover:bg-cyan-500 w-full rounded-2xl py-3 font-bold text-xl text-cyan-600 hover:text-white mt-5"
+                  >
+                    <p className="flex justify-center w-full">
+                      <img src={google} className="w-7 h-7 mr-4" />
+                        Log in With Google
+                    </p>
+                  </button>
+                </Link>
+              </Form>
+            </div>
+          </div>
         </Col>
       </Row>
     </div>

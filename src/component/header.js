@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 import { Image, Dropdown, Space, Select, message } from "antd";
 import { useDevice } from "../hooks";
 import { DownOutlined } from "@ant-design/icons";
-import logo from "../component/image/logo.png"
+import logo from "../component/image/logo_white.png"
 import axios from "axios";
 
 export default function Header() {
@@ -79,7 +79,7 @@ export default function Header() {
   ];
 
   return (
-    <nav className="sticky top-0 z-10 bg-[#4a76b8] border-gray-200 text-white border-b-[3px] border-yellow-400">
+    <nav className="sticky top-0 z-10 bg-gradient-to-r from-slate-800 to-blue-700 text-white">
       <div className="flex justify-between">
         <div className="w-full flex flex-wrap items-center mx-auto">
           <div className={"flex max-md:w-full"}>
@@ -137,28 +137,28 @@ export default function Header() {
                 <div
                   className={`hidden w-full md:block md:w-auto`}
                 >
-                  <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
-                    <li className="hover:bg-yellow-400 hover:text-black px-3 pt-3">
+                  <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
+                    <li className="hover:bg-yellow-400 hover:text-black p-4">
                       <Link className="block md:p-0 md:hover:text-black" to={"/"}>
                         Forum
                       </Link>
                     </li>
-                    <li className="bg-yellow-400 mt-3 pb-2 pt-1 text-black px-3 rounded-t-lg">
+                    <li className="hover:bg-yellow-400 hover:text-black p-4">
                       <Link className="block md:p-0 md:hover:text-black" to={"/"}>
                         Market
                       </Link>
                     </li>
-                    <li className="hover:bg-yellow-400 hover:text-black px-3 pt-3">
+                    <li className="hover:bg-yellow-400 hover:text-black p-4">
                       <Link className="block md:p-0 md:hover:text-black" to={"/"}>
                         Signals
                       </Link>
                     </li>
-                    <li className="hover:bg-yellow-400 hover:text-black px-3 pt-3">
+                    <li className="hover:bg-yellow-400 hover:text-black p-4">
                       <Link className="block md:p-0 md:hover:text-black" to={"/"}>
                         Freelance
                       </Link>
                     </li>
-                    <li className="hover:bg-yellow-400 hover:text-black px-3 pt-3">
+                    <li className="hover:bg-yellow-400 hover:text-black p-4">
                       <Link className="block md:p-0 md:hover:text-black" to={"/"}>
                         Quotes
                       </Link>
