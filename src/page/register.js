@@ -1,9 +1,17 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, Image, message } from "antd";
+import { Form, Input, Button, Row, Col, Image, message, Checkbox } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDevice } from "../hooks";
 import google from "../component/image/google.png"
+import image_mk4 from "../component/image/mk4.jpg";
+import logo from "../component/image/logo.png";
+import icon_1 from "../component/image/icon/icon_1.svg";
+import icon_2 from "../component/image/icon/icon_2.svg";
+import icon_3 from "../component/image/icon/icon_3.svg";
+import icon_4 from "../component/image/icon/icon_4.svg";
+import icon_5 from "../component/image/icon/icon_5.svg";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 
 const Register = () => {
   const [form] = Form.useForm();
@@ -41,38 +49,69 @@ const Register = () => {
   };
 
   return (
-    <div className={"bg-[#f5f8fd]"}>
-      {isMobile ? 
-          <Row className="pb-[100px] pt-[50px] bg-[#f5f8fd]" justify={"center"} align={"middle"}>
-            <div>
-              <div className="text-[40px] text-[var(--red)] flex justify-center">
-                Sign up
+    <div className="py-[80px]">
+      <Row>
+        <Col xs={24} xl={14}>
+          <div className="flex justify-center">
+            <img src={image_mk4} width={800} height={700}/>
+          </div>
+          <div className="px-[150px] flex">
+            <div className="w-[350px]">
+              <div className="flex items-center pt-5">
+                  <img src={icon_1} width={40} height={40}/>
+                  <p className="pl-4 font-semibold text-xl">Tin tức nhanh chóng</p>
               </div>
-              <div className="text-[24px] pb-6 flex justify-center text-center">
-                and access all services{" "}
+              <div className="flex items-center pt-5">
+                  <img src={icon_2} width={40} height={40}/>
+                  <p className="pl-4 font-semibold text-xl">Sản phẩm độc quyền</p>
+              </div>
+              <div className="flex items-center pt-5">
+                  <img src={icon_3} width={40} height={40}/>
+                  <p className="pl-4 font-semibold text-xl">Tham gia những lớp học đầu tư và những buổi thực chiến</p>
               </div>
             </div>
-            <Col lg={14} xs={22} style={{ maxWidth: 380 }}>
-            <Form
+            <div className="w-[350px] ml-20">
+              <div className="flex items-center pt-5">
+                  <img src={icon_4} width={40} height={40}/>
+                  <p className="pl-4 font-semibold text-xl">Cơ chế hoàn phí</p>
+              </div>
+              <div className="flex items-center pt-5">
+                  <img src={icon_2} width={40} height={40}/>
+                  <p className="pl-4 font-semibold text-xl">Cơ hội trở thành Master Trade</p>
+              </div>
+            </div>
+          </div>
+        </Col>
+        <Col xs={24} xl={10}>
+          <div className="flex justify-center">
+            <div className="w-[500px] border-4 border-cyan-600 rounded-3xl p-10">
+              <div className="flex justify-center">
+                <img src={logo} width={200}/>
+              </div>
+              <p className="py-5 font-bold text-2xl text-center">Đăng ký ngay</p>
+              <Form
                 name="basic"
                 layout={"vertical"}
                 colon={false}
                 form={form}
                 onFinish={onSubmit}
-                style={{ maxWidth: 380 }} >
+              >
                 <Form.Item
-                  name="displayName"
+                  className="font-semibold text-lg"
+                  name="fullname"
+                  label="Họ và tên"
                   rules={[{ required: true, message: "Enter display name!" }]}
                 >
                   <Input
                     className="!rounded-none p-[10px]"
                     size={"large"}
-                    placeholder="Display name"
+                    placeholder="Họ và tên"
                   />
                 </Form.Item>
                 <Form.Item
+                  className="font-semibold text-lg"
+                  label="Email"
                   name="email"
-                  className="mt-[-6px]"
                   rules={[
                     { required: true, message: "Enter a valid email address!" },
                   ]}
@@ -83,135 +122,50 @@ const Register = () => {
                     placeholder="Your email"
                   />
                 </Form.Item>
-                <Button
-                  style={{
-                    background: "var(--yellow)",
-                    width: "100%",
-                    borderRadius: 0,
-                    height: 50,
-                  }}
-                  size={"large"}
-                  htmlType="submit"
-                  loading={loadding}
+                <Form.Item
+                  className="font-semibold text-lg"
+                  name="phone"
+                  label="Số điện thoại"
+                  rules={[{ required: true, message: "Enter display name!" }]}
                 >
-                  <span className="font-semibold text-lg">Register</span>
-                </Button>
-                <Link to={`${process.env.REACT_APP_API_URL}/auth/google`}>
-                  <Button
-                    style={{
-                      width: "100%",
-                      height: 50,
-                      borderRadius: 0,
-                      marginTop: 10,
-                      backgroundColor: "rgb(241 245 249)"
-                    }}
+                  <Input
+                    className="!rounded-none p-[10px]"
                     size={"large"}
-                  >
-                    <p className="flex justify-center w-full">
-                      <img src={google} className="w-7 h-7 mr-4"/>
-                      <span className="font-semibold text-lg text-[#696969]">Log in With Google</span>
-                    </p>
-                  </Button>
-                </Link>
-              </Form>
-            </Col>
-          </Row>
-        :
-          <Row gutter={40} className={"p-[40px]"}>
-            <Col xs={12} lg={12} justify={"center"} align={"middle"}>
-              <div
-                className="text-[24px] flex justify-center mb-[10px]"
-                style={{ maxWidth: 580 }}
-              >
-                Register to unlock all the MetaTrader 4/5 features and take your
-                trading to a whole new level
-              </div>
-              <Form
-                name="basic"
-                layout={"vertical"}
-                colon={false}
-                form={form}
-                onFinish={onSubmit}
-                style={{ maxWidth: 380 }}
-              >
-                <Row gutter={10}>
-                  <Col xs={12} lg={12}>
-                    <Form.Item
-                      name="displayName"
-                      rules={[{ required: true, message: "Enter display name!" }]}
-                    >
-                      <Input
-                        className="!rounded-none p-[10px]"
-                        size={"large"}
-                        placeholder="Display name"
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={12} lg={12}>
-                    <Form.Item
-                      name="email"
-                      className="mt-[-6px]"
-                      rules={[
-                        { required: true, message: "Enter a valid email address!" },
-                      ]}
-                    >
-                      <Input
-                        className="!rounded-none p-[10px]"
-                        size={"large"}
-                        placeholder="Your email"
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
+                    placeholder="Số điện thoại"
+                  />
+                </Form.Item>
+                <Form.Item
+                  className="font-semibold text-lg"
+                  name="displayName"
+                  label="Tên người dùng"
+                  rules={[{ required: true, message: "Enter display name!" }]}
+                >
+                  <Input
+                    className="!rounded-none p-[10px]"
+                    size={"large"}
+                    placeholder="Tên người dùng"
+                  />
+                </Form.Item>
+                <div className="py-5">
+                  <Checkbox>Bằng cách đăng ký, bạn đồng ý với <a href="">Chính sách bảo mật</a> của chúng tôi</Checkbox>
+                </div>
 
-                <Button
-                  style={{
-                    background: "var(--yellow)",
-                    width: "100%",
-                    borderRadius: 0,
-                  }}
+                <button
+                  className="border-2 border-cyan-500 bg-cyan-500 hover:bg-white w-full rounded-2xl py-3 font-semibold text-xl text-white hover:text-cyan-500"
                   size={"large"}
                   htmlType="submit"
                   loading={loadding}
                 >
-                  <span>Register</span>
-                </Button>
-
-                <Link to={`${process.env.REACT_APP_API_URL}/auth/google`}>
-                  <Button
-                    className="bg-blue-500 text-white"
-                    style={{
-                      width: "100%",
-                      height: 40,
-                      borderRadius: 0,
-                      marginTop: 10,
-                    }}
-                    loading={loadding}
-                  >
-                    <span>Log in With Google</span>
-                  </Button>
-                </Link>
+                  <span>Tạo tài khoản</span>
+                </button>
                 <div className={"mt-[10px]"}>
-                  By registering on MQL5.com, you agree to the{" "}
-                  <a target="_blank" href="/en/about/privacy">
-                    website policy
-                  </a>{" "}
-                  and{" "}
-                  <a target="_blank" href="/en/about/terms">
-                    terms of use
-                  </a>
+                  <p className="font-medium">Bạn đã có tài khoản? <a href="">Đăng nhập</a></p>
                 </div>
               </Form>
-            </Col>
-            <Col xs={12} lg={12}>
-              <Image
-                preview={false}
-                height={"90%"}
-                src="https://c.mql5.com/i/auth/mt/register_2x.png"
-              />
-            </Col>
-          </Row>
-      }
+            </div>
+          </div>
+        </Col>
+      </Row>
  
     </div>
   );

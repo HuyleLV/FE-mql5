@@ -9,12 +9,14 @@ import AcceptEmail from "../page/acceptEmail";
 import Category from "../page/market/category";
 import CategoryDetail from "../page/market/category/detail";
 import Home from "../page/home";
+import Identify from "../page/identify";
 
 export default function User () {
     return (
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/market" element={<Market />} />
+        <Route path="/identify" element={<Identify />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register/accept" element={<AcceptEmail />} />
