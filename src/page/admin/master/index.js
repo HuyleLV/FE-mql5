@@ -15,7 +15,7 @@ export default function MasterDashboard() {
         pageSize: 10,
     });
 
-    const fetchMaster = async () => {
+    const getAllMaster = async () => {
         await axios
         .get(`${process.env.REACT_APP_API_URL}/masterLicense/getAll`, {params: pagination})
         .then((res) => {
@@ -32,11 +32,11 @@ export default function MasterDashboard() {
             payment_status: e
         })
         .finally(() => {
-            fetchMaster();
-            message.success("Cập nhật trạng thái thành công !");
+          getAllMaster();
+          message.success("Cập nhật trạng thái thành công !");
         })
         .catch(()=>{
-            message.error("Cập nhật thất bại!");
+          message.error("Cập nhật thất bại!");
         });
     }
 
@@ -47,7 +47,7 @@ export default function MasterDashboard() {
             active_status: e
         })
         .finally(() => {
-            fetchMaster();
+          getAllMaster();
             message.success("Cập nhật trạng thái thành công !");
         })
         .catch(()=>{
@@ -62,11 +62,11 @@ export default function MasterDashboard() {
             exprice_date: dayjsInstance(e.$d).format("YYYY-MM-DD")
         })
         .finally(() => {
-            fetchMaster();
-            message.success("Cập nhật thành công!");
+          getAllMaster();
+          message.success("Cập nhật thành công!");
         })
         .catch(()=>{
-            message.error("Cập nhật thất bại!");
+          message.error("Cập nhật thất bại!");
         });
     }
 
@@ -231,7 +231,7 @@ export default function MasterDashboard() {
   ];
   
   useEffect(() => {
-    fetchMaster();
+    getAllMaster();
   }, [pagination]);
 
   return (

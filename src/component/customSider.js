@@ -31,11 +31,6 @@ export default function CustomeSider() {
       label: <Link to={"/admin/products"}>Quản lí sản phẩm</Link>,
     },
     {
-      key: "license",
-      icon: <UserOutlined />,
-      label: <Link to={"/admin/licenses"}>Quản lí license</Link>,
-    },
-    {
       key: "category",
       icon: <AppstoreOutlined />,
       label: <Link to={"/admin/categories"} style={{color: "black"}}>Danh mục</Link>,
@@ -49,6 +44,16 @@ export default function CustomeSider() {
           label: <Link to={"/admin/categoryChild"}>Danh mục con</Link>,
         },
       ],
+    },
+    {
+      key: "identify",
+      icon: <VideoCameraOutlined />,
+      label: <Link to={"/admin/identify"}>Quản lí nhận định</Link>,
+    },
+    {
+      key: "license",
+      icon: <UserOutlined />,
+      label: <Link to={"/admin/licenses"}>Quản lí license</Link>,
     },
     {
       key: "master",

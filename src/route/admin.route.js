@@ -14,6 +14,8 @@ import TransferDashboard from "../page/admin/transfer";
 import LicensesDashboard from "../page/admin/licenses";
 import MasterDashboard from "../page/admin/master";
 import MasterDetail from "../page/admin/master/detail";
+import IdentifyDashboard from "../page/admin/identify";
+import IdentifyDetail from "../page/admin/identify/detail";
 
 export default function AdminRouter () {
     return (
@@ -27,6 +29,8 @@ export default function AdminRouter () {
         <Route path="/admin/categories/:id" element={<CategoriesDetail />} />
         <Route path="/admin/categoryChild" element={<CategoryChildDashboard />} />
         <Route path="/admin/categoryChild/:id" element={<CategoryChilDetail />} />
+        <Route path="/admin/identify" element={<IdentifyDashboard />} />
+        <Route path="/admin/identify/:id" element={<IdentifyDetail />} />
         <Route path="/admin/licenses" element={<LicensesDashboard />} />
         <Route path="/admin/master" element={<MasterDashboard />} />
         <Route path="/admin/master/:id" element={<MasterDetail />} />
