@@ -1,5 +1,27 @@
+import { Col, Row } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import parse from "html-react-parser";
+import dayjsInstance from "../../utils/dayjs";
 
 export default function Identify() {  
+    const [identify_category, setIdentify_category] = useState(1);
+    const [identify, setIdentify] = useState([]);
+
+    const getByIdentify_category = async () => {
+        await axios
+            .get(
+                `${process.env.REACT_APP_API_URL}/identify/getByIdentify_category/${identify_category}`
+            )
+            .then(({ data }) => {
+                setIdentify(data[0]);
+            });
+    }
+    
+  useEffect(() => { 
+    getByIdentify_category()
+  }, [identify_category]);
+
     return (
         <div className="max-w-screen-2xl items-center mx-auto">
             <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] my-5 pl-4">
@@ -12,8 +34,47 @@ export default function Identify() {
                 frameBorder="0"
                 allowFullScreen=""
             />
-            <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] my-10 pl-4">
-                <p className="font-bold text-2xl py-5">Nhận định thị trường</p>
+            <div className="mt-[100px]">
+                <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] my-10 pl-4">
+                    <p className="font-bold text-2xl py-5">Nhận định thị trường</p>
+                </div>
+                <Row>
+                    <Col xs={24} xl={4}>
+                        <button className="bg-blue-300 rounded-full w-[200px]" onClick={()=>setIdentify_category(1)}>
+                            <p className="px-5 py-4 text-center text-xl font-bold">FOREX</p>
+                        </button>
+                        <button className="bg-blue-300 rounded-full w-[200px] mt-2" onClick={()=>setIdentify_category(2)}>
+                            <p className="px-5 py-4 text-center text-xl font-bold">STOCK</p>
+                        </button>
+                        <button className="bg-blue-300 rounded-full w-[200px] mt-2" onClick={()=>setIdentify_category(3)}>
+                            <p className="px-5 py-4 text-center text-xl font-bold">CFD</p>
+                        </button>
+                        <button className="bg-blue-300 rounded-full w-[200px] mt-2" onClick={()=>setIdentify_category(4)}>
+                            <p className="px-5 py-4 text-center text-xl font-bold">HÀNG HÓA</p>
+                        </button>
+                        <button className="bg-blue-300 rounded-full w-[200px] mt-2" onClick={()=>setIdentify_category(5)}>
+                            <p className="px-5 py-4 text-center text-xl font-bold">CRYPTO</p>
+                        </button>
+                    </Col>
+                    <Col xs={24} xl={20}>
+                        <div className="bg-blue-100 p-5 rounded-xl">
+                            {identify === undefined 
+                            ?
+                                <p className="font-bold text-2xl">Chưa có bài viết mới!</p>
+                            :
+                                <>
+                                    <p className="font-bold text-2xl">{identify?.identify_title}</p>
+                                    <p className="py-2 text-lg">
+                                        Tác giả: {identify?.displayName} - Ngày đăng: {dayjsInstance(identify?.create_at).format("DD/MM/YYYY HH:mm:ss")}
+                                    </p>
+                                    <p className="pt-2 text-xl">
+                                        {parse(String(identify?.identify_description).replaceAll("ul>","p>"))}
+                                    </p>
+                                </>
+                            }
+                        </div>
+                    </Col>
+                </Row>
             </div>
         </div>
     )
