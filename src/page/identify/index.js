@@ -5,22 +5,35 @@ import parse from "html-react-parser";
 import dayjsInstance from "../../utils/dayjs";
 
 export default function Identify() {  
-    const [identify_category, setIdentify_category] = useState(1);
+    const [identifyCategory, setIdentifyCategory] = useState([]);
     const [identify, setIdentify] = useState([]);
 
-    const getByIdentify_category = async () => {
+    const getByIdentify_category = async (identify_category_id) => {
         await axios
             .get(
-                `${process.env.REACT_APP_API_URL}/identify/getByIdentify_category/${identify_category}`
+                `${process.env.REACT_APP_API_URL}/identify/getByIdentify_category/${identify_category_id}`
             )
             .then(({ data }) => {
                 setIdentify(data[0]);
             });
     }
-    
-  useEffect(() => { 
-    getByIdentify_category()
-  }, [identify_category]);
+
+    const getAllIdentifyCategory = async () => {
+        await axios
+            .get(
+                `${process.env.REACT_APP_API_URL}/identifyCategory/getAllIdentifyCategory`, {params: {
+                    page: 1,
+                    pageSize: 100,
+                }}
+            )
+            .then(({ data }) => {
+                setIdentifyCategory(data?.data);
+            });
+    }
+
+    useEffect(() => { 
+        getAllIdentifyCategory();
+    }, []);
 
     return (
         <div className="max-w-screen-2xl items-center mx-auto">
@@ -40,25 +53,16 @@ export default function Identify() {
                 </div>
                 <Row>
                     <Col xs={24} xl={4}>
-                        <button className="bg-blue-300 rounded-full w-[200px]" onClick={()=>setIdentify_category(1)}>
-                            <p className="px-5 py-4 text-center text-xl font-bold">FOREX</p>
-                        </button>
-                        <button className="bg-blue-300 rounded-full w-[200px] mt-2" onClick={()=>setIdentify_category(2)}>
-                            <p className="px-5 py-4 text-center text-xl font-bold">STOCK</p>
-                        </button>
-                        <button className="bg-blue-300 rounded-full w-[200px] mt-2" onClick={()=>setIdentify_category(3)}>
-                            <p className="px-5 py-4 text-center text-xl font-bold">CFD</p>
-                        </button>
-                        <button className="bg-blue-300 rounded-full w-[200px] mt-2" onClick={()=>setIdentify_category(4)}>
-                            <p className="px-5 py-4 text-center text-xl font-bold">HÀNG HÓA</p>
-                        </button>
-                        <button className="bg-blue-300 rounded-full w-[200px] mt-2" onClick={()=>setIdentify_category(5)}>
-                            <p className="px-5 py-4 text-center text-xl font-bold">CRYPTO</p>
-                        </button>
+                        {identifyCategory?.length> 0 && identifyCategory?.map((e, index) => (
+                            <button className="bg-blue-300 rounded-full w-[200px] mt-2" onClick={()=>getByIdentify_category(e?.identify_category_id)} key={index}>
+                                <p className="px-5 py-4 text-center text-xl font-bold">{e?.identify_category_title}</p>
+                            </button>
+                        ))}
+                        
                     </Col>
                     <Col xs={24} xl={20}>
                         <div className="bg-blue-100 p-5 rounded-xl">
-                            {identify === undefined 
+                            {identify === undefined
                             ?
                                 <p className="font-bold text-2xl">Chưa có bài viết mới!</p>
                             :

@@ -108,21 +108,21 @@ export default function MasterDashboard() {
       width: 100,
       render: (_, record) => 
         <Select
-            size="large"
-            placeholder="Select a person"
-            optionFilterProp="children"
-            value={record?.active_status}
-            onChange={(e)=>updateActiveStatus(e, record)}
-            options={[
-            { 
-                label: "Active",
-                value: 1
-            },
-            { 
-                label: "Inactive",
-                value: 0
-            }
-            ]}
+          size="large"
+          placeholder="Select a person"
+          optionFilterProp="children"
+          value={record?.active_status}
+          onChange={(e)=>updateActiveStatus(e, record)}
+          options={[
+          { 
+              label: "Active",
+              value: 1
+          },
+          { 
+              label: "Inactive",
+              value: 0
+          }
+          ]}
         />,
     },
     {

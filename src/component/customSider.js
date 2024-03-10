@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import logo from "./image/logo.png"
 const { Sider } = Layout;
 
 
@@ -33,7 +34,7 @@ export default function CustomeSider() {
     {
       key: "category",
       icon: <AppstoreOutlined />,
-      label: <Link to={"/admin/categories"} style={{color: "black"}}>Danh mục</Link>,
+      label: "Danh mục sản phẩm",
       children: [
         {
           key: "category",
@@ -48,7 +49,17 @@ export default function CustomeSider() {
     {
       key: "identify",
       icon: <VideoCameraOutlined />,
-      label: <Link to={"/admin/identify"}>Quản lí nhận định</Link>,
+      label: "Quản lí nhận định",
+      children: [
+        {
+          key: "identify-category",
+          label: <Link to={"/admin/identify-category"}>Danh mục nhận định</Link>,
+        },
+        {
+          key: "identify",
+          label: <Link to={"/admin/identify"}>Quản lý nhận định</Link>,
+        },
+      ],
     },
     {
       key: "license",
@@ -84,20 +95,15 @@ export default function CustomeSider() {
   }, [cookies?.admin?.role]);
   
   return (
-    <div className="!w-[250px]">
-      <Sider className={"!h-full !w-full !bg-white"}>
-        <div
-          className={
-            "!bg-primary-color h-[68px] px-5 flex justify-center cursor-pointer "
-          }
-        >
-          <div
-            className={
-              "text-[var(--blue)] text-[28px] font-bold cursor-pointer leading-[26px] self-center "
-            }
-          >
-            MQL5
-          </div>
+    <div className="!bg-white">
+      <Sider width={220} className="!w-full !bg-white">
+        <div className="flex justify-center py-5">
+          <Image
+              preview={false}
+              src={logo}
+              width={60}
+              height={40}
+            />
         </div>
         <div className="flex items-center px-5 border">
           <Image

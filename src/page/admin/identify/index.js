@@ -1,4 +1,4 @@
-import { Button, Col, Image, Pagination, Row, Table, message } from "antd"
+import { Button, Col, Image, Pagination, Row, Select, Table, message } from "antd"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import SearchProps from "../../../component/SearchProps";
@@ -23,6 +23,22 @@ export default function IdentifyDashboard() {
         })
         .catch(() => message.error("Error server!"));
     };
+
+    const updateIdentifyHot = async (id, identify_hot) => {
+        await axios
+        .post(`${process.env.REACT_APP_API_URL}/identifyHot/update/${id}`, {
+          identify_hot: identify_hot
+        })
+        .finally(() => {
+          getAllIdentify();
+        })
+        .then(async (response) => {
+          message.success(String(response?.data?.message));
+        })
+        .catch(({ response })=>{
+            message.error(String(response?.data?.message));
+        });
+    }
 
     const columns = [
         {
@@ -56,19 +72,50 @@ export default function IdentifyDashboard() {
           render: (_, record) => <div className="flex justify-center"><Image src={record?.identify_image} width={100}/></div>,
         },
         {
+          title: "Nhận định hot nhất",
+          key: "identify_hot",
+          dataIndex: "identify_hot",
+          width: 150,
+          sorter: (a, b) => a.identify_hot - b.identify_hot,
+          render: (_, record) => 
+          <Select
+            className="w-[100px]"
+            size="large"
+            placeholder="Select a person"
+            optionFilterProp="children"
+            value={record?.identify_hot}
+            onChange={(e)=>updateIdentifyHot(record?.identify_id, e)}
+            options={[
+              { 
+                value: 1
+              },
+              { 
+                value: 2
+              },
+              { 
+                value: 3
+              },
+              { 
+                value: 4
+              },
+              { 
+                value: 5
+              },
+              { 
+                label: "null",
+                value: null
+              }
+            ]}
+          />,
+        },
+        {
           title: "Danh mục",
-          key: "identify_category",
-          dataIndex: "identify_category",
+          key: "identify_category_title",
+          dataIndex: "identify_category_title",
           width: 150,
           render: (_, record) => 
             <div>
-                {
-                    record?.identify_category === 1 ? "FOREX" 
-                    : record?.identify_category === 2 ? "STOCK"
-                    : record?.identify_category === 3 ? "CFD"
-                    : record?.identify_category === 4 ? "HÀNG HÓA"
-                    : record?.identify_category === 5 ? "CRYPTO" : null
-                }
+                {record?.identify_category_title}
             </div>,
         },
         {

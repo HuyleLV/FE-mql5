@@ -154,8 +154,8 @@ export default function Header() {
                       </Link>
                     </li>
                     <li className="hover:bg-yellow-400 hover:text-black p-4">
-                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                        Freelance
+                      <Link className="block md:p-0 md:hover:text-black" to={"/tin-tuc"}>
+                        Tin tức
                       </Link>
                     </li>
                     <li className="hover:bg-yellow-400 hover:text-black p-4">

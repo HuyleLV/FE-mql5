@@ -16,46 +16,30 @@ import {
   import CustomUpload from "../customUpload";
 import ReactQuill from "react-quill";
   
-  export default function IdentifyForm({
+  export default function IdentifyCategoryForm({
     id = "",
     initialValues = {},
     onSubmit = () => {},
   }) {
     const navigate = useNavigate();
     const [form] = Form.useForm();
-    const [identifyCategory, setIdentifyCategory] = useState([]);
-
-    const getAllIdentifyCategory = async () => {
-      try {
-        const result = await axios.get(
-          `${process.env.REACT_APP_API_URL}/identifyCategory/getAllIdentifyCategory`, {params: {
-            page: 1,
-            pageSize: 10,
-          }}
-        );
-        setIdentifyCategory(result?.data?.data);
-      } catch (e) {
-        message.error(e);
-      }
-    };
   
-    const deleteIdentify = async () => {
+    const deleteIdentifyCategory = async () => {
       await axios
-        .delete(`${process.env.REACT_APP_API_URL}/identify/delete/${id}`)
+        .delete(`${process.env.REACT_APP_API_URL}/identifyCategory/delete/${id}`)
         .then(() => message.success("Xoá sản thành công"))
     };
   
     useEffect(() => {
-      getAllIdentifyCategory();
       if (Object.keys(initialValues)?.length > 0) {
         form.resetFields();
       }
     }, [form, initialValues]);
   
-    const removeIdentify= async () => {
+    const removeIdentifyCategory= async () => {
       try {
-        await deleteIdentify();
-        return navigate("/admin/identify");
+        await deleteIdentifyCategory();
+        return navigate("/admin/identify-category");
       } catch (err) {
         console.log(err.message);
       }
@@ -67,19 +51,19 @@ import ReactQuill from "react-quill";
         content: "Bạn có chắc chắn xoá danh mục con này?",
         okText: "Xác nhận",
         cancelText: "Huỷ",
-        onOk: () => removeIdentify(),
+        onOk: () => removeIdentifyCategory(),
       });
     };
     return (
       <div className={"p-[40px] bg-white rounded-[10px]"}>
         <div className={"!text-[#2d2e32] pb-[10px]"}>
           <Link
-            to={"/admin/identify"}
+            to={"/admin/identify-category"}
             className={
               "text-[18px] sm:text-[24px] md:text-[26px] xl:text-[26px] font-[500] cursor-pointer "
             }
           >
-            {"Thông tin nhận định"}
+            {"Thông tin danh mục nhận định"}
           </Link>
         </div>
   
@@ -93,47 +77,10 @@ import ReactQuill from "react-quill";
         >
             <Form.Item
                 label={"Tiêu đề"}
-                name="identify_title"
+                name="identify_category_title"
                 rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
             >
                 <Input size="large" placeholder={"Nhập"} />
-            </Form.Item>
-
-            <Form.Item
-                label={"Slug"}
-                name="identify_slug"
-                rules={[{ required: true, message: "Vui lòng nhập slug!" }]}
-            >
-                <Input size="large" placeholder={"Nhập"} />
-            </Form.Item>
-
-            <Form.Item label={"Danh mục nhận định"} name="identify_category_id">
-                <Select
-                    showSearch
-                    size="large"
-                    placeholder="Select a person"
-                    optionFilterProp="children"
-                    options={identifyCategory?.map((value) => ({
-                      value: value.identify_category_id,
-                      label: value.identify_category_title,
-                    }))}
-                />
-            </Form.Item>
-    
-            <Form.Item
-                name="identify_image"
-                label={"Link ảnh"}
-                rules={[{ required: true, message: "Vui lòng chọn file!" }]}
-            >
-                <CustomUpload type="image" accept=".png, .jpg, .jpeg, .jfif" />
-            </Form.Item>
-
-            <Form.Item 
-                name="identify_description" 
-                label={"Nội dung"}
-                rules={[{ required: true, message: "Vui lòng nhập nội dung!" }]}
-            >
-                <ReactQuill className="h-[400px] pb-10" theme="snow" />
             </Form.Item>
   
           <Row gutter={40} className={"my-[40px] pl-[20px]"}>

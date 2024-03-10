@@ -10,6 +10,7 @@ import Category from "../page/market/category";
 import CategoryDetail from "../page/market/category/detail";
 import Home from "../page/home";
 import Identify from "../page/identify";
+import News from "../page/news";
 
 export default function User () {
     return (
@@ -17,6 +18,7 @@ export default function User () {
         <Route path="/" element={<Home />} />
         <Route path="/market" element={<Market />} />
         <Route path="/nhan-dinh" element={<Identify />} />
+        <Route path="/tin-tuc" element={<News />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register/accept" element={<AcceptEmail />} />
