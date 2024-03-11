@@ -6,10 +6,21 @@ import dayjsInstance from "../../utils/dayjs";
 
 export default function News() {  
     const [news, setNews] = useState([]);
+    const [tabs, setTabs] = useState(1);
     const [identifyCategory, setIdentifyCategory] = useState([]);
     const [identify, setIdentify] = useState([]);
     const [identifyHot, setIdentifyHot] = useState([]);
     const [identifyHotHover, setIdentifyHotHover] = useState([]);
+
+    const getAllNew = async () => {
+        await axios
+            .get(
+                `${process.env.REACT_APP_API_URL}/identifyNew/getAllNew`
+            )
+            .then(({ data }) => {
+                setNews(data);
+            });
+    }
 
     const getByIdentify_category = async (identify_category_id) => {
         await axios
@@ -49,6 +60,7 @@ export default function News() {
     useEffect(() => { 
         getAllIdentifyCategory();
         getAllIdentifyHot();
+        getAllNew();
         if(identify.length === 0) {
             getByIdentify_category(2);
         }
@@ -57,7 +69,7 @@ export default function News() {
     return (
         <div className="max-w-screen-2xl items-center mx-auto">
             <div className="mt-[100px]">
-                <p className="font-bold text-3xl text-center">---- Tin hot nhất ----</p>
+                <p className="font-bold text-3xl text-center">---- Tin tức hot nhất ----</p>
                 <Row className="mt-10 shadow-md border rounded-xl">
                     <Col xs={24} xl={14}>
                         <div className="flex justify-center p-10 relative">
@@ -81,15 +93,40 @@ export default function News() {
                         </div>
                     </Col>
                     <Col xs={24} xl={10}>
-                        <div className="p-10">
-                            {identifyHot?.map((_, index) => (
-                                <a href="" style={{color: "black"}}>
-                                    <div className="pt-4 border-b border-black" onMouseEnter={()=>handleMouseEnter(_)}>
-                                        <p className="font-semibold text-xl hover:font-bold">{_?.identify_title}</p>
-                                        <p className="py-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
-                                    </div>
-                                </a>
-                            ))}
+                        <div className="px-8 pt-10 pb-2">
+                            <button 
+                                className={tabs === 1 ? "w-1/2 bg-amber-400 border-b border-amber-400 rounded-t-lg" : "w-1/2 bg-white border-b border-amber-400 rounded-t-lg"}
+                                onClick={()=>setTabs(1)}
+                            >
+                                <p className="text-black font-semibold text-xl py-2">Tin tức hot nhất</p>
+                            </button>
+                            <button 
+                                className={tabs === 2 ? "w-1/2 bg-amber-400 border-b border-amber-400 rounded-t-lg" : "w-1/2 bg-white border-b border-amber-400 rounded-t-lg"}
+                                onClick={()=>setTabs(2)}
+                            >
+                                <p className="text-black font-semibold text-xl py-2">Tin tức mới nhất</p>
+                            </button>
+                        </div>
+                        <div className="px-8">
+                            {tabs === 1 ? 
+                                identifyHot?.map((_, index) => (
+                                    <a href={"/tin-tuc/" + _?.identify_slug} style={{color: "black"}}>
+                                        <div className="pt-4 border-b border-black" onMouseEnter={()=>handleMouseEnter(_)}>
+                                            <p className="font-semibold text-xl hover:font-bold">{_?.identify_title}</p>
+                                            <p className="py-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                                        </div>
+                                    </a>
+                                ))
+                                :
+                                news?.map((_, index) => (
+                                    <a href={"/tin-tuc/" + _?.identify_slug} style={{color: "black"}}>
+                                        <div className="pt-4 border-b border-black" onMouseEnter={()=>handleMouseEnter(_)}>
+                                            <p className="font-semibold text-xl hover:font-bold">{_?.identify_title}</p>
+                                            <p className="py-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                                        </div>
+                                    </a>
+                                ))
+                            }
                         </div>
                     </Col>
                 </Row>

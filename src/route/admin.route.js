@@ -18,6 +18,10 @@ import IdentifyDashboard from "../page/admin/identify";
 import IdentifyDetail from "../page/admin/identify/detail";
 import IdentifyCategory from "../page/admin/identifyCategory";
 import IdentifyCategoryDetail from "../page/admin/identifyCategory/detail";
+import EducationDashboard from "../page/admin/education";
+import EducationDetail from "../page/admin/education/detail";
+import EducationCategory from "../page/admin/education/category";
+import EducationCategoryDetail from "../page/admin/education/category/detail";
 
 export default function AdminRouter () {
     return (
@@ -35,6 +39,10 @@ export default function AdminRouter () {
         <Route path="/admin/identify/:id" element={<IdentifyDetail />} />
         <Route path="/admin/identify-category" element={<IdentifyCategory />} />
         <Route path="/admin/identify-category/:id" element={<IdentifyCategoryDetail />} />
+        <Route path="/admin/education" element={<EducationDashboard />} />
+        <Route path="/admin/education/:id" element={<EducationDetail />} />
+        <Route path="/admin/education-category" element={<EducationCategory />} />
+        <Route path="/admin/education-category/:id" element={<EducationCategoryDetail />} />
         <Route path="/admin/licenses" element={<LicensesDashboard />} />
         <Route path="/admin/master" element={<MasterDashboard />} />
         <Route path="/admin/master/:id" element={<MasterDetail />} />

@@ -140,17 +140,12 @@ export default function Header() {
                   <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
                     <li className="hover:bg-yellow-400 hover:text-black p-4">
                       <Link className="block md:p-0 md:hover:text-black" to={"/nhan-dinh"}>
-                        Nhận định
-                      </Link>
-                    </li>
-                    <li className="hover:bg-yellow-400 hover:text-black p-4">
-                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                        Market
-                      </Link>
-                    </li>
-                    <li className="hover:bg-yellow-400 hover:text-black p-4">
-                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
                         Signals
+                      </Link>
+                    </li>
+                    <li className="hover:bg-yellow-400 hover:text-black p-4">
+                      <Link className="block md:p-0 md:hover:text-black" to={"/nhan-dinh"}>
+                        Nhận định
                       </Link>
                     </li>
                     <li className="hover:bg-yellow-400 hover:text-black p-4">
@@ -159,8 +154,13 @@ export default function Header() {
                       </Link>
                     </li>
                     <li className="hover:bg-yellow-400 hover:text-black p-4">
+                      <Link className="block md:p-0 md:hover:text-black" to={"/education"}>
+                        Edu
+                      </Link>
+                    </li>
+                    <li className="hover:bg-yellow-400 hover:text-black p-4">
                       <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                        Quotes
+                        Wallet
                       </Link>
                     </li>
                   </ul>

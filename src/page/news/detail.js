@@ -3,7 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import dayjsInstance from "../../utils/dayjs";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import logo from "../../component/image/logo.png";
 
 export default function NewsDetail() {  
     const params = useParams();
@@ -36,17 +37,22 @@ export default function NewsDetail() {
     return (
         <div className="max-w-screen-2xl mx-auto">
             <div className="mt-[50px]">
-                <Row>
-                    <Col xs={24} xl={18} className="p-5 px-10">
+                <div>
+                    <p className="font-medium px-5">
+                        <Link to="/">Trang chủ</Link> / <Link to="/tin-tuc">Tin tức</Link> / <span className="text-blue-600">{identify?.identify_title}</span>
+                    </p>
+                </div>
+                <Row className="pt-10">
+                    <Col xs={24} xl={18} className="p-5">
                         <p className="font-bold text-3xl">{identify?.identify_title}</p>
-                        <div className="flex justify-between pt-5">
-                            <p className="flex justify-center items-center">
-                                <img src={identify?.photos} style={{width: 30, marginRight: 10, padding: 2}}/>
+                        <div className="flex justify-start pt-5 items-center">
+                            <p className="flex justify-center items-center font-medium text-gray-600">
+                                <img className="rounded-full" src={identify?.photos ? identify?.photos : logo} style={{width: 30, marginRight: 10, padding: 2}}/>
                                 {identify?.displayName ? identify?.displayName : "Admin"}
                             </p>
-                            <p>{dayjsInstance(identify?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                            <p className="pl-10 font-medium text-gray-600">Đã đăng vào: {dayjsInstance(identify?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
                         </div>
-                        <div className="pt-10">
+                        <div className="pt-5">
                             {parse(String(identify?.identify_description).replaceAll("ul>","p>"))}
                         </div>
                         <div className="pt-10">
@@ -76,7 +82,7 @@ export default function NewsDetail() {
                     <Col xs={24} xl={6} className="p-5">
                         <p className="font-semibold text-2xl text-center border-b mx-10 mb-5">Tin tức hot nhất</p>
                         {identifyHot?.map((_, index) => (
-                            <a href="" style={{color: "black"}}>
+                            <a href={"/tin-tuc/" + _?.identify_slug} style={{color: "black"}}>
                                 <div className="pt-4 border-b border-slate-300">
                                     <p className="font-semibold text-xl">{_?.identify_title}</p>
                                     <p className="py-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>

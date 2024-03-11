@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import IdentifyCategoryForm from "../../../component/IdentifyCategoryForm";
+import EducationForm from "../../../component/EducationForm";
 
-export default function IdentifyCategoryDetail() {
+export default function EducationDetail() {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [initialValues, setInitialValues] = useState({});
@@ -13,9 +13,10 @@ export default function IdentifyCategoryDetail() {
   const id = params?.id;
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
 
-  const fetchIdentifyCategory = async () => {
+
+  const fetchEducation = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/identifyCategory/getById/${params?.id}`)
+      .get(`${process.env.REACT_APP_API_URL}/education/getById/${params?.id}`)
       .then((res) => {
         const data = res?.data[0];
         const values = {
@@ -25,23 +26,23 @@ export default function IdentifyCategoryDetail() {
       });
   };
 
-  const createIdentifyCategory = async (values) => {
+  const createEducation = async (values) => {
     await axios.post(
-      `${process.env.REACT_APP_API_URL}/identifyCategory/create`,
+      `${process.env.REACT_APP_API_URL}/education/create`,
       values
     );
   };
 
-  const updateIdentifyCategory = async (id, values) => {
+  const updateEducation = async (id, values) => {
     await axios.post(
-      `${process.env.REACT_APP_API_URL}/identifyCategory/update/${id}`,
+      `${process.env.REACT_APP_API_URL}/education/update/${id}`,
       values
     );
   };
 
   useEffect(() => {
     if (id && id !== "create") {
-      fetchIdentifyCategory();
+      fetchEducation();
     }
   }, [id]);
 
@@ -53,25 +54,25 @@ export default function IdentifyCategoryDetail() {
 
     try {
       if (id && id !== "create") {
-        await updateIdentifyCategory(id, submitValues);
+        await updateEducation(id, submitValues);
         message.success("Cập nhập thành công");
       } else {
-        await createIdentifyCategory(submitValues);
+        await createEducation(submitValues);
         message.success("Tạo mới thành công");
       }
-      navigate("/admin/identify-category");
+      navigate("/admin/education");
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    if (id) fetchIdentifyCategory();
+    if (id) fetchEducation();
     form.resetFields();
   }, [form, id]);
 
   return (
-    <IdentifyCategoryForm
+    <EducationForm
       id={id !== "create" ? id : undefined}
       initialValues={initialValues}
       onSubmit={onSubmit}

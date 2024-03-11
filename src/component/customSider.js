@@ -62,6 +62,21 @@ export default function CustomeSider() {
       ],
     },
     {
+      key: "education",
+      icon: <VideoCameraOutlined />,
+      label: "Quản lí education",
+      children: [
+        {
+          key: "education-category",
+          label: <Link to={"/admin/education-category"}>Danh mục education</Link>,
+        },
+        {
+          key: "education",
+          label: <Link to={"/admin/education"}>Quản lý education</Link>,
+        },
+      ],
+    },
+    {
       key: "license",
       icon: <UserOutlined />,
       label: <Link to={"/admin/licenses"}>Quản lí license</Link>,

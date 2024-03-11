@@ -16,46 +16,46 @@ import {
   import CustomUpload from "../customUpload";
 import ReactQuill from "react-quill";
   
-  export default function IdentifyForm({
+  export default function EducationForm({
     id = "",
     initialValues = {},
     onSubmit = () => {},
   }) {
     const navigate = useNavigate();
     const [form] = Form.useForm();
-    const [identifyCategory, setIdentifyCategory] = useState([]);
+    const [educationCategory, setEducationCategory] = useState([]);
 
-    const getAllIdentifyCategory = async () => {
+    const getAllEducationCategory = async () => {
       try {
         const result = await axios.get(
-          `${process.env.REACT_APP_API_URL}/identifyCategory/getAllIdentifyCategory`, {params: {
+          `${process.env.REACT_APP_API_URL}/educationCategory/getAll`, {params: {
             page: 1,
             pageSize: 10,
           }}
         );
-        setIdentifyCategory(result?.data?.data);
+        setEducationCategory(result?.data?.data);
       } catch (e) {
         message.error(e);
       }
     };
   
-    const deleteIdentify = async () => {
+    const deleteEducation = async () => {
       await axios
-        .delete(`${process.env.REACT_APP_API_URL}/identify/delete/${id}`)
+        .delete(`${process.env.REACT_APP_API_URL}/education/delete/${id}`)
         .then(() => message.success("Xoá sản thành công"))
     };
   
     useEffect(() => {
-      getAllIdentifyCategory();
+      getAllEducationCategory();
       if (Object.keys(initialValues)?.length > 0) {
         form.resetFields();
       }
     }, [form, initialValues]);
   
-    const removeIdentify= async () => {
+    const removeEducation= async () => {
       try {
-        await deleteIdentify();
-        return navigate("/admin/identify");
+        await deleteEducation();
+        return navigate("/admin/education");
       } catch (err) {
         console.log(err.message);
       }
@@ -67,14 +67,14 @@ import ReactQuill from "react-quill";
         content: "Bạn có chắc chắn xoá danh mục con này?",
         okText: "Xác nhận",
         cancelText: "Huỷ",
-        onOk: () => removeIdentify(),
+        onOk: () => removeEducation(),
       });
     };
     return (
       <div className={"p-[40px] bg-white rounded-[10px]"}>
         <div className={"!text-[#2d2e32] pb-[10px]"}>
           <Link
-            to={"/admin/identify"}
+            to={"/admin/education"}
             className={
               "text-[18px] sm:text-[24px] md:text-[26px] xl:text-[26px] font-[500] cursor-pointer "
             }
@@ -93,27 +93,27 @@ import ReactQuill from "react-quill";
         >
             <Form.Item
                 label={"Tiêu đề"}
-                name="identify_title"
+                name="education_title"
                 rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
             >
                 <Input size="large" placeholder={"Nhập"} />
             </Form.Item>
 
-            <Form.Item label={"Danh mục nhận định"} name="identify_category_id">
+            <Form.Item label={"Danh mục nhận định"} name="education_category_id">
                 <Select
                     showSearch
                     size="large"
                     placeholder="Select a person"
                     optionFilterProp="children"
-                    options={identifyCategory?.map((value) => ({
-                      value: value.identify_category_id,
-                      label: value.identify_category_title,
+                    options={educationCategory?.map((value) => ({
+                      value: value.education_category_id,
+                      label: value.education_category_title,
                     }))}
                 />
             </Form.Item>
     
             <Form.Item
-                name="identify_image"
+                name="education_image"
                 label={"Link ảnh"}
                 rules={[{ required: true, message: "Vui lòng chọn file!" }]}
             >
@@ -121,7 +121,7 @@ import ReactQuill from "react-quill";
             </Form.Item>
 
             <Form.Item 
-                name="identify_description" 
+                name="education_description" 
                 label={"Nội dung"}
                 rules={[{ required: true, message: "Vui lòng nhập nội dung!" }]}
             >
