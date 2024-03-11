@@ -7,10 +7,13 @@ import { useEffect, useRef, useState } from "react";
 import { CheckOutlined } from "@ant-design/icons";
 import { useDevice } from "../../hooks";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 export default function Home() {  
     const { isMobile } = useDevice();
     const [products, setProducts] = useState([]);
+    const token = useLocation();
+    const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
     
     const fetchProducts = async () => {
         await axios
@@ -147,6 +150,9 @@ export default function Home() {
 
     useEffect(() => {
       fetchProducts();
+      if(new URLSearchParams(token?.search).get('token') !== null) {
+        setCookieToken("accessToken", new URLSearchParams(token?.search).get('token'));
+      }
     }, []);
 
     return (

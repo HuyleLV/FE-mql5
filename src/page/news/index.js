@@ -111,18 +111,20 @@ export default function News() {
                         identify?.map((e, index) => (
                             <>
                                 <Col xs={24} xl={8}>
-                                    <div className="flex justify-center m-5">
-                                        <div className="w-[400px] border-b-2">
-                                            <img src={e?.identify_image} style={{width: 400, height: 300}}/>
-                                            <div className="py-2">
-                                                <p className="py-2 text-sm">
-                                                    Tác giả: {e?.displayName ? e?.displayName : "Admin"}
-                                                </p>
-                                                <p className="font-bold text-xl">{e?.identify_title}</p>
-                                                <p className="py-2 text-sm">{dayjsInstance(e?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                                    <a href={"/tin-tuc/" + e?.identify_slug} style={{color: "black"}}>
+                                        <div className="flex justify-center m-5">
+                                            <div className="w-[400px] h-[460px] border-b-2">
+                                                <img src={e?.identify_image} style={{width: 400, height: 300}}/>
+                                                <div className="py-2">
+                                                    <p className="py-2 text-sm">
+                                                        Tác giả: {e?.displayName ? e?.displayName : "Admin"}
+                                                    </p>
+                                                    <p className="font-bold text-xl">{e?.identify_title}</p>
+                                                    <p className="py-2 text-sm">{dayjsInstance(e?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </Col>                                  
                             </>
                         ))}

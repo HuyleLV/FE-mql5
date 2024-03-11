@@ -93,15 +93,12 @@ const Login = () => {
                 </button>
 
                 <Link to={`${process.env.REACT_APP_API_URL}/auth/google`}>
-                  <button
-                    size={"large"}
-                    className="border-2 border-cyan-500 bg-white hover:bg-cyan-500 w-full rounded-2xl py-3 font-bold text-xl text-cyan-600 hover:text-white mt-5"
-                  >
+                  <div className="border-2 border-cyan-500 bg-white hover:bg-cyan-500 w-full rounded-2xl py-3 font-bold text-xl text-cyan-600 hover:text-white mt-5">
                     <p className="flex justify-center w-full">
                       <img src={google} className="w-7 h-7 mr-4" />
                         Log in With Google
                     </p>
-                  </button>
+                  </div>
                 </Link>
               </Form>
             </div>
