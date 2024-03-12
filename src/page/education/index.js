@@ -27,12 +27,16 @@ export default function Education() {
         <div className="max-w-screen-2xl items-center mx-auto">
             <div className="mt-[100px]">
                 <p className="font-bold text-3xl text-center">---- Kiến thức Net Partner ----</p>
-                <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] my-5 pl-4">
-                    <p className="font-bold text-2xl py-5">Kiến thức nền tảng</p>
-                </div>
-                
+
                 {educationCategory?.map((_, index) => (
-                    <CollapseComponent educationCategory={_} />
+                    <div>
+                        <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] my-5 pl-4">
+                            <p className="font-bold text-2xl py-5">{_?.education_category_title}</p>
+                        </div>
+                        {_?.education_categorychild?.map((_, index) => (
+                            <CollapseComponent education_categorychild={_} />
+                        ))}
+                    </div>
                 ))}
             </div>
         </div>

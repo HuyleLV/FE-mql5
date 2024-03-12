@@ -2,18 +2,20 @@ import { BookOutlined, DownOutlined, PaperClipOutlined, RightOutlined } from "@a
 import axios from "axios";
 import { useState } from "react";
 
-export default function CollapseComponent({ educationCategory }) {
+export default function CollapseComponent({ education_categorychild }) {
     const [collapsed, setCollapsed] = useState(true);
     const [education, setEducation] = useState([]); 
   
-    const toggleCollapse = async (education_category_id) => {
+    const toggleCollapse = async (education_categoryChild_id) => {
       setCollapsed(!collapsed);
+      console.log(education_categoryChild_id);
 
       await axios
           .get(
-              `${process.env.REACT_APP_API_URL}/education/getByIdCategory/${education_category_id}`
+              `${process.env.REACT_APP_API_URL}/education/getByIdCategoryChild/${education_categoryChild_id}`
           )
           .then(({ data }) => {
+            console.log(data);
               setEducation(data);
           });
     };
@@ -22,10 +24,10 @@ export default function CollapseComponent({ educationCategory }) {
       <div>
           <div 
             className="w-full bg-[#F7F9FA] cursor-pointer border-t border-x border-[#d1d7dc]"
-            onClick={()=>toggleCollapse(educationCategory?.education_category_id)}
+            onClick={()=>toggleCollapse(education_categorychild?.education_categoryChild_id)}
           >
             <div className="flex justify-between px-10 py-5">
-              <p className="font-semibold text-xl"><BookOutlined /> {educationCategory?.education_category_title}</p>
+              <p className="font-semibold text-xl"><BookOutlined /> {education_categorychild?.education_categoryChild_title}</p>
               <p>{collapsed ? <DownOutlined /> : <RightOutlined />}</p> 
             </div>
           </div>
