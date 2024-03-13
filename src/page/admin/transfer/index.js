@@ -43,9 +43,13 @@ export default function TransferDashboard() {
     });
   };
 
-  const updateTransfer = async (value, id) => {
+  const updateTransfer = async (value, e) => {
     await axios
-      .post(`${process.env.REACT_APP_API_URL}/transfer/updateStatus/${id}`, {transfer_status: value})
+      .post(`${process.env.REACT_APP_API_URL}/transfer/updateStatus/${value?.transfer_id}`, {
+        transfer_price: value?.transfer_price,
+        transfer_status: e,
+        create_by: value?.user_id
+      })
       .finally(() => {
         fetchTransfer();
         message.success("Cập nhập thành công!");
@@ -105,7 +109,7 @@ export default function TransferDashboard() {
                 className={"w-[150px]"}
                 value={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
                 defaultValue={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
-                onChange={(value) => updateTransfer(value, record?.transfer_id)}
+                onChange={(e) => updateTransfer(record, e)}
                 />
         </div>
       ),
@@ -122,18 +126,6 @@ export default function TransferDashboard() {
                 src={record?.transfer_image}
                 />
         </div>,
-    },
-    {
-      title: <div>Sản phẩm</div>,
-      key: "product_id",
-      dataIndex: "product_id",
-      width: 160,
-      ...SearchProps("product_id"),
-      render: (_, record) => (
-        <div>
-            {record?.product_name}
-        </div>
-      ),
     },
     {
       title: <div>Người tạo</div>,

@@ -14,9 +14,7 @@ import SearchProps from "../../component/SearchProps";
 export default function ProfilePage() {
   const [cookies] = useCookies(["user"]);
   const [form] = Form.useForm();
-  const { isMobile } = useDevice();
   const [profile, setProfile] = useState({});
-  const [transfer, setTransfer] = useState([]);
   const [signal, setSignal] = useState([]);
   const [masterKey, setMasterKey] = useState([])
   const [follower, setFollower] = useState([])
@@ -41,16 +39,6 @@ export default function ProfilePage() {
       )
       .then(({ data }) => {
         if (data) setProfile({ ...data?.[0] });
-      });
-  };
-
-  const fetchTransfer = async () => {
-    await axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/transfer/getByIdUser/${cookies.user?.user_id}`, {params: pagination})
-      .then(( res ) => {
-        const data = res?.data;
-        setTransfer(data);
       });
   };
 
@@ -122,7 +110,6 @@ export default function ProfilePage() {
 
   useEffect(() => { 
     fetchProfile();
-    fetchTransfer()
   }, [pagination]);
 
   useEffect(() => { 
@@ -334,92 +321,6 @@ export default function ProfilePage() {
       render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
     },
   ]
-
-  const columns = [
-    {
-      title: <div>ID</div>,
-      key: "transfer_id",
-      dataIndex: "transfer_id",
-      width: 50,
-      render: (_, record) => <div>{record?.transfer_id}</div>,
-    },
-    {
-      title: <div>Nội dung</div>,
-      key: "transfer_content",
-      dataIndex: "transfer_content",
-      width: 160,
-      hidden: isMobile ? true : false,
-      render: (_, record) => <div>{record?.transfer_content}</div>,
-    },
-    {
-      title: <div>Giá</div>,
-      key: "transfer_price",
-      dataIndex: "transfer_price",
-      width: 160,
-      render: (_, record) => <div>{record?.transfer_price}</div>,
-    },
-    {
-      title: <div>Trạng thái</div>,
-      key: "transfer_status",
-      dataIndex: "transfer_status",
-      width: 160,
-      render: (_, record) => (
-        <div>
-          {record?.transfer_status === "1" ?
-            <p className="font-bold text-yellow-500">Đang chờ xác nhận</p>
-            : <p className="font-bold text-green-500">Đã xác nhận</p>
-          }
-        </div>
-      ),
-    },
-    {
-      title: <div>Ảnh</div>,
-      key: "transfer_price",
-      dataIndex: "transfer_price",
-      width: 160,
-      hidden: isMobile ? true : false,
-      render: (_, record) => <div><img src={record?.transfer_image} className="h-20"/></div>,
-    },
-    {
-      title: <div>Sản phẩm</div>,
-      key: "product_id",
-      dataIndex: "product_id",
-      width: 160,
-      render: (_, record) => <div>{record?.product_id}</div>,
-    },,
-    {
-      title: <div className={"base-table-cell-label "}>Ngày tạo</div>,
-      key: "create_at",
-      dataIndex: "create_at",
-      width: 160,
-      hidden: isMobile ? true : false,
-      render: (_, record) => {
-        return (
-          <div>
-            <span className={"!inline-block min-w-[100px]"}>
-              {dayjsInstance(record?.create_at).format("DD/MM/YYYY")}
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      key: "operation",
-      dataIndex: "operation",
-      width: 50,
-      render: (_, record) => {
-        return (
-          <Space>
-            <div
-              className={"text-[var(--red)]"}
-            >
-              <WarningOutlined />
-            </div>
-          </Space>
-        );
-      },
-    }
-  ].filter(item => !item.hidden);;
 
   return (
     <div className="my-[60px]">
@@ -719,37 +620,6 @@ export default function ProfilePage() {
             </div>
           </Col>
         }
-
-        {transfer?.data?.length > 0 ?
-          <Col
-            lg={20}
-            xs={24}
-            className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
-          >
-            <p className="text-center text-xl font-bold pt-5 pb-10"> Quản lý lệnh chuyển tiền</p>
-            <Table 
-              className={"custom-table pb-10"}
-              rowKey={(record) => record?.transfer_id + ""}
-              dataSource={transfer?.data} 
-              columns={columns} 
-              pagination={false}
-            />
-            <Pagination
-              className="flex justify-center"
-              current={pagination.page}
-              total={transfer?.total}
-              pageSize={pagination.pageSize}
-              onChange={(p)=> {
-                setPagination({
-                  page: p,
-                  pageSize: pagination.pageSize
-                })
-              }}
-            />
-          </Col>
-          : <></>
-        }
-
       </Row>
     </div>
   );
