@@ -1,5 +1,5 @@
 import { React, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useCookies } from "react-cookie";
@@ -159,7 +159,7 @@ export default function Header() {
                       </Link>
                     </li>
                     <li className="hover:bg-yellow-400 hover:text-black p-4">
-                      <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                      <Link className="block md:p-0 md:hover:text-black" to={"/wallet"}>
                         Wallet
                       </Link>
                     </li>

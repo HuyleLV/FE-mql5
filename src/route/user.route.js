@@ -13,6 +13,8 @@ import Identify from "../page/identify";
 import News from "../page/news";
 import NewsDetail from "../page/news/detail";
 import Education from "../page/education";
+import EducationDetail from "../page/education/detail";
+import Wallet from "../page/wallet";
 
 export default function User () {
     return (
@@ -23,6 +25,8 @@ export default function User () {
         <Route path="/tin-tuc" element={<News />} />
         <Route path="/tin-tuc/:identify_slug" element={<NewsDetail />} />
         <Route path="/education" element={<Education />} />
+        <Route path="/education/:education_slug" element={<EducationDetail />} />
+        <Route path="/wallet" element={<Wallet />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register/accept" element={<AcceptEmail />} />

@@ -8,15 +8,14 @@ export default function CollapseComponent({ education_categorychild }) {
   
     const toggleCollapse = async (education_categoryChild_id) => {
       setCollapsed(!collapsed);
-      console.log(education_categoryChild_id);
 
       await axios
           .get(
               `${process.env.REACT_APP_API_URL}/education/getByIdCategoryChild/${education_categoryChild_id}`
           )
-          .then(({ data }) => {
-            console.log(data);
+          .then(({ data }) => { 
               setEducation(data);
+              console.log(education);
           });
     };
 
@@ -36,14 +35,20 @@ export default function CollapseComponent({ education_categorychild }) {
                 null 
                 : 
                 <div className="text-black px-10">
-                  {education?.map((_, index)=> (
-                    <div className="flex items-center border-y py-4">
-                      <img src={_?.education_image} style={{width: 30, height: 30}}/>
-                      <p className="pl-5 font-semibold">
-                        {_?.education_title}
-                      </p>
-                    </div>
-                  ))}
+                  {education.length > 0 ? 
+                    education?.map((_, index)=> (
+                      <a href={"/education/" + _?.education_slug}>
+                        <div className="flex items-center border-y py-4">
+                          <img src={_?.education_image} style={{width: 30, height: 30}}/>
+                          <p className="pl-5 font-semibold">
+                            {_?.education_title}
+                          </p>
+                        </div>
+                      </a>
+                    ))
+                    :
+                    <p className=" border-y py-4 pl-5 font-semibold">Chưa có bài viết Education nào!</p>
+                  }
                 </div>
               }
             </div>
