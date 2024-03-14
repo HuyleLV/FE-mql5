@@ -31,6 +31,7 @@ export default function User () {
         <Route path="/register" element={<Register />} />
         <Route path="/register/accept" element={<AcceptEmail />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/signal" element={<ProfilePage />} />
         <Route path="/market/:id" element={<MarketDetail />} />
         <Route path="/category/:category_id" element={<Category />} />
         <Route path="/category-child/:category_id/:categoryChild_id" element={<CategoryDetail />} />

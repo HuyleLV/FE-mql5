@@ -145,9 +145,9 @@ export default function Wallet() {
         } else {
             fetchTransfer()
         }
-    }, [cookies, pagination,price]);
+    }, [cookies, pagination, price]);
     return (
-        <div className="max-w-screen-2xl mx-auto py-10">
+        <div className="max-w-screen-2xl mx-auto py-10 h-screen">
             <p className="font-bold text-3xl text-center">Thông tin ví</p>
             <Row>
                 <Col xs={24} xl={12}>
@@ -167,35 +167,41 @@ export default function Wallet() {
                         </button>
                     </div>
                 </Col>
-                {transfer?.data?.length > 0 ?
-                    <Col
-                        xs={24} 
-                        xl={24}
-                        className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
-                    >
-                        <p className="text-center text-xl font-bold pt-5 pb-10"> Quản lý lệnh chuyển tiền</p>
-                        <Table 
-                            className={"custom-table pb-10"}
-                            rowKey={(record) => record?.transfer_id + ""}
-                            dataSource={transfer?.data} 
-                            columns={columns} 
-                            pagination={false}
-                        />
-                        <Pagination
-                            className="flex justify-center"
-                            current={pagination.page}
-                            total={transfer?.total}
-                            pageSize={pagination.pageSize}
-                            onChange={(p)=> {
-                                setPagination({
-                                page: p,
-                                pageSize: pagination.pageSize
-                                })
-                            }}
-                        />
-                    </Col>
-                    : <></>
-                }
+                <Col
+                    xs={24} 
+                    xl={24}
+                    className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
+                >
+                  <p className="text-center text-xl font-bold pt-5 pb-10"> Quản lý lệnh chuyển tiền</p>
+                  
+                  {transfer?.data?.length > 0 ?
+                  <>
+                    <Table 
+                      className={"custom-table pb-10"}
+                      rowKey={(record) => record?.transfer_id + ""}
+                      dataSource={transfer?.data} 
+                      columns={columns} 
+                      pagination={false}
+                    />
+                    <Pagination
+                      className="flex justify-center"
+                      current={pagination.page}
+                      total={transfer?.total}
+                      pageSize={pagination.pageSize}
+                      onChange={(p)=> {
+                          setPagination({
+                          page: p,
+                          pageSize: pagination.pageSize
+                          })
+                      }}
+                    />
+                  </>
+                  : 
+                  <>
+                    <p className="font-bold texl-2xl text-center bg-yellow-300 py-4">Chưa có thông tin chuyển tiền</p>
+                  </>
+                  }
+                </Col>
             </Row>
             <Modal
                 title="Thanh toán qua mã QR"

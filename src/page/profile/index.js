@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination, message, Tabs, Select } from "antd";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import dayjs from "dayjs";
 import dayjsInstance from "../../utils/dayjs";
-import { WarningOutlined } from "@ant-design/icons";
 import { CustomUpload } from "../../component";
-import { useDevice } from "../../hooks";
 import TabPane from "antd/es/tabs/TabPane";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SearchProps from "../../component/SearchProps";
+import icon_master from "../../component/image/icon/icon_market.svg"
+import { CheckOutlined } from "@ant-design/icons";
 
 export default function ProfilePage() {
   const [cookies] = useCookies(["user"]);
@@ -31,6 +30,10 @@ export default function ProfilePage() {
   const type = Form.useWatch('type', form);
   const price = Form.useWatch('price', form);
   const take_profit = Form.useWatch('take_profit', form);
+
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const navigate = useNavigate();
   
   const fetchProfile = async () => {
     await axios
@@ -109,8 +112,13 @@ export default function ProfilePage() {
   }, [form, profile]);
 
   useEffect(() => { 
-    fetchProfile();
-  }, [pagination]);
+    if(!cookies?.user && currentPath?.includes('/signal')){ 
+      message.warning("Vui lòng đăng nhập!")
+      navigate("/login");
+    } else {
+      fetchProfile();
+    }
+  }, [pagination, cookies]);
 
   useEffect(() => { 
     checkMasterKey();
@@ -604,21 +612,45 @@ export default function ProfilePage() {
             </Col>
           </>
           :
-          <Col
-            lg={20}
-            xs={24}
-            className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
-          >
-            <p className="text-center text-xl font-bold pt-5 pb-10">Bạn muốn trở thành master ?</p>
-            <div className="flex justify-center">
-              <Button
-                type={"primary"}
-                onClick={()=>createMaster()}
-              >
-                <p className="font-semibold">Đăng ký làm master</p>
-              </Button>
-            </div>
-          </Col>
+            <Col
+              xs={24}
+              lg={20}
+              className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded bg-gradient-to-r from-slate-800 to-blue-700 text-white"
+            >
+              <Row className="flex items-center">
+                <Col xs={24} xl={4}>
+                  <div className="flex items-center">
+                    <img src={icon_master} style={{width: 100}}/>
+                    <p className="font-bold text-2xl pl-2">Master Trade</p>
+                  </div>
+                </Col>
+                <Col xs={24} xl={16} >
+                  <div className="flex justify-center">
+                    <div className="flex items-center px-5">
+                      <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
+                      <p className="pl-2 font-semibold text-lg">Đăng ký<br/> miễn phí</p>
+                    </div>
+                    <div className="flex items-center px-5">
+                      <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
+                      <p className="pl-2 font-semibold text-lg">Sử dụng indicator<br/> độc quyền</p>
+                    </div>
+                    <div className="flex items-center px-5">
+                      <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
+                      <p className="pl-2 font-semibold text-lg">Đo lương giao dịch<br/> chuyên nghiệp</p>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={24} xl={4}>
+                  <button
+                    className="bg-yellow-500 px-5 py-2 rounded-xl hover:bg-yellow-600"
+                    onClick={()=>createMaster()}
+                  >
+                    <p className="font-semibold text-lg">Đăng ký làm master</p>
+                  </button>
+                </Col>
+              </Row>
+            </Col>
+
         }
       </Row>
     </div>

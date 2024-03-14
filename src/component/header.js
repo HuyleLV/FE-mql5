@@ -81,13 +81,10 @@ export default function Header() {
   return (
     <nav className="sticky top-0 z-10 bg-gradient-to-r from-slate-800 to-blue-700 text-white">
       <div className="flex justify-between">
-        <div className="w-full flex flex-wrap items-center mx-auto">
+        <div className="flex items-center">
           <div className={"flex max-md:w-full"}>
             <a href="/" className="flex items-center pr-4">
               <img src={logo} className="h-8 pl-4" alt="Flowbite Logo" />
-              {/* <span className="self-center text-2xl font-bold whitespace-nowrap text-white pl-4">
-                MQL<span className="text-yellow-400">5</span>
-              </span> */}
             </a>
 
             {isMobile ? 
@@ -137,39 +134,48 @@ export default function Header() {
                 <div
                   className={`hidden w-full md:block md:w-auto`}
                 >
-                  <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
-                    <li className="hover:bg-yellow-400 hover:text-black p-4">
-                      <Link className="block md:p-0 md:hover:text-black" to={"/nhan-dinh"}>
-                        Signals
-                      </Link>
-                    </li>
-                    <li className="hover:bg-yellow-400 hover:text-black p-4">
-                      <Link className="block md:p-0 md:hover:text-black" to={"/nhan-dinh"}>
-                        Nhận định
-                      </Link>
-                    </li>
-                    <li className="hover:bg-yellow-400 hover:text-black p-4">
-                      <Link className="block md:p-0 md:hover:text-black" to={"/tin-tuc"}>
-                        Tin tức
-                      </Link>
-                    </li>
-                    <li className="hover:bg-yellow-400 hover:text-black p-4">
-                      <Link className="block md:p-0 md:hover:text-black" to={"/education"}>
-                        Edu
-                      </Link>
-                    </li>
-                    <li className="hover:bg-yellow-400 hover:text-black p-4">
-                      <Link className="block md:p-0 md:hover:text-black" to={"/wallet"}>
-                        Wallet
-                      </Link>
-                    </li>
-                  </ul>
+                  {cookies?.user && (
+                    <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
+                      <li className="hover:bg-yellow-400 hover:text-black p-4">
+                        <Link className="block md:p-0 md:hover:text-black" to={"/signal"}>
+                          Signals
+                        </Link>
+                      </li>
+                      <li className="hover:bg-yellow-400 hover:text-black p-4">
+                        <Link className="block md:p-0 md:hover:text-black" to={"/nhan-dinh"}>
+                          Nhận định
+                        </Link>
+                      </li>
+                      <li className="hover:bg-yellow-400 hover:text-black p-4">
+                        <Link className="block md:p-0 md:hover:text-black" to={"/tin-tuc"}>
+                          Tin tức
+                        </Link>
+                      </li>
+                      <li className="hover:bg-yellow-400 hover:text-black p-4">
+                        <Link className="block md:p-0 md:hover:text-black" to={"/education"}>
+                          Edu
+                        </Link>
+                      </li>
+                      <li className="hover:bg-yellow-400 hover:text-black p-4">
+                        <Link className="block md:p-0 md:hover:text-black" to={"/wallet"}>
+                          Wallet
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
                 </div>
               </>
           }
           </div>
-
         </div>
+        
+        {!cookies?.user && (
+          <div>
+            <p className="text-2xl font-bold text-amber-300 p-3 px-10">
+              Giải pháp giao dịch toàn diện
+            </p>
+          </div>
+        )}
         <div className="flex items-center min-w-fit gap-x-[20px] pr-[15px] md:pr-[20px] text-[14px] py-2">
           {!cookies?.user ? (
             <>

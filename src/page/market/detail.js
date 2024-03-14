@@ -51,7 +51,6 @@ export default function MarketDetail() {
   const [hide, setHide] = useState(false);
   const [rateComment, setRateComment] = useState(5);
   const [comment_content, setcomment_content] = useState("");
-  const [imgTransfer, setImgTransfer] = useState("");
   const [pagination, setPagination] = useState({
     page: 1,
     pageSize: 10,
@@ -60,8 +59,6 @@ export default function MarketDetail() {
     page: 1,
     pageSize: 6,
   });
-  
-  const [VideoYoutube, setVideoYoutube] = useState(false);
 
   var settings = {
     className: "slider variable-width",
@@ -94,26 +91,21 @@ export default function MarketDetail() {
   };
 
   const handleOk = async () => {
-    if(imgTransfer !== "") {
-      const transfer = {
-        transfer_content: cookies?.user?.displayName + " chuyen tien",
-        transfer_price: product?.[0].product_price,
-        transfer_status: 1,
-        transfer_image: imgTransfer,
-        product_id: product?.[0].product_id,
-        create_by: cookies?.user.user_id,
-      };
-  
-      await axios
-        .post(`${process.env.REACT_APP_API_URL}/transfer/create`, transfer)
-        .then((res) => {
-          message.success("Gửi lệnh chuyển tiền thành công!")
-          setIsModalOpen(false);
-        })
-        .catch(() => message.error("Error server!"));
-    } else {
-      message.error("Bạn chưa tải ảnh chứng minh lên!")
-    }
+    const transfer = {
+      transfer_content: cookies?.user?.displayName + " chuyen tien",
+      transfer_price: product?.[0].product_price,
+      transfer_status: 1,
+      product_id: product?.[0].product_id,
+      create_by: cookies?.user.user_id,
+    };
+
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/transfer/create`, transfer)
+      .then((res) => {
+        message.success("Gửi lệnh chuyển tiền thành công!")
+        setIsModalOpen(false);
+      })
+      .catch(() => message.error("Error server!"));
   };
 
   const fetchproduct = async () => {
@@ -735,41 +727,18 @@ export default function MarketDetail() {
 
       {cookies?.user ? (
         <Modal
-          title="Thanh toán qua mã QR"
+          title="Thanh toán sản phẩm"
           className="grid justify-items-center"
           open={isModalOpen}
           onOk={handleOk}
-          okText="Đã chuyển tiền"
-          cancelText="Chưa chuyển tiền"
+          okText="Xác nhận"
+          cancelText="Không"
           onCancel={() => setIsModalOpen(false)}
           okButtonProps={{ className: "bg-blue-500" }}
         >
-          <center>
-            <img
-              src={
-                "https://vinacheck.vn/media/2019/05/ma-qr-code_vinacheck.vm_001.jpg"
-              }
-              className="w-[300px] h-[300px]"
-            />
-          </center>
-          <p className="flex px-5 pt-5 text-lg">
-            Nội dung CK:{" "}
-              <Paragraph copyable={{ text: cookies?.user?.displayName + " chuyen tien", tooltips: false }}>
-                <span className="font-semibold text-xl pl-5">{cookies?.user?.displayName} chuyen tien</span>
-              </Paragraph>
+          <p className="flex px-5 py-5 text-lg">
+            Bạn muốn mua sản phẩm này!
           </p>
-          <p className="px-5 pb-3 text-lg">
-            Giá:{" "}
-            <span className="font-bold p-5 text-xl text-red-500">
-              {product?.[0].product_price} USD
-            </span>
-          </p>
-          <div className="px-5 pb-3">
-            <p className="text-lg">Thêm ảnh chứng minh:</p>
-            <div className="px-5 flex justify-center py-3">
-              <p className="flex justify-center"><CustomUpload type="image" accept=".png, .jpg, .jpeg, .jfif" onChange={(transfer_image)=>setImgTransfer(transfer_image)} value={imgTransfer}/></p>
-            </div>
-          </div>
         </Modal>
       ) : (
         <Modal
