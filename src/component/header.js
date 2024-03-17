@@ -79,12 +79,12 @@ export default function Header() {
   ];
 
   return (
-    <nav className="sticky top-0 z-10 bg-gradient-to-r from-slate-800 to-blue-700 text-white">
+    <nav className="sticky top-0 z-10 bg-gradient-to-r from-green-800 to-blue-600 text-white">
       <div className="flex justify-between">
         <div className="flex items-center">
           <div className={"flex max-md:w-full"}>
             <a href="/" className="flex items-center pr-4">
-              <img src={logo} className="h-8 pl-4" alt="Flowbite Logo" />
+              <img src={logo} className="h-16 pl-4" alt="Flowbite Logo" />
             </a>
 
             {isMobile ? 
@@ -135,29 +135,29 @@ export default function Header() {
                   className={`hidden w-full md:block md:w-auto`}
                 >
                   {cookies?.user && (
-                    <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
-                      <li className="hover:bg-yellow-400 hover:text-black p-4">
-                        <Link className="block md:p-0 md:hover:text-black" to={"/signal"}>
+                    <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0 h-full items-center text-xl">
+                      <li className="px-4">
+                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/signal"}>
                           Signals
                         </Link>
                       </li>
-                      <li className="hover:bg-yellow-400 hover:text-black p-4">
-                        <Link className="block md:p-0 md:hover:text-black" to={"/nhan-dinh"}>
+                      <li className="px-4">
+                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/nhan-dinh"}>
                           Nhận định
                         </Link>
                       </li>
-                      <li className="hover:bg-yellow-400 hover:text-black p-4">
-                        <Link className="block md:p-0 md:hover:text-black" to={"/tin-tuc"}>
+                      <li className="px-4">
+                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/tin-tuc"}>
                           Tin tức
                         </Link>
                       </li>
-                      <li className="hover:bg-yellow-400 hover:text-black p-4">
-                        <Link className="block md:p-0 md:hover:text-black" to={"/education"}>
+                      <li className="px-4">
+                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/education"}>
                           Edu
                         </Link>
                       </li>
-                      <li className="hover:bg-yellow-400 hover:text-black p-4">
-                        <Link className="block md:p-0 md:hover:text-black" to={"/wallet"}>
+                      <li className="px-4">
+                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/wallet"}>
                           Wallet
                         </Link>
                       </li>
@@ -171,8 +171,8 @@ export default function Header() {
         
         {!cookies?.user && (
           <div>
-            <p className="text-2xl font-bold text-amber-300 p-3 px-10">
-              Giải pháp giao dịch toàn diện
+            <p className="text-4xl font-bold text-white p-3 px-10">
+              Giải Pháp Giao Dịch Toàn Diện
             </p>
           </div>
         )}
@@ -186,7 +186,7 @@ export default function Header() {
                     className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
                     style={{ color: "rgb(250 204 21 )" }}
                   />
-                  <span className="underline cursor-pointer">Login</span>
+                  <span className="text-xl underline cursor-pointer">Login</span>
                 </div>
               </Link>
               <Link

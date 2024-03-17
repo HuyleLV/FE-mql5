@@ -162,13 +162,18 @@ export default function Home() {
                 </video>
                 <div className="absolute top-0 px-[5%] text-white">
                     <p className="font-bold text-xl top-0 pt-20">Đỉnh Cao Công Nghệ Tài Chính</p>
-                    <p className="font-bold text-6xl w-[700px] pt-[150px]">
-                        Xây dựng sự giàu có của bạn bằng nền tảng của chúng tôi
+                    <p className="font-bold text-6xl w-[800px] pt-[150px]">
+                        <p className="text-[70px] pb-4">Xây Dựng Sự Giàu Có </p> 
+                        Của Bạn Bằng
+                        <p className="text-yellow-500 py-3">Nền Tảng</p> 
+                        <p className="text-green-500">Của Chúng Tôi</p>
                     </p>
                     <p className="font-semibold text-xl pt-10">Công cụ tối ưu được cung cấp bởi Netpartner</p>
-                    <button className="border px-4 py-2 rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-20">
-                        Trải nghiệm ngay
-                    </button>
+                    <Link to={"/home-detail"}>
+                        <button className="border px-4 py-2 rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-20">
+                            Trải nghiệm ngay
+                        </button>
+                    </Link>
                 </div>
             </div>
             <div className="max-w-screen-2xl items-center mx-auto pt-10">

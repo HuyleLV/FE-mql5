@@ -15,11 +15,15 @@ import NewsDetail from "../page/news/detail";
 import Education from "../page/education";
 import EducationDetail from "../page/education/detail";
 import Wallet from "../page/wallet";
+import HomeDetail from "../page/home/detail";
+import SignalPage from "../page/signal";
 
 export default function User () {
     return (
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/home-detail" element={<HomeDetail />} />
+        <Route path="/signal" element={<SignalPage />} />
         <Route path="/market" element={<Market />} />
         <Route path="/nhan-dinh" element={<Identify />} />
         <Route path="/tin-tuc" element={<News />} />
@@ -31,7 +35,6 @@ export default function User () {
         <Route path="/register" element={<Register />} />
         <Route path="/register/accept" element={<AcceptEmail />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/signal" element={<ProfilePage />} />
         <Route path="/market/:id" element={<MarketDetail />} />
         <Route path="/category/:category_id" element={<Category />} />
         <Route path="/category-child/:category_id/:categoryChild_id" element={<CategoryDetail />} />
