@@ -1,5 +1,5 @@
 import { Table, message, Space, Row, Col, Modal, Image, Select, Pagination } from "antd";
-import { ExclamationCircleOutlined, DeleteOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined, DeleteOutlined, MessageOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -42,6 +42,10 @@ export default function TransferDashboard() {
       onOk: () => removeTransfer(id),
     });
   };
+
+  const repMessenge = (id) => {
+    
+  }
 
   const updateTransfer = async (value, e) => {
     await axios
@@ -159,7 +163,13 @@ export default function TransferDashboard() {
         return (
           <Space>
             <div
-              className={"text-[var(--red)]"}
+              className={"text-[var(--blue)] text-lg cursor-pointer"}
+              onClick={() => repMessenge(record?.transfer_id)}
+            >
+              <MessageOutlined />
+            </div>
+            <div
+              className={"text-[var(--red)] text-lg cursor-pointer ml-2"}
               onClick={() => confirmDelete(record?.transfer_id)}
             >
               <DeleteOutlined />

@@ -329,12 +329,12 @@ export default function SignalPage() {
     <div className="my-[60px] max-w-screen-2xl mx-auto">
         <Row justify={"center"} align={"middle"}>
             <Col xs={24} xl={10}>
-                <div className="flex border-b-2 border-r-2 p-2 h-[160px]">
+                <div className="flex border-b-2 border-r-2 p-2 h-[200px]">
                     <Image
                         preview={false}
                         src={profile?.photos}
-                        width={120}
-                        height={120}
+                        width={150}
+                        height={150}
                     />
                     <div className="text-[26px] font-medium pl-5">
                         <p>{profile?.displayName}</p>
@@ -343,11 +343,12 @@ export default function SignalPage() {
                 </div>
             </Col>
             <Col xs={24} xl={14}>
-              <div className="border-b-2 p-2 pl-5 text-black h-[160px]">
+              <div className="border-b-2 p-2 pl-5 text-black h-[200px]">
                 <p className="text-xl font-bold pb-5">Thống kê giao dịch</p>
                 <div className="text-lg font-semibold">
                   <p>Tổng signal: {totalSignal?.total}</p>
                   <p>Win / Lost: {totalSignal?.win} / {totalSignal?.loss}</p>
+                  <p>Win Rate: {totalSignal?.win / (totalSignal?.win + totalSignal?.loss)}</p>
                   <p>Profit: {totalSignal?.total_profit ? totalSignal?.total_profit : 0}</p>
                 </div>
               </div>
@@ -428,8 +429,8 @@ export default function SignalPage() {
                                 name="type" 
                                 rules={[
                                 {
-                                    required: true,
-                                    message: 'Vui lòng nhập!',
+                                  required: true,
+                                  message: 'Vui lòng nhập!',
                                 },
                                 ]}
                             >
@@ -437,12 +438,12 @@ export default function SignalPage() {
                                 size="large"
                                 placeholder="Nhập"
                                 options={[
-                                    {
+                                  {
                                     value: "buy"
-                                    },
-                                    {
+                                  },
+                                  {
                                     value: "sell"
-                                    }
+                                  }
                                 ]}  
                                 />
                             </Form.Item>
@@ -453,8 +454,8 @@ export default function SignalPage() {
                                 name="symbol"
                                 rules={[
                                 {
-                                    required: true,
-                                    message: 'Vui lòng nhập!',
+                                  required: true,
+                                  message: 'Vui lòng nhập!',
                                 },
                                 ]}
                             >
@@ -467,8 +468,8 @@ export default function SignalPage() {
                                 name="price"
                                 rules={[
                                 {
-                                    required: true,
-                                    message: 'Vui lòng nhập!',
+                                  required: true,
+                                  message: 'Vui lòng nhập!',
                                 },
                                 ]}
                             >
@@ -481,17 +482,17 @@ export default function SignalPage() {
                                 name="take_profit"
                                 rules={[
                                 {
-                                    required: true,
-                                    message: 'Vui lòng nhập!',
+                                  required: true,
+                                  message: 'Vui lòng nhập!',
                                 },
                                 {
                                     validator() {
                                     if(type === "buy" && Number(take_profit) < Number(price)){
-                                        return Promise.reject(`Giá mua phải lớn hơn ${price}!`);
+                                      return Promise.reject(`Giá mua phải lớn hơn ${price}!`);
                                     } else if(type === "sell" && Number(take_profit) > Number(price)){
-                                        return Promise.reject(`Giá bán phải bé hơn ${price}!`);
+                                      return Promise.reject(`Giá bán phải bé hơn ${price}!`);
                                     } else {
-                                        return Promise.resolve();
+                                      return Promise.resolve();
                                     }
                                     }
                                 }

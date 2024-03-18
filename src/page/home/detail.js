@@ -121,13 +121,110 @@ export default function HomeDetail() {
                 </div>
             </div>
             <div className="py-10 bg-white">
-                <div className="max-w-screen-2xl items-center mx-auto pt-10 text-center">
-                    <p className="font-bold text-3xl">Chúng tôi hoạt động như thế nào ?</p>
-                    <p className="pt-4 font-none text-lg">
-                        Net Partner Trading Management Solutions EAGiải pháp quản lý giao dịch Net Profits EA là hệ thống <br/>
-                        giao dịch tự động tất cả trong một cung cấp cho bạn mọi công cụ bạn cần như giao dịch tự động, tín <br/>
-                        hiệu mua và bán, quản lý giao dịch, công cụ phân tích kỹ thuật, công cụ phân tích cơ bản sử dụng Al, vv.!
+                <div className="max-w-screen-2xl items-center mx-auto pt-10">
+                    <p className="font-bold text-3xl text-center">Chúng tôi hoạt động như thế nào ?</p>
+                    <p className="pt-4 font-none text-lg text-center">
+                        <span className="font-semibold">Net AuAI Trading Management Solutions EA</span> là hệ thống giao dịch tự động tất cả trong một cung cấp <br/>
+                        cho bạn mọi công cụ bạn cần như giao dịch tự động, tín hiệu mua và bán, quản lý giao dịch, <br/>
+                        công cụ phân tích kỹ thuật, công cụ phân tích cơ bản sử dụng AI và hơn thế nữa!
                     </p>
+                    <Row className="pt-10">
+                        <Col xs={24} xl={12}>
+                            <div className="flex justify-center items-center">
+                                <img src={image1_home} width={600}/>
+                            </div>
+                        </Col>
+                        <Col xs={24} xl={12}>
+                            <div className="flex items-center">
+                                <img src={image1_home} width={200}/>
+                                <div className=" pl-2">
+                                    <p className="font-semibold text-xl">Phân tích thị trường và tạo tín hiệu</p>
+                                    <p className="text-lg pt-2">
+                                        EA của chúng tôi phân tích thị trường ngoại hối 24/7, tạo ra tín hiệu giao dịch
+                                        chính xác thông qua các thuật toán và chi báo nâng cao.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-center">
+                                <img src={image1_home} width={200}/>
+                                <div className=" pl-2">
+                                    <p className="font-semibold text-xl">Thực hiện giao dịch tự động hoặc thủ công</p>
+                                    <p className="text-lg pt-2">
+                                        Chọn giữa thực hiện giao dịch tự động dựa trên tín hiệu được tạo hoặc áp dụng tín hiệu 
+                                        theo cách thủ công cho chiến lược giao dịch của bạn.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-center">
+                                <img src={image1_home} width={200}/>
+                                <div className=" pl-2">
+                                    <p className="font-semibold text-xl">Quản lý rủi ro mạnh mẽ</p>
+                                    <p className="text-lg pt-2">
+                                        Sử dụng các biện pháp bảo vệ như rút vốn và bảo vệ lợi nhuận, EA bảo vệ các giao 
+                                        dịch của bạn và giảm thiểu tổn thất tiềm ẩn.
+                                    </p>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+            <div className="py-10 bg-slate-50">
+                <div className="max-w-screen-2xl items-center mx-auto py-10 text-center">
+                    <p className="font-bold text-3xl">Tại Sao Chọn Hệ Thống Giao Dịch Của Chúng Tôi?</p>
+
+                    <Row className="pt-5">
+                        <Col xs={24} xl={6} className="px-4">
+                            <div className="flex justify-center">
+                                <img src={image1_home} style={{height: 300}}/>
+                            </div>
+                            <p className="font-semibold text-xl">Tiết kiệm thời gian và công sức</p>
+                            <p className="text-base pt-2">
+                                EA của chúng tôi có thể tự phân tích thị trường và bạn sẽ được cảnh báo khi phát hiện các thiết lập có xác suất cao 24/7!
+                            </p>
+                        </Col>
+                        <Col xs={24} xl={6} className="px-4">
+                            <div className="flex justify-center">
+                                <img src={image1_home} style={{height: 300}}/>
+                            </div>
+                            <p className="font-semibold text-xl">Kiếm thu nhập thụ động</p>
+                            <p className="text-base pt-2">
+                                Tận hưởng giao dịch rãnh tay vì EA của chúng tôi chuyển đổi liền mạch các cơ hội thị trường thành thu nhập thụ động ổn định!
+                            </p>
+                        </Col>
+                        <Col xs={24} xl={6} className="px-4">
+                            <div className="flex justify-center">
+                                <img src={image1_home} style={{height: 300}}/>
+                            </div>
+                            <p className="font-semibold text-xl">Tài khoản giao dịch</p>
+                            <p className="text-base pt-2">
+                                Tăng cơ hội vượt qua các thử thách của công ty hỗ trợ để bạn có thể bắt đầu giao dịch trên các tài khoản được cấp vốn!
+                            </p>
+                        </Col>
+                        <Col xs={24} xl={6} className="px-4">
+                            <div className="flex justify-center">
+                                <img src={image1_home} style={{height: 300}}/>
+                            </div>
+                            <p className="font-semibold text-xl">Giảm thiểu rủi ro, tối đa hóa lợi nhuận</p>
+                            <p className="text-base pt-2">
+                                Được thiết kế để giảm thiểu tổn thất thông qua quản lý rủi ro thông minh đồng thời tối ưu hóa các cơ hội sinh lời trên thị trường!
+                            </p>
+                        </Col>
+                    </Row>
+                </div>
+            </div>            
+            <div className="py-10 bg-white">
+                <div className="max-w-screen-2xl items-center mx-auto pt-10">
+                    <p className="font-bold text-3xl text-center">VIDEO VỀ SẢN PHẨM</p>
+                    <iframe 
+                        className="w-full pt-10"
+                        height="800" 
+                        src="https://www.youtube.com/embed/q2iF26_Nf-8" 
+                        title="TakePropips Trading Management Solutions EA Overview" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
         </div>

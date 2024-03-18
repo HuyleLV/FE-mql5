@@ -94,7 +94,6 @@ export default function MarketDetail() {
     const transfer = {
       transfer_content: cookies?.user?.displayName + " chuyen tien",
       transfer_price: product?.[0].product_price,
-      transfer_status: 1,
       product_id: product?.[0].product_id,
       create_by: cookies?.user.user_id,
     };
