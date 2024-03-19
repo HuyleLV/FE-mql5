@@ -2,7 +2,18 @@ import { Tabs, List, Row, Col, message, Rate, Select, Dropdown, Space } from "an
 import { Link, useLocation, useParams } from "react-router-dom";
 import banner from "../../component/image/banner_home.jpg"
 import image1_home from "../../component/image/image1_home.png"
-import video_home from "../../component/image/Video_home.mp4"
+import image2_home from "../../component/image/image2_home.png"
+import image3_home from "../../component/image/image3_home.png"
+import icon_1 from "../../component/image/icon/15.svg"
+import icon_2 from "../../component/image/icon/16.svg"
+import icon_3 from "../../component/image/icon/17.svg"
+import icon_4 from "../../component/image/icon/18.svg"
+import icon_5 from "../../component/image/icon/19.svg"
+import icon_6 from "../../component/image/icon/20.svg"
+import icon_7 from "../../component/image/icon/21.svg"
+import image4 from "../../component/image/26.png"
+import image5 from "../../component/image/27.png"
+import image6 from "../../component/image/28.png"
 import { useEffect, useRef, useState } from "react";
 import { CheckOutlined } from "@ant-design/icons";
 import { useDevice } from "../../hooks";
@@ -97,7 +108,7 @@ export default function HomeDetail() {
                         </Col>
                         <Col xs={24} xl={12} >
                             <div className="flex justify-center items-center">
-                                <img src={image1_home} width={600}/>
+                                <img src={image2_home} width={600}/>
                             </div>
                         </Col>
                         <Col xs={24} xl={6}>
@@ -131,13 +142,13 @@ export default function HomeDetail() {
                     <Row className="pt-10">
                         <Col xs={24} xl={12}>
                             <div className="flex justify-center items-center">
-                                <img src={image1_home} width={600}/>
+                                <img src={image3_home} width={600}/>
                             </div>
                         </Col>
                         <Col xs={24} xl={12}>
-                            <div className="flex items-center">
-                                <img src={image1_home} width={200}/>
-                                <div className=" pl-2">
+                            <div className="flex items-center pt-10">
+                                <img src={icon_1} style={{width: 130, height: 130}}/>
+                                <div className="pl-4">  
                                     <p className="font-semibold text-xl">Phân tích thị trường và tạo tín hiệu</p>
                                     <p className="text-lg pt-2">
                                         EA của chúng tôi phân tích thị trường ngoại hối 24/7, tạo ra tín hiệu giao dịch
@@ -145,9 +156,9 @@ export default function HomeDetail() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-center">
-                                <img src={image1_home} width={200}/>
-                                <div className=" pl-2">
+                            <div className="flex items-center pt-10">
+                                <img src={icon_3} style={{width: 130, height: 130}}/>
+                                <div className="pl-4">
                                     <p className="font-semibold text-xl">Thực hiện giao dịch tự động hoặc thủ công</p>
                                     <p className="text-lg pt-2">
                                         Chọn giữa thực hiện giao dịch tự động dựa trên tín hiệu được tạo hoặc áp dụng tín hiệu 
@@ -155,9 +166,9 @@ export default function HomeDetail() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-center">
-                                <img src={image1_home} width={200}/>
-                                <div className=" pl-2">
+                            <div className="flex items-center pt-10">
+                                <img src={icon_2} style={{width: 130, height: 130}}/>
+                                <div className="pl-4">
                                     <p className="font-semibold text-xl">Quản lý rủi ro mạnh mẽ</p>
                                     <p className="text-lg pt-2">
                                         Sử dụng các biện pháp bảo vệ như rút vốn và bảo vệ lợi nhuận, EA bảo vệ các giao 
@@ -176,7 +187,7 @@ export default function HomeDetail() {
                     <Row className="pt-5">
                         <Col xs={24} xl={6} className="px-4">
                             <div className="flex justify-center">
-                                <img src={image1_home} style={{height: 300}}/>
+                                <img src={icon_4} style={{height: 300}}/>
                             </div>
                             <p className="font-semibold text-xl">Tiết kiệm thời gian và công sức</p>
                             <p className="text-base pt-2">
@@ -185,7 +196,7 @@ export default function HomeDetail() {
                         </Col>
                         <Col xs={24} xl={6} className="px-4">
                             <div className="flex justify-center">
-                                <img src={image1_home} style={{height: 300}}/>
+                                <img src={icon_5} style={{height: 300}}/>
                             </div>
                             <p className="font-semibold text-xl">Kiếm thu nhập thụ động</p>
                             <p className="text-base pt-2">
@@ -194,7 +205,7 @@ export default function HomeDetail() {
                         </Col>
                         <Col xs={24} xl={6} className="px-4">
                             <div className="flex justify-center">
-                                <img src={image1_home} style={{height: 300}}/>
+                                <img src={icon_6} style={{height: 300}}/>
                             </div>
                             <p className="font-semibold text-xl">Tài khoản giao dịch</p>
                             <p className="text-base pt-2">
@@ -203,7 +214,7 @@ export default function HomeDetail() {
                         </Col>
                         <Col xs={24} xl={6} className="px-4">
                             <div className="flex justify-center">
-                                <img src={image1_home} style={{height: 300}}/>
+                                <img src={icon_7} style={{height: 300}}/>
                             </div>
                             <p className="font-semibold text-xl">Giảm thiểu rủi ro, tối đa hóa lợi nhuận</p>
                             <p className="text-base pt-2">
@@ -225,6 +236,69 @@ export default function HomeDetail() {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                         allowfullscreen>
                     </iframe>
+                </div>
+            </div>       
+            <div className="py-10 bg-white">
+                <div className="max-w-screen-2xl items-center mx-auto pt-10">
+                    <Row>
+                        <Col xs={24} xl={12}>
+                            <div className="flex justify-center items-center">
+                                <img src={image4} style={{width: "auto"}}/>
+                            </div>
+                        </Col>
+                        <Col xs={24} xl={12}>
+                            <div className="flex justify-center items-center h-full">
+                                <div className="p-10">
+                                    <p className="font-bold text-2xl">Đặt giao dịch của bạn ở chế độ lái tự động!</p>
+                                    <p className="font-none text-lg pt-5">
+                                        Hãy tưởng tượng một hành trình giao dịch nơi các chiến lược của bạn trở nên sống động một cách dễ dàng. 
+                                        Hệ thống giao dịch ô tô của chúng tôi ở đây giống như một người bạn đáng tin cậy, đảm nhiệm các giao dịch 
+                                        và chiến lược, giúp bạn tự do đạt được ước mơ tài chính của mình mà không bị ràng buộc vào màn hình.
+                                    </p>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={24} xl={12}>
+                            <div className="flex justify-center items-center h-full">
+                                <div className="p-5">
+                                    <p className="font-bold text-2xl">Giao dịch thông minh hơn, không khó hơn</p>
+                                    <p className="font-none text-lg pt-5">
+                                        Hãy cùng nhau làm cho giao dịch trở nên dễ dàng! Hệ thống của chúng tôi sẵn sàng 
+                                        trở thành người hướng dẫn thân thiện cho bạn, đơn giản hóa những quyết định khó khăn 
+                                        đó và giúp bạn điều hướng thị trường một cách dễ dàng.
+                                    </p>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col xs={24} xl={12}>
+                            <div className="flex justify-center items-center">
+                                <img src={image5} style={{width: "auto"}}/>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={24} xl={12}>
+                            <div className="flex justify-center items-center">
+                                <img src={image6} style={{width: "auto"}}/>
+                            </div>
+                        </Col>
+                        <Col xs={24} xl={12}>
+                            <div className="flex justify-center items-center h-full">
+                                <div className="p-5">
+                                    <p className="font-bold text-2xl">Giao dịch như một chuyên gia với các tín hiệu giao dịch chính xác của chúng tôi</p>
+                                    <p className="font-none text-lg pt-5">
+                                        Bạn có mệt mỏi khi cố gắng đoán động thái tiếp theo của thị trường không? 
+                                        Hệ thống của chúng tôi cung cấp cho bạn các tín hiệu giao dịch chính xác và đáng 
+                                        tin cậy dựa trên phân tích thị trường của AI, đảm bảo rằng bạn không bao giờ bỏ lỡ 
+                                        cơ hội thực hiện giao dịch có lợi nhuận. Những tín hiệu này có thể giúp bạn đưa ra 
+                                        quyết định sáng suốt về thời điểm tham gia và thoát giao dịch.
+                                    </p>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         </div>

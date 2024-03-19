@@ -348,7 +348,11 @@ export default function SignalPage() {
                 <div className="text-lg font-semibold">
                   <p>Tổng signal: {totalSignal?.total}</p>
                   <p>Win / Lost: {totalSignal?.win} / {totalSignal?.loss}</p>
-                  <p>Win Rate: {totalSignal?.win / (totalSignal?.win + totalSignal?.loss)}</p>
+                  <p>Win Rate: { 
+                    isNaN(totalSignal?.win / (totalSignal?.win + totalSignal?.loss)) ? 0
+                      : totalSignal?.win / (totalSignal?.win + totalSignal?.loss) 
+                    }
+                  </p>
                   <p>Profit: {totalSignal?.total_profit ? totalSignal?.total_profit : 0}</p>
                 </div>
               </div>
