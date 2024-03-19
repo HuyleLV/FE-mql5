@@ -186,14 +186,14 @@ export default function Header() {
                     className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
                     style={{ color: "rgb(250 204 21 )" }}
                   />
-                  <span className="text-xl underline cursor-pointer">Login</span>
+                  <span className="text-xl underline cursor-pointer">Đăng nhập</span>
                 </div>
               </Link>
               <Link
                 to="/register"
-                className="flex items-center justify-center w-[135px] h-[26px] bg-[#edbd37] rounded-[3px] max-sm:hidden text-black"
+                className="flex items-center justify-center w-[135px] py-1 bg-[#edbd37] rounded-[3px] max-sm:hidden text-black text-xl font-medium"
               >
-                Create an account
+                Đăng ký
               </Link>
             </>
           ) : (

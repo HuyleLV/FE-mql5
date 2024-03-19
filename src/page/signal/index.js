@@ -17,6 +17,7 @@ export default function SignalPage() {
   const [signal, setSignal] = useState([]);
   const [totalSignal, setTotalSignal] = useState([]);
   const [masterKey, setMasterKey] = useState([])
+  const [topMaster, setTopMaster] = useState([])
   const [follower, setFollower] = useState([])
   const [pagination, setPagination] = useState({
     page: 1,
@@ -103,6 +104,18 @@ export default function SignalPage() {
       });
   };
 
+  const getTopMaster = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/signal/getAllTopMaster`)
+      .catch(function (error) {
+        message.error(error.response.status);
+      })
+      .then(( res ) => {
+        const data = res?.data;
+        setTopMaster(data);
+      });
+  };
+
   const createMaster = async () => {
     const data = {
       displayName: cookies.user?.displayName,
@@ -134,6 +147,7 @@ export default function SignalPage() {
 
   useEffect(() => { 
     checkMasterKey();
+    getTopMaster();
     if(masterKey?.master_key) {
       getSignal();
       getFollowerbyMasterKey();
@@ -573,6 +587,16 @@ export default function SignalPage() {
 
             }
         </Row>
+        <div className="py-10 border-y mt-10">
+          <p className="font-bold text-xl py-2">Top Masters</p>
+          <Row className="py-2">
+            {topMaster.map((_, i) => (
+              <Col xs={24} xl={8}>
+                {_?.master_key}
+              </Col>
+            ))}
+          </Row>
+        </div>
     </div>
   );
 }
