@@ -34,8 +34,6 @@ export default function EducationDetail() {
             });
     }
 
-    
-
     useEffect(() => { 
         getByEducationSlug();
         getEducationLimit();

@@ -170,7 +170,7 @@ export default function Home() {
                     </p>
                     <p className="font-semibold text-xl pt-10">Công cụ tối ưu được cung cấp bởi Netpartner</p>
                     <Link to={"/home-detail"}>
-                        <button className="border px-4 py-2 rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-20">
+                        <button className="text-xl border px-4 py-2 rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-20">
                             Trải nghiệm ngay
                         </button>
                     </Link>
@@ -210,7 +210,7 @@ export default function Home() {
                                 </p>
                             </div>
                         </div>
-                        <button className="border px-4 py-2 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-10">
+                        <button className="text-xl border px-4 py-2 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-10">
                             Trải nghiệm ngay
                         </button>
                     </Col>

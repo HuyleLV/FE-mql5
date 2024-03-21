@@ -84,7 +84,7 @@ export default function Header() {
         <div className="flex items-center">
           <div className={"flex max-md:w-full"}>
             <a href="/" className="flex items-center pr-4">
-              <img src={logo} className="h-16 pl-4" alt="Flowbite Logo" />
+              <img src={logo} className="h-[100px] pl-4" alt="Flowbite Logo" />
             </a>
 
             {isMobile ? 
@@ -170,7 +170,7 @@ export default function Header() {
         </div>
         
         {!cookies?.user && (
-          <div>
+          <div className="flex items-center h-full">
             <p className="text-4xl font-bold text-white p-3 px-10">
               Giải Pháp Giao Dịch Toàn Diện
             </p>

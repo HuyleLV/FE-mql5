@@ -588,11 +588,27 @@ export default function SignalPage() {
             }
         </Row>
         <div className="py-10 border-y mt-10">
-          <p className="font-bold text-xl py-2">Top Masters</p>
+          <p className="font-bold text-xl py-5">Top Masters</p>
           <Row className="py-2">
             {topMaster.map((_, i) => (
               <Col xs={24} xl={8}>
-                {_?.master_key}
+                <div className="border rounded mx-10 p-5">
+                  <p className="font-semibold text-lg text-center pb-5">Rank: {_?.rank}</p>
+                  <div className="flex items-center justify-center border-y py-5">
+                    <img src={_?.user?.photos} className="rounded-full" style={{width: 50, height: 50}}/>
+                    <div className="pl-5">
+                      <p className="font-semibold text-lg"> Email: {_?.user?.email}</p>
+                      <p className="font-semibold text-lg"> Master key: {_?.user?.master_key}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total}</span></p>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate}</span></p>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win}</span></p>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss}</span></p>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit}</span></p>
+                  </div>
+                </div>
               </Col>
             ))}
           </Row>

@@ -12,7 +12,7 @@ axiosInstance.defaults.headers.post['Content-Type'] = 'application/json'
 axiosInstance.defaults.timeout = 60000
 
 axiosInstance.interceptors.request.use(
-  async (config) => {
+  async (config) => { 
     const token = Cookies.get('accessToken')
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
