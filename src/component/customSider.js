@@ -68,15 +68,15 @@ export default function CustomeSider() {
       children: [
         {
           key: "education-category",
-          label: <Link to={"/admin/education-category"}>Danh mục education</Link>,
+          label: <Link to={"/admin/education-category"}>Danh mục edu</Link>,
         },
         {
           key: "education-categorychild",
-          label: <Link to={"/admin/education-categorychild"}>Danh mục con education</Link>,
+          label: <Link to={"/admin/education-categorychild"}>Danh mục con edu</Link>,
         },
         {
           key: "education",
-          label: <Link to={"/admin/education"}>Quản lý education</Link>,
+          label: <Link to={"/admin/education"}>Quản lý edu</Link>,
         },
       ],
     },

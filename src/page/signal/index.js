@@ -588,25 +588,28 @@ export default function SignalPage() {
             }
         </Row>
         <div className="py-10 border-y mt-10">
-          <p className="font-bold text-xl py-5">Top Masters</p>
+          <h1 className="font-bold text-xl py-5">Top Masters</h1>
           <Row className="py-2">
             {topMaster.map((_, i) => (
               <Col xs={24} xl={8}>
                 <div className="border rounded mx-10 p-5">
                   <p className="font-semibold text-lg text-center pb-5">Rank: {_?.rank}</p>
                   <div className="flex items-center justify-center border-y py-5">
-                    <img src={_?.user?.photos} className="rounded-full" style={{width: 50, height: 50}}/>
+                    <img 
+                      src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
+                      className="rounded-full" 
+                      style={{width: 50, height: 50}}/>
                     <div className="pl-5">
-                      <p className="font-semibold text-lg"> Email: {_?.user?.email}</p>
+                      <p className="font-semibold text-lg"> Email: {_?.user?.email ? _?.user?.email : "Admin@gmail.com"}</p>
                       <p className="font-semibold text-lg"> Master key: {_?.user?.master_key}</p>
                     </div>
                   </div>
                   <div>
-                    <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total}</span></p>
-                    <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate}</span></p>
-                    <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win}</span></p>
-                    <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss}</span></p>
-                    <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit}</span></p>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? _?.results[0]?.win_rate : 0}</span></p>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? _?.results[0]?.win : 0}</span></p>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? _?.results[0]?.loss : 0}</span></p>
+                    <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? _?.results[0]?.total_profit : 0}</span></p>
                   </div>
                 </div>
               </Col>

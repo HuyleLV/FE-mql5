@@ -40,6 +40,22 @@ export default function IdentifyDashboard() {
         });
     }
 
+    const updatePage = async (id, page) => {
+        await axios
+        .post(`${process.env.REACT_APP_API_URL}/identify/updatePage/${id}`, {
+          page: page
+        })
+        .finally(() => {
+          getAllIdentify();
+        })
+        .then(async (response) => {
+          message.success(String(response?.data?.message));
+        })
+        .catch(({ response })=>{
+            message.error(String(response?.data?.message));
+        });
+    }
+
     const columns = [
         {
           title: "ID",
@@ -70,6 +86,31 @@ export default function IdentifyDashboard() {
           dataIndex: "identify_image",
           width: 150,
           render: (_, record) => <div className="flex justify-center"><Image src={record?.identify_image} width={100}/></div>,
+        },
+        {
+          title: "Page",
+          key: "page",
+          dataIndex: "page",
+          width: 150,
+          render: (_, record) => 
+            <Select
+              className="w-[150px]"
+              size="large"
+              placeholder="Select a person"
+              optionFilterProp="children"
+              value={record?.page}
+              onChange={(e)=>updatePage(record?.identify_id, e)}
+              options={[
+                { 
+                  label: "Nhận định",
+                  value: 1
+                },
+                { 
+                  label: "Tin tức",
+                  value: 2
+                }
+              ]}
+            />,
         },
         {
           title: "Nhận định hot nhất",

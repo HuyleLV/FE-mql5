@@ -25,7 +25,11 @@ export default function News() {
     const getByIdentify_category = async (identify_category_id) => {
         await axios
             .get(
-                `${process.env.REACT_APP_API_URL}/identify/getByIdentify_category/${identify_category_id}`
+                `${process.env.REACT_APP_API_URL}/identify/getByIdentify_category/${identify_category_id}`,{
+                    params: {
+                        page: 2
+                    }
+                }
             )
             .then(({ data }) => {
                 setIdentify(data);
