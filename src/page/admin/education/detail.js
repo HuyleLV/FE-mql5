@@ -13,7 +13,6 @@ export default function EducationDetail() {
   const id = params?.id;
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
 
-
   const fetchEducation = async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/education/getById/${params?.id}`)
@@ -42,6 +41,7 @@ export default function EducationDetail() {
 
   useEffect(() => {
     if (id && id !== "create") {
+      console.log(123);
       fetchEducation();
     }
   }, [id]);
@@ -67,7 +67,7 @@ export default function EducationDetail() {
   };
 
   useEffect(() => {
-    if (id) fetchEducation();
+    if (id && id !== "create") fetchEducation();
     form.resetFields();
   }, [form, id]);
 

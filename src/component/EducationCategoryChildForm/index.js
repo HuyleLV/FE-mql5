@@ -16,46 +16,46 @@ import {
   import CustomUpload from "../customUpload";
 import ReactQuill from "react-quill";
   
-  export default function EducationForm({
+  export default function EducationCategoryChildForm({
     id = "",
     initialValues = {},
     onSubmit = () => {},
   }) {
     const navigate = useNavigate();
     const [form] = Form.useForm();
-    const [educationCategoryChild, setEducationCategoryChild] = useState([]);
+    const [educationCategory, setEducationCategory] = useState([]);
 
-    const getAllEducationCategoryChild = async () => {
+    const getAllEducationCategory = async () => {
       try {
         const result = await axios.get(
-          `${process.env.REACT_APP_API_URL}/educationCategoryChild/getAll`, {params: {
+          `${process.env.REACT_APP_API_URL}/educationCategory/getAll`, {params: {
             page: 1,
             pageSize: 10,
           }}
         );
-        setEducationCategoryChild(result?.data?.data);
+        setEducationCategory(result?.data?.data);
       } catch (e) {
         message.error(e);
       }
     };
   
-    const deleteEducation = async () => {
+    const deleteEducationCategoryChild = async () => {
       await axios
-        .delete(`${process.env.REACT_APP_API_URL}/education/delete/${id}`)
+        .delete(`${process.env.REACT_APP_API_URL}/educationCategoryChild/delete/${id}`)
         .then(() => message.success("Xoá sản thành công"))
     };
   
     useEffect(() => {
-      getAllEducationCategoryChild();
+        getAllEducationCategory();
       if (Object.keys(initialValues)?.length > 0) {
         form.resetFields();
       }
     }, [form, initialValues]);
   
-    const removeEducation= async () => {
+    const removeEducationCategoryChild= async () => {
       try {
-        await deleteEducation();
-        return navigate("/admin/education");
+        await deleteEducationCategoryChild();
+        return navigate("/admin/education-categorychild");
       } catch (err) {
         console.log(err.message);
       }
@@ -67,19 +67,19 @@ import ReactQuill from "react-quill";
         content: "Bạn có chắc chắn xoá danh mục con này?",
         okText: "Xác nhận",
         cancelText: "Huỷ",
-        onOk: () => removeEducation(),
+        onOk: () => removeEducationCategoryChild(),
       });
     };
     return (
       <div className={"p-[40px] bg-white rounded-[10px]"}>
         <div className={"!text-[#2d2e32] pb-[10px]"}>
           <Link
-            to={"/admin/education"}
+            to={"/admin/education-categorychild"}
             className={
               "text-[18px] sm:text-[24px] md:text-[26px] xl:text-[26px] font-[500] cursor-pointer "
             }
           >
-            {"Thông tin nhận định"}
+            {"Thông tin danh mục con education"}
           </Link>
         </div>
   
@@ -93,39 +93,23 @@ import ReactQuill from "react-quill";
         >
             <Form.Item
                 label={"Tiêu đề"}
-                name="education_title"
+                name="education_categoryChild_title"
                 rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
             >
                 <Input size="large" placeholder={"Nhập"} />
             </Form.Item>
 
-            <Form.Item label={"Danh mục nhận định"} name="education_categoryChild_id">
+            <Form.Item label={"Danh mục nhận định"} name="education_category_id">
                 <Select
                     showSearch
                     size="large"
                     placeholder="Select a person"
                     optionFilterProp="children"
-                    options={educationCategoryChild?.map((value) => ({
-                      value: value.education_categoryChild_id,
-                      label: "[" + value.education_category_title + "] " + value.education_categoryChild_title,
+                    options={educationCategory?.map((value) => ({
+                    value: value.education_category_id,
+                    label: value.education_category_title,
                     }))}
                 />
-            </Form.Item>
-    
-            <Form.Item
-                name="education_image"
-                label={"Link ảnh"}
-                rules={[{ required: true, message: "Vui lòng chọn file!" }]}
-            >
-                <CustomUpload type="image" accept=".png, .jpg, .jpeg, .jfif" />
-            </Form.Item>
-
-            <Form.Item 
-                name="education_description" 
-                label={"Nội dung"}
-                rules={[{ required: true, message: "Vui lòng nhập nội dung!" }]}
-            >
-                <ReactQuill className="h-[400px] pb-10" theme="snow" />
             </Form.Item>
   
           <Row gutter={40} className={"my-[40px] pl-[20px]"}>

@@ -135,7 +135,7 @@ export default function Header() {
                   className={`hidden w-full md:block md:w-auto`}
                 >
                   {cookies?.user && (
-                    <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0 h-full items-center text-xl">
+                    <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0 h-full items-center text-2xl">
                       <li className="px-4">
                         <Link className="block md:p-0 md:hover:text-blue-400" to={"/signal"}>
                           Signals
@@ -170,7 +170,7 @@ export default function Header() {
         </div>
         
         {!cookies?.user && (
-          <div className="flex items-center h-full">
+          <div className="flex justify-center items-center">
             <p className="text-4xl font-bold text-white p-3 px-10">
               Giải Pháp Giao Dịch Toàn Diện
             </p>
@@ -212,14 +212,14 @@ export default function Header() {
                       <Image
                         preview={false}
                         src={cookies.user?.photos}
-                        width={30}
-                        height={30}
+                        width={40}
+                        height={40}
                       />
                     )
                   }
                 </Dropdown>
 
-                <div className="ml-[10px] font-bold">
+                <div className="text-xl ml-[10px] font-bold">
                   {cookies.user?.displayName}
                 </div>
               </div>

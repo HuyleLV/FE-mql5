@@ -4,18 +4,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import EducationCategoryForm from "../../../../component/EducationCategoryForm";
+import EducationCategoryChildForm from "../../../../component/EducationCategoryChildForm";
 
-export default function EducationCategoryDetail() {
+export default function EducationCategoryChildDetail() {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [initialValues, setInitialValues] = useState({});
   const params = useParams();
   const id = params?.id;
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
+  console.log(id);
 
-  const fetchEducationCategory = async () => {
+  const fetchEducationCategoryChild = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/educationCategory/getById/${params?.id}`)
+      .get(`${process.env.REACT_APP_API_URL}/educationCategoryChild/getById/${params?.id}`)
       .then((res) => {
         const data = res?.data[0];
         const values = {
@@ -25,23 +27,23 @@ export default function EducationCategoryDetail() {
       });
   };
 
-  const createEducationCategory = async (values) => {
+  const createEducationCategoryChild = async (values) => {
     await axios.post(
-      `${process.env.REACT_APP_API_URL}/educationCategory/create`,
+      `${process.env.REACT_APP_API_URL}/educationCategoryChild/create`,
       values
     );
   };
 
-  const updateEducationCategory = async (id, values) => {
+  const updateEducationCategoryChild = async (id, values) => {
     await axios.post(
-      `${process.env.REACT_APP_API_URL}/educationCategory/update/${id}`,
+      `${process.env.REACT_APP_API_URL}/educationCategoryChild/update/${id}`,
       values
     );
   };
 
   useEffect(() => {
     if (id && id !== "create") {
-      fetchEducationCategory();
+      fetchEducationCategoryChild();
     }
   }, [id]);
 
@@ -53,25 +55,25 @@ export default function EducationCategoryDetail() {
 
     try {
       if (id && id !== "create") {
-        await updateEducationCategory(id, submitValues);
+        await updateEducationCategoryChild(id, submitValues);
         message.success("Cập nhập thành công");
       } else {
-        await createEducationCategory(submitValues);
+        await createEducationCategoryChild(submitValues);
         message.success("Tạo mới thành công");
       }
-      navigate("/admin/education-category");
+      navigate("/admin/education-categorychild");
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    if (id && id !== "create") fetchEducationCategory();
+    if (id && id !== "create") fetchEducationCategoryChild();
     form.resetFields();
   }, [form, id]);
 
   return (
-    <EducationCategoryForm
+    <EducationCategoryChildForm
       id={id !== "create" ? id : undefined}
       initialValues={initialValues}
       onSubmit={onSubmit}

@@ -1,25 +1,25 @@
-import { Button, Col, Image, Pagination, Row, Select, Table, message } from "antd"
+import { Button, Col, Image, Pagination, Row, Table, message } from "antd"
 import axios from "axios";
 import { useEffect, useState } from "react";
-import SearchProps from "../../../component/SearchProps";
+import SearchProps from "../../../../component/SearchProps";
 import dayjs from "dayjs";
-import dayjsInstance from "../../../utils/dayjs";
+import dayjsInstance from "../../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
 
-export default function EducationDashboard() {
-    const [education, seteducation] = useState([]);
+export default function EducationCategoryChild() {
+    const [educationCategoryChild, setEducationCategoryChild] = useState([]);
     const [pagination, setPagination] = useState({
         page: 1,
         pageSize: 10,
     });
 
-    const getAllEducation = async () => {
+    const getAllEducationChildCategory = async () => {
         await axios
-        .get(`${process.env.REACT_APP_API_URL}/education/getAll`, {params: pagination})
+        .get(`${process.env.REACT_APP_API_URL}/educationCategoryChild/getAll`, {params: pagination})
         .then((res) => {
             const data = res?.data;
-            seteducation(data);
+            setEducationCategoryChild(data);
         })
         .catch(() => message.error("Error server!"));
     };
@@ -27,44 +27,27 @@ export default function EducationDashboard() {
     const columns = [
         {
           title: "ID",
-          key: "education_id",
-          dataIndex: "education_id",
+          key: "education_categoryChild_id",
+          dataIndex: "education_categoryChild_id",
           width: 50,
-          sorter: (a, b) => a.education_id - b.education_id,
-          render: (_, record) => <div>{record?.education_id}</div>,
+          sorter: (a, b) => a.education_categoryChild_id - b.education_categoryChild_id,
+          render: (_, record) => <div>{record?.education_categoryChild_id}</div>,
         },
         {
           title: "Tiêu đề",
-          key: "education_title",
-          dataIndex: "education_title",
-          width: 150,
-          ...SearchProps("education_title"),
-          render: (_, record) => <div>{record?.education_title}</div>,
-        },
-        {
-          title: "Slug",
-          key: "education_slug",
-          dataIndex: "education_slug",
-          width: 150,
-          render: (_, record) => <div>{record?.education_slug}</div>,
-        },
-        {
-          title: "Ảnh",
-          key: "education_image",
-          dataIndex: "education_image",
-          width: 150,
-          render: (_, record) => <div className="flex justify-center"><Image src={record?.education_image} width={100}/></div>,
-        },
-        {
-          title: "Danh mục",
           key: "education_categoryChild_title",
           dataIndex: "education_categoryChild_title",
           width: 150,
-          render: (_, record) => 
-            <div>
-                <p>{"[" + record?.education_category_title + "]"}</p>
-                <p>{record?.education_categoryChild_title}</p>
-            </div>,
+          ...SearchProps("education_categoryChild_title"),
+          render: (_, record) => <div>{record?.education_categoryChild_title}</div>,
+        },
+        {
+          title: "Danh mục",
+          key: "education_category_title",
+          dataIndex: "education_category_title",
+          width: 150,
+          ...SearchProps("education_category_title"),
+          render: (_, record) => <div>{record?.education_category_title}</div>,
         },
         {
           title: "Ngày tạo",
@@ -98,29 +81,13 @@ export default function EducationDashboard() {
           },
         },
         {
-          title: "Ngày cập nhật",
-          key: "update_at",
-          dataIndex: "update_at",
-          width: 150,
-          sorter: (a, b) => dayjs(a.update_at) - dayjs(b.update_at),
-          render: (_, record) => {
-            return (
-              <div className={"cursor-pointer text-[14px] font-normal"}>
-                <span className={"!inline-block min-w-[100px]"}>
-                  {dayjsInstance(record?.update_at).format("DD/MM/YYYY HH:mm:ss")}
-                </span>
-              </div>
-            );
-          },
-        },
-        {
           key: "operation",
           dataIndex: "operation",
           width: 50,
           render: (_, record) => {
             return (
               <Link
-                to={`/admin/education/${record?.education_id}`}
+                to={`/admin/education-categorychild/${record?.education_categoryChild_id}`}
                 className={"text-[var(--blue)]"}
               >
                 <EditOutlined />
@@ -131,7 +98,7 @@ export default function EducationDashboard() {
     ]
     
     useEffect(() => {
-        getAllEducation();
+        getAllEducationChildCategory();
     }, [pagination]);
 
     return (
@@ -139,10 +106,10 @@ export default function EducationDashboard() {
             <div>
                 <Row gutter={10} className={"mb-[8px]"}>
                     <Col flex={1}>
-                        <div className={"text-[20px] font-medium"}>Danh mục edu</div>
+                        <div className={"text-[20px] font-medium"}>Danh mục con education</div>
                     </Col>
                     <Col>
-                        <Link to={"/admin/education/create"}>
+                        <Link to={"/admin/education-categorychild/create"}>
                             <Button type={"primary"} onClick={() => {}}>
                                 Tạo
                             </Button>
@@ -153,14 +120,14 @@ export default function EducationDashboard() {
             <div className="w-full h-full mt-5 pb-20 relative">
                 <Table
                     className={"custom-table"}
-                    dataSource={education?.data}
+                    dataSource={educationCategoryChild?.data}
                     columns={columns}
                     pagination={false}
                 />
                 <Pagination
                     className="flex justify-center absolute inset-x-0 bottom-20"
                     current={pagination.page}
-                    total={education?.total}
+                    total={educationCategoryChild?.total}
                     pageSize={pagination.pageSize}
                     showSizeChanger
                     onChange={(p, ps)=> {
