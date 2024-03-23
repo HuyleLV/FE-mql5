@@ -59,6 +59,10 @@ export default function CustomeSider() {
           key: "identify",
           label: <Link to={"/admin/identify"}>Quản lý nhận định</Link>,
         },
+        {
+          key: "news",
+          label: <Link to={"/admin/news"}>Quản lý tin tức</Link>,
+        },
       ],
     },
     {

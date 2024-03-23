@@ -7,7 +7,7 @@ import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
 
-export default function IdentifyDashboard() {
+export default function NewsDashboard() {
     const [identify, setIdentify] = useState([]);
     const [pagination, setPagination] = useState({
         page: 1,
@@ -16,7 +16,7 @@ export default function IdentifyDashboard() {
 
     const getAllIdentify = async () => {
         await axios
-        .get(`${process.env.REACT_APP_API_URL}/identify/getAll/1`, {params: pagination})
+        .get(`${process.env.REACT_APP_API_URL}/identify/getAll/2`, {params: pagination})
         .then((res) => {
             const data = res?.data;
             setIdentify(data);
@@ -28,7 +28,7 @@ export default function IdentifyDashboard() {
         await axios
         .post(`${process.env.REACT_APP_API_URL}/identifyHot/update/${id}`, {
           identify_hot: identify_hot,
-          page: 1
+          page: 2
         })
         .finally(() => {
           getAllIdentify();

@@ -111,6 +111,25 @@ import ReactQuill from "react-quill";
                     }))}
                 />
             </Form.Item>
+
+            <Form.Item label={"Trang hiển thị"} name="page">
+                <Select
+                    showSearch
+                    size="large"
+                    placeholder="Select a person"
+                    optionFilterProp="children"
+                    options={[
+                      {
+                        label: "Nhận định",
+                        value: 1
+                      },
+                      {
+                        label: "Tin tức",
+                        value: 2
+                      }
+                    ]}
+                />
+            </Form.Item>
     
             <Form.Item
                 name="identify_image"

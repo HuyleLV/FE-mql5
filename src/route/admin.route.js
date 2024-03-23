@@ -24,6 +24,7 @@ import EducationCategory from "../page/admin/education/category";
 import EducationCategoryDetail from "../page/admin/education/category/detail";
 import EducationCategoryChild from "../page/admin/education/category_child";
 import EducationCategoryChildDetail from "../page/admin/education/category_child/detail";
+import NewsDashboard from "../page/admin/news";
 
 export default function AdminRouter () {
     return (
@@ -41,6 +42,7 @@ export default function AdminRouter () {
         <Route path="/admin/identify/:id" element={<IdentifyDetail />} />
         <Route path="/admin/identify-category" element={<IdentifyCategory />} />
         <Route path="/admin/identify-category/:id" element={<IdentifyCategoryDetail />} />
+        <Route path="/admin/news" element={<NewsDashboard />} />
         <Route path="/admin/education" element={<EducationDashboard />} />
         <Route path="/admin/education/:id" element={<EducationDetail />} />
         <Route path="/admin/education-category" element={<EducationCategory />} />

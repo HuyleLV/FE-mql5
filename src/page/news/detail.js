@@ -23,7 +23,9 @@ export default function NewsDetail() {
 
     const getAllIdentifyHot = async () => {
         await axios
-            .get(`${process.env.REACT_APP_API_URL}/identifyHot/getAllHotNews`)
+            .get(`${process.env.REACT_APP_API_URL}/identifyHot/getAllHotNews`, {params:{
+                page: 2
+            }})
             .then(({ data }) => {
                 setIdentifyHot(data);
             });
