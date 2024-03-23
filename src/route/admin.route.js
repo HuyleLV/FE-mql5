@@ -25,6 +25,10 @@ import EducationCategoryDetail from "../page/admin/education/category/detail";
 import EducationCategoryChild from "../page/admin/education/category_child";
 import EducationCategoryChildDetail from "../page/admin/education/category_child/detail";
 import NewsDashboard from "../page/admin/news";
+import ShortDashboard from "../page/admin/short";
+import ShortDetail from "../page/admin/short/detail";
+import ReportDashboard from "../page/admin/report";
+import ReportDetail from "../page/admin/report/detail";
 
 export default function AdminRouter () {
     return (
@@ -54,6 +58,10 @@ export default function AdminRouter () {
         <Route path="/admin/master/:id" element={<MasterDetail />} />
         <Route path="/admin/comments" element={<CommentsDashboard />} />
         <Route path="/admin/transfer" element={<TransferDashboard />} />
+        <Route path="/admin/short" element={<ShortDashboard />} />
+        <Route path="/admin/short/:id" element={<ShortDetail />} />
+        <Route path="/admin/report" element={<ReportDashboard />} />
+        <Route path="/admin/report/:id" element={<ReportDetail />} />
       </Routes>
     );
   };

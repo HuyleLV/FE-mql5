@@ -16,20 +16,20 @@ import { TiGroup } from "react-icons/ti";
 export default function Ecosystem() {
 
     let textWhite = "#ffffff";
-    let colorBlue = "#2563EB"
+    let colorBlue = "#ffffff"
 
     return (
-        <div className="py-10 bg-slate-50" style={{ background: "linear-gradient(to right, #000428, #004e92)" }}>
+        <div className="py-10 bg-slate-50 rounded-3xl bg-gradient-to-r from-green-800 to-blue-600">
             <div className="max-w-screen-2xl items-center mx-auto py-4 text-center" >
                 <p className="font-bold text-3xl textWhite"> Hệ Sinh Thái Net Partner</p>
 
                 <Row className="pt-5" style={{ flex: 1, justifyContent: "space-between", alignItems: "center" }}>
                     <Col xs={24} xl={4} className="px-4 justify-center">
-                        <div className="flex justify-center items-center w-h3t" style={{ flexDirection: "column" }}>
+                        <div className="flex justify-center items-center w-h3t">
                             <HiMiniUserGroup size={100} color={colorBlue} />
                             <FaHandHolding size={150} color={colorBlue} style={{ position: "absolute", marginTop: 50 }} />
                         </div>
-                        <div>
+                        <div className="pt-5">
                             <p className="font-semibold text-xl textWhite">100.000+</p>
                             <p className="text-xl font-semibold textWhite">
                                 Khách Hàng
@@ -37,17 +37,19 @@ export default function Ecosystem() {
                         </div>
                     </Col>
                     <Col xs={24} xl={4} className="px-4">
-                        <div className="flex justify-center items-center w-h3t" style={{ flexDirection: "column" }}>
+                        <div className="flex justify-center items-center w-h3t">
                             <HiOutlineLightBulb size={150} color={colorBlue} />
                             <TbSettingsCog size={50} color={colorBlue} style={{ position: "absolute", marginTop: -50 }} />
                         </div>
-                        <p className="font-semibold text-xl textWhite">6 Năm</p>
-                        <p className="text-xl font-semibold textWhite">
-                            Phát Triển Mạnh Mẽ
-                        </p>
+                        <div className="pt-5">
+                            <p className="font-semibold text-xl textWhite">6 Năm</p>
+                            <p className="text-xl font-semibold textWhite">
+                                Phát Triển Mạnh Mẽ
+                            </p>
+                        </div>
                     </Col>
                     <Col xs={24} xl={4} className="px-4">
-                        <div className="flex justify-center items-center w-h3t" style={{ flexDirection: "column" }}>
+                        <div className="flex justify-center items-center w-h3t">
                             <GrUserSettings size={120} color={colorBlue} />
                         </div>
                         <p className="font-semibold text-xl textWhite">10+</p>
@@ -56,7 +58,7 @@ export default function Ecosystem() {
                         </p>
                     </Col>
                     <Col xs={24} xl={4} className="px-4">
-                        <div className="flex justify-center items-center w-h3t" style={{ flexDirection: "column" }}>
+                        <div className="flex justify-center items-center w-h3t">
                             <PiUserSwitch size={170} color={colorBlue} />
                             <LuPackage size={30} color={colorBlue} style={{ position: "absolute" }} />
                         </div>
@@ -66,7 +68,7 @@ export default function Ecosystem() {
                         </p>
                     </Col>
                     <Col xs={24} xl={4} className="px-4">
-                        <div className="flex justify-center items-center w-h3t" style={{ flexDirection: "column" }}>
+                        <div className="flex justify-center items-center w-h3t">
                             <AiOutlineGlobal size={150} color={colorBlue} />
                             <TiGroup size={120} color={colorBlue} style={{ position: "absolute", marginTop: 100 }} />
                         </div>
@@ -77,7 +79,7 @@ export default function Ecosystem() {
                     </Col>
                 </Row>
 
-                <Button type="primary" className="mx-2" style={{ borderRadius: 50, background: textWhite, textAlign: "center", marginTop: 30 }}><p className="font-bold text-base" style={{ color: colorBlue }}>Tham Gia Ngay</p></Button>
+                <Button type="primary" className="mx-2 mt-10"><p className="font-bold text-base" style={{ color: colorBlue }}>Tham Gia Ngay</p></Button>
             </div>
         </div>
     )

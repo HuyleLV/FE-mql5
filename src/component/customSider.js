@@ -7,6 +7,7 @@ import {
   AppstoreOutlined,
   TransactionOutlined,
   LogoutOutlined,
+  ContainerOutlined,
 } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -24,12 +25,12 @@ export default function CustomeSider() {
     {
       key: "user",
       icon: <UserOutlined />,
-      label: <Link to={"/admin/users"}>Quản lí người dùng</Link>,
+      label: <Link to={"/admin/users"}>Quản lý người dùng</Link>,
     },
     {
       key: "product",
       icon: <VideoCameraOutlined />,
-      label: <Link to={"/admin/products"}>Quản lí sản phẩm</Link>,
+      label: <Link to={"/admin/products"}>Quản lý sản phẩm</Link>,
     },
     {
       key: "category",
@@ -49,7 +50,7 @@ export default function CustomeSider() {
     {
       key: "identify",
       icon: <VideoCameraOutlined />,
-      label: "Quản lí nhận định",
+      label: "Quản lý nhận định",
       children: [
         {
           key: "identify-category",
@@ -68,7 +69,7 @@ export default function CustomeSider() {
     {
       key: "education",
       icon: <VideoCameraOutlined />,
-      label: "Quản lí education",
+      label: "Quản lý education",
       children: [
         {
           key: "education-category",
@@ -87,22 +88,32 @@ export default function CustomeSider() {
     {
       key: "license",
       icon: <UserOutlined />,
-      label: <Link to={"/admin/licenses"}>Quản lí license</Link>,
+      label: <Link to={"/admin/licenses"}>Quản lý license</Link>,
     },
     {
       key: "master",
       icon: <UserOutlined />,
-      label: <Link to={"/admin/master"}>Quản lí master</Link>,
+      label: <Link to={"/admin/master"}>Quản lý master</Link>,
     },
     {
       key: "comment",
       icon: <MessageOutlined />,
-      label: <Link to={"/admin/comments"}>Quản lí comment</Link>,
+      label: <Link to={"/admin/comments"}>Quản lý comment</Link>,
     },
     {
       key: "payment",
       icon: <TransactionOutlined />,
-      label: <Link to={"/admin/transfer"}>Quản lí giao dịch</Link>,
+      label: <Link to={"/admin/transfer"}>Quản lý giao dịch</Link>,
+    },
+    {
+      key: "short",
+      icon: <VideoCameraOutlined />,
+      label: <Link to={"/admin/short"}>Quản lý link short</Link>,
+    },
+    {
+      key: "report",
+      icon: <ContainerOutlined />,
+      label: <Link to={"/admin/report"}>Quản lý report</Link>,
     },
     {
       key: "logout",
