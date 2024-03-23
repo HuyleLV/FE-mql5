@@ -22,8 +22,6 @@ export default function Home() {
 
     const navigate = useNavigate();
 
-
-
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchProducts = async () => {
@@ -188,8 +186,6 @@ export default function Home() {
                 </div>
             </div>
             <div className="max-w-screen-2xl items-center mx-auto pt-10">
-<<<<<<< HEAD
-=======
                 <Row>
                     <Col xs={24} xl={12} className="px-10 pt-16">
                         <p className="font-bold text-4xl">Trade with Confidence</p>
@@ -233,7 +229,6 @@ export default function Home() {
                         </div>
                     </Col>
                 </Row>
->>>>>>> a3d8a38b572d3d39e06402e157846bcc2c570b05
 
                 <Ecosystem setIsModalOpen={setIsModalOpen} />
 
@@ -246,20 +241,12 @@ export default function Home() {
                     />
                 </div>
 
-<<<<<<< HEAD
-                <TopMaster/>
-                <JobTrade/>
-
-                <Reports/>
-            </div>
-
-=======
                 <TopMaster />
+
+                <JobTrade />
+
+                <Reports />
             </div>
-
-            <JobTrade />
-
-            <Reports />
 
             <Modal
                 title="Bạn chưa đăng nhập?"
@@ -272,7 +259,6 @@ export default function Home() {
                 <p className="p-5">Vui lòng đăng nhập để tham gia</p>
             </Modal>
 
->>>>>>> a3d8a38b572d3d39e06402e157846bcc2c570b05
         </div>
     )
 }
