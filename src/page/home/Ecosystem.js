@@ -13,7 +13,7 @@ import { LuPackage } from "react-icons/lu";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { TiGroup } from "react-icons/ti";
 
-export default function Ecosystem() {
+export default function Ecosystem({ setIsModalOpen }) {
 
     let textWhite = "#ffffff";
     let colorBlue = "#2563EB"
@@ -77,7 +77,7 @@ export default function Ecosystem() {
                     </Col>
                 </Row>
 
-                <Button type="primary" className="mx-2" style={{ borderRadius: 50, background: textWhite, textAlign: "center", marginTop: 30 }}><p className="font-bold text-base" style={{ color: colorBlue }}>Tham Gia Ngay</p></Button>
+                <Button onClick={() => setIsModalOpen(true)} type="primary" className="mx-2" style={{ borderRadius: 50, background: textWhite, textAlign: "center", marginTop: 30 }}><p className="font-bold text-base" style={{ color: colorBlue }}>Tham Gia Ngay</p></Button>
             </div>
         </div>
     )
