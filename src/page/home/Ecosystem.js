@@ -13,7 +13,7 @@ import { LuPackage } from "react-icons/lu";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { TiGroup } from "react-icons/ti";
 
-export default function Ecosystem() {
+export default function Ecosystem({ setIsModalOpen }) {
 
     let textWhite = "#ffffff";
     let colorBlue = "#ffffff"
