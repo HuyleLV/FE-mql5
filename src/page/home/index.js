@@ -8,6 +8,10 @@ import { CheckOutlined } from "@ant-design/icons";
 import { useDevice } from "../../hooks";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import Ecosystem from "./Ecosystem";
+import TopMaster from "./TopMaster";
+import JobTrade from "./JobTrade";
+import Reports from "./Report";
 
 export default function Home() {  
     const { isMobile } = useDevice();
@@ -220,6 +224,9 @@ export default function Home() {
                         </div>
                     </Col>
                 </Row>
+
+                <Ecosystem/>
+                
                 <div className="w-full p-5">
                     <List
                         rootClassName="item-cont"
@@ -228,7 +235,13 @@ export default function Home() {
                         renderItem={isMobile ? renderItemForMobile : renderItem}
                     />
                 </div>
+
+                <TopMaster/>
             </div>
+
+            <JobTrade/>
+
+            <Reports/>
         </div>
     )
 }
