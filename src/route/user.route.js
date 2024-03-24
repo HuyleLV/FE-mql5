@@ -17,6 +17,7 @@ import EducationDetail from "../page/education/detail";
 import Wallet from "../page/wallet";
 import HomeDetail from "../page/home/detail";
 import SignalPage from "../page/signal";
+import ReportDetail from "../page/home/ReportDetail";
 
 export default function User () {
     return (
@@ -39,6 +40,7 @@ export default function User () {
         <Route path="/category/:category_id" element={<Category />} />
         <Route path="/category-child/:category_id/:categoryChild_id" element={<CategoryDetail />} />
         <Route path="/loginAdmin" element={<LoginAdmin />} />
+        <Route path="/report/:id" element={<ReportDetail />} />
       </Routes>
     );
   };

@@ -8,12 +8,15 @@ import { useDevice } from "../hooks";
 import { DownOutlined } from "@ant-design/icons";
 import logo from "../component/image/logo_white.png"
 import axios from "axios";
+import moment from "moment";
 
 export default function Header() {
   const { isMobile } = useDevice();
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
+
+  const dateTime = Date();
 
   const getUser = async () => {
     await axios
@@ -199,6 +202,11 @@ export default function Header() {
           ) : (
             <>
               <div className="flex items-center">
+                <div style={{ marginRight: 10, padding: 4, paddingLeft: 6, paddingRight: 6, background: "rgba(255,255,255,0.3)", borderRadius: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <div className="text-sm font-semibold">
+                  {moment(dateTime).format("HH:mm:ss DD-MM-YYYY")}
+                  </div>
+                </div>
                 <Dropdown placement="bottomRight" menu={{ items }}>
                   {
                     isMobile ? (

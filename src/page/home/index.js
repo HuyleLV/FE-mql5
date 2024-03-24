@@ -241,7 +241,7 @@ export default function Home() {
                     />
                 </div>
 
-                <TopMaster />
+                <TopMaster setIsModalOpen={setIsModalOpen}/>
 
                 <JobTrade />
 
@@ -256,7 +256,7 @@ export default function Home() {
                 onCancel={() => setIsModalOpen(false)}
                 okButtonProps={{ className: "bg-blue-500" }}
             >
-                <p className="p-5">Vui lòng đăng nhập để tham gia</p>
+                <p className="p-5">Vui lòng đăng nhập</p>
             </Modal>
 
         </div>

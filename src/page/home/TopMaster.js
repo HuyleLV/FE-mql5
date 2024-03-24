@@ -47,7 +47,7 @@ const data = [
     },
 ]
 
-export default function TopMaster() {
+export default function TopMaster({ setIsModalOpen }) {
 
     let bgBtn = "linear-gradient(to right, #ff00cc, #333399)";
     const avatarDefault = "https://toppng.com/uploads/preview/roger-berry-avatar-placeholder-11562991561rbrfzlng6h.png"
@@ -92,7 +92,7 @@ export default function TopMaster() {
                             </div>
                         </div>
                         <div className="flex w-full justify-center items-center">
-                            <Button type="primary" className="mx-2" style={{ borderRadius: 50, background: bgBtn, textAlign: "center" }}><p className="font-bold text-base textWhite">Chi tiết</p></Button>
+                            <Button onClick={() => setIsModalOpen(true)} type="primary" className="mx-2" style={{ borderRadius: 50, background: bgBtn, textAlign: "center" }}><p className="font-bold text-base textWhite">Chi tiết</p></Button>
                         </div>
                     </div>
                 </div>

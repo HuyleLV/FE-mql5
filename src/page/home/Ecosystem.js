@@ -79,7 +79,7 @@ export default function Ecosystem({ setIsModalOpen }) {
                     </Col>
                 </Row>
 
-                <Button type="primary" className="mx-2 mt-10"><p className="font-bold text-base" style={{ color: colorBlue }}>Tham Gia Ngay</p></Button>
+                <Button onClick={() => setIsModalOpen(true)} type="primary" className="mx-2 mt-10"><p className="font-bold text-base" style={{ color: colorBlue }}>Tham Gia Ngay</p></Button>
             </div>
         </div>
     )

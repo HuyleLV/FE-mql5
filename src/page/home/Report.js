@@ -1,28 +1,34 @@
 import { Button, List } from "antd";
+import { Link } from "react-router-dom";
+import ListReports from "./ListReports";
 
 const data = [
     {
         id: 1,
         img: "https://extrading.vn/wp-content/uploads/2023/08/dang-nhap-exness-tren-mt5-13.webp",
-        description: "Đăng nhập Exness trên MT5: Hướng dẫn, thao tác và lưu ý",
+        title: "Đăng nhập Exness trên MT5: Hướng dẫn, thao tác và lưu ý",
+        description: `Cointelegraph Research presents "DEXScape: Scaling, Innovating, Aggregating," a transformative report delving deeply into the dynamic world of decentralized exchanges (DEXs). This comprehensive study covers groundbreaking innovations and projections, including blockchains of choice, the evolution of market maker mechanisms, the impact of rollup technologies and Bitcoin DeFi solutions, and the rise of DEX aggregators.`,
         report: "Published by Crypto Research Report"
     },
     {
         id: 2,
         img: "https://extrading.vn/wp-content/uploads/2023/08/exness-mt5-20.webp",
-        description: "Exness MT5: lựa chọn thông minh của các nhà giao dịch",
+        title: "Exness MT5: lựa chọn thông minh của các nhà giao dịch",
+        description: `Cointelegraph Research presents "DEXScape: Scaling, Innovating, Aggregating," a transformative report delving deeply into the dynamic world of decentralized exchanges (DEXs). This comprehensive study covers groundbreaking innovations and projections, including blockchains of choice, the evolution of market maker mechanisms, the impact of rollup technologies and Bitcoin DeFi solutions, and the rise of DEX aggregators.`,
         report: "Published by Crypto Research Report"
     },
     {
         id: 3,
         img: "https://extrading.vn/wp-content/uploads/2023/08/mt4-exness.webp",
-        description: "MT4 Exness chìa khóa làm giàu trong đầu tư ngoại hối",
+        title: "MT4 Exness chìa khóa làm giàu trong đầu tư ngoại hối",
+        description: `Cointelegraph Research presents "DEXScape: Scaling, Innovating, Aggregating," a transformative report delving deeply into the dynamic world of decentralized exchanges (DEXs). This comprehensive study covers groundbreaking innovations and projections, including blockchains of choice, the evolution of market maker mechanisms, the impact of rollup technologies and Bitcoin DeFi solutions, and the rise of DEX aggregators.`,
         report: "Published by Crypto Research Report"
     },
     {
         id: 4,
         img: "https://extrading.vn/wp-content/uploads/2023/08/lien-ket-exness-voi-mt5.webp",
-        description: "Chia Sẻ Cách Liên Kết Exness với MT5 trên Các Thiết bị",
+        title: "Chia Sẻ Cách Liên Kết Exness với MT5 trên Các Thiết bị",
+        description: `Cointelegraph Research presents "DEXScape: Scaling, Innovating, Aggregating," a transformative report delving deeply into the dynamic world of decentralized exchanges (DEXs). This comprehensive study covers groundbreaking innovations and projections, including blockchains of choice, the evolution of market maker mechanisms, the impact of rollup technologies and Bitcoin DeFi solutions, and the rise of DEX aggregators.`,
         report: "Published by Crypto Research Report"
     },
 ]
@@ -30,18 +36,15 @@ const data = [
 export default function Reports() {
 
     let bgBtn = "linear-gradient(to right, #ff00cc, #333399)";
-    
+
     const renderItem = (item) => {
         return (
 
             <List.Item
                 key={item?.id}
             >
-                <div className="w-full mt-8">
-                    <img alt={item.description} className="w-[350px] h-[200px]" style={{ borderRadius: 6 }} src={item.img} />
-                    <div className="font-semibold text-base line-clamp-2 mb-4 mt-4">{item.description}</div>
-                    <div className="font-semibold text-xs light-gray">{item.report}</div>
-                </div>
+                <ListReports id={item.id} img={item.img} title={item.title} description={item.description} report={item.report} />
+
             </List.Item>
         );
     }
