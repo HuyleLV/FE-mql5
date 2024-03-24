@@ -11,7 +11,7 @@ export default function TransferDashboard() {
   const [transfer, setTransfer] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
-    pageSize: 5,
+    pageSize: 6,
   });
   
   const fetchTransfer = async () => {
@@ -87,15 +87,15 @@ export default function TransferDashboard() {
       render: (_, record) => <div>{record?.transfer_content}</div>,
     },
     {
-      title: <div>Giá</div>,
+      title: <div className="text-center">Giá</div>,
       key: "transfer_price",
       dataIndex: "transfer_price",
       width: 160,
       sorter: (a, b) => a.transfer_price - b.transfer_price,
-      render: (_, record) => <div>{record?.transfer_price}</div>,
+      render: (_, record) => <div className="text-center">{record?.transfer_price}</div>,
     },
     {
-      title: <div>Trạng thái</div>,
+      title: <div className="text-center">Trạng thái</div>,
       key: "transfer_status",
       dataIndex: "transfer_status",
       width: 160,
@@ -107,29 +107,50 @@ export default function TransferDashboard() {
         return record?.transfer_status === value;
       },
       render: (_, record) => (
-        <div>
+        <div className="flex justify-center">
+          {record?.type === 1 ? 
             <Select
-                options={optionTransfer}
-                className={"w-[150px]"}
-                value={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
-                defaultValue={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
-                onChange={(e) => updateTransfer(record, e)}
-                />
+              options={optionTransfer}
+              className={"w-[150px]"}
+              value={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
+              defaultValue={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
+              onChange={(e) => updateTransfer(record, e)}
+              />
+              : <p className="font-semibold text-lg">Xác nhận</p>
+          }
         </div>
       ),
     },
     {
-      title: <div>Ảnh</div>,
-      key: "transfer_price",
-      dataIndex: "transfer_price",
+      title: <div className="text-center">Ảnh</div>,
+      key: "transfer_image",
+      dataIndex: "transfer_image",
       width: 160,
       render: (_, record) => 
-        <div>
-            <Image
-                width={80}
-                src={record?.transfer_image}
-                />
+        <div className="flex justify-center">
+          <Image
+              width={80}
+              src={record?.transfer_image}
+              />
         </div>,
+    },
+    {
+      title: <div>Loại</div>,
+      key: "type",
+      dataIndex: "type",
+      width: 160,
+      filters: [
+        { text: 'Chuyển tiền', value: 1 },
+        { text: 'Mua sản phẩm', value: 2 },
+      ],
+      onFilter: (value, record) => {
+        return record?.type === value;
+      },
+      render: (_, record) => (
+        <p>
+          {record?.type === 1 ? "Chuyển tiền" : record?.type === 2 ? "Mua sản phẩm" : null}
+        </p>
+      ),
     },
     {
       title: <div>Người tạo</div>,

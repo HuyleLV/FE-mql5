@@ -51,11 +51,11 @@ export default function ReportDetail() {
 
     return (
         <>
-            <div class="grid grid-rows-2 grid-flow-col gap-4">
-                <div class="row-span-2 p-2">
+            <div className="max-w-screen-2xl items-center mx-auto pt-10 grid grid-rows-2 grid-flow-col gap-4">
+                <div className="row-span-2 p-2">
                     <img alt={params.state.title} className="w-[550px] h-[550px]" style={{ borderRadius: 10 }} src={params.state.img} />
                 </div>
-                <div class="row-span-2 col-span-4 justify-start p-4">
+                <div className="row-span-2 col-span-4 justify-start p-4">
                     <div className="w-[50px] p-1 text-center" style={{ background: "#FABF2C33", borderRadius: 4 }}>
                         <div className="text-sm font-semibold textYellow">
                             Free
@@ -94,7 +94,7 @@ export default function ReportDetail() {
                     </div>
                 </div>
             </div>
-            <div className="w-full text-center p-10" style={{ borderRadius: 20, marginBottom: -70, background: "linear-gradient(to right, #ada996, #f2f2f2, #dbdbdb, #eaeaea)" }}>
+            <div className="w-full text-center p-10 my-10" style={{ borderRadius: 20, marginBottom: -70, background: "linear-gradient(to right, #ada996, #f2f2f2, #dbdbdb, #eaeaea)" }}>
                 <div className="text-base font-bold">
                     Cung cấp nghiên cứu trên thị trường tài chính
                 </div>

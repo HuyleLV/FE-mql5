@@ -5,7 +5,6 @@ import UserDetail from "../page/admin/users/detail";
 import ProductsDashboard from "../page/admin/products";
 import ProductsDetail from "../page/admin/products/detail";
 import CommentsDashboard from "../page/admin/comments";
-import PaymentsDashboard from "../page/admin/payments";
 import CategoriesDashboard from "../page/admin/categories";
 import CategoriesDetail from "../page/admin/categories/detail";
 import CategoryChildDashboard from "../page/admin/categoryChild";
