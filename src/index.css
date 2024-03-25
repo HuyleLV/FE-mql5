@@ -26,6 +26,10 @@
   color: #828282;
 }
 
+.textGreen {
+  color: var(--green);
+}
+
 /* width & height */
 .w-h3t {
   height: 200px;

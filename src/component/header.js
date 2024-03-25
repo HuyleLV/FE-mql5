@@ -1,22 +1,41 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useCookies } from "react-cookie";
-import { Image, Dropdown, Space, Select, message } from "antd";
+import { Image, Dropdown, Space, Select, message, Divider, Button } from "antd";
 import { useDevice } from "../hooks";
 import { DownOutlined } from "@ant-design/icons";
 import logo from "../component/image/logo_white.png"
 import axios from "axios";
 import moment from "moment";
+import { BsFillPatchCheckFill } from "react-icons/bs";
+import { BiSolidErrorCircle } from "react-icons/bi";
+import { Dialog, DialogBody } from "@material-tailwind/react";
+import AccuracyKYC from "./AccuracyKYC";
 
 export default function Header() {
   const { isMobile } = useDevice();
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
+  const [time, setTime] = useState();
 
-  const dateTime = Date();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(!open);
+
+  const loadData = () => {
+    const dateTime = Date();
+    setTime(dateTime)
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadData();
+    }, 1000)
+    return () => clearInterval(interval)
+  }, []);
 
   const getUser = async () => {
     await axios
@@ -39,12 +58,39 @@ export default function Header() {
   }
 
   useEffect(() => {
-    if(cookiesToken.accessToken !== undefined){
+    if (cookiesToken.accessToken !== undefined) {
       getUser();
     }
   }, [cookiesToken]);
 
   const items = [
+    {
+      key: "avatar",
+      label: (
+        <div
+          className="flex items-center"
+          style={{ flexDirection: 'row', gap: 10, borderBottomWidth: 1, paddingBottom: 4 }}
+        >
+          <Image
+            preview={false}
+            src={cookies.user?.photos}
+            width={35}
+            height={35}
+          />
+          <div style={{ flexDirection: 'column' }}>
+
+            {cookies.user?.account_balance != null
+              ? <BsFillPatchCheckFill color="#74DC2E" size={20} />
+              : <div className="flex items-center " style={{ flexDirection: 'row' }}>
+                <BiSolidErrorCircle color="#E72929" size={20} />
+                <Button onClick={handleOpen} type="primary" className="mx-2"><p className="font-semibold text-sm textWhite">Xác thực ngay</p>
+                </Button>
+              </div>}
+            <span className="text-sm font-semibold light-gray">{cookies.user?.email}</span>
+          </div>
+        </div>
+      ),
+    },
     {
       key: "profile",
       label: (
@@ -52,12 +98,55 @@ export default function Header() {
           <div
             className="flex items-center"
           >
-            <FontAwesomeIcon
-              icon={icon({ name: "user" })}
-              className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
-              style={{ color: "rgb(250 204 21 )" }}
-            />
-            <span className="cursor-pointer">Profile</span>
+            <span className="cursor-pointer">Thông tin tài khoản</span>
+          </div>
+        </Link>
+      ),
+    },
+    {
+      key: "content",
+      label: (
+        <Link to={'/profile'}>
+          <div
+            className="flex items-center"
+          >
+            <span className="cursor-pointer">Quản lý nội dung</span>
+          </div>
+        </Link>
+      ),
+    },
+    {
+      key: "change",
+      label: (
+        <Link to={'/profile'}>
+          <div
+            className="flex items-center"
+          >
+            <span className="cursor-pointer">Đổi mật khẩu</span>
+          </div>
+        </Link>
+      ),
+    },
+    {
+      key: "depositOrWithdraw",
+      label: (
+        <Link to={'/profile'}>
+          <div
+            className="flex items-center"
+          >
+            <span className="cursor-pointer">Nạp tiền/ Rút tiền </span>
+          </div>
+        </Link>
+      ),
+    },
+    {
+      key: "history",
+      label: (
+        <Link to={'/profile'}>
+          <div
+            className="flex items-center"
+          >
+            <span className="cursor-pointer">Lịch sử thanh toán</span>
           </div>
         </Link>
       ),
@@ -69,13 +158,13 @@ export default function Header() {
           className="flex items-center"
           onClick={() => logout()}
         >
-          <FontAwesomeIcon
+          {/* <FontAwesomeIcon
             icon={icon({ name: "sign-out" })}
             className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
             style={{ color: "rgb(250 204 21 )" }}
-          />
-          
-          <span className="cursor-pointer">Logout</span>
+          /> */}
+
+          <span className="cursor-pointer">Thoát</span>
         </div>
       ),
     },
@@ -90,49 +179,49 @@ export default function Header() {
               <img src={logo} className="h-[100px] pl-4" alt="Flowbite Logo" />
             </a>
 
-            {isMobile ? 
+            {isMobile ?
               <div className="flex text-black font-semibold">
-                  <Dropdown 
-                    className="flex justify-center px-2 mt-2 pb-2 pt-1 rounded-t-lg bg-[#edbd37]" 
-                    dropdownRender={()=> (
-                      <div className="bg-white border rounded-md pr-2">
-                        <ul className="flex flex-col font-normal px-4 md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
-                          <li className="hover:bg-yellow-400 hover:text-black p-1">
-                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                              <p className="text-black text-lg">Forum</p>
-                            </Link>
-                          </li>
-                          <li className="hover:bg-yellow-400 hover:text-black p-1">
-                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                              <p className="text-black text-lg">Market</p>
-                            </Link>
-                          </li>
-                          <li className="hover:bg-yellow-400 hover:text-black p-1">
-                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                              <p className="text-black text-lg">Signals</p>
-                            </Link>
-                          </li>
-                          <li className="hover:bg-yellow-400 hover:text-black p-1">
-                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                              <p className="text-black text-lg">Freelance</p>
-                            </Link>
-                          </li>
-                          <li className="hover:bg-yellow-400 hover:text-black p-1">
-                            <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                              <p className="text-black text-lg">Quotes</p>
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-                    trigger={['click']}>
-                    <Space>
-                      Market
-                      <DownOutlined className="w-3"/>
-                    </Space>
-                  </Dropdown>
+                <Dropdown
+                  className="flex justify-center px-2 mt-2 pb-2 pt-1 rounded-t-lg bg-[#edbd37]"
+                  dropdownRender={() => (
+                    <div className="bg-white border rounded-md pr-2">
+                      <ul className="flex flex-col font-normal px-4 md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
+                        <li className="hover:bg-yellow-400 hover:text-black p-1">
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Forum</p>
+                          </Link>
+                        </li>
+                        <li className="hover:bg-yellow-400 hover:text-black p-1">
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Market</p>
+                          </Link>
+                        </li>
+                        <li className="hover:bg-yellow-400 hover:text-black p-1">
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Signals</p>
+                          </Link>
+                        </li>
+                        <li className="hover:bg-yellow-400 hover:text-black p-1">
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Freelance</p>
+                          </Link>
+                        </li>
+                        <li className="hover:bg-yellow-400 hover:text-black p-1">
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Quotes</p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                  trigger={['click']}>
+                  <Space>
+                    Market
+                    <DownOutlined className="w-3" />
+                  </Space>
+                </Dropdown>
               </div>
-            : 
+              :
               <>
                 <div
                   className={`hidden w-full md:block md:w-auto`}
@@ -168,10 +257,10 @@ export default function Header() {
                   )}
                 </div>
               </>
-          }
+            }
           </div>
         </div>
-        
+
         {!cookies?.user && (
           <div className="flex justify-center items-center">
             <p className="text-4xl font-bold text-white p-3 px-10">
@@ -204,7 +293,7 @@ export default function Header() {
               <div className="flex items-center">
                 <div style={{ marginRight: 10, padding: 4, paddingLeft: 6, paddingRight: 6, background: "rgba(255,255,255,0.3)", borderRadius: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <div className="text-sm font-semibold">
-                  {moment(dateTime).format("HH:mm:ss DD-MM-YYYY")}
+                    {moment(time).format("HH:mm:ss DD-MM-YYYY")}
                   </div>
                 </div>
                 <Dropdown placement="bottomRight" menu={{ items }}>
@@ -234,6 +323,11 @@ export default function Header() {
             </>
           )}
         </div>
+        <Dialog open={open} handler={handleOpen} style={{ background: "#00000099", position: 'relative' }} >
+          <DialogBody style={{ width: "100%", display: 'flex', justifyContent: 'center', alignItems: "center" }}>
+            <AccuracyKYC handleOpen={handleOpen} />
+          </DialogBody>
+        </Dialog>
       </div>
     </nav>
   );
