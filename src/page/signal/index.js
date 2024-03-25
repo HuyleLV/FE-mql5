@@ -9,6 +9,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SearchProps from "../../component/SearchProps";
 import icon_master from "../../component/image/icon/icon_market.svg"
 import { CheckOutlined } from "@ant-design/icons";
+import logo from "../../component/image/logo.png"
+import flag_england from "../../component/image/flag_england.png"
 
 export default function SignalPage() {
   const [cookies] = useCookies(["user"]);
@@ -344,16 +346,16 @@ export default function SignalPage() {
         <Row justify={"center"} align={"middle"}>
             <Col xs={24} xl={10}>
                 <div className="flex border-b-2 border-r-2 p-2 h-[200px]">
-                    <Image
-                        preview={false}
-                        src={profile?.photos}
-                        width={150}
-                        height={150}
-                    />
-                    <div className="text-[26px] font-medium pl-5">
-                        <p>{profile?.displayName}</p>
-                        <p>{profile?.email}</p>
-                    </div>
+                  <Image
+                    preview={false}
+                    src={profile?.photos}
+                    width={150}
+                    height={150}
+                  />
+                  <div className="text-[26px] font-medium pl-5">
+                    <p>{profile?.displayName}</p>
+                    <p>{profile?.email}</p>
+                  </div>
                 </div>
             </Col>
             <Col xs={24} xl={14}>
@@ -587,11 +589,11 @@ export default function SignalPage() {
 
             }
         </Row>
-        <div className="py-10 border-y mt-10">
-          <h1 className="font-bold text-xl py-5">Top Masters</h1>
+        <div className="pt-10 border-y-2 mt-10">
+          <h1 className="font-bold text-2xl py-5">Top Masters</h1>
           <Row className="py-2">
             {topMaster.map((_, i) => (
-              <Col xs={24} xl={8}>
+              <Col xs={24} xl={8} className="mb-10">
                 <div className="border rounded mx-10 p-5">
                   <p className="font-semibold text-lg text-center pb-5">Rank: {_?.rank}</p>
                   <div className="flex items-center justify-center border-y py-5">
@@ -614,6 +616,113 @@ export default function SignalPage() {
                 </div>
               </Col>
             ))}
+          </Row>
+        </div>
+        <div className="pt-10">
+          <h1 className="font-bold text-2xl py-5">Top Signals</h1>
+          <Row className="py-2">
+            <Col xs={24} xl={8} className="px-2">
+              <div className="border-t-4 border border-x-slate-500 border-t-red-500">
+                <div className="flex justify-between px-10 pt-5">
+                  <div className="flex items-center">
+                    <p className="bg-red-500 font-semibold text-white text-xl w-min py-1 px-2 rounded-lg">
+                      SELL
+                    </p>
+                    <p className="pl-2 font-semibold text-black text-xl">EUR/GBP</p>
+                  </div>
+                  <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
+                </div>
+                <p className="texl-lg font-semibold text-gray-600 py-2 px-10">ID: 1231233</p>  
+              </div>
+              <div className="w-full border border-slate-500 px-10 py-5 relative">
+                <div className="flex justify-center opacity-10">
+                  <img src={logo} className="h-[150px]" alt="Logo" />
+                </div>
+                <div className="absolute top-10 left-10">
+                  <div className="flex justify-between items-center">
+                    <div className="text-xl font-bold">
+                      <p>Entry: 121233</p>
+                      <p className="py-2">Take Profit: 121233</p>
+                      <p>Stop loss: 121233</p>
+                    </div>
+                    <div className="ml-20">
+                      <div className="flex justify-center">
+                        <img src={flag_england} className="w-[50px] h-[50px]"/>
+                      </div>
+                      <p className="font-medium texl-lg pt-2">20/12/2024</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col xs={24} xl={8} className="px-2">
+              <div className="border-t-4 border border-x-slate-500 border-t-green-500">
+                <div className="flex justify-between px-10 pt-5">
+                  <div className="flex items-center">
+                    <p className="bg-green-500 font-semibold text-white text-xl w-min py-1 px-2 rounded-lg">
+                      BUY
+                    </p>
+                    <p className="pl-2 font-semibold text-black text-xl">EUR/GBP</p>
+                  </div>
+                  <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
+                </div>
+                <p className="texl-lg font-semibold text-gray-600 py-2 px-10">ID: 1231233</p>  
+              </div>
+              <div className="w-full border border-slate-500 px-10 py-5 relative">
+                <div className="flex justify-center opacity-10">
+                  <img src={logo} className="h-[150px]" alt="Logo" />
+                </div>
+                <div className="absolute top-10 left-10">
+                  <div className="flex justify-between items-center">
+                    <div className="text-xl font-bold">
+                      <p>Entry: 121233</p>
+                      <p className="py-2">Take Profit: 121233</p>
+                      <p>Stop loss: 121233</p>
+                    </div>
+                    <div className="ml-20">
+                      <div className="flex justify-center">
+                        <img src={flag_england} className="w-[50px] h-[50px]"/>
+                      </div>
+                      <p className="font-medium texl-lg pt-2">20/12/2024</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col xs={24} xl={8} className="px-2">
+              <div className="border-t-4 border border-x-slate-500 border-t-red-500">
+                <div className="flex justify-between px-10 pt-5">
+                  <div className="flex items-center">
+                    <p className="bg-red-500 font-semibold text-white text-xl w-min py-1 px-2 rounded-lg">
+                      SELL
+                    </p>
+                    <p className="pl-2 font-semibold text-black text-xl">EUR/GBP</p>
+                  </div>
+                  <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
+                </div>
+                <p className="texl-lg font-semibold text-gray-600 py-2 px-10">ID: 1231233</p>  
+              </div>
+              <div className="w-full border border-slate-500 px-10 py-5 relative">
+                <div className="flex justify-center opacity-10">
+                  <img src={logo} className="h-[150px]" alt="Logo" />
+                </div>
+                <div className="absolute top-10 left-10">
+                  <div className="flex items-center">
+                    <div className="text-xl font-bold">
+                      <p>Entry: 121233</p>
+                      <p className="py-2">Take Profit: 121233</p>
+                      <p>Stop loss: 121233</p>
+                    </div>
+                    <div className="ml-20">
+                      <div className="flex justify-center">
+                        <img src={flag_england} className="w-[50px] h-[50px]"/>
+                      </div>
+                      <p className="font-medium texl-lg pt-2">20/12/2024</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
           </Row>
         </div>
     </div>

@@ -36,7 +36,7 @@ export default function Wallet() {
 
     const fetchTransfer = async () => {
       await axios
-        .get(`${process.env.REACT_APP_API_URL}/transfer/getByIdUser/${cookies.user?.user_id}`, {params:pagination})
+        .get(`${process.env.REACT_APP_API_URL}/transfer/getByIdUser/${cookies.user?.user_id}`, {params: pagination})
         .then(( res ) => {
           const data = res?.data;
           setTransfer(data);
@@ -45,7 +45,7 @@ export default function Wallet() {
 
     const fetchTransferProduct = async () => {
       await axios
-        .get(`${process.env.REACT_APP_API_URL}/transferProduct/getByIdUser/${cookies.user?.user_id}`, {params:pagination})
+        .get(`${process.env.REACT_APP_API_URL}/transferProduct/getByIdUser/${cookies.user?.user_id}`, {params: paginationProduct})
         .then(( res ) => {
           const data = res?.data;
           setTransferProduct(data);
@@ -344,7 +344,7 @@ export default function Wallet() {
                 <Col xs={24} xl={12} className="bg-gray-100 p-5">
                   <p className="font-semibold text-lg text-center">Thông tin đơn hàng</p>
                   <p className="flex px-5 pt-5 text-lg">
-                    Nội dung CK:{" "}
+                    Nội dung CK:
                     <Paragraph copyable={{ text: cookies?.user?.displayName + " chuyen tien", tooltips: false }}>
                         <span className="font-semibold text-xl pl-5">{cookies?.user?.displayName} chuyen tien</span>
                     </Paragraph>
