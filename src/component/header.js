@@ -140,6 +140,11 @@ export default function Header() {
                   {cookies?.user && (
                     <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0 h-full items-center text-2xl">
                       <li className="px-4">
+                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/san-pham"}>
+                          Sản phẩm
+                        </Link>
+                      </li>
+                      <li className="px-4">
                         <Link className="block md:p-0 md:hover:text-blue-400" to={"/signal"}>
                           Signals
                         </Link>

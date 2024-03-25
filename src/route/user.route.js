@@ -18,12 +18,14 @@ import Wallet from "../page/wallet";
 import HomeDetail from "../page/home/detail";
 import SignalPage from "../page/signal";
 import ReportDetail from "../page/home/ReportDetail";
+import Product from "../page/product";
 
 export default function User () {
     return (
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home-detail" element={<HomeDetail />} />
+        <Route path="/san-pham" element={<Product />} />
         <Route path="/signal" element={<SignalPage />} />
         <Route path="/market" element={<Market />} />
         <Route path="/nhan-dinh" element={<Identify />} />
