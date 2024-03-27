@@ -19,7 +19,7 @@ export default function CustomeSider() {
 
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
-  
+
 
   const menuItem = [
     {
@@ -118,26 +118,20 @@ export default function CustomeSider() {
     {
       key: "logout",
       icon: <LogoutOutlined />,
-      label: <Link to={"/loginAdmin"} onClick={()=>removeCookie("admin")}>Thoát</Link>,
+      label: <Link to={"/loginAdmin"} onClick={() => removeCookie("admin")}>Thoát</Link>,
     },
   ];
 
-  useEffect(() => {
-    if(cookies?.admin?.role !== 2) {
-      navigate("/loginAdmin");
-    }
-  }, [cookies?.admin?.role]);
-  
   return (
     <div className="!bg-white">
       <Sider width={220} className="!w-full !bg-white">
         <div className="flex justify-center py-5">
           <Image
-              preview={false}
-              src={logo}
-              width={60}
-              height={40}
-            />
+            preview={false}
+            src={logo}
+            width={60}
+            height={40}
+          />
         </div>
         <div className="flex items-center px-5 border">
           <Image

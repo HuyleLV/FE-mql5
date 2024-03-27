@@ -13,6 +13,9 @@ import { BsFillPatchCheckFill } from "react-icons/bs";
 import { BiSolidErrorCircle } from "react-icons/bi";
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import AccuracyKYC from "./AccuracyKYC";
+import { io } from "socket.io-client";
+import { IoIosNotifications } from "react-icons/io";
+import NotificationHeader from "./NotificationHeader";
 
 export default function Header() {
   const { isMobile } = useDevice();
@@ -20,6 +23,8 @@ export default function Header() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
   const [time, setTime] = useState();
+  const [socket, setSocket] = useState(null);
+  const [notifications, setNotifications] = useState([]);
 
   const [open, setOpen] = useState(false);
 
@@ -31,11 +36,43 @@ export default function Header() {
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      loadData();
-    }, 1000)
-    return () => clearInterval(interval)
+    // const interval = setInterval(() => {
+    //   loadData();
+    // }, 1000)
+    // return () => clearInterval(interval)
+
+    loadData();
   }, []);
+
+  const onCheckOnline = async (values) => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/user/updateOnline/${cookies.user?.user_id}`, {
+        "Check_online": values
+      }
+      )
+      .finally(() => {
+        message.success("Cập nhật thông tin thành công !");
+      });
+  };
+
+  useEffect(() => {
+    cookies?.user && onCheckOnline(1)
+  }, [cookies])
+
+  useEffect(() => {
+    cookies?.user && setSocket(io("http://localhost:5000"));
+  }, [cookies])
+
+  useEffect(() => {
+    socket?.emit("newUser", cookies.user?.user_id)
+  }, [socket])
+
+  useEffect(() => {
+    cookies?.user && socket?.on("getNotification", (data) => {
+      setNotifications((prev) => [...prev, data]);
+    });
+  }, [socket])
 
   const getUser = async () => {
     await axios
@@ -50,7 +87,8 @@ export default function Header() {
       .catch(() => message.error("Error server!"));
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await onCheckOnline(0);
     removeCookie("user");
     removeCookieToken("accessToken");
     message.success("Đăng xuất thành công!")
@@ -158,12 +196,6 @@ export default function Header() {
           className="flex items-center"
           onClick={() => logout()}
         >
-          {/* <FontAwesomeIcon
-            icon={icon({ name: "sign-out" })}
-            className="w-[18px] h-[18px] mr-[4px] cursor-pointer"
-            style={{ color: "rgb(250 204 21 )" }}
-          /> */}
-
           <span className="cursor-pointer">Thoát</span>
         </div>
       ),
@@ -301,6 +333,12 @@ export default function Header() {
                     {moment(time).format("HH:mm:ss DD-MM-YYYY")}
                   </div>
                 </div>
+
+                {notifications.length < 1
+                  ? <IoIosNotifications size={30} style={{ marginRight: 2 }} />
+                  : <NotificationHeader notifications={notifications} length={notifications.length} setNotifications={setNotifications} />
+                }
+
                 <Dropdown placement="bottomRight" menu={{ items }}>
                   {
                     isMobile ? (
@@ -321,9 +359,9 @@ export default function Header() {
                   }
                 </Dropdown>
 
-                <div className="text-xl ml-[10px] font-bold">
+                {/* <div className="text-xl ml-[10px] font-bold">
                   {cookies.user?.displayName}
-                </div>
+                </div> */}
               </div>
             </>
           )}

@@ -89,7 +89,7 @@ export default function UsersDashboard() {
       },
     },
     {
-      title: <div className={"base-table-cell-label"}>Vài trò</div>,
+      title: <div className={"base-table-cell-label"}>Vai trò</div>,
       key: "role",
       dataIndex: "role",
       width: 280,
