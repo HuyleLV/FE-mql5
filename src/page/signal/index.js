@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination, message, Tabs, Select } from "antd";
+import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination, message, Tabs, Select, Dropdown } from "antd";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import dayjsInstance from "../../utils/dayjs";
@@ -8,7 +8,7 @@ import TabPane from "antd/es/tabs/TabPane";
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchProps from "../../component/SearchProps";
 import icon_master from "../../component/image/icon/icon_market.svg"
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, FilterOutlined, SmileOutlined } from "@ant-design/icons";
 import logo from "../../component/image/logo.png"
 import flag_england from "../../component/image/flag_england.png"
 
@@ -352,18 +352,34 @@ export default function SignalPage() {
                     width={150}
                     height={150}
                   />
-                  <div className="text-[26px] font-medium pl-5">
-                    <p>{profile?.displayName}</p>
-                    <p>{profile?.email}</p>
+                  <div className="pl-5">
+                    <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{profile?.displayName}</span></p>
+                    <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{profile?.email}</span></p>
+                    <p className="text-[20px] font-none">My master Key: <span className="text-[22px] font-medium">{masterKey?.master_key}</span></p>
+                    <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{masterKey?.private_key}</span></p>
                   </div>
                 </div>
             </Col>
             <Col xs={24} xl={14}>
               <div className="border-b-2 p-2 pl-5 text-black h-[200px]">
-                <p className="text-xl font-bold pb-5">Thống kê giao dịch</p>
+                <div className="flex justify-between">
+                  <p className="text-xl font-bold pb-5">Thống kê giao dịch</p>
+                  <Dropdown
+                    trigger={['click']}
+                    dropdownRender={(menu) => (
+                      <div className="shadow-lg w-full p-5 rounded-xl bg-white">
+                        <p className="py-1 text-lg border-b">Chiến dịch 1</p>
+                        <p className="py-1 text-lg border-b">Chiến dịch 1</p>
+                        <p className="py-1 text-lg border-b">Chiến dịch 1</p>
+                      </div>
+                    )}
+                  >
+                    <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full">Lựa chọn chiến dịch <FilterOutlined /></button>
+                  </Dropdown>
+                </div>
                 <div className="text-lg font-semibold">
-                  <p>Tổng signal: {totalSignal?.total}</p>
-                  <p>Win / Lost: {totalSignal?.win} / {totalSignal?.loss}</p>
+                  <p>Tổng signal: {totalSignal?.total ? totalSignal?.total : 0}</p>
+                  <p>Win / Lost: {totalSignal?.win ? totalSignal?.win : 0} / {totalSignal?.loss ? totalSignal?.loss : 0}</p>
                   <p>Win Rate: { 
                     isNaN(totalSignal?.win / (totalSignal?.win + totalSignal?.loss)) ? 0
                       : totalSignal?.win / (totalSignal?.win + totalSignal?.loss) 
@@ -382,10 +398,6 @@ export default function SignalPage() {
                     xs={24}
                     className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
                 >
-                <div className="flex justify-center py-2">
-                    <p className="text-center font-semibold mx-5 p-4 bg-blue-100 text-xl">My master Key: {masterKey?.master_key}</p>
-                    <p className="text-center font-semibold mx-5 p-4 bg-blue-100 text-xl">My private key: {masterKey?.private_key}</p>
-                </div>
                 <Tabs type="card">
                     <TabPane tab="Quản lý Follower" key="1">
                     <div className="w-full h-full mt-5 pb-2 relative">
@@ -594,8 +606,8 @@ export default function SignalPage() {
           <Row className="py-2">
             {topMaster.map((_, i) => (
               <Col xs={24} xl={8} className="mb-10">
-                <div className="border rounded mx-10 p-5">
-                  <p className="font-semibold text-lg text-center pb-5">Rank: {_?.rank}</p>
+                <div className="border rounded mx-10 p-5 shadow">
+                  <p className="font-semibold text-xl text-center pb-5">Rank: {_?.rank}</p>
                   <div className="flex items-center justify-center border-y py-5">
                     <img 
                       src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
@@ -612,6 +624,11 @@ export default function SignalPage() {
                     <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? _?.results[0]?.win : 0}</span></p>
                     <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? _?.results[0]?.loss : 0}</span></p>
                     <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? _?.results[0]?.total_profit : 0}</span></p>
+                  </div>
+                  <div className="flex justify-center py-2">
+                    <button className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
+                      Chi tiết
+                    </button>
                   </div>
                 </div>
               </Col>
