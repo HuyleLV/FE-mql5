@@ -28,6 +28,7 @@ import ShortDashboard from "../page/admin/short";
 import ShortDetail from "../page/admin/short/detail";
 import ReportDashboard from "../page/admin/report";
 import ReportDetail from "../page/admin/report/detail";
+import SignalDashboard from "../page/admin/signal";
 
 export default function AdminRouter () {
     return (
@@ -37,6 +38,7 @@ export default function AdminRouter () {
         <Route path="/admin/users/:id" element={<UserDetail />} />
         <Route path="/admin/products" element={<ProductsDashboard />} />
         <Route path="/admin/products/:id" element={<ProductsDetail />} />
+        <Route path="/admin/signal" element={<SignalDashboard />} />
         <Route path="/admin/categories" element={<CategoriesDashboard />} />
         <Route path="/admin/categories/:id" element={<CategoriesDetail />} />
         <Route path="/admin/categoryChild" element={<CategoryChildDashboard />} />

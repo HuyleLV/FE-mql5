@@ -91,6 +91,11 @@ export default function CustomeSider() {
       label: <Link to={"/admin/licenses"}>Quản lý license</Link>,
     },
     {
+      key: "signal",
+      icon: <UserOutlined />,
+      label: <Link to={"/admin/signal"}>Quản lý signal</Link>,
+    },
+    {
       key: "master",
       icon: <UserOutlined />,
       label: <Link to={"/admin/master"}>Quản lý master</Link>,

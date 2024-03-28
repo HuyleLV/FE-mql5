@@ -21,6 +21,8 @@ export default function SignalPage() {
   const [masterKey, setMasterKey] = useState([])
   const [topMaster, setTopMaster] = useState([])
   const [follower, setFollower] = useState([])
+  const [signalHot, setSignalHot] = useState([])
+  
   const [pagination, setPagination] = useState({
     page: 1,
     pageSize: 8,
@@ -57,6 +59,19 @@ export default function SignalPage() {
       .then(( res ) => {
         const data = res?.data;
         setSignal(data);
+      });
+  };
+
+  const getAllHot = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/signalHot/getAllHot`)
+      .catch(function (error) {
+        message.error(error.response.status);
+      })
+      .then(( res ) => {
+        const data = res?.data;
+        console.log(data);
+        setSignalHot(data);
       });
   };
 
@@ -150,6 +165,7 @@ export default function SignalPage() {
   useEffect(() => { 
     checkMasterKey();
     getTopMaster();
+    getAllHot();
     if(masterKey?.master_key) {
       getSignal();
       getFollowerbyMasterKey();
@@ -638,108 +654,42 @@ export default function SignalPage() {
         <div className="pt-10">
           <h1 className="font-bold text-2xl py-5">Top Signals</h1>
           <Row className="py-2">
-            <Col xs={24} xl={8} className="px-2">
-              <div className="border-t-4 border border-x-slate-500 border-t-red-500">
-                <div className="flex justify-between px-10 pt-5">
-                  <div className="flex items-center">
-                    <p className="bg-red-500 font-semibold text-white text-xl w-min py-1 px-2 rounded-lg">
-                      SELL
-                    </p>
-                    <p className="pl-2 font-semibold text-black text-xl">EUR/GBP</p>
-                  </div>
-                  <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
-                </div>
-                <p className="texl-lg font-semibold text-gray-600 py-2 px-10">ID: 1231233</p>  
-              </div>
-              <div className="w-full border border-slate-500 px-10 py-5 relative">
-                <div className="flex justify-center opacity-10">
-                  <img src={logo} className="h-[150px]" alt="Logo" />
-                </div>
-                <div className="absolute top-10 left-10">
-                  <div className="flex justify-between items-center">
-                    <div className="text-xl font-bold">
-                      <p>Entry: 121233</p>
-                      <p className="py-2">Take Profit: 121233</p>
-                      <p>Stop loss: 121233</p>
+            {signalHot?.map((_, i) => (
+              <Col xs={24} xl={8} className="px-2 pb-5">
+                <div className={`border-t-4 border border-x-slate-500 ${_?.type === "sell" ? "border-t-red-500" : "border-t-green-500"}`}>
+                  <div className="flex justify-between px-10 pt-5">
+                    <div className="flex items-center">
+                      <p className={`${_?.type === "sell" ? "bg-red-500" : "bg-green-500"} font-semibold text-white text-xl w-min py-1 px-2 rounded-lg`}>
+                        {_?.type}
+                      </p>
+                      <p className="pl-2 font-semibold text-black text-xl">EUR/GBP</p>
                     </div>
-                    <div className="ml-20">
-                      <div className="flex justify-center">
-                        <img src={flag_england} className="w-[50px] h-[50px]"/>
+                    <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
+                  </div>
+                  <p className="texl-lg font-semibold text-gray-600 py-2 px-10">ID: {_?.ticket}</p>  
+                </div>
+                <div className="w-full border border-slate-500 px-10 py-5 relative">
+                  <div className="flex justify-center opacity-10">
+                    <img src={logo} className="h-[150px]" alt="Logo" />
+                  </div>
+                  <div className="absolute top-10 left-10">
+                    <div className="flex justify-between items-center">
+                      <div className="text-xl font-bold">
+                        <p>Entry: 121233</p>
+                        <p className="py-2">Take Profit: {_?.take_profit}</p>
+                        <p>Stop loss: {_?.stop_loss}</p>
                       </div>
-                      <p className="font-medium texl-lg pt-2">20/12/2024</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col xs={24} xl={8} className="px-2">
-              <div className="border-t-4 border border-x-slate-500 border-t-green-500">
-                <div className="flex justify-between px-10 pt-5">
-                  <div className="flex items-center">
-                    <p className="bg-green-500 font-semibold text-white text-xl w-min py-1 px-2 rounded-lg">
-                      BUY
-                    </p>
-                    <p className="pl-2 font-semibold text-black text-xl">EUR/GBP</p>
-                  </div>
-                  <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
-                </div>
-                <p className="texl-lg font-semibold text-gray-600 py-2 px-10">ID: 1231233</p>  
-              </div>
-              <div className="w-full border border-slate-500 px-10 py-5 relative">
-                <div className="flex justify-center opacity-10">
-                  <img src={logo} className="h-[150px]" alt="Logo" />
-                </div>
-                <div className="absolute top-10 left-10">
-                  <div className="flex justify-between items-center">
-                    <div className="text-xl font-bold">
-                      <p>Entry: 121233</p>
-                      <p className="py-2">Take Profit: 121233</p>
-                      <p>Stop loss: 121233</p>
-                    </div>
-                    <div className="ml-20">
-                      <div className="flex justify-center">
-                        <img src={flag_england} className="w-[50px] h-[50px]"/>
+                      <div className="ml-20">
+                        <div className="flex justify-center">
+                          <img src={flag_england} className="w-[50px] h-[50px]"/>
+                        </div>
+                        <p className="font-medium texl-lg pt-2">{dayjsInstance(_?.open_time).format("DD/MM/YYYY")}</p>
                       </div>
-                      <p className="font-medium texl-lg pt-2">20/12/2024</p>
                     </div>
                   </div>
                 </div>
-              </div>
-            </Col>
-            <Col xs={24} xl={8} className="px-2">
-              <div className="border-t-4 border border-x-slate-500 border-t-red-500">
-                <div className="flex justify-between px-10 pt-5">
-                  <div className="flex items-center">
-                    <p className="bg-red-500 font-semibold text-white text-xl w-min py-1 px-2 rounded-lg">
-                      SELL
-                    </p>
-                    <p className="pl-2 font-semibold text-black text-xl">EUR/GBP</p>
-                  </div>
-                  <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
-                </div>
-                <p className="texl-lg font-semibold text-gray-600 py-2 px-10">ID: 1231233</p>  
-              </div>
-              <div className="w-full border border-slate-500 px-10 py-5 relative">
-                <div className="flex justify-center opacity-10">
-                  <img src={logo} className="h-[150px]" alt="Logo" />
-                </div>
-                <div className="absolute top-10 left-10">
-                  <div className="flex items-center">
-                    <div className="text-xl font-bold">
-                      <p>Entry: 121233</p>
-                      <p className="py-2">Take Profit: 121233</p>
-                      <p>Stop loss: 121233</p>
-                    </div>
-                    <div className="ml-20">
-                      <div className="flex justify-center">
-                        <img src={flag_england} className="w-[50px] h-[50px]"/>
-                      </div>
-                      <p className="font-medium texl-lg pt-2">20/12/2024</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Col>
+              </Col>
+            ))}
           </Row>
         </div>
     </div>
