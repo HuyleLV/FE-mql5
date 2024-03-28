@@ -44,22 +44,6 @@ export default function Header() {
     loadData();
   }, []);
 
-  const onCheckOnline = async (values) => {
-    await axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/user/updateOnline/${cookies.user?.user_id}`, {
-        "Check_online": values
-      }
-      )
-      .finally(() => {
-        message.success("Cập nhật thông tin thành công !");
-      });
-  };
-
-  useEffect(() => {
-    cookies?.user && onCheckOnline(1)
-  }, [cookies])
-
   useEffect(() => {
     cookies?.user && setSocket(io("http://localhost:5000"));
   }, [cookies])
@@ -87,8 +71,7 @@ export default function Header() {
       .catch(() => message.error("Error server!"));
   };
 
-  const logout = async () => {
-    await onCheckOnline(0);
+  const logout = () => {
     removeCookie("user");
     removeCookieToken("accessToken");
     message.success("Đăng xuất thành công!")

@@ -96,39 +96,15 @@ export default function Dashboard() {
                     >
                         {
                             [<Option value={"All"}>All</Option>,
+                            // <Option value={"Master"}>Master</Option>,
 
                             ...user?.data?.map(item => (
-                                item.Check_online === 1 && <Option value={item.user_id}>{item.displayName}</Option>
+                                <Option value={item.user_id}>{item.displayName}</Option>
                             ))
                             ]
                         }
 
                     </Select>
-
-                    {/* <Select
-                        style={{
-                            width: 200,
-                        }}
-                        onChange={handleChange}
-                        placeholder="Search to Select"
-
-                        options={[
-                            {
-                                value: "All",
-                                label: "Gửi tất cả",
-                            },
-                            // {
-                            //     value: "MASTER",
-                            //     label: "Gửi master",
-                            // },
-                            ...user?.data?.map((value) => (
-                                {
-                                    value: value.user_id,
-                                    label: value.displayName
-                                }
-                            ))
-                        ]}
-                    /> */}
                     <div class="relative w-full min-w-[200px] mt-4 mb-4">
                         <textarea
                             onChange={event => setQuery(event.target.value)}
