@@ -1,5 +1,5 @@
-import { Table, Row, Col, Button, message, Modal, Space, Select, Pagination } from "antd";
-import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Table, Row, Col, Button, message, Modal, Space, Select, Pagination, Image } from "antd";
+import { DeleteOutlined, ExclamationCircleOutlined, InfoOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -43,6 +43,43 @@ export default function UsersDashboard() {
     });
   };
 
+  const showInfo = (values) => {
+    const identification_image = JSON.parse(values?.identification_image);
+    Modal.info({
+      title: 'Thông tin người dùng',
+      width: 700,
+      content: (
+        <Row className="py-5">
+          <Col xs={24} xl={12}>
+            <p className="text-lg">Họ và tên: <b>{values?.fullname}</b></p>
+            <p className="text-lg py-2">Số điện thoại: <b>{values?.phone}</b></p>
+            <p className="text-lg">Giới tính: <b>{values?.gender}</b></p>
+            <p className="text-lg py-2">Ngày sinh: <b>{values?.birthday ? dayjsInstance(values?.birthday).format("DD/MM/YYYY") : "Chưa có ngày sinh"}</b></p>
+            <p className="text-lg">Quốc gia: <b>{values?.country ? values?.country : "Chưa có quốc gia"}</b></p>
+            <p className="text-lg py-2">Số zalo: <b>{values?.phone ? values?.phone : "Chưa có số zalo"}</b></p>
+            <p className="text-lg">Telegram: <b>{values?.telegram ? values?.telegram : "Chưa có telegram"}</b></p>
+          </Col>
+          <Col xs={24} xl={12}>
+            <p className="text-lg">
+              Loại giấy tờ: <b>{
+                values?.identification_type === 1 ? "Căn Cước Công Dân" : 
+                values?.identification_type === 2 ? "Bằng Lái Xe" : 
+                values?.identification_type === 3 ? "Hộ Chiếu" : "Chưa có"
+              }</b>
+            </p>
+            <p className="text-lg py-2">Số: <b>{values?.identification_number ? values?.identification_number : "Chưa có"}</b></p>
+            <div>
+              <p className="text-lg">Ảnh mặt trước: </p>
+              <Image src={identification_image?.identification_front} width={300}/>
+              <p className="text-lg pt-2">Ảnh mặt sau </p>
+              <Image src={identification_image?.identification_back}  width={300}/>
+            </div>
+          </Col>
+        </Row>
+      ),
+    });
+  }
+
   useEffect(() => {
     fetchUser();
   }, [pagination]);
@@ -55,6 +92,15 @@ export default function UsersDashboard() {
         message.success("Cập nhập thành công!");
       });
     
+  };
+
+  const updateUserKyc = async (value, id) => {
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/user/updateKyc/${id}`, {kyc: value})
+      .finally(() => {
+        fetchUser();
+        message.success("Cập nhập thành công!");
+      });
   };
 
   const optionRole = [
@@ -86,6 +132,37 @@ export default function UsersDashboard() {
       ...SearchProps("email"),
       render: (_, record) => {
         return <div>{record?.email}</div>;
+      },
+    },
+    {
+      title: <div className={"base-table-cell-label"}>Giới tính</div>,
+      key: "gender",
+      dataIndex: "gender",
+      width: 280,
+      render: (_, record) => {
+        return <div>{record?.gender}</div>;
+      },
+    },
+    {
+      title: <div className={"base-table-cell-label"}>KYC</div>,
+      key: "kyc",
+      dataIndex: "kyc",
+      width: 280,
+      render: (_, record) => {
+        return (
+          <div>
+            <Select
+              options={[
+                { label: 'Chưa xác thực', value: 0 },
+                { label: 'Đã xác thực', value: 1 },
+              ]}
+              className={"w-[150px]"}
+              value={record?.kyc === 1 ? "Đã xác thực" : "Chưa xác thực"}
+              defaultValue={record?.kyc === 1 ? "Đã xác thực" : "Chưa xác thực"}
+              onChange={(value) => updateUserKyc(value, record?.user_id)}
+            />
+          </div>
+        );
       },
     },
     {
@@ -138,10 +215,14 @@ export default function UsersDashboard() {
         return (
           <Space>
             <div
-              className={"text-[var(--red)]"}
+              onClick={() => showInfo(record)}
+            >
+              <InfoOutlined className="text-white text-xl rounded-full bg-sky-400 p-1 cursor-pointer" />
+            </div>
+            <div
               onClick={() => confirmDelete(record?.user_id)}
             >
-              <DeleteOutlined />
+              <DeleteOutlined className="text-white text-xl rounded-full bg-red-500 p-1 ml-1 cursor-pointer" />
             </div>
           </Space>
         );

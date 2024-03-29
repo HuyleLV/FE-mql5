@@ -100,7 +100,7 @@ export default function Header() {
           />
           <div style={{ flexDirection: 'column' }}>
 
-            {cookies.user?.account_balance != null
+            {cookies.user?.kyc != 0
               ? <BsFillPatchCheckFill color="#74DC2E" size={20} />
               : <div className="flex items-center " style={{ flexDirection: 'row' }}>
                 <BiSolidErrorCircle color="#E72929" size={20} />

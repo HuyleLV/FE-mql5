@@ -662,7 +662,7 @@ export default function SignalPage() {
                       <p className={`${_?.type === "sell" ? "bg-red-500" : "bg-green-500"} font-semibold text-white text-xl w-min py-1 px-2 rounded-lg`}>
                         {_?.type}
                       </p>
-                      <p className="pl-2 font-semibold text-black text-xl">EUR/GBP</p>
+                      <p className="pl-2 font-semibold text-black text-xl">{_?.symbol}</p>
                     </div>
                     <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
                   </div>
@@ -675,7 +675,7 @@ export default function SignalPage() {
                   <div className="absolute top-10 left-10">
                     <div className="flex justify-between items-center">
                       <div className="text-xl font-bold">
-                        <p>Entry: 121233</p>
+                        <p>Entry: {_?.price}</p>
                         <p className="py-2">Take Profit: {_?.take_profit}</p>
                         <p>Stop loss: {_?.stop_loss}</p>
                       </div>
