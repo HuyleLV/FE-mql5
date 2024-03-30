@@ -60,6 +60,8 @@ export default function NotificationHeader({ notifications, lengthSocket, length
                 key: index,
                 label: (
                     <Row
+                        id="drow-noti"
+                        className="scrollNoti"
                         onChange={index === isRead && (handleReaded(item.notification_id, item.notification_user === "-1" ? 0 : 1))}
                         style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, paddingBottom: 10, alignItems: 'center', borderBottomColor: index === length - 1 ? "#fff" : "#c0bfbf", borderBottomWidth: 1 }}
                         onClick={() => (
@@ -78,6 +80,7 @@ export default function NotificationHeader({ notifications, lengthSocket, length
 
                         {item.check_read === 0 && <GoDotFill color="#0866FF" />}
                     </Row>
+
                 ),
             }
         ))

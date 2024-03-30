@@ -93,6 +93,26 @@
   overflow: auto;
 }
 
+.ant-dropdown-menu::-webkit-scrollbar {
+  width: 2px;
+}
+
+.ant-dropdown-menu::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+ 
+/* Handle */
+.ant-dropdown-menu::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.ant-dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 .iframe-wrapper {
   display: flex;
   width: 600px;
