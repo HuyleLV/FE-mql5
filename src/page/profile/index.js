@@ -204,7 +204,7 @@ export default function ProfilePage() {
                           <Input disabled size="large" placeholder={profile?.phone} />
                         </Form.Item>
                       </Col>
-                      {cookies.user?.kyc === 0 &&
+                      {cookies.user?.kyc === 1 &&
                         <Col xs={24} xl={12}>
                           <div className="flex items-center h-full">
                             <div className="text-base font-medium">
@@ -222,7 +222,7 @@ export default function ProfilePage() {
                           <Input disabled size="large" placeholder={profile?.telegram} />
                         </Form.Item>
                       </Col>
-                      {cookies.user?.kyc === 0 &&
+                      {cookies.user?.kyc === 1 &&
                         <Col xs={24} xl={12}>
                           <div className="flex items-center h-full">
                             <div className="text-base font-medium">
