@@ -70,7 +70,22 @@ export default function ProfilePage() {
   }, [cookies]);
 
   const onSubmit = async (values) => {
-    if (values?.passwordNew === values?.comfirmPassword && values?.passwordNew !== undefined) {
+    if(values?.passwordNew?.length > 0){
+      if (values?.passwordNew === values?.comfirmPassword && values?.passwordNew !== undefined ) {
+        await axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/user/updateProfile/${profile?.user_id}`,
+            values
+          )
+          .finally(() => {
+            fetchProfile();
+            setEditProfile(false);
+            message.success("Cập nhật thông tin thành công !");
+          });
+      } else {
+        message.error("Thông tin điền bị sai hoặc thiếu!");
+      }
+    } else {
       await axios
         .post(
           `${process.env.REACT_APP_API_URL}/user/updateProfile/${profile?.user_id}`,
@@ -81,9 +96,8 @@ export default function ProfilePage() {
           setEditProfile(false);
           message.success("Cập nhật thông tin thành công !");
         });
-    } else {
-      message.error("Thông tin điền bị sai hoặc thiếu!");
     }
+
   };
 
   return (
@@ -105,7 +119,7 @@ export default function ProfilePage() {
             <div className="w-full" style={{ display: 'flex', flexDirection: "row", justifyContent: 'space-between' }}>
               <div style={{ width: "60%", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <Space className="w-full justify-center pb-4">
-                  {cookies.user?.account_balance === null &&
+                  {cookies.user?.kyc === 0 &&
                     <div className="flex items-center " style={{ flexDirection: 'column' }}>
                       <div className="flex items-center " style={{ flexDirection: 'row' }}>
                         <div className="text-base font-medium">
@@ -118,102 +132,112 @@ export default function ProfilePage() {
                     </div>}
                 </Space>
 
-                <div style={{ width: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <div style={{ width: "50%" }}>
-                    {editProfile && (
-                      <>
-                        {profile?.password !== null &&
-                          <Col xs={24} xl={8}>
-                            <Form.Item label="Password Current" name="password" className="w-[300px]">
-                              <Input
-                                disabled={!editProfile}
-                                size="large"
-                                placeholder="*********"
-                              />
-                            </Form.Item>
-                          </Col>
-                        }
-                        <Col xs={24} xl={8}>
-                          <Form.Item label="Password New" name="passwordNew" className="w-[300px]">
+                <div>
+                  {editProfile ? (
+                    <Row>
+                      {profile?.password !== null &&
+                        <Col xs={24} xl={12}>
+                          <Form.Item label="Password Current" name="password" className="w-[300px]">
                             <Input
-                              disabled={!editProfile}
                               size="large"
                               placeholder="*********"
                             />
                           </Form.Item>
                         </Col>
-                      </>
-                    )}
-                    <Col xs={24}>
-                      <Form.Item label="Tài khoản" name="username" className="w-[300px]">
-                        <Input disabled={!editProfile} size="large" placeholder={profile?.displayName} />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24}>
-                      <Form.Item label="Họ tên" name="fullname" className="w-[300px]">
-                        <Input disabled={!editProfile} size="large" placeholder={profile?.fullname} />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24}>
-                      <Form.Item label="Số dư" name="balance" className="w-[300px]">
-                        <Input disabled={!editProfile} size="large" placeholder={profile?.account_balance === null ? 0 : profile?.account_balance} />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24}>
-                      <Form.Item label="Ngày đăng ký" name="createtime" className="w-[300px]">
-                        <Input disabled={!editProfile} size="large" placeholder={moment(profile?.create_at).format("DD-MM-YYYY")} />
-                      </Form.Item>
-                    </Col>
-                  </div>
-                  <div style={{ width: "50%" }}>
-                    {editProfile && (
-                      <>
-                        <Col xs={24} xl={8}>
-                          <Form.Item label="Confirm Password" name="comfirmPassword" className="w-[300px]">
-                            <Input
-                              disabled={!editProfile}
-                              size="large"
-                              placeholder="*********"
-                            />
-                          </Form.Item>
+                      }
+                      <Col xs={24} xl={12}>
+                        <Form.Item label="Password New" name="passwordNew" className="w-[300px]">
+                          <Input
+                            size="large"
+                            placeholder="*********"
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} xl={24}>
+                        <Form.Item label="Confirm Password" name="comfirmPassword" className="w-[300px]">
+                          <Input
+                            size="large"
+                            placeholder="*********"
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} xl={12}>
+                        <Form.Item label="Số điện thoại" name="phone" className="w-[300px]">
+                          <Input size="large" placeholder={profile?.phone} />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} xl={12}>
+                        <Form.Item label="Telegram" name="telegram" className="w-[300px]">
+                          <Input size="large" placeholder={profile?.telegram} />
+                        </Form.Item>
+                      </Col>
+                    </Row>)
+                    : 
+                    <Row>
+                      <Col xs={24} xl={12}>
+                        <Form.Item label="Tài khoản" name="username" className="w-[300px]">
+                          <Input disabled size="large" placeholder={profile?.displayName} />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} xl={12}>
+                        <Form.Item label="Họ tên" name="fullname" className="w-[300px]">
+                          <Input disabled size="large" placeholder={profile?.fullname} />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} xl={12}>
+                        <Form.Item label="Số dư" name="balance" className="w-[300px]">
+                          <Input disabled size="large" placeholder={profile?.account_balance === null ? 0 : profile?.account_balance} />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} xl={12}>
+                        <Form.Item label="Ngày đăng ký" name="createtime" className="w-[300px]">
+                          <Input disabled size="large" placeholder={moment(profile?.create_at).format("DD-MM-YYYY")} />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} xl={24}>
+                        <Form.Item label="Email" name="email" className="w-[300px]">
+                          <Input disabled size="large" placeholder={profile?.email} />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} xl={12}>
+                        <Form.Item label="Số điện thoại" name="phonenumber" className="w-[300px]">
+                          <Input disabled size="large" placeholder={profile?.phone} />
+                        </Form.Item>
+                      </Col>
+                      {cookies.user?.kyc === 1 &&
+                        <Col xs={24} xl={12}>
+                          <div className="flex items-center h-full">
+                            <div className="text-base font-medium">
+                              Kết nối ZALO
+                            </div>
+                            <IoIosCheckmarkCircle color="#65B741" className="mx-2"/>
+                            <div className="text-xs font-medium" style={{ color: "#65B741" }}>
+                              Đã kết nối
+                            </div>
+                          </div>
                         </Col>
-                      </>
-                    )}
-                    <Col xs={24}>
-                      <Form.Item label="Số điện thoại" name="phonenumber" className="w-[300px]">
-                        <Input disabled={!editProfile} size="large" placeholder={profile?.phone} />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24}>
-                      <Form.Item label="Email" name="email" className="w-[300px]">
-                        <Input disabled={!editProfile} size="large" placeholder={profile?.email} />
-                      </Form.Item>
-                    </Col>
-                    <Row xs={24} style={{ gap: 10, alignItems: 'center', marginTop: 60 }}>
-                      <div className="text-base font-medium">
-                        Kết nối ZALO
-                      </div>
-                      <Row xs={24} style={{ gap: 2, alignItems: 'center' }}>
-                        <IoIosCheckmarkCircle color="#65B741" />
-                        <div className="text-xs font-medium" style={{ color: "#65B741" }}>
-                          Đã kết nối
-                        </div>
-                      </Row>
+                      }
+                      <Col xs={24} xl={12}>
+                        <Form.Item label="Telegram" name="telegram" className="w-[300px]">
+                          <Input disabled size="large" placeholder={profile?.telegram} />
+                        </Form.Item>
+                      </Col>
+                      {cookies.user?.kyc === 1 &&
+                        <Col xs={24} xl={12}>
+                          <div className="flex items-center h-full">
+                            <div className="text-base font-medium">
+                              Kết nối TELEGRAM
+                            </div>
+                            <IoIosCheckmarkCircle color="#65B741" className="mx-2"/>
+                            <div className="text-xs font-medium" style={{ color: "#65B741" }}>
+                              Đã kết nối
+                            </div>
+                          </div>
+                        </Col>
+                      }
                     </Row>
-                    <Row xs={24} style={{ gap: 10, alignItems: 'center', marginTop: 70 }}>
-                      <div className="text-base font-medium">
-                        Kết nối Telegram
-                      </div>
-                      <Row xs={24} style={{ gap: 2, alignItems: 'center' }}>
-                        <BiSolidErrorCircle color="#EF4040" />
-                        <div className="text-xs font-medium" style={{ color: "#EF4040" }}>
-                          Chưa kết nối
-                        </div>
-                      </Row>
-                    </Row>
-                  </div>
+                  }
                 </div>
-
                 <Space className="w-full justify-center pt-4">
                   <Button
                     className="w-[100px]"

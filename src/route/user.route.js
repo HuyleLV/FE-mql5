@@ -19,6 +19,7 @@ import HomeDetail from "../page/home/detail";
 import SignalPage from "../page/signal";
 import ReportDetail from "../page/home/ReportDetail";
 import Product from "../page/product";
+import MasterDetail from "../page/master/detail";
 
 export default function User () {
     return (
@@ -27,6 +28,7 @@ export default function User () {
         <Route path="/home-detail" element={<HomeDetail />} />
         <Route path="/san-pham" element={<Product />} />
         <Route path="/signal" element={<SignalPage />} />
+        <Route path="/master/:master_key" element={<MasterDetail />} />
         <Route path="/market" element={<Market />} />
         <Route path="/nhan-dinh" element={<Identify />} />
         <Route path="/tin-tuc" element={<News />} />
