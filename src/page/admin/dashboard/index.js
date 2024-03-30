@@ -1,24 +1,9 @@
-import { Button, List, message, Select } from "antd";
+import { Button, Input, List, message, Select } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-
-const data = [
-    {
-        id: 1,
-        displayName: "Aaaa"
-    },
-    {
-        id: 2,
-        displayName: "bbbb"
-    },
-    {
-        id: 3,
-        displayName: "cccAaaa"
-    }
-]
 
 export default function Dashboard() {
 
@@ -33,12 +18,19 @@ export default function Dashboard() {
     };
 
     const [query, setQuery] = useState("");
+    const [title, setTitle] = useState("");
     const [displayMessage, setDisplayMessage] = useState("");
+    const [displayMessageTitle, setDisplayMessageTitle] = useState("");
 
     useEffect(() => {
         const timeOutId = setTimeout(() => setDisplayMessage(query), 500);
         return () => clearTimeout(timeOutId);
     }, [query]);
+
+    useEffect(() => {
+        const timeOutId = setTimeout(() => setDisplayMessageTitle(title), 500);
+        return () => clearTimeout(timeOutId);
+    }, [title]);
 
     const [pagination, setPagination] = useState({
         page: 1,
@@ -67,19 +59,39 @@ export default function Dashboard() {
         socket?.emit("newUser", cookies?.admin.user_id)
     }, [socket])
 
-    const handleSend = (user_id, message) => {
-        socket?.emit("sendNotification", {
-            senderName: cookies?.admin.user_id,
+    const createTableNoti = async (user_id, title, message) => {
+        const submitValues = {
+            notification_title: title,
+            notification_description: message,
+            notification_user: user_id
+        };
+        await axios
+            .post(`${process.env.REACT_APP_API_URL}/notification/createUser`, submitValues)
+            .then(async (res) => {
+                console.log("Success!")
+            })
+            .catch(({ response }) => {
+                console.log(JSON.stringify(response?.data?.message));
+            });
+    };
+
+    const handleSend = async (user_id, title, message) => {
+        await socket?.emit("sendNotification", {
             receiverName: user_id,
+            title: title,
             message: message
-        })
+        });
+        createTableNoti(user_id, title, message)
     }
 
-    const handleSendAll = (message) => {
-        socket?.emit("sendNotificationAll", {
-            senderName: cookies?.admin.user_id,
+    const handleSendAll = async (all, title, message) => {
+        await socket?.emit("sendNotificationAll", {
+            all,
+            title: title,
             message: message
-        })
+        });
+
+        createTableNoti(all, title, message)
     }
 
     return (
@@ -88,23 +100,39 @@ export default function Dashboard() {
                 null
                 :
                 <>
-                    <Select optionFilterProp="children"
-                        filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                        filterSort={(optionA, optionB) =>
-                            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                        } onChange={handleChange} showSearch label="Select Version" className="!rounded-lg" style={{ display: 'flex', justifyContent: "start", alignItems: 'center' }}
+                    <Select
+                        filterOption={(inputValue, option) =>
+                            option.props.children
+                                .toString()
+                                .toLowerCase()
+                                .includes(inputValue.toLowerCase())
+                        }
+                        onChange={handleChange} showSearch allowClear label="Select Version" className="!rounded-lg" style={{ display: 'flex', justifyContent: "start", alignItems: 'center' }}
                     >
                         {
                             [<Option value={"All"}>All</Option>,
                             // <Option value={"Master"}>Master</Option>,
 
                             ...user?.data?.map(item => (
-                                <Option value={item.user_id}>{item.displayName}</Option>
+                                <Option value={item.user_id}>{item.user_id}</Option>
                             ))
                             ]
                         }
 
                     </Select>
+
+                    <div class="w-[auto] mt-4">
+                        <div class="relative w-full min-w-[200px] h-10">
+                            <input
+                                onChange={event => setTitle(event.target.value)}
+                                class="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
+                                placeholder=" " /><label
+                                    class="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
+                                Title
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="relative w-full min-w-[200px] mt-4 mb-4">
                         <textarea
                             onChange={event => setQuery(event.target.value)}
@@ -116,7 +144,7 @@ export default function Dashboard() {
                         </label>
                     </div>
 
-                    <Button type={"primary"} disabled={selectedItem === null && true} onClick={() => selectedItem === null ? null : selectedItem === "All" ? handleSendAll(displayMessage) : handleSend(selectedItem, displayMessage)}>
+                    <Button type={"primary"} disabled={(selectedItem === null || displayMessageTitle === null) && true} onClick={() => selectedItem === null || displayMessageTitle === null ? null : selectedItem === "All" ? handleSendAll("-1", displayMessageTitle, displayMessage) : handleSend(selectedItem, displayMessageTitle, displayMessage)}>
                         Gửi
                     </Button>
                 </>

@@ -241,7 +241,7 @@ export default function Home() {
                     />
                 </div>
 
-                <TopMaster setIsModalOpen={setIsModalOpen}/>
+                <TopMaster setIsModalOpen={setIsModalOpen} />
 
                 <JobTrade />
 

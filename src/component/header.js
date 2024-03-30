@@ -16,6 +16,7 @@ import AccuracyKYC from "./AccuracyKYC";
 import { io } from "socket.io-client";
 import { IoIosNotifications } from "react-icons/io";
 import NotificationHeader from "./NotificationHeader";
+import SearchHeader from "./SearchHeader";
 
 export default function Header() {
   const { isMobile } = useDevice();
@@ -25,6 +26,15 @@ export default function Header() {
   const [time, setTime] = useState();
   const [socket, setSocket] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  const [notificationData, setNotificationData] = useState();
+  const [saveNoti, setSaveNoti] = useState();
+  const [refresh, setRefresh] = useState(false);
+  const [checkUpdate, setCheckUpdate] = useState(false);
+
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 10,
+  });
 
   const [open, setOpen] = useState(false);
 
@@ -36,12 +46,10 @@ export default function Header() {
   }
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    //   loadData();
-    // }, 1000)
-    // return () => clearInterval(interval)
-
-    loadData();
+    const interval = setInterval(() => {
+      loadData();
+    }, 1000)
+    return () => clearInterval(interval)
   }, []);
 
   useEffect(() => {
@@ -55,8 +63,23 @@ export default function Header() {
   useEffect(() => {
     cookies?.user && socket?.on("getNotification", (data) => {
       setNotifications((prev) => [...prev, data]);
+      setCheckUpdate(!checkUpdate)
     });
-  }, [socket])
+  }, [socket, refresh])
+
+  useEffect(() => {
+    cookies?.user && getAllNotification(cookies?.user?.user_id);
+  }, [socket, refresh, checkUpdate])
+
+  const getAllNotification = async (id) => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/notification/getAllUser/${id}`)
+      .then((res) => {
+        const data = res?.data;
+        setNotificationData(data);
+      });
+  };
+
 
   const getUser = async () => {
     await axios
@@ -317,9 +340,11 @@ export default function Header() {
                   </div>
                 </div>
 
-                {notifications.length < 1
+                <SearchHeader />
+
+                {notificationData == null ? null : notificationData?.data.length < 1
                   ? <IoIosNotifications size={30} style={{ marginRight: 2 }} />
-                  : <NotificationHeader notifications={notifications} length={notifications.length} setNotifications={setNotifications} />
+                  : <NotificationHeader notifications={notificationData?.data} lengthSocket={notifications?.length} length={notificationData?.data.length} setRefresh={setRefresh} refresh={refresh} />
                 }
 
                 <Dropdown placement="bottomRight" menu={{ items }}>
