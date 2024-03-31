@@ -69,10 +69,10 @@ export default function Home() {
                                             </Link>
                                             <div
                                                 className="absolute z-[2] duration-200 info-item
-                                        top-0 left-0 w-0
-                                        bg-white p-0
-                                        pb-0 max-w-[calc(200%_+_20px)] h-full 
-                                        overflow-y-hidden transition-all"
+                                                top-0 left-0 w-0
+                                                bg-white p-0
+                                                pb-0 max-w-[calc(200%_+_20px)] h-full 
+                                                overflow-y-hidden transition-all"
                                             >
                                                 <div className="flex flex-col justify-between h-full">
                                                     <div>

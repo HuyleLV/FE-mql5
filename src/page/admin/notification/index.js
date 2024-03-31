@@ -58,7 +58,7 @@ export default function NotificationDashboard() {
           width: 150,
           render: (_, record) => 
             <div>
-                {record?.notification_user}
+              {record?.notification_user === "-1" ? "ALL" : record?.notification_user}
             </div>,
         },
         {
@@ -121,11 +121,11 @@ export default function NotificationDashboard() {
                         <div className={"text-[20px] font-medium"}>Quản lý notification</div>
                     </Col>
                     <Col>
-                        <Link to={"/admin/notification/create"}>
-                            <Button type={"primary"} onClick={() => {}}>
-                                Tạo
-                            </Button>
-                        </Link>
+                      <Link to={"/admin/notification/create"}>
+                        <Button type={"primary"} onClick={() => {}}>
+                          Tạo
+                        </Button>
+                      </Link>
                     </Col>
                 </Row>
             </div>

@@ -92,9 +92,9 @@ import ReactQuill from "react-quill";
           onFinish={onSubmit}
         >
             <Form.Item
-                label={"Tiêu đề"}
-                name="identify_title"
-                rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
+              label={"Tiêu đề"}
+              name="identify_title"
+              rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
             >
                 <Input size="large" placeholder={"Nhập"} />
             </Form.Item>

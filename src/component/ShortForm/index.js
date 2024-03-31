@@ -13,6 +13,7 @@ import {
   import { Link, useNavigate } from "react-router-dom";
   import axios from "axios";
   import { ExclamationCircleOutlined } from "@ant-design/icons";
+import CustomUpload from "../customUpload";
   
   export default function ShortForm({
     id = "",
@@ -82,11 +83,19 @@ import {
             </Form.Item>
 
             <Form.Item
-                label={"Link short"}
+                label={"ID short"}
                 name="short_link"
                 rules={[{ required: true, message: "Vui lòng nhập link!" }]}
             >
                 <Input size="large" placeholder={"Nhập"} />
+            </Form.Item>
+    
+            <Form.Item
+                name="short_image"
+                label={"Upload Image"}
+                rules={[{ required: true, message: "Vui lòng chọn file!" }]}
+            >
+                <CustomUpload type="image" accept=".png, .jpg, .jpeg, .jfif" />
             </Form.Item>
   
           <Row gutter={40} className={"my-[40px] pl-[20px]"}>

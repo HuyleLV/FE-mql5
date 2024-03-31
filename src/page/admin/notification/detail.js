@@ -1,81 +1,156 @@
-import { Form, message } from "antd";
-import { useParams, useNavigate } from "react-router-dom";
+import { Button, Input, List, message, Select } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import NotificationForm from "../../../component/NotificationForm";
+import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 
 export default function NotificationDetail() {
-  const navigate = useNavigate();
-  const [form] = Form.useForm();
-  const [initialValues, setInitialValues] = useState({});
-  const params = useParams();
-  const id = params?.id;
-  const [cookies, setCookie, removeCookie] = useCookies(['admin']);
 
-  const fetchNotification = async () => {
-    await axios
-      .get(`${process.env.REACT_APP_API_URL}/notification/getById/${params?.id}`)
-      .then((res) => {
-        const data = res?.data[0];
-        const values = {
-          ...data,
-        };
-        setInitialValues(values);
-      });
-  };
+    const [cookies, setCookie, removeCookie] = useCookies(['admin']);
+    const [user, setUser] = useState([]);
+    const [socket, setSocket] = useState(null);
+    const [selectedItem, setSelectedItem] = useState(null)
+    const { Option } = Select;
 
-  const createNotification = async (values) => {
-    await axios.post(
-      `${process.env.REACT_APP_API_URL}/notification/create`,
-      values
-    );
-  };
-
-  const updateNotification = async (id, values) => {
-    await axios.post(
-      `${process.env.REACT_APP_API_URL}/notification/update/${id}`,
-      values
-    );
-  };
-
-  useEffect(() => {
-    if (id && id !== "create") {
-      fetchNotification();
-    }
-  }, [id]);
-
-  const onSubmit = async (values) => {
-
-    const submitValues = {
-      ...values,
-      create_by: cookies.admin?.user_id
+    const handleChange = (value) => {
+        setSelectedItem(value)
     };
 
-    try {
-      if (id && id !== "create") {
-        await updateNotification(id, submitValues);
-        message.success("Cập nhập thành công");
-      } else {
-        await createNotification(submitValues);
-        message.success("Tạo mới thành công");
-      }
-      navigate("/admin/notification");
-    } catch (error) {
-      console.log(error);
+    const [query, setQuery] = useState("");
+    const [title, setTitle] = useState("");
+    const [displayMessage, setDisplayMessage] = useState("");
+    const [displayMessageTitle, setDisplayMessageTitle] = useState("");
+
+    useEffect(() => {
+        const timeOutId = setTimeout(() => setDisplayMessage(query), 500);
+        return () => clearTimeout(timeOutId);
+    }, [query]);
+
+    useEffect(() => {
+      const timeOutId = setTimeout(() => setDisplayMessageTitle(title), 500);
+      return () => clearTimeout(timeOutId);
+    }, [title]);
+
+    const [pagination, setPagination] = useState({
+      page: 1,
+      pageSize: 10,
+    });
+
+    const fetchUser = async () => {
+      await axios
+          .get(`${process.env.REACT_APP_API_URL}/user/getAll`, { params: pagination })
+          .then((res) => {
+              const data = res?.data;
+              setUser(data);
+          })
+          .catch(() => message.error("Error server!"));
+    };
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
+
+    useEffect(() => {
+      setSocket(io("http://localhost:5000"));
+    }, [cookies])
+
+    useEffect(() => {
+        socket?.emit("newUser", cookies?.admin.user_id)
+    }, [socket])
+
+    const createTableNoti = async (user_id, title, message) => {
+      const submitValues = {
+          notification_title: title,
+          notification_description: message,
+          notification_user: user_id
+      };
+      await axios
+          .post(`${process.env.REACT_APP_API_URL}/notification/createUser`, submitValues)
+          .then(async (res) => {
+              console.log("Success!")
+          })
+          .catch(({ response }) => {
+              console.log(JSON.stringify(response?.data?.message));
+          });
+    };
+
+    const handleSend = async (user_id, title, message) => {
+      await socket?.emit("sendNotification", {
+          receiverName: user_id,
+          title: title,
+          message: message
+      });
+      createTableNoti(user_id, title, message)
     }
-  };
 
-  useEffect(() => {
-    if (id && id !== "create") fetchNotification();
-    form.resetFields();
-  }, [form, id]);
+    const handleSendAll = async (all, title, message) => {
+      await socket?.emit("sendNotificationAll", {
+          all,
+          title: title,
+          message: message
+      });
 
-  return (
-    <NotificationForm
-      id={id !== "create" ? id : undefined}
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-    />
-  );
+      createTableNoti(all, title, message)
+    }
+
+    return (
+      <div className="flex justify-center">
+        <div className="w-1/2">
+          <p className="text-center text-2xl font-semibold py-10">Form gửi thông báo</p>
+          
+          <p>Chọn người gửi:</p>
+          {(user?.data === null || user?.data === undefined) ?
+            null
+            :
+            <>
+              <Select
+                filterOption={(inputValue, option) =>
+                  option.props.children
+                    .toString()
+                    .toLowerCase()
+                    .includes(inputValue.toLowerCase())
+                }
+                onChange={handleChange} showSearch allowClear label="Select Version" className="!rounded-lg" style={{ display: 'flex', justifyContent: "start", alignItems: 'center' }}
+              >
+                {[
+                  <Option value={"All"}>All</Option>,
+                  // <Option value={"Master"}>Master</Option>,
+                  ...user?.data?.map(item => (
+                      <Option value={item.user_id}>{item.user_id}</Option>
+                  ))
+                ]}
+
+              </Select>
+              
+              <div className="py-2">
+                <p>Tiêu đề:</p>
+                <input
+                  className="border border-gray-300 rounded-md py-1 w-full"
+                  onChange={event => setTitle(event.target.value)}
+                  placeholder=" " 
+                />
+              </div>
+
+              <div className="py-2">
+                <p>Tiêu đề:</p>
+                <textarea
+                  className="border border-gray-300 rounded-md py-2 w-full"
+                  onChange={event => setQuery(event.target.value)}
+                  placeholder=" "></textarea>
+              </div>
+
+              <Button 
+                  type={"primary"} 
+                  disabled={(selectedItem === null || displayMessageTitle === null) && true} 
+                  onClick={() => selectedItem === null || displayMessageTitle === null ? null : selectedItem === "All" ? 
+                  handleSendAll("-1", displayMessageTitle, displayMessage) : handleSend(selectedItem, displayMessageTitle, displayMessage)}
+              >
+                  Gửi
+              </Button>
+            </>
+          }
+        </div>
+      </div>
+    )
 }

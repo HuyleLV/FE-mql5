@@ -29,6 +29,8 @@ import ShortDetail from "../page/admin/short/detail";
 import ReportDashboard from "../page/admin/report";
 import ReportDetail from "../page/admin/report/detail";
 import SignalDashboard from "../page/admin/signal";
+import NotificationDashboard from "../page/admin/notification";
+import NotificationDetail from "../page/admin/notification/detail";
 
 export default function AdminRouter () {
     return (
@@ -36,6 +38,8 @@ export default function AdminRouter () {
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/users" element={<UsersDashboard />} />
         <Route path="/admin/users/:id" element={<UserDetail />} />
+        <Route path="/admin/notification" element={<NotificationDashboard />} />
+        <Route path="/admin/notification/:id" element={<NotificationDetail />} />
         <Route path="/admin/products" element={<ProductsDashboard />} />
         <Route path="/admin/products/:id" element={<ProductsDetail />} />
         <Route path="/admin/signal" element={<SignalDashboard />} />

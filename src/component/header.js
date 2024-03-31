@@ -344,7 +344,13 @@ export default function Header() {
 
                 {notificationData == null ? null : notificationData?.data.length < 1
                   ? <IoIosNotifications size={30} style={{ marginRight: 2 }} />
-                  : <NotificationHeader notifications={notificationData?.data} lengthSocket={notifications?.length} length={notificationData?.data.length} setRefresh={setRefresh} refresh={refresh} />
+                  : <NotificationHeader 
+                      notifications={notificationData?.data} 
+                      lengthSocket={notifications?.length} 
+                      length={notificationData?.data.length} 
+                      setRefresh={setRefresh} 
+                      refresh={refresh} 
+                    />
                 }
 
                 <Dropdown placement="bottomRight" menu={{ items }}>

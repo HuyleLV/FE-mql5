@@ -52,6 +52,16 @@ export default function ShortDashboard() {
             </div>,
         },
         {
+          title: "Ảnh short",
+          key: "short_image",
+          dataIndex: "short_image",
+          width: 150,
+          render: (_, record) => 
+            <div>
+              <Image src={record?.short_image} width={150} height={200}/>
+            </div>,
+        },
+        {
           title: "Ngày tạo",
           key: "create_at",
           dataIndex: "create_at",

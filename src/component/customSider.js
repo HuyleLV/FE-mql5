@@ -8,6 +8,7 @@ import {
   TransactionOutlined,
   LogoutOutlined,
   ContainerOutlined,
+  NotificationOutlined,
 } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -26,6 +27,10 @@ export default function CustomeSider() {
       key: "user",
       icon: <UserOutlined />,
       label: <Link to={"/admin/users"}>Quản lý người dùng</Link>,
+    },    {
+      key: "notification",
+      icon: <NotificationOutlined />,
+      label: <Link to={"/admin/notification"}>Quản lý thông báo</Link>,
     },
     {
       key: "product",
