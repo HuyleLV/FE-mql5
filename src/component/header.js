@@ -61,25 +61,38 @@ export default function Header() {
   }, [socket])
 
   useEffect(() => {
+
     cookies?.user && socket?.on("getNotification", (data) => {
+      message.warning("Có 1 tin nhắn mới !!");
       setNotifications((prev) => [...prev, data]);
       setCheckUpdate(!checkUpdate)
-    });
+    })
   }, [socket, refresh])
 
   useEffect(() => {
-    cookies?.user && getAllNotification(cookies?.user?.user_id);
+    cookies?.user && cookies?.user?.active_status === 1 && socket?.on("getNotificationMaster", (data) => {
+      message.warning("Có 1 tin nhắn mới !!");
+      setNotifications((prev) => [...prev, data]);
+      setCheckUpdate(!checkUpdate)
+    })
+  }, [socket, refresh])
+
+  useEffect(() => {
+    cookies?.user && getAllNotification(cookies?.user?.user_id, cookies?.user?.active_status === 1 ? -2 : 0);
   }, [socket, refresh, checkUpdate])
 
-  const getAllNotification = async (id) => {
+  const getAllNotification = async (id, status) => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/notification/getAllUser/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/notification/getAllUser/${id}`, {
+        params: {
+          master: status,
+        }
+      })
       .then((res) => {
         const data = res?.data;
         setNotificationData(data);
       });
   };
-
 
   const getUser = async () => {
     await axios
@@ -344,13 +357,13 @@ export default function Header() {
 
                 {notificationData == null ? null : notificationData?.data.length < 1
                   ? <IoIosNotifications size={30} style={{ marginRight: 2 }} />
-                  : <NotificationHeader 
-                      notifications={notificationData?.data} 
-                      lengthSocket={notifications?.length} 
-                      length={notificationData?.data.length} 
-                      setRefresh={setRefresh} 
-                      refresh={refresh} 
-                    />
+                  : <NotificationHeader
+                    notifications={notificationData?.data}
+                    lengthSocket={notifications?.length}
+                    length={notificationData?.data.length}
+                    setRefresh={setRefresh}
+                    refresh={refresh}
+                  />
                 }
 
                 <Dropdown placement="bottomRight" menu={{ items }}>
