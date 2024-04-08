@@ -17,14 +17,12 @@ import ReactTimeAgo from "react-time-ago";
 
 import en from 'javascript-time-ago/locale/en'
 
-export default function JobTrade() {
+export default function JobTrade({shorts}) {
     const size = useWindowSize();
 
     const [open, setOpen] = useState(false);
 
     const [idVideo, setIdVideo] = useState(0);
-
-    const [shorts, setShorts] = useState([]);
 
     const handleOpen = () => setOpen(!open);
 
@@ -32,79 +30,116 @@ export default function JobTrade() {
         setIdVideo(id);
     };
 
-    const handleNext = () => (idVideo >= 0 && idVideo < (shorts?.data?.length - 1) && setIdVideo((cur) => cur + 1));
-    const handlePrev = () => (idVideo > 1 && idVideo <= (shorts?.data?.length - 1) && setIdVideo((cur) => cur - 1));
+    const handleNext = () => (shorts?.data ? idVideo >= 0 && idVideo < (shorts?.data?.length - 1) && setIdVideo((cur) => cur + 1) : idVideo >= 0 && idVideo < (shorts?.length - 1) && setIdVideo((cur) => cur + 1));
+    const handlePrev = () => (shorts?.data ? idVideo > 1 && idVideo <= (shorts?.data?.length - 1) && setIdVideo((cur) => cur - 1) : idVideo > 1 && idVideo <= (shorts?.length - 1) && setIdVideo((cur) => cur - 1));
 
-    const fetchShorts = async () => {
-        await axios
-            .get(`${process.env.REACT_APP_API_URL}/short/getAllNoPage`)
-            .then((res) => {
-                const data = res?.data;
-                setShorts(data);
-            })
-            .catch(() => message.error("Error server!"));
-    };
 
     useEffect(() => {
-        fetchShorts()
-    }, [])
-
-    useEffect(() => {
-        TimeAgo.addDefaultLocale(en)
+        TimeAgo.addDefaultLocale(en);
     }, [])
 
     return (
-        <div className="w-full p-5">
-            <p className="font-bold p-4 text-3xl border-b-2 border-blue-500">Nghề Trading</p>
-            <div className="w-full mt-8">
-                {shorts?.length < 1 ? null :
-                    <Slide slidesToScroll={1} slidesToShow={6} indicators={true} arrows={false}>
-                        {shorts?.data?.map((item, index) => (
-                            <div onClick={() => (handleId(index), handleOpen())} className="w-auto h-[350px] p-1 m-1" style={{ position: "relative", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center", backgroundImage: `url(${item.short_image})` }}>
-                                <div style={{ width: 100, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderRadius: 10, background: "rgba(255, 255, 255, 0.7)" }}>
-                                    <FcClock size={22} />
-                                    <div className="font-semibold text-[10px]">
-                                        <ReactTimeAgo date={item.create_at} locale="en-US" />
+        <div className={`w-full ${shorts?.data ? "mt-8" : ""}`}>
+            <div className="w-full">
+                {shorts?.length < 1 ? null : 
+                    shorts?.data ?
+                        <Slide slidesToScroll={1} slidesToShow={6} indicators={true} arrows={false}>
+                            {shorts?.data?.map((item, index) => (
+                                <div onClick={() => (handleId(index), handleOpen())} className="w-auto h-[350px] p-1 m-1" style={{ position: "relative", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center", backgroundImage: `url(${item.short_image})` }}>
+                                    <div style={{ width: 100, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderRadius: 10, background: "rgba(255, 255, 255, 0.7)" }}>
+                                        <FcClock size={22} />
+                                        <div className="font-semibold text-[10px]">
+                                            <ReactTimeAgo date={item.create_at} locale="en-US" />
+                                        </div>
+                                    </div>
+                                    <div style={{ position: 'absolute', bottom: 10 }}>
+                                        <div className="font-semibold text-xs textWhite line-clamp-2" >{item.short_title}</div>
                                     </div>
                                 </div>
-                                <div style={{ position: 'absolute', bottom: 10 }}>
-                                    <div className="font-semibold text-xs textWhite line-clamp-2" >{item.short_title}</div>
+                            ))}
+                        </Slide>
+                    :   
+                    shorts ?
+                        <Slide slidesToScroll={1} slidesToShow={3} indicators={true} arrows={false}>
+                            {shorts?.map((item, index) => (
+                                <div onClick={() => (handleId(index), handleOpen())} className="w-auto h-[490px] p-1 m-1" style={{ position: "relative", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center", backgroundImage: `url(${item?.image})` }}>
+                                    <div style={{ width: 100, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderRadius: 10, background: "rgba(255, 255, 255, 0.7)" }}>
+                                        <FcClock size={22} />
+                                        <div className="font-semibold text-[10px]">
+                                            {/* <ReactTimeAgo date={item.create_at} locale="en-US" /> */}
+                                        </div>
+                                    </div>
+                                    <div style={{ position: 'absolute', bottom: 10 }}>
+                                        <div className="font-semibold text-xs textWhite line-clamp-2" >{item?.title}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </Slide>
+                            ))}
+                        </Slide>
+                    : <></>
                 }
             </div>
 
             {shorts.length < 1 ? null :
-                <Dialog open={open} handler={handleOpen} style={{ background: "#00000099" }}>
-                    <DialogBody style={{ width: "100%", display: 'flex', justifyContent: 'center', alignItems: "center" }} >
-                        <div style={{ width: "100%", height: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <div onClick={handleOpen} style={{ width: size.width / 2 - 350, height: size.height - 100 }}></div>
-                            <div class="iframe-wrapper">
-                                <FaCircleChevronLeft 
-                                    className="cursor-pointer"
-                                    size={30} 
-                                    onClick={handlePrev} 
-                                    color={idVideo > 1 && idVideo <= (shorts?.data?.length - 1) ? "#fff" : "#828282"} 
-                                    style={{ marginRight: 30 }} />
-                                <iframe width="315" height="560"
-                                    src={"https://www.youtube.com/embed/" + shorts?.data[idVideo]?.short_link + "?autoplay=1&controls=0&loop=1000&playlist=" + shorts?.data[idVideo]?.short_link + "&rel=0"}
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen></iframe>
-                                <FaCircleChevronRight 
-                                    className="cursor-pointer"
-                                    size={30} 
-                                    onClick={handleNext} 
-                                    color={idVideo >= 0 && idVideo < (shorts?.data?.length - 1) ? "#fff" : "#828282"} 
-                                    style={{ marginLeft: 30 }} />
+                shorts?.data ?
+                    <Dialog open={open} handler={handleOpen} className="h-screen" style={{ background: "#00000099" }}>
+                        <DialogBody style={{ width: "100%", height: "100%", display: 'flex', justifyContent: 'center', alignItems: "center" }} >
+                            <div style={{ width: "100%", height: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <div onClick={handleOpen} style={{ width: size.width / 2 - 350, height: size.height - 100 }}></div>
+                                <div class="iframe-wrapper">
+                                    <FaCircleChevronLeft 
+                                        className="cursor-pointer"
+                                        size={30} 
+                                        onClick={handlePrev} 
+                                        color={idVideo > 1 && idVideo <= (shorts?.data?.length - 1) ? "#fff" : "#828282"} 
+                                        style={{ marginRight: 30 }} />
+                                    <iframe  
+                                        style={{ width: '315px', height: "800px" }}
+                                        src={"https://www.youtube.com/embed/" + shorts?.data?.[idVideo]?.short_link + "?autoplay=1&controls=0&loop=1000&playlist=" + shorts?.data?.[idVideo]?.short_link + "&rel=0"}
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                    <FaCircleChevronRight 
+                                        className="cursor-pointer"
+                                        size={30} 
+                                        onClick={handleNext} 
+                                        color={idVideo >= 0 && idVideo < (shorts?.data?.length - 1) ? "#fff" : "#828282"} 
+                                        style={{ marginLeft: 30 }} />
+                                </div>
+                                <div onClick={handleOpen} style={{ width: size.width / 2 - 350, height: size.height - 100 }}></div>
                             </div>
-                            <div onClick={handleOpen} style={{ width: size.width / 2 - 350, height: size.height - 100 }}></div>
-                        </div>
 
-                    </DialogBody>
-                </Dialog>
+                        </DialogBody>
+                    </Dialog> :
+                shorts ? 
+                    <Dialog open={open} handler={handleOpen} className="h-screen" style={{ background: "#00000099" }}>
+                        <DialogBody style={{ width: "100%", height: "100%", display: 'flex', justifyContent: 'center', alignItems: "center" }} >
+                            <div style={{ width: "100%", height: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <div onClick={handleOpen} style={{ width: size.width / 2 - 350, height: size.height - 100 }}></div>
+                                <div class="iframe-wrapper">
+                                    <FaCircleChevronLeft 
+                                        className="cursor-pointer"
+                                        size={30} 
+                                        onClick={handlePrev} 
+                                        color={idVideo > 1 && idVideo <= (shorts?.length - 1) ? "#fff" : "#828282"} 
+                                        style={{ marginRight: 30 }} />
+                                    <iframe  
+                                        style={{ width: '315px', height: "800px" }}
+                                        src={"https://www.youtube.com/embed/" + shorts?.[idVideo]?.link + "?autoplay=1&controls=0&loop=1000&playlist=" + shorts?.[idVideo]?.link + "&rel=0"}
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                    <FaCircleChevronRight 
+                                        className="cursor-pointer"
+                                        size={30} 
+                                        onClick={handleNext} 
+                                        color={idVideo >= 0 && idVideo < (shorts?.length - 1) ? "#fff" : "#828282"} 
+                                        style={{ marginLeft: 30 }} />
+                                </div>
+                                <div onClick={handleOpen} style={{ width: size.width / 2 - 350, height: size.height - 100 }}></div>
+                            </div>
+
+                        </DialogBody>
+                    </Dialog> : <></>
             }
         </div>
     )

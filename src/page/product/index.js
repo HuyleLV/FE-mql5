@@ -14,6 +14,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDevice } from "../../hooks";
 import Reports from "../home/Report";
 import { useCookies } from "react-cookie";
+import axiosInstance from "../../utils/axios";
+import { parseSafe } from "../../helper";
+import { isImageOrVideo } from "../../utils/isImageOrVideo";
+import JobTrade from "../home/JobTrade";
 
 export default function Product() {  
     const { isMobile } = useDevice();
@@ -23,6 +27,8 @@ export default function Product() {
     const [product, setProduct] = useState([]);
     const [tab, setTab] = useState(1);
     const [cookies] = useCookies(["user"]);
+    const [productPage, setProductPage] = useState([]);
+    const [short, setShort] = useState([]);
 
     const fetchProducts = async () => {
         await axios
@@ -30,6 +36,21 @@ export default function Product() {
             .then((res) => {
                 const data = res?.data;
                 setProduct(data || []);
+            })
+            .catch(() => message.error("Error server!"));
+    };
+
+    const getAllProductPage = async () => {
+        await axiosInstance.get(`/productPage/getInfoPage`)
+            .then((res) => {
+                const data = res?.data;
+                setProductPage(data[0]);
+                const coverShort = data[0]?.product_page_short
+                    ? parseSafe(data[0]?.product_page_short)
+                    : undefined;
+
+                setShort(coverShort);
+
             })
             .catch(() => message.error("Error server!"));
     };
@@ -163,6 +184,8 @@ export default function Product() {
             navigate("/login");
           } else {
             fetchProducts();
+            getAllProductPage();
+            console.log(short);
           }
     }, [cookies?.user]);
 
@@ -170,24 +193,28 @@ export default function Product() {
         <>
             <div className="max-w-screen-2xl items-center mx-auto">
                 <div className="mt-[50px] relative">
-                    <img src={image_mk4} className="w-full" style={{height: 200}}/>
+                    <img src={productPage?.product_page_image} className="w-full" style={{height: 200}}/>
                     <div className="absolute top-0 px-[5%] text-white">
                         <p className="font-semibold text-2xl top-0 pt-10">
-                            Cung cấp sản phẩm tài <br/>
-                            chính số mang tính cách <br/>
-                            mạng
+                            {productPage?.product_page_text}
                         </p>
                     </div>
                 </div>
                 <Row className="py-10">
                     <Col xs={24} xl={10}>
-                        <img src={image_mk4} style={{height: 500}}  className="w-full px-2"/>
+                        {
+                            isImageOrVideo(productPage?.product_page_link) === "image" ?
+                                <img src={productPage?.product_page_link} style={{height: 500}}  className="w-full px-2"/> :
+                            isImageOrVideo(productPage?.product_page_link) === "video" ?
+                                <video controls>
+                                    <source src={productPage?.product_page_link} type="video/mp4" />
+                                </video>
+                            : <p>No Image and video</p>
+                        }   
                     </Col>
                     <Col xs={24} xl={14}>
-                        <div className="flex justify-center">
-                            <img src={image_mk4} width={300} style={{height: 500}} className="px-2"/>
-                            <img src={image_mk4} width={300} className="px-2"/>
-                            <img src={image_mk4} width={300} className="px-2"/>
+                        <div className="flex justify-center items-center">
+                            <JobTrade shorts={short} />
                         </div>
                     </Col>
                 </Row>

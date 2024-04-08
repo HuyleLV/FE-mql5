@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import axiosInstance from "../../../../utils/axios";
 import { CustomUpload } from "../../../../component";
 import { parseSafe } from "../../../../helper";
+import JobTrade from "../../../home/JobTrade";
+import { isImageOrVideo } from "../../../../utils/isImageOrVideo";
 
 export default function ProductPageDashboard() {
     const [form] = Form.useForm();
@@ -195,13 +197,19 @@ export default function ProductPageDashboard() {
                     </div>
                     <Row className="py-10">
                         <Col xs={24} xl={10}>
-                            <img src={productPage?.product_page_image} style={{height: 500}}  className="w-full px-2"/>
+                            {
+                                isImageOrVideo(productPage?.product_page_link) === "image" ?
+                                    <img src={productPage?.product_page_link} style={{height: 500}}  className="w-full px-2"/> :
+                                isImageOrVideo(productPage?.product_page_link) === "video" ?
+                                    <video controls>
+                                        <source src={productPage?.product_page_link} type="video/mp4" />
+                                    </video>
+                                : <p>No Image and video</p>
+                            }   
                         </Col>
                         <Col xs={24} xl={14}>
                             <div className="flex justify-center">
-                                <img src={productPage?.product_page_image} width={300} style={{height: 500}} className="px-2"/>
-                                <img src={productPage?.product_page_image} width={300} className="px-2"/>
-                                <img src={productPage?.product_page_image} width={300} className="px-2"/>
+                                <JobTrade shorts={short} />
                             </div>
                         </Col>
                     </Row>

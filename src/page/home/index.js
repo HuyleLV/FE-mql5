@@ -20,6 +20,7 @@ export default function Home() {
     const [products, setProducts] = useState([]);
     const token = useLocation();
     const [topMaster, setTopMaster] = useState([]);
+    const [shorts, setShorts] = useState([]);
     const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
 
     const navigate = useNavigate();
@@ -46,6 +47,16 @@ export default function Home() {
           const data = res?.data;
           setTopMaster(data);
         });
+    };
+
+    const fetchShorts = async () => {
+        await axios
+            .get(`${process.env.REACT_APP_API_URL}/short/getAllNoPage`)
+            .then((res) => {
+                const data = res?.data;
+                setShorts(data);
+            })
+            .catch(() => message.error("Error server!"));
     };
 
     const renderItem = (item) => {
@@ -174,6 +185,7 @@ export default function Home() {
     useEffect(() => {
         fetchProducts();
         getTopMaster();
+        fetchShorts()
         if (new URLSearchParams(token?.search).get('token') !== null) {
             setCookieToken("accessToken", new URLSearchParams(token?.search).get('token'));
             localStorage.setItem("token", new URLSearchParams(token?.search).get('token'));
@@ -294,7 +306,8 @@ export default function Home() {
                     </Row>
                 </div>
 
-                <JobTrade />
+                <p className="font-bold p-4 text-3xl border-b-2 border-blue-500">Nghề Trading</p>
+                <JobTrade shorts={shorts}/>
 
                 <Reports />
             </div>
