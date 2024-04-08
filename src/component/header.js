@@ -110,7 +110,8 @@ export default function Header() {
   const logout = () => {
     removeCookie("user");
     removeCookieToken("accessToken");
-    message.success("Đăng xuất thành công!")
+    localStorage.removeItem('token');
+    message.success("Đăng xuất thành công!");
     navigate("/login");
   }
 
@@ -280,34 +281,34 @@ export default function Header() {
                   {cookies?.user && (
                     <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0 h-full items-center text-2xl">
                       <li className="px-4">
-                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/san-pham"}>
+                        <a className="block md:p-0 md:hover:text-blue-400" href={"/san-pham"}>
                           Sản phẩm
-                        </Link>
+                        </a>
                       </li>
                       <li className="px-4">
-                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/signal"}>
+                        <a className="block md:p-0 md:hover:text-blue-400" href={"/signal"}>
                           Signals
-                        </Link>
+                        </a>
                       </li>
                       <li className="px-4">
-                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/nhan-dinh"}>
+                        <a className="block md:p-0 md:hover:text-blue-400" href={"/nhan-dinh"}>
                           Nhận định
-                        </Link>
+                        </a>
                       </li>
                       <li className="px-4">
-                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/tin-tuc"}>
+                        <a className="block md:p-0 md:hover:text-blue-400" href={"/tin-tuc"}>
                           Tin tức
-                        </Link>
+                        </a>
                       </li>
                       <li className="px-4">
-                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/education"}>
+                        <a className="block md:p-0 md:hover:text-blue-400" href={"/education"}>
                           Edu
-                        </Link>
+                        </a>
                       </li>
                       <li className="px-4">
-                        <Link className="block md:p-0 md:hover:text-blue-400" to={"/wallet"}>
+                        <a className="block md:p-0 md:hover:text-blue-400" href={"/wallet"}>
                           Wallet
-                        </Link>
+                        </a>
                       </li>
                     </ul>
                   )}

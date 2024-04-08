@@ -9,8 +9,9 @@ import dayjsInstance from "../../utils/dayjs";
 import { WarningOutlined } from "@ant-design/icons";
 import Paragraph from "antd/es/skeleton/Paragraph";
 import { CustomUpload } from "../../component";
-import { FormatDollar } from "../../utils/formatDollar";
+import { FormatDollar, FormatVND } from "../../utils/format";
 import image_mk4 from "../../component/image/mk4.jpg";
+import axiosInstance from "../../utils/axios";
 
 export default function Wallet() { 
     const { isMobile } = useDevice();
@@ -23,6 +24,7 @@ export default function Wallet() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [imgTransfer, setImgTransfer] = useState("");
     const [price, setPrice] = useState(0);
+    const [dollar, setDollar] = useState(0);
 
     const [pagination, setPagination] = useState({
       page: 1,
@@ -51,6 +53,15 @@ export default function Wallet() {
           setTransferProduct(data);
         });
     };
+    
+    const getDollar = async () => {
+      await axiosInstance.get(`/dollar/getById`)
+          .then((res) => {
+              const data = res?.data;
+              setDollar(data[0]);
+          })
+          .catch(() => message.error("Error server!"));
+  };
 
     const handleOk = async () => {
       if(imgTransfer !== "") {
@@ -230,16 +241,19 @@ export default function Wallet() {
         } else {
           fetchTransfer();
           fetchTransferProduct();
+          getDollar();
         }
     }, [cookies, pagination, price]);
     return (
-        <div className="max-w-screen-2xl mx-auto py-10 h-screen">
+        <div className="max-w-screen-2xl mx-auto py-10 h-max">
             <p className="font-bold text-3xl text-center">Thông tin ví</p>
             <Row>
                 <Col xs={24} xl={12}>
                     <div className="my-8 m-2 p-5 bg-gray-100">
                         <p className="font-semibold text-xl">Thông tin người dùng: {cookies?.user?.displayName}</p>
-                        <p className="font-semibold text-xl">Số dư ví: {FormatDollar(cookies?.user?.account_balance)}</p>
+                        <p className="font-semibold text-xl">
+                          Số dư ví: {FormatDollar(cookies?.user?.account_balance)} = {FormatVND(cookies?.user?.account_balance * dollar?.dollar_vnd)}
+                        </p>
                         <div className="pt-2">
                           <p className="font-semibold text-red-500 text-xl">Lưu ý:</p>
                           <li className="pt-2">Tỷ giá sẽ cập nhật vào sáng thứ 2 hàng tuần theo ngân hàng VCB</li>
@@ -257,6 +271,7 @@ export default function Wallet() {
                 <Col xs={24} xl={12}>
                     <div className="my-8 m-2 p-5 bg-gray-100">
                         <p className="font-semibold text-xl">Tạo lệnh nộp tiền</p>
+                        <p className="font-medium text-md text-red-500">Lưu ý: Nhập số tiền đô</p>
                         <Input style={{marginTop: 10, marginBottom: 10}} value={price} onChange={(i)=> setPrice(i?.target?.value)} type="number" placeholder="Nhập số tiền muốn nộp!"/>
                         <button 
                             className="border px-4 py-2 rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 text-white"
@@ -267,14 +282,14 @@ export default function Wallet() {
                 </Col>
             </Row>
 
-            <Tabs type="card" className="border">
-              <TabPane tab="Quản lý lệnh chuyển tiền" key="1" className="px-5">
+            <Tabs type="card" className="border h-max">
+              <TabPane tab="Quản lý lệnh chuyển tiền" key="1" className="p-5 h-max">
                 <p className="text-center text-xl font-bold pb-10"> Quản lý lệnh chuyển tiền</p>
                   
                 {transfer?.data?.length > 0 ?
-                  <>
+                  <div className="h-max">
                     <Table 
-                      className={"custom-table pb-10"}
+                      className={"custom-table pb-10 h-max"}
                       rowKey={(record) => record?.transfer_id + ""}
                       dataSource={transfer?.data} 
                       columns={columns} 
@@ -292,7 +307,7 @@ export default function Wallet() {
                         })
                       }}
                     />
-                  </>
+                  </div>
                   : 
                   <>
                     <p className="font-bold texl-2xl text-center bg-yellow-300 py-4 mb-10">Chưa có thông tin chuyển tiền</p>
@@ -343,23 +358,21 @@ export default function Wallet() {
               <Row>
                 <Col xs={24} xl={12} className="bg-gray-100 p-5">
                   <p className="font-semibold text-lg text-center">Thông tin đơn hàng</p>
-                  <p className="flex px-5 pt-5 text-lg">
+                  <p className="flex px-5 pt-3 text-lg">
                     Nội dung CK:
-                    <Paragraph copyable={{ text: cookies?.user?.displayName + " chuyen tien", tooltips: false }}>
-                        <span className="font-semibold text-xl pl-5">{cookies?.user?.displayName} chuyen tien</span>
-                    </Paragraph>
+                    <span className="font-semibold text-xl pl-5">{cookies?.user?.displayName} chuyen tien</span>
                   </p>
-                  <p className="px-5 text-lg">
+                  <p className="px-5 pt-3 text-lg">
                       Số tiền thanh toán:
                   </p>
                   <p className="font-semibold px-5 pb-3 text-xl text-sky-500">
-                    {price} VND
+                    {FormatVND(price * dollar?.dollar_vnd)} VND
                   </p>
                   <p className="px-5 text-lg">
                      Giá trị đơn hàng:
                   </p>
                   <p className="font-semibold px-5 pb-3 text-lg">
-                    {price} VND
+                    {FormatVND(price * dollar?.dollar_vnd)} VND
                   </p>
                   <div className="px-5 pb-3">
                       <p className="text-lg">Thêm ảnh chứng minh:</p>

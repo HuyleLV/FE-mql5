@@ -1,19 +1,35 @@
-import { Col, Dropdown, Form, Image, Modal, Row, Select, Switch, message } from "antd";
+import { Button, Col, Dropdown, Form, Image, Input, Modal, Radio, Row, Select, Space, Switch, message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import dayjsInstance from "../../utils/dayjs";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import logo from "../../component/image/logo.png";
 import { CheckOutlined, FilterOutlined, SmileOutlined } from "@ant-design/icons";
+import { FormatDollar } from "../../utils/format";
+import axiosInstance from "../../utils/axios";
+import { useCookies } from "react-cookie";
 
 export default function MasterDetail() {  
     const params = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const currentPath = location.pathname;
+
     const [master, setMaster] = useState([]);
     const [allMaster, setAllMaster] = useState([]);
+    const [vps, setVps] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenCopy, setIsOpenCopy] = useState(false);
-    const [isOpenVps, setIsOpenVps] = useState(false);
+    const [isOpenVps, setIsOpenVps] = useState(false);  
+
+    const [priceFl, setPriceFl] = useState(0);
+    const [priceMaster, setPriceMaster] = useState(0);
+    const [priceVps, setPriceVps] = useState(0);
+    const [vpsTime, setVpsTime] = useState(1);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
     const getTotalByMasterKey = async () => {
         await axios
@@ -40,6 +56,41 @@ export default function MasterDetail() {
             });
     };
 
+    const getAllVps = async () => {
+        await axiosInstance.get(`/vps/getAllUser`)
+            .catch(function (error) {
+                message.error(error.response.status);
+            })
+            .then(( res ) => {
+                const data = res?.data;
+                setVps(data);
+            });
+    };
+
+    const getPriceMaster = async () => {
+        await axios
+            .get(`${process.env.REACT_APP_API_URL}/masterPrice/getById/1`)
+            .catch(function (error) {
+                message.error(error.response.status);
+            })
+            .then(( res ) => {
+                const data = res?.data;
+                setPriceMaster(data[0]);
+            });
+    };
+
+    const getPriceVps = async (vps_id) => {
+        await axiosInstance
+            .get(`vps/getPrice/${vps_id}`)
+            .catch(function (error) {
+                message.error(error.response.status);
+            })
+            .then(( res ) => {
+                const data = res?.data;
+                setPriceVps(data[0]?.vps_price);
+            });
+    };
+
     const handleChange = async (values) => {
         await axios
             .get(`${process.env.REACT_APP_API_URL}/signal/getTotalByMasterKey/${values?.master_key}`)
@@ -47,14 +98,55 @@ export default function MasterDetail() {
                 message.error(error.response.status);
             })
             .then(( res ) => {
-            const data = res?.data;
+                const data = res?.data;
                 setMaster(data);
             });
     }
 
+    const onSubmit = async (value) => {
+
+        if(cookies?.user?.account_balance >= totalPrice) {
+            const data = {
+                ...value,
+                master_key: params?.master_key,
+                total_price: totalPrice,
+                create_by: cookies?.user?.user_id
+            }
+
+            await axiosInstance.post(`/user/updateBalance`, {
+                price: totalPrice
+            });
+    
+            await axiosInstance.post(`/followerDraft/create`, data)
+                .catch(function (error) {
+                    message.error(String(error.response.status));
+                })
+                .then((res) => {
+                    message.success(String(res?.data?.message));
+                    setIsOpen(false);
+                });
+        } else {
+            message.warning("Số dư của bạn không đủ!");
+        }
+    }
+
     useEffect(() => { 
         getTotalByMasterKey();
+        getAllVps();
+        getPriceMaster();
     }, []);
+
+    useEffect(() => {         
+        if(!cookies?.user){ 
+            message.warning("Vui lòng đăng nhập!")
+            navigate("/login");
+        }
+    }, [cookies?.user]);
+    
+
+    useEffect(() => { 
+        setTotalPrice(priceFl + (priceVps * vpsTime))
+    }, [priceFl, priceVps, vpsTime]);
 
     return (
         <div className="max-w-screen-2xl mx-auto">
@@ -78,7 +170,7 @@ export default function MasterDetail() {
                             <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{master?.user?.displayName}</span></p>
                             <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{master?.user?.email}</span></p>
                             <p className="text-[20px] font-none">My master Key: <span className="text-[22px] font-medium">{master?.user?.master_key}</span></p>
-                            <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{master?.user?.private_key}</span></p>
+                            {/* <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{master?.user?.private_key}</span></p> */}
                         </div>
                         </div>
                     </Col>
@@ -129,142 +221,230 @@ export default function MasterDetail() {
                     <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl">Lịch sử</button>
                 </div>
             </div>
-            <Modal title="Theo dõi Master" open={isOpen} onOk={()=>setIsOpen(false)} okText={"Theo Dõi Master"} onCancel={()=>setIsOpen(false)}>
+            <Modal 
+                title="Theo dõi Master" 
+                width={1200}
+                open={isOpen} 
+                onOk={()=>setIsOpen(false)} 
+                okText={"Theo Dõi Master"}
+                onCancel={()=>setIsOpen(false)}
+                footer={null}>
                 <Form 
                     layout={"vertical"}
+                    onFinishFailed={(e) => console.log(e)}
+                    onFinish={onSubmit}
                 >
-                    <div className="p-2 border-b">
-                        <p className="text-lg font-medium flex items-center justify-between">
-                            Bạn muốn tự động sao chép giao dịch?
-                            <Switch defaultChecked={false} onChange={()=>setIsOpenCopy(!isOpenCopy)} />
-                        </p>
-                        {isOpenCopy && ( 
-                            <p className="font-semibold text-red-500"> 
-                                Lưu ý: Xác nhận tương đương bạn đã đồng ý với chính sách
-                                bảo mật và tuyên bố miễn trừ trách nhiệm của chúng tôi
-                            </p>
-                        )}
-                    </div>
-                    <div className="p-2 border-b">
-                        <p className="text-lg font-medium flex items-center justify-between">
-                            Bạn muốn thuê copy VPS?
-                            <Switch defaultChecked={false} onChange={()=>setIsOpenVps(!isOpenVps)} />
-                        </p>
-                        {isOpenVps && ( 
+                    <Row>
+                        <Col xs={24} xl={12} className="px-5 border-r">
+                            <Row>
+                                <Col xs={24} xl={24} className="border-b py-2">
+                                    <p className="text-lg font-medium flex items-center justify-between">
+                                        Bạn muốn tự động sao chép giao dịch?
+                                        <Switch defaultChecked={false} onChange={()=>setIsOpenCopy(!isOpenCopy)} />
+                                    </p>
+                                    {isOpenCopy && ( 
+                                        <div>
+                                            <p className="font-semibold text-red-500"> 
+                                                Lưu ý: Xác nhận tương đương bạn đã đồng ý với chính sách
+                                                bảo mật và tuyên bố miễn trừ trách nhiệm của chúng tôi
+                                            </p>
+                                            <div className="grid grid-cols-2 gap-2 pt-2">
+                                                <Form.Item
+                                                    label={"Broker"}
+                                                    name="broker"
+                                                    rules={[{ required: true, message: "Vui lòng chọn broker!" }]}
+                                                >
+                                                    <Input placeholder="broker" />
+                                                </Form.Item>
+                                                
+                                                <Form.Item
+                                                    label={"Password"}
+                                                    name="password"
+                                                    rules={[{ required: true, message: "Vui lòng chọn VPS!" }]}
+                                                >
+                                                    <Input type="password" placeholder="password" />
+                                                </Form.Item>
+                                            </div>
+                                            <p className="font-semibold text-lg">Chế độ sao chép</p>
+                                            <div className="grid grid-cols-2 gap-2 pt-2">
+                                                <Form.Item
+                                                    label={"Chọn chế độ"}
+                                                    name="regime"
+                                                    rules={[{ required: true, message: "Vui lòng chọn chế độ!" }]}
+                                                >
+                                                    <Select
+                                                        showSearch
+                                                        placeholder="Select a person"
+                                                        optionFilterProp="children"
+                                                        defaultValue={1}
+                                                        options={[
+                                                            {
+                                                                label: "Theo khối lượng mặc định",
+                                                                value: 1
+                                                            },
+                                                            {
+                                                                label: "Theo tỷ lệ khối lượng",
+                                                                value: 2
+                                                            },
+                                                            {
+                                                                label: "Theo tỷ lệ số dư",
+                                                                value: 3
+                                                            }
+                                                        ]}
+                                                    />
+                                                </Form.Item>
+                                                
+                                                <Form.Item
+                                                    label={"Nhập khối lượng"}
+                                                    name="mass"
+                                                    rules={[{ required: true, message: "Vui lòng chọn Khối lượng!" }]}
+                                                >
+                                                    <Input type="text" placeholder="Khối lượng" />
+                                                </Form.Item>
+                                            </div>
+                                            <Form.Item
+                                                label={"DrawDown"}
+                                                name="drawDown"
+                                                rules={[{ required: true, message: "Vui lòng nhập DrawDown!" }]}
+                                            >
+                                                <Input type="text" placeholder="DrawDown" />
+                                            </Form.Item>
+
+                                        </div>
+                                    )}
+                                </Col>
+                                <Col xs={24} xl={24} className="py-2">
+                                    <p className="text-lg font-medium flex items-center justify-between">
+                                        Bạn muốn thuê copy VPS?
+                                        <Switch defaultChecked={false} onChange={()=>setIsOpenVps(!isOpenVps)} />
+                                    </p>
+                                    {isOpenVps && ( 
+                                        <div>
+                                            <Form.Item
+                                                label={"Lựa chọn Vps"}
+                                                name="vps_id"
+                                                rules={[{ required: true, message: "Vui lòng chọn VPS!" }]}
+                                            >
+                                                <Select
+                                                    showSearch
+                                                    placeholder="Select a person"
+                                                    optionFilterProp="children"
+                                                    onChange={(e)=> getPriceVps(e)}
+                                                    options={vps?.map((_, i) => ({
+                                                        value: _?.vps_id,
+                                                        label: "vps " + ( i+1 )
+                                                    }))}
+                                                />
+                                            </Form.Item>
+                                            <Form.Item
+                                                label={"Thời gian gia hạn"}
+                                                name="vps_time"
+                                                rules={[{ required: true, message: "Vui lòng chọn Thời gian!" }]}
+                                            >
+                                                <Select
+                                                    showSearch
+                                                    onChange={(e)=> setVpsTime(e)}
+                                                    placeholder="Select a person"
+                                                    optionFilterProp="children"
+                                                    options={[
+                                                        {
+                                                            label: "1 tháng",
+                                                            value: 1
+                                                        },
+                                                        {
+                                                            label: "5 tháng",
+                                                            value: 5
+                                                        },
+                                                        {
+                                                            label: "1 năm",
+                                                            value: 12
+                                                        },
+                                                    ]}
+                                                />
+                                            </Form.Item>
+                                            <p className="text-lg font-medium">
+                                                Price Vps: <span className="text-red-500">{FormatDollar(priceVps ? (priceVps * vpsTime) : 0)}</span>
+                                            </p>
+                                        </div>
+                                    )}
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col xs={24} xl={12} className="px-5">
                             <div>
-                                <Form.Item
-                                    label={"Lựa chọn Vps"}
-                                    name="vps"
-                                    rules={[{ required: true, message: "Vui lòng chọn VPS!" }]}
-                                >
-                                    <Select
-                                        showSearch
-                                        size="large"
-                                        placeholder="Select a person"
-                                        optionFilterProp="children"
-                                        options={[
-                                            {
-                                                label: "mt4",
-                                                value: 123
-                                            },
-                                            {
-                                                label: "mt5",
-                                                value: 123
-                                            },
-                                        ]}
-                                    />
-                                </Form.Item>
-                                <Form.Item
-                                    label={"Thời gian gia hạn"}
-                                    name="vps"
-                                    rules={[{ required: true, message: "Vui lòng chọn VPS!" }]}
-                                >
-                                    <Select
-                                        showSearch
-                                        size="large"
-                                        placeholder="Select a person"
-                                        optionFilterProp="children"
-                                        options={[
-                                            {
-                                                label: "mt4",
-                                                value: 123
-                                            },
-                                            {
-                                                label: "mt5",
-                                                value: 123
-                                            },
-                                        ]}
-                                    />
-                                </Form.Item>
+                                <p className="text-lg font-semibold px-2">Tài khoản: </p>
+                                <Row>
+                                    <Col xs={24} xl={12} className="p-2">
+                                        <Form.Item
+                                            label={"ID"}
+                                            name="mt4_acc"
+                                            rules={[{ required: true, message: "Vui lòng nhập ID!" }]}
+                                        >
+                                            <Input type="text" placeholder="ID" />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} xl={12} className="p-2">
+                                        <Form.Item
+                                            label={"Nền tảng"}
+                                            name="communication"
+                                            rules={[{ required: true, message: "Vui lòng chọn nền tảng!" }]}
+                                        >
+                                            <Select
+                                                showSearch
+                                                placeholder="Select a person"
+                                                optionFilterProp="children"
+                                                options={[
+                                                    {
+                                                        label: "Meta Trader 4",
+                                                        value: 1
+                                                    },
+                                                    {
+                                                        label: "Meta Trader 5",
+                                                        value: 2
+                                                    },
+                                                ]}
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} xl={24} className="p-2">
+                                        <p className="text-lg font-medium">Phương thức thanh toán</p>
+                                    </Col>
+                                    <Col xs={24} xl={12} className="p-2">
+                                        <Form.Item
+                                            name="time"
+                                            rules={[{ required: true, message: "Vui lòng chọn!" }]}
+                                        >
+                                            <Radio.Group
+                                                onChange={(e)=> setPriceFl(Number(priceMaster?.master_price) * e?.target?.value)}>
+                                                <Space direction="vertical">
+                                                    <Radio value={1}><p className="text-lg font-medium">1 tháng</p></Radio>
+                                                    <Radio value={3}><p className="text-lg font-medium">3 tháng</p></Radio>
+                                                    <Radio value={6}><p className="text-lg font-medium">6 tháng</p></Radio>
+                                                    <Radio value={12}><p className="text-lg font-medium">12 tháng</p></Radio>
+                                                </Space>
+                                            </Radio.Group>
+                                        </Form.Item>
+                                        <p className="text-lg font-medium py-5">
+                                            Total: <span className="text-red-500">
+                                                {FormatDollar(totalPrice)}
+                                            </span>
+                                        </p>
+                                    </Col>
+                                    <Col xs={24} xl={12} className="p-2">
+                                        <p className="text-lg font-semibold pb-2">Nếu đăng ký 1 tháng</p>
+                                        <Form.Item label="Tự động gia hạn" name="auto">
+                                            <Switch />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                                <div className="absolute bottom-0 right-0">
+                                    <Button type={"primary"} htmlType={"submit"}>
+                                        Theo dõi Master
+                                    </Button>
+                                </div>
                             </div>
-                        )}
-                    </div>
-                    <div>
-                        <p className="text-lg font-semibold px-2">Tài khoản: </p>
-                        <Row>
-                            <Col xs={24} xl={12} className="p-2">
-                                <Form.Item
-                                    label={"ID"}
-                                    name="master_key"
-                                    rules={[{ required: true, message: "Vui lòng chọn ID!" }]}
-                                >
-                                    <Select
-                                        showSearch
-                                        size="large"
-                                        placeholder="Select a person"
-                                        optionFilterProp="children"
-                                        options={[
-                                            {
-                                                label:123,
-                                                value:123
-                                            }
-                                        ]}
-                                    />
-                                </Form.Item>
-                            </Col>
-                            <Col xs={24} xl={12} className="p-2">
-                                <Form.Item
-                                    label={"Nền tảng"}
-                                    name="master_key"
-                                    rules={[{ required: true, message: "Vui lòng chọn ID!" }]}
-                                >
-                                    <Select
-                                        showSearch
-                                        size="large"
-                                        placeholder="Select a person"
-                                        optionFilterProp="children"
-                                        options={[
-                                            {
-                                                label: "mt4",
-                                                value: 123
-                                            },
-                                            {
-                                                label: "mt5",
-                                                value: 123
-                                            },
-                                        ]}
-                                    />
-                                </Form.Item>
-                            </Col>
-                            <Col xs={24} xl={24} className="p-2">
-                                <p className="text-lg font-medium">Phương thức thanh toán</p>
-                            </Col>
-                            <Col xs={24} xl={12} className="p-2">
-                                <p className="text-lg font-medium"><CheckOutlined className="bg-green-400 rounded-full p-1 text-white"/> 1 tháng</p>
-                                <p className="text-lg font-medium"><CheckOutlined className="bg-green-400 rounded-full p-1 text-white"/> 3 Tháng</p>
-                                <p className="text-lg font-medium"><CheckOutlined className="bg-green-400 rounded-full p-1 text-white"/> 6 Tháng</p>
-                                <p className="text-lg font-medium"><CheckOutlined className="bg-green-400 rounded-full p-1 text-white"/> 1 Năm</p>
-                                <p className="pt-5">Total: ...</p>
-                            </Col>
-                            <Col xs={24} xl={12} className="p-2">
-                                <p className="text-lg font-semibold">Nếu đăng ký 1 tháng</p>
-                                <p className="text-lg font-medium flex items-center justify-between pt-2">
-                                    Tự động gia hạn?
-                                    <Switch defaultChecked={false} />
-                                </p>
-                            </Col>
-                        </Row>
-                    </div>
+                        </Col>
+                    </Row>
                 </Form>
             </Modal>
         </div>

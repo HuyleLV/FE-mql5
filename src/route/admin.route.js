@@ -31,6 +31,10 @@ import ReportDetail from "../page/admin/report/detail";
 import SignalDashboard from "../page/admin/signal";
 import NotificationDashboard from "../page/admin/notification";
 import NotificationDetail from "../page/admin/notification/detail";
+import VpsDashboard from "../page/admin/vps";
+import VpsDetail from "../page/admin/vps/detail";
+import FollowerDraftDashboard from "../page/admin/followerDraft";
+import ProductPageDashboard from "../page/admin/products/productPage";
 
 export default function AdminRouter () {
     return (
@@ -42,6 +46,7 @@ export default function AdminRouter () {
         <Route path="/admin/notification/:id" element={<NotificationDetail />} />
         <Route path="/admin/products" element={<ProductsDashboard />} />
         <Route path="/admin/products/:id" element={<ProductsDetail />} />
+        <Route path="/admin/product-page" element={<ProductPageDashboard />} />
         <Route path="/admin/signal" element={<SignalDashboard />} />
         <Route path="/admin/categories" element={<CategoriesDashboard />} />
         <Route path="/admin/categories/:id" element={<CategoriesDetail />} />
@@ -63,6 +68,9 @@ export default function AdminRouter () {
         <Route path="/admin/master/:id" element={<MasterDetail />} />
         <Route path="/admin/comments" element={<CommentsDashboard />} />
         <Route path="/admin/transfer" element={<TransferDashboard />} />
+        <Route path="/admin/vps" element={<VpsDashboard />} />
+        <Route path="/admin/vps/:id" element={<VpsDetail />} />
+        <Route path="/admin/follower-draft" element={<FollowerDraftDashboard />} />
         <Route path="/admin/short" element={<ShortDashboard />} />
         <Route path="/admin/short/:id" element={<ShortDetail />} />
         <Route path="/admin/report" element={<ReportDashboard />} />

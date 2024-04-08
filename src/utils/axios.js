@@ -1,19 +1,15 @@
-import { message } from 'antd'
-import Cookies from 'js-cookie'
-import axios from 'axios'
-import { createBrowserHistory } from 'history';
+import axios from 'axios';
 
-const history = createBrowserHistory();
-const baseURL = process.env.REACT_APP_API_URL
+
 const axiosInstance = axios.create({
-  baseURL,
-})
+  baseURL: process.env.REACT_APP_API_URL, 
+  timeout: 5000, 
+});
 axiosInstance.defaults.headers.post['Content-Type'] = 'application/json'
-axiosInstance.defaults.timeout = 60000
 
 axiosInstance.interceptors.request.use(
-  async (config) => { 
-    const token = Cookies.get('accessToken')
+  async (config) => {
+    const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
     }
@@ -24,27 +20,4 @@ axiosInstance.interceptors.request.use(
   },
 )
 
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  function (error) {
-    if (401 === error?.response?.status) {
-      Cookies.remove('accessToken', { path: '' })
-      history.push('/login');
-    } else {
-      const errorSerialize = {
-        code: error.response?.status,
-        message: Array.isArray(error.response?.data?.message)
-          ? error.response?.data?.message?.[0]
-          : error.response?.data?.message || error.response?.statusText,
-      }
-
-      message.error(errorSerialize.message)
-      return Promise.reject(errorSerialize)
-    }
-  },
-)
-
-export const setToken = (token = '') =>
-  (axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`)
-
-export default axiosInstance
+export default axiosInstance;

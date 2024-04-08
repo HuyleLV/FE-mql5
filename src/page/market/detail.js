@@ -17,6 +17,8 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FormatDollar } from "../../utils/format";
+import axiosInstance from "../../utils/axios";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -91,20 +93,27 @@ export default function MarketDetail() {
   };
 
   const handleOk = async () => {
-    const transfer = {
-      transfer_content: cookies?.user?.displayName + " chuyen tien",
-      transfer_price: product?.[0].product_price,
-      product_id: product?.[0].product_id,
-      create_by: cookies?.user.user_id,
-    };
+    if(cookies?.user.account_balance >= product?.[0].product_price) {
+      const transfer = {
+        transfer_product_price: product?.[0].product_price,
+        product_id: product?.[0].product_id,
+        create_by: cookies?.user.user_id,
+      };
 
-    await axios
-      .post(`${process.env.REACT_APP_API_URL}/transfer/create`, transfer)
-      .then((res) => {
-        message.success("Gửi lệnh chuyển tiền thành công!")
-        setIsModalOpen(false);
-      })
-      .catch(() => message.error("Error server!"));
+      await axiosInstance
+        .post(`/user/updateBalance`, {price: product?.[0].product_price})
+        .catch(() => message.error("Error server!"));
+  
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/transferProduct/create`, transfer)
+        .then((res) => {
+          message.success("Gửi lệnh chuyển tiền thành công!");
+          setIsModalOpen(false);
+        })
+        .catch(() => message.error("Error server!"));
+    } else {
+      message.warning("Số dư của bạn không đủ!");
+    }
   };
 
   const fetchproduct = async () => {
@@ -379,27 +388,6 @@ export default function MarketDetail() {
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
                 </div>
             }
-            {/* {productLink && (
-              <Carousel responsive={responsive} className="p-5">
-                {linkVideo && (
-                  <iframe
-                    className="h-[250px] w-[400px]"
-                    src={linkVideo}
-                    title="Quantum Emperor"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                  ></iframe>
-                )}
-                {linkImage &&
-                  linkImage?.map((i) => {
-                    return (
-                      <div>
-                        <img alt="icon" src={i} className="h-[250px] max-w-xl" />
-                      </div>
-                    );
-                  })}
-              </Carousel>
-            )} */}
 
             <Slider {...settings}>
               {linkVideo && (
@@ -489,13 +477,13 @@ export default function MarketDetail() {
                 alt="name"
               />
               <p className="text-[#42639c] font-bold pt-4">
-                {product?.[0].product_price} USD
+                {FormatDollar(product?.[0].product_price)} USD
               </p>
               <button
                 className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]"
                 onClick={() => setIsModalOpen(true)}
               >
-                Buy: {product?.[0].product_price} USD
+                Buy: {FormatDollar(product?.[0].product_price)} USD
               </button>
               <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
                 <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
@@ -513,9 +501,9 @@ export default function MarketDetail() {
                   Current version: <span className="pl-2">{product?.[0].product_version}</span>
                 </p>
               </div>
-              <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-lg text-[#42639c] text-sm">
+              {/* <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-lg text-[#42639c] text-sm">
                 More from author
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="max-lg:w-full w-4/5 border">
@@ -576,28 +564,6 @@ export default function MarketDetail() {
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
                 </div>
             }
-
-            {/* {productLink && (
-              <Carousel responsive={responsive} className="p-5">
-                {linkVideo && (
-                  <iframe
-                    className="h-[250px] w-[400px]"
-                    src={linkVideo}
-                    title="Quantum Emperor"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                  ></iframe>
-                )}
-                {linkImage &&
-                  linkImage?.map((i) => {
-                    return (
-                      <div>
-                        <img alt="icon" src={i} className="h-[250px] max-w-xl" />
-                      </div>
-                    );
-                  })}
-              </Carousel>
-            )} */}
 
             <Slider {...settings}>
               <div>              

@@ -12,6 +12,7 @@ import { CheckOutlined, FilterOutlined, SmileOutlined } from "@ant-design/icons"
 import logo from "../../component/image/logo.png"
 import flag_england from "../../component/image/flag_england.png"
 import CreateMasterKey from "../../component/createMasterKey";
+import { IconSignal } from "../../utils/iconSignal";
 
 export default function SignalPage() {
   const [cookies] = useCookies(["user"]);
@@ -396,11 +397,11 @@ export default function SignalPage() {
         </Col>
       </Row>
       
-      <Row justify={"center"} align={"middle"}>
+      <Row justify={"center"} align={"middle"} className="border-b-2">
       {profile?.kyc === 1 ?
         <>
           <Col xs={24} xl={10}>
-              <div className="flex border-b-2 border-r-2 p-2 h-[200px]">
+              <div className="flex border-r-2 p-2">
                 <Image
                   preview={false}
                   src={profile?.photos}
@@ -410,15 +411,25 @@ export default function SignalPage() {
                 <div className="pl-5">
                   <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{profile?.displayName}</span></p>
                   <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{profile?.email}</span></p>
-                  <p className="text-[20px] font-none">My master Key: <span className="text-[22px] font-medium">{masterKeyName?.master_key}</span></p>
-                  <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{masterKeyName?.private_key}</span></p>
+                  {masterKeyName?.master_key && (
+                    <p className="text-[20px] font-none">My master Key: <span className="text-[22px] font-medium">{masterKeyName?.master_key}</span></p>
+                  )}
+                  {masterKeyName?.private_key && (
+                    <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{masterKeyName?.private_key}</span></p>
+                  )}
+                  {masterKeyName?.description && (
+                    <>
+                      <p className="text-[20px] font-none">Thông tin: </p>
+                      <p className="text-[22px] font-medium">{masterKeyName?.description}</p>
+                    </>
+                  )}
                 </div>
               </div>
           </Col>
           <Col xs={24} xl={14}>
-            <div className="border-b-2 p-2 pl-5 text-black h-[200px]">
+            <div className="p-2 pl-5 text-black">
               <div className="flex justify-between">
-                <p className="text-xl font-bold pb-5">Thống kê giao dịch</p>
+                <p className="text-xl font-bold pb-5 float-start h-full">Thống kê giao dịch</p>
                 <Dropdown
                   trigger={['click']}
                   dropdownRender={(menu) => (
@@ -691,35 +702,40 @@ export default function SignalPage() {
         <h1 className="font-bold text-2xl py-5">Top Signals</h1>
         <Row className="py-2">
           {signalHot?.map((_, i) => (
-            <Col xs={24} xl={8} className="px-2 pb-5">
-              <div className={`border-t-4 border border-x-slate-500 ${_?.type === "sell" ? "border-t-red-500" : "border-t-green-500"}`}>
-                <div className="flex justify-between px-10 pt-5">
-                  <div className="flex items-center">
-                    <p className={`${_?.type === "sell" ? "bg-red-500" : "bg-green-500"} font-semibold text-white text-xl w-min py-1 px-2 rounded-lg`}>
-                      {_?.type}
-                    </p>
-                    <p className="pl-2 font-semibold text-black text-xl">{_?.symbol}</p>
-                  </div>
-                  <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
-                </div>
-                <p className="texl-lg font-semibold text-gray-600 py-2 px-10">ID: {_?.ticket}</p>  
-              </div>
-              <div className="w-full border border-slate-500 px-10 py-5 relative">
-                <div className="flex justify-center opacity-10">
-                  <img src={logo} className="h-[150px]" alt="Logo" />
-                </div>
-                <div className="absolute top-10 left-10">
-                  <div className="flex justify-between items-center">
-                    <div className="text-xl font-bold">
-                      <p>Entry: {_?.price}</p>
-                      <p className="py-2">Take Profit: {_?.take_profit}</p>
-                      <p>Stop loss: {_?.stop_loss}</p>
+            <Col xs={24} xl={8} className="px-2 mb-5">
+              <div className={_?.type === "sell" ? "bg-red-50 hover:bg-white" : "bg-green-50 hover:bg-white"}>
+                <div className={`border-t-4 border border-x-slate-500 ${_?.type === "sell" ? "border-t-red-500" : "border-t-green-500"}`}>
+                  <div className="flex justify-between px-10 pt-5">
+                    <div className="flex items-center">
+                      <p className={`${_?.type === "sell" ? "bg-red-500" : "bg-green-500"} font-semibold text-white text-xl w-min py-1 px-2 rounded-lg`}>
+                        {_?.type}
+                      </p>
+                      <p className="pl-2 font-semibold text-black text-xl">{_?.symbol}</p>
                     </div>
-                    <div className="ml-20">
-                      <div className="flex justify-center">
-                        <img src={flag_england} className="w-[50px] h-[50px]"/>
+                    
+                    <a href={"/master/" + _?.master_key}>
+                      <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">FOLLOW</button>
+                    </a>
+                  </div>
+                  <p className="texl-lg font-semibold text-gray-600 py-2 px-10">ID: {_?.ticket}</p>  
+                </div>
+                <div className="w-full border border-slate-500 px-10 py-5 relative">
+                  <div className="flex justify-center opacity-20">
+                    <img src={logo} className="h-[150px]" alt="Logo" />
+                  </div>
+                  <div className="absolute top-10 left-10">
+                    <div className="flex justify-between items-center">
+                      <div className="text-xl font-bold">
+                        <p>Entry: {_?.price}</p>
+                        <p className="py-2">Take Profit: {_?.take_profit}</p>
+                        <p>Stop loss: {_?.stop_loss}</p>
                       </div>
-                      <p className="font-medium texl-lg pt-2">{dayjsInstance(_?.open_time).format("DD/MM/YYYY")}</p>
+                      <div className="ml-20">
+                        <div className="flex justify-center">
+                          {IconSignal(_?.symbol)}
+                        </div>
+                        <p className="font-medium texl-lg pt-2">{dayjsInstance(_?.open_time).format("DD/MM/YYYY")}</p>
+                      </div>
                     </div>
                   </div>
                 </div>

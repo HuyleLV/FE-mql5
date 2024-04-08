@@ -1,5 +1,5 @@
 import { Dialog, DialogBody } from "@material-tailwind/react";
-import { Col, Dropdown, Row } from "antd";
+import { Col, Dropdown, Modal, Row } from "antd";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
@@ -17,7 +17,8 @@ export default function NotificationHeader({ notifications, lengthSocket, length
     const [count, setCount] = useState(0)
 
     const handleRead = (id) => {
-        setIsRead(id)
+        setIsRead(id);
+
     }
 
     const handleReaded = async (id, value) => {
@@ -65,7 +66,8 @@ export default function NotificationHeader({ notifications, lengthSocket, length
                         onChange={index === isRead && (handleReaded(item.notification_id, item.notification_user === "-1" ? 0 : 1))}
                         style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, paddingBottom: 10, alignItems: 'center', borderBottomColor: index === length - 1 ? "#fff" : "#c0bfbf", borderBottomWidth: 1 }}
                         onClick={() => (
-                            handleRead(index), item.check_read === 0 && (setRefresh(!refresh), decrease())
+                            handleRead(index), item.check_read === 0 && (setRefresh(!refresh), decrease()),
+                            showInfo(item)
                         )}
                     >
                         <Col className="w-[200px]">
@@ -85,6 +87,21 @@ export default function NotificationHeader({ notifications, lengthSocket, length
             }
         ))
 
+        const showInfo = (values) => {
+            Modal.info({
+            title: "Thông báo chi tiết",
+            width: 900,
+            content: (
+                <div className="py-5">
+                    <p className="text-xl font-semibold">{values?.notification_title}</p>
+                    <span className="text-[10px] font-semibold light-gray">
+                        <ReactTimeAgo date={values?.create_at} locale="en-US" />
+                    </span>
+                    <p className="py-2 text-lg">{values?.notification_description}</p>
+                </div>
+            ),
+            });
+        }
 
     return (
         <>

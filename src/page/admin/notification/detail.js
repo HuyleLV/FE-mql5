@@ -52,7 +52,7 @@ export default function NotificationDetail() {
   }, []);
 
   useEffect(() => {
-    setSocket(io("http://localhost:5000"));
+    setSocket(io(process.env.REACT_APP_API_URL));
   }, [cookies])
 
   useEffect(() => {
@@ -63,7 +63,8 @@ export default function NotificationDetail() {
     const submitValues = {
       notification_title: title,
       notification_description: message,
-      notification_user: user_id
+      notification_user: user_id,
+      create_by: cookies.admin?.user_id
     };
     await axios
       .post(`${process.env.REACT_APP_API_URL}/notification/createUser`, submitValues)

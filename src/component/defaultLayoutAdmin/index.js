@@ -5,6 +5,7 @@ import CustomeSider from "../customSider";
 import { StyleProvider } from '@ant-design/cssinjs'
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import axiosInstance from "../../utils/axios";
 
 const { Content } = Layout;
 export default function DefaultLayoutAdmin() {
@@ -14,12 +15,33 @@ export default function DefaultLayoutAdmin() {
 
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
+  const token = localStorage.getItem('token');
+
+  const getInfoAdmin = async () => {
+    await axiosInstance
+      .get(`/admin/getInfoAdmin`)
+      .then((res) => {
+        setCookie("admin", res?.data);
+        navigate("/admin");
+      })
+      .catch((err) => console.log(err));
+  }
 
   useEffect(() => {
-    if (cookies?.admin?.role !== 2) {
+    getInfoAdmin();
+  }, []);
+
+  useEffect(() => {
+    if (!token) {
+      removeCookie('admin');
+      localStorage.removeItem('token');
+      navigate("/loginAdmin");
+    } else if (cookies?.admin?.role !== 2 && cookies?.admin) {
+      removeCookie('admin');
+      localStorage.removeItem('token');
       navigate("/loginAdmin");
     }
-  }, [cookies?.admin?.role]);
+  }, [cookies?.admin, token]);
 
   return (
     <>

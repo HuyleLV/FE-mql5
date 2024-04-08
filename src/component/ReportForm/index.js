@@ -92,6 +92,14 @@ import ReactQuill from "react-quill";
             </Form.Item>
     
             <Form.Item
+                name="report_img"
+                label={"Upload Image"}
+                rules={[{ required: true, message: "Vui lòng chọn file!" }]}
+            >
+                <CustomUpload type="image" accept=".png, .jpg, .jpeg, .jfif" />
+            </Form.Item>
+    
+            <Form.Item
                 name="report_pdf"
                 label={"Upload PDF"}
                 rules={[{ required: true, message: "Vui lòng chọn file!" }]}

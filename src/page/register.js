@@ -51,11 +51,13 @@ const Register = () => {
   return (
     <div className="py-[80px]">
       <Row>
-        <Col xs={24} xl={14}>
-          <div className="flex justify-center">
+        <Col xs={24} xl={8}>
+          <div className="flex justify-center px-10 items-center h-full">
             <img src={image_mk4} width={800} height={700}/>
           </div>
-          <div className="px-[150px] flex">
+          </Col>
+          <Col xs={24} xl={6}>
+          <div className="flex items-center h-full">
             <div className="w-[350px]">
               <div className="flex items-center pt-5">
                   <img src={icon_1} width={40} height={40}/>

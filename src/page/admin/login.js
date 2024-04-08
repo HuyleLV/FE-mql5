@@ -9,7 +9,6 @@ export default function LoginAdmin() {
     const email = Form.useWatch('email', form);
     const password = Form.useWatch('password', form);
     const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(['admin']);
     
     const loginAd = async () => {
         const value = {
@@ -20,7 +19,7 @@ export default function LoginAdmin() {
         await axios
             .post(`${process.env.REACT_APP_API_URL}/admin/login`, value)
             .then((res) => {
-                setCookie("admin", res?.data[0]);
+                localStorage.setItem("token", res?.data);
                 message.success("Đăng nhập thành công!");
                 navigate("/admin");
             })

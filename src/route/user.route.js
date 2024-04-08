@@ -44,7 +44,7 @@ export default function User () {
         <Route path="/category/:category_id" element={<Category />} />
         <Route path="/category-child/:category_id/:categoryChild_id" element={<CategoryDetail />} />
         <Route path="/loginAdmin" element={<LoginAdmin />} />
-        <Route path="/report/:id" element={<ReportDetail />} />
+        <Route path="/report/:report_slug" element={<ReportDetail />} />
       </Routes>
     );
   };

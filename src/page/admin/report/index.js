@@ -80,10 +80,9 @@ export default function ReportDashboard() {
         },
         {
           title: "Người tạo",
-          key: "create_at",
-          dataIndex: "create_at",
+          key: "create_by",
+          dataIndex: "create_by",
           width: 150,
-          sorter: (a, b) => dayjs(a.create_at) - dayjs(b.create_at),
           render: (_, record) => {
             return (
               <div className={"cursor-pointer text-[14px] font-normal"}>

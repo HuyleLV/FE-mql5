@@ -13,11 +13,13 @@ import Ecosystem from "./Ecosystem";
 import TopMaster from "./TopMaster";
 import JobTrade from "./JobTrade";
 import Reports from "./Report";
+import { FormatDollar } from "../../utils/format";
 
 export default function Home() {
     const { isMobile } = useDevice();
     const [products, setProducts] = useState([]);
     const token = useLocation();
+    const [topMaster, setTopMaster] = useState([]);
     const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
 
     const navigate = useNavigate();
@@ -32,6 +34,18 @@ export default function Home() {
                 setProducts(data || []);
             })
             .catch(() => message.error("Error server!"));
+    };
+
+    const getTopMaster = async () => {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/signal/getAllTopMaster`)
+        .catch(function (error) {
+          message.error(error.response.status);
+        })
+        .then(( res ) => {
+          const data = res?.data;
+          setTopMaster(data);
+        });
     };
 
     const renderItem = (item) => {
@@ -63,7 +77,7 @@ export default function Home() {
                                                         <Rate style={{ fontSize: 15 }} allowHalf defaultValue={i?.average !== null ? i?.average : 5} disabled />
                                                     </div>
                                                     <p className="border-t p-2 font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
-                                                        ${i?.product_price} <span>USD</span>
+                                                        {FormatDollar(i?.product_price)} <span>USD</span>
                                                     </p>
                                                 </div>
                                             </Link>
@@ -96,7 +110,7 @@ export default function Home() {
                                                         </div>
                                                     </div>
                                                     <p className="border-t text-center cursor-pointer p-2 w-full font-bold text-[#42639c] hover:bg-[#42639c] hover:text-white">
-                                                        ${i?.product_price} <span>USD</span>
+                                                        {FormatDollar(i?.product_price)} <span>USD</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -159,8 +173,10 @@ export default function Home() {
 
     useEffect(() => {
         fetchProducts();
+        getTopMaster();
         if (new URLSearchParams(token?.search).get('token') !== null) {
             setCookieToken("accessToken", new URLSearchParams(token?.search).get('token'));
+            localStorage.setItem("token", new URLSearchParams(token?.search).get('token'));
         }
     }, []);
 
@@ -241,7 +257,42 @@ export default function Home() {
                     />
                 </div>
 
-                <TopMaster setIsModalOpen={setIsModalOpen} />
+                <div className="pt-10 border-y-2 mt-10">
+                    <h1 className="font-bold text-2xl py-5">Top Masters</h1>
+                    <Row className="py-2">
+                    {topMaster.map((_, i) => (
+                        <Col xs={24} xl={8} className="mb-10">
+                        <div className="border rounded mx-10 p-5 shadow text-black">
+                            <p className="font-semibold text-xl text-center pb-5">Rank: {_?.rank}</p>
+                            <div className="flex items-center justify-center border-y py-5">
+                            <img 
+                                src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
+                                className="rounded-full" 
+                                style={{width: 50, height: 50}}/>
+                            <div className="pl-5">
+                                <p className="font-semibold text-lg"> Email: {_?.user?.email ? _?.user?.email : "Admin@gmail.com"}</p>
+                                <p className="font-semibold text-lg"> Master key: {_?.user?.master_key}</p>
+                            </div>
+                            </div>
+                            <div>
+                            <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
+                            <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? _?.results[0]?.win_rate : 0}</span></p>
+                            <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? _?.results[0]?.win : 0}</span></p>
+                            <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? _?.results[0]?.loss : 0}</span></p>
+                            <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? _?.results[0]?.total_profit : 0}</span></p>
+                            </div>
+                            <div className="flex justify-center py-2">
+                            <a href={"/master/" + _?.user?.master_key}>
+                                <button className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
+                                Chi tiết
+                                </button>
+                            </a>
+                            </div>
+                        </div>
+                        </Col>
+                    ))}
+                    </Row>
+                </div>
 
                 <JobTrade />
 

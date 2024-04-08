@@ -108,16 +108,13 @@ export default function TransferDashboard() {
       },
       render: (_, record) => (
         <div className="flex justify-center">
-          {record?.type === 1 ? 
-            <Select
-              options={optionTransfer}
-              className={"w-[150px]"}
-              value={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
-              defaultValue={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
-              onChange={(e) => updateTransfer(record, e)}
-              />
-              : <p className="font-semibold text-lg">Xác nhận</p>
-          }
+          <Select
+            options={optionTransfer}
+            className={"w-[150px]"}
+            value={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
+            defaultValue={record?.transfer_status === "1" ? "Chờ xác nhận" : "Xác nhận"}
+            onChange={(e) => updateTransfer(record, e)}
+            />
         </div>
       ),
     },

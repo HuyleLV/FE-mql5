@@ -21,7 +21,6 @@ export default function CustomeSider() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
 
-
   const menuItem = [
     {
       key: "user",
@@ -33,9 +32,19 @@ export default function CustomeSider() {
       label: <Link to={"/admin/notification"}>Quản lý thông báo</Link>,
     },
     {
-      key: "product",
+      key: "productManage",
       icon: <VideoCameraOutlined />,
-      label: <Link to={"/admin/products"}>Quản lý sản phẩm</Link>,
+      label: "Quản lý sản phẩm",
+      children: [
+        {
+          key: "product",
+          label: <Link to={"/admin/products"}>Sản phẩm</Link>,
+        },
+        {
+          key: "productPage",
+          label: <Link to={"/admin/product-page"}>Trang sản phẩm</Link>,
+        },
+      ],
     },
     {
       key: "category",
@@ -106,6 +115,11 @@ export default function CustomeSider() {
       label: <Link to={"/admin/master"}>Quản lý master</Link>,
     },
     {
+      key: "vps",
+      icon: <ContainerOutlined />,
+      label: <Link to={"/admin/vps"}>Quản lý VPS</Link>,
+    },
+    {
       key: "comment",
       icon: <MessageOutlined />,
       label: <Link to={"/admin/comments"}>Quản lý comment</Link>,
@@ -121,6 +135,11 @@ export default function CustomeSider() {
       label: <Link to={"/admin/short"}>Quản lý link short</Link>,
     },
     {
+      key: "follower-draft",
+      icon: <ContainerOutlined />,
+      label: <Link to={"/admin/follower-draft"}>Quản lý Follower Draft</Link>,
+    },
+    {
       key: "report",
       icon: <ContainerOutlined />,
       label: <Link to={"/admin/report"}>Quản lý report</Link>,
@@ -128,7 +147,12 @@ export default function CustomeSider() {
     {
       key: "logout",
       icon: <LogoutOutlined />,
-      label: <Link to={"/loginAdmin"} onClick={() => removeCookie("admin")}>Thoát</Link>,
+      label: <Link to={"/loginAdmin"} onClick={() => {
+        removeCookie("admin");
+        localStorage.removeItem('token');
+      }}>
+        Thoát
+      </Link>,
     },
   ];
 
@@ -136,12 +160,14 @@ export default function CustomeSider() {
     <div className="!bg-white">
       <Sider width={220} className="!w-full !bg-white">
         <div className="flex justify-center py-5">
-          <Image
-            preview={false}
-            src={logo}
-            width={60}
-            height={40}
-          />
+          <Link to={"/admin"}>
+            <Image
+              preview={false}
+              src={logo}
+              width={60}
+              height={40}
+            />
+          </Link>
         </div>
         <div className="flex items-center px-5 border">
           <Image
