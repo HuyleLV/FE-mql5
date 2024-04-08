@@ -52,7 +52,7 @@ export default function NotificationDetail() {
   }, []);
 
   useEffect(() => {
-    setSocket(io(process.env.REACT_APP_API_URL));
+    setSocket(io(process.env.REACT_APP_API_URL_ADMIN));
   }, [cookies])
 
   useEffect(() => {

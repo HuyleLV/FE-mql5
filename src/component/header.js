@@ -53,7 +53,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    cookies?.user && setSocket(io("http://localhost:5000"));
+    cookies?.user && setSocket(io(process.env.REACT_APP_API_URL_ADMIN));
   }, [cookies])
 
   useEffect(() => {
