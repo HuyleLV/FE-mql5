@@ -110,6 +110,14 @@ import axiosInstance from "../../utils/axios";
                         <Input size="large" placeholder={"Nhập"} />
                     </Form.Item>
                 </Col>
+                <Col xs={24} xl={12} className="pr-5">
+                    <Form.Item
+                        label={"Người dùng vps"}
+                        name="user_id"
+                    >
+                        <Input size="large" placeholder={"Nhập"} />
+                    </Form.Item>
+                </Col>
             </Row>
 
             <Form.Item 
