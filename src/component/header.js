@@ -64,10 +64,10 @@ export default function Header() {
 
     cookies?.user && socket?.on("getNotification", (data) => {
       message.warning("Có 1 tin nhắn mới !!");
-      setNotifications((prev) => [...prev, data]);
+      setNotifications((prev) => [prev, data]);
       setCheckUpdate(!checkUpdate)
     })
-  }, [socket, refresh])
+  }, [socket])
 
   useEffect(() => {
     cookies?.user && cookies?.user?.active_status === 1 && socket?.on("getNotificationMaster", (data) => {
@@ -93,6 +93,7 @@ export default function Header() {
         setNotificationData(data);
       });
   };
+
 
   const getUser = async () => {
     await axios
@@ -364,6 +365,7 @@ export default function Header() {
                     length={notificationData?.data.length}
                     setRefresh={setRefresh}
                     refresh={refresh}
+                    user_id={cookies?.user?.user_id}
                   />
                 }
 
