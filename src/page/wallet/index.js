@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDevice } from "../../hooks";
 import dayjsInstance from "../../utils/dayjs";
-import { WarningOutlined } from "@ant-design/icons";
+import { DownloadOutlined, PhoneOutlined, WarningOutlined } from "@ant-design/icons";
 import Paragraph from "antd/es/skeleton/Paragraph";
 import { CustomUpload } from "../../component";
 import { FormatDollar, FormatVND } from "../../utils/format";
@@ -156,9 +156,9 @@ export default function Wallet() {
           return (
             <Space>
               <div
-                className={"text-[var(--red)]"}
+                className="text-blue-500"
               >
-                <WarningOutlined />
+                <PhoneOutlined />
               </div>
             </Space>
           );
@@ -190,7 +190,7 @@ export default function Wallet() {
         hidden: isMobile ? true : false,
         render: (_, record) => 
           <div>
-            <img src={record?.product_image ? JSON.parse(record?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : <></>} className="h-20"/>
+            <img src={record?.product_image ? JSON.parse(record?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : <></>} className="h-40 w-40"/>
           </div>,
       },
       {
@@ -222,13 +222,21 @@ export default function Wallet() {
         width: 50,
         render: (_, record) => {
           return (
-            <Space>
+            <div className="justify-center flex">
               <div
-                className={"text-[var(--red)]"}
+                className="bg-blue-500 text-white rounded-full mr-4 cursor-pointer"
               >
-                <WarningOutlined />
+                <PhoneOutlined className="p-2 text-xl"/>
               </div>
-            </Space>
+              
+              <a target="_blank" href={record?.product_link} rel="noreferrer">
+                <div
+                  className="bg-green-500 text-white rounded-full cursor-pointer"
+                >
+                  <DownloadOutlined className="p-2 text-xl"/>
+                </div>
+              </a>
+            </div>
           );
         },
       }
