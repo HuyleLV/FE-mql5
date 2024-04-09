@@ -385,14 +385,14 @@ export default function SignalPage() {
             </div>
             <div className="flex items-center px-5">
             <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
-            <p className="pl-2 font-semibold text-lg">Đo lương giao dịch<br/> chuyên nghiệp</p>
+            <p className="pl-2 font-semibold text-lg">Đo lường giao dịch<br/> chuyên nghiệp</p>
             </div>
         </div>
         </Col>
         <Col xs={24} xl={4}>
           {profile?.kyc === 0 ? 
             <p className="font-semibold bg-yellow-500 px-5 py-2 rounded-full text-center">Bạn phải KYC để được xử dụng chức năng này!</p> 
-            : <CreateMasterKey />
+            : <CreateMasterKey allMaster={allMaster}/>
           }
         </Col>
       </Row>
@@ -511,23 +511,23 @@ export default function SignalPage() {
                 <TabPane tab="Quản lý lệnh" key="2">
                 <div className="w-full h-full mt-5 pb-2 relative">
                     <Table
-                    className={"custom-table pb-[20px]"}
-                    dataSource={signal?.data}
-                    columns={columnSignal}
-                    pagination={false}
+                      className={"custom-table pb-[20px]"}
+                      dataSource={signal?.data}
+                      columns={columnSignal}
+                      pagination={false}
                     />
                     <Pagination
-                    className="flex justify-center"
-                    current={paginationSignal.page}
-                    total={signal?.total}
-                    pageSize={paginationSignal.pageSize}
-                    showSizeChanger
-                    onChange={(p, ps)=> {
-                        setPaginationSignal({
-                        page: p,
-                        pageSize: ps
-                        })
-                    }}
+                      className="flex justify-center"
+                      current={paginationSignal.page}
+                      total={signal?.total}
+                      pageSize={paginationSignal.pageSize}
+                      showSizeChanger
+                      onChange={(p, ps)=> {
+                          setPaginationSignal({
+                          page: p,
+                          pageSize: ps
+                          })
+                      }}
                     />
                 </div>
                 </TabPane>

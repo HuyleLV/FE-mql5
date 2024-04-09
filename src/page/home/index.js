@@ -21,7 +21,9 @@ export default function Home() {
     const token = useLocation();
     const [topMaster, setTopMaster] = useState([]);
     const [shorts, setShorts] = useState([]);
+    const [cookies] = useCookies(["user"]);
     const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
+    
 
     const navigate = useNavigate();
 
@@ -247,9 +249,11 @@ export default function Home() {
                                 </p>
                             </div>
                         </div>
-                        <button className="text-xl border px-4 py-2 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-10">
-                            Trải nghiệm ngay
-                        </button>
+                        <Link to={"/home-detail"}>
+                            <button className="text-xl border px-4 py-2 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-10">
+                                Trải nghiệm ngay
+                            </button>
+                        </Link>
                     </Col>
                     <Col xs={24} xl={12} className="px-10 pt-10">
                         <div className="flex justify-center">
@@ -274,33 +278,43 @@ export default function Home() {
                     <Row className="py-2">
                     {topMaster.map((_, i) => (
                         <Col xs={24} xl={8} className="mb-10">
-                        <div className="border rounded mx-10 p-5 shadow text-black">
-                            <p className="font-semibold text-xl text-center pb-5">Rank: {_?.rank}</p>
-                            <div className="flex items-center justify-center border-y py-5">
-                            <img 
-                                src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
-                                className="rounded-full" 
-                                style={{width: 50, height: 50}}/>
-                            <div className="pl-5">
-                                <p className="font-semibold text-lg"> Email: {_?.user?.email ? _?.user?.email : "Admin@gmail.com"}</p>
-                                <p className="font-semibold text-lg"> Master key: {_?.user?.master_key}</p>
-                            </div>
-                            </div>
-                            <div>
-                            <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
-                            <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? _?.results[0]?.win_rate : 0}</span></p>
-                            <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? _?.results[0]?.win : 0}</span></p>
-                            <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? _?.results[0]?.loss : 0}</span></p>
-                            <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? _?.results[0]?.total_profit : 0}</span></p>
-                            </div>
-                            <div className="flex justify-center py-2">
-                            <a href={"/master/" + _?.user?.master_key}>
-                                <button className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
-                                Chi tiết
-                                </button>
-                            </a>
-                            </div>
-                        </div>
+                            {i < 6 &&
+                                <div className="border rounded mx-10 p-5 shadow text-black">
+                                    <p className="font-semibold text-xl text-center pb-5">Rank: {_?.rank}</p>
+                                    <div className="flex items-center justify-center border-y py-5">
+                                        <img 
+                                            src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
+                                            className="rounded-full" 
+                                            style={{width: 50, height: 50}}/>
+                                        <div className="pl-5">
+                                            <p className="font-semibold text-lg"> Email: {_?.user?.email ? _?.user?.email : "Admin@gmail.com"}</p>
+                                            <p className="font-semibold text-lg"> Master key: {_?.user?.master_key}</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
+                                        <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? _?.results[0]?.win_rate : 0}</span></p>
+                                        <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? _?.results[0]?.win : 0}</span></p>
+                                        <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? _?.results[0]?.loss : 0}</span></p>
+                                        <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? _?.results[0]?.total_profit : 0}</span></p>
+                                    </div>
+                                    <div className="flex justify-center py-2">
+                                        {cookies?.user ? 
+                                            <a href={"/master/" + _?.user?.master_key}>
+                                                <button className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
+                                                    Chi tiết
+                                                </button>
+                                            </a>
+                                            :
+                                            <button 
+                                                className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white" 
+                                                onClick={()=>setIsModalOpen(true)}>
+                                                Chi tiết
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            }
                         </Col>
                     ))}
                     </Row>
@@ -320,7 +334,7 @@ export default function Home() {
                 onCancel={() => setIsModalOpen(false)}
                 okButtonProps={{ className: "bg-blue-500" }}
             >
-                <p className="p-5">Vui lòng đăng nhập</p>
+                <p className="p-5">Vui lòng đăng nhập để được sử dụng chức năng này!</p>
             </Modal>
 
         </div>

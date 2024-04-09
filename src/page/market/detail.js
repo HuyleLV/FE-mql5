@@ -9,7 +9,7 @@ import { useDevice } from "../../hooks";
 import { useCookies } from "react-cookie";
 import dayjs from "dayjs";
 import parse from "html-react-parser";
-import { InboxOutlined } from "@ant-design/icons";
+import { ArrowDownOutlined, DownloadOutlined, InboxOutlined } from "@ant-design/icons";
 import CustomUpload from "../../component/customUpload";
 import Paragraph from "antd/es/typography/Paragraph";
 
@@ -50,9 +50,11 @@ export default function MarketDetail() {
   const params = useParams();
   const { isMobile } = useDevice();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLearn, setIsLearn] = useState(false);
   const [hide, setHide] = useState(false);
   const [rateComment, setRateComment] = useState(5);
   const [comment_content, setcomment_content] = useState("");
+  const [isBuy, setIsBuy] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
     pageSize: 10,
@@ -92,12 +94,26 @@ export default function MarketDetail() {
     },
   };
 
+  const checkBuy = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/report/checkBuy`, {params: {
+          product_id: product?.[0]?.product_id,
+          type: 1,
+          create_by: cookies?.user?.user_id
+      }})
+      .then(({ data }) => {
+        console.log(data);
+        setIsBuy(data);
+      });
+  }
+
   const handleOk = async () => {
     if(cookies?.user.account_balance >= product?.[0].product_price) {
       const transfer = {
         transfer_product_price: product?.[0].product_price,
         product_id: product?.[0].product_id,
-        create_by: cookies?.user.user_id,
+        type: 1,
+        create_by: cookies?.user.user_id
       };
 
       await axiosInstance
@@ -109,6 +125,7 @@ export default function MarketDetail() {
         .then((res) => {
           message.success("Gửi lệnh chuyển tiền thành công!");
           setIsModalOpen(false);
+          setIsLearn(true);
         })
         .catch(() => message.error("Error server!"));
     } else {
@@ -282,8 +299,13 @@ export default function MarketDetail() {
     if (params?.id) {
       fetchproduct();
       fetchcomment();
+      checkBuy();
     }
   }, [params?.id, pagination, paginationComment]);
+
+  useEffect(() => {
+    checkBuy();
+  }, [product]);
 
   const productLink = useMemo(() => {
     const productImage = product?.[0]?.product_image;
@@ -331,17 +353,32 @@ export default function MarketDetail() {
             </div>
           </div>
           <div className="px-4">
-            <button
-              className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Buy: {product?.[0].product_price} USD
-            </button>
-            <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
-              <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
+            {isBuy?.length > 0 ?  
+              <button
+                className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
+                onClick={activate}
+              >
+                Buy: {product?.[0].product_price} USD
+              </button>
+              :
+              <button
+                className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Buy: {product?.[0].product_price} USD
+              </button>
+            }
+            {cookies?.user ?
+              <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
+                <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
+                  Free Demo
+                </button>
+              </a>
+              :
+              <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={() => setIsModalOpen(true)}>
                 Free Demo
               </button>
-            </a>
+            }
           </div>
           <div className="px-4 py-4">
             <div class="relative">
@@ -479,17 +516,35 @@ export default function MarketDetail() {
               <p className="text-[#42639c] font-bold pt-4">
                 {FormatDollar(product?.[0].product_price)} USD
               </p>
-              <button
-                className="bg-[#42639c] py-2 w-[210px] mt-4 font-semibold text-white hover:bg-[#42637c]"
-                onClick={() => setIsModalOpen(true)}
-              >
-                Buy: {FormatDollar(product?.[0].product_price)} USD
-              </button>
-              <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
-                <button className="border border-[#42639c] py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
+              
+              {isBuy?.length > 0 ?  
+                <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
+                  <button
+                    className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
+                    onClick={activate}
+                  >
+                    Buy: {product?.[0].product_price} USD
+                  </button>
+                </a>
+                :
+                <button
+                  className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Buy: {product?.[0].product_price} USD
+                </button>
+              }
+              {cookies?.user ?
+                <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
+                  <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
+                    Free Demo
+                  </button>
+                </a>
+                :
+                <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={() => setIsModalOpen(true)}>
                   Free Demo
                 </button>
-              </a>
+              }
               <div className="mt-4 text-sm w-full">
                 <p>
                   Demo downloaded: <span className="pl-2">{product?.[0].product_activations}</span>
@@ -714,9 +769,32 @@ export default function MarketDetail() {
           onCancel={() => setIsModalOpen(false)}
           okButtonProps={{ className: "bg-blue-500" }}
         >
-          <p className="p-5">Vui lòng đăng nhập để được thanh toán</p>
+          <p className="p-5">Vui lòng đăng nhập để được sử dụng chức năng này</p>
         </Modal>
       )}
+
+        <Modal
+          title="Hoàn tất mua hàng"
+          className="grid justify-items-center"
+          open={isLearn}
+          onOk={() => setIsLearn(false)}
+          okText="Xác nhận"
+          cancelText="Không"
+          onCancel={() => setIsLearn(false)}
+          okButtonProps={{ className: "bg-blue-500" }}
+        >
+          <p className="flex px-5 py-2 text-lg">
+            Bạn đã mua sản phẩm thành công!
+          </p>
+          <p className="flex px-5 py-2 text-lg">
+            Vui lòng tải sản phẩm bên dưới để sử dụng:
+          </p>
+          <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
+            <div className="flex justify-center">
+              <DownloadOutlined className="text-white font-bold text-2xl p-4 bg-green-400 rounded-full w-[50px] h-[50px]" onClick={activate}/>
+            </div>
+          </a>
+        </Modal>
     </div>
   );
 }

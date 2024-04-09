@@ -15,6 +15,7 @@ import {
   import { ExclamationCircleOutlined } from "@ant-design/icons";
   import CustomUpload from "../customUpload";
 import ReactQuill from "react-quill";
+import axiosInstance from "../../utils/axios";
   
   export default function ReportForm({
     id = "",
@@ -22,7 +23,22 @@ import ReactQuill from "react-quill";
     onSubmit = () => {},
   }) {
     const navigate = useNavigate();
-    const [form] = Form.useForm();
+    const [form] = Form.useForm();    
+    const [ReportCategory, setReportCategory] = useState([]);
+
+    const getAllReportCategory = async () => {
+      try {
+        const result = await axiosInstance.get(
+          `/reportCategory/getAll`, {params: {
+            page: 1,
+            pageSize: 10,
+          }}
+        );
+        setReportCategory(result?.data?.data);
+      } catch (e) {
+        message.error(e);
+      }
+    };
   
     const deleteReport = async () => {
       await axios
@@ -31,6 +47,7 @@ import ReactQuill from "react-quill";
     };
   
     useEffect(() => {
+      getAllReportCategory();
       if (Object.keys(initialValues)?.length > 0) {
         form.resetFields();
       }
@@ -105,6 +122,19 @@ import ReactQuill from "react-quill";
                 rules={[{ required: true, message: "Vui lòng chọn file!" }]}
             >
                 <CustomUpload type="image" accept=".png, .jpg, .jpeg, .jfif" />
+            </Form.Item>
+
+            <Form.Item label={"Danh mục report"} name="report_category_id">
+                <Select
+                    showSearch
+                    size="large"
+                    placeholder="Select a person"
+                    optionFilterProp="children"
+                    options={ReportCategory?.map((value) => ({
+                      value: value.report_category_id,
+                      label: value.report_category_title,
+                    }))}
+                />
             </Form.Item>
 
             <Form.Item 

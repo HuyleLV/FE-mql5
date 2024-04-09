@@ -29,6 +29,7 @@ export default function Product() {
     const [cookies] = useCookies(["user"]);
     const [productPage, setProductPage] = useState([]);
     const [short, setShort] = useState([]);
+    const [report, setReport] = useState([]);
 
     const fetchProducts = async () => {
         await axios
@@ -54,6 +55,17 @@ export default function Product() {
             })
             .catch(() => message.error("Error server!"));
     };
+
+    const getAllCategoryWeb = async () => {
+        await axiosInstance.get(`/reportCategory/getAllCategoryWeb/`)
+            .then((res) => {
+                const data = res?.data;
+                setReport(data);
+            })
+            .catch(() => message.error("Error server!"));
+    };
+
+    
 
     const renderItem = (item) => {
         if (item?.product?.length > 0) {
@@ -177,6 +189,43 @@ export default function Product() {
             );
         }
     };
+    
+    const renderItemReport = (item) => {
+        if (report?.length > 0) {
+            return (
+                <>
+                    <List.Item
+                        key={item}
+                    >
+                        <p className="font-bold p-4 text-3xl border-b-2 border-blue-500">{item?.report_category_title}</p>
+                        <List
+                            itemLayout="horizontal"
+                            dataSource={item?.report}
+                            grid={{ gutter: 20, column: 4 }}
+                            renderItem={(i) => (
+                                <List.Item className="mt-8">
+                                    <>
+                                        <Link
+                                            to={`/report/${i?.report_slug}`}
+                                        >
+                                            <div className="w-full my-8 px-2">
+                                                <img alt={i?.report_title} className="w-full h-[200px]" style={{ borderRadius: 6 }} src={i?.report_img} />
+                                                <div className="font-semibold text-xl line-clamp-2 my-3 text-black">{i?.report_title}</div>
+                                                <div className="font-semibold text-md light-gray flex justify-between">
+                                                    <p>by {i?.displayName}</p>
+                                                    <p>{dayjsInstance(i?.create_at).format("DD/MM/YYYY")}</p>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </>
+                                </List.Item>
+                            )}
+                        />
+                    </List.Item>
+                </>
+            );
+        }
+    };
 
     useEffect(() => { 
         if(!cookies?.user && currentPath?.includes('/san-pham')){ 
@@ -185,7 +234,8 @@ export default function Product() {
           } else {
             fetchProducts();
             getAllProductPage();
-            console.log(short);
+            getAllCategoryWeb();
+            console.log(report);
           }
     }, [cookies?.user]);
 
@@ -271,7 +321,14 @@ export default function Product() {
                 )}
                 
                 {tab === 2 && (
-                    <Reports />
+                    <div className="w-full p-5">
+                        <List
+                            rootClassName="item-cont"
+                            itemLayout="vertical"
+                            dataSource={report}
+                            renderItem={renderItemReport}
+                        />
+                    </div>
                 )}
                 
                 {tab === 3 && (

@@ -167,7 +167,7 @@ export default function ProfilePage() {
                         </Form.Item>
                       </Col>
                       <Col xs={24} xl={12}>
-                        <Form.Item label="Telegram" name="telegram" className="w-[300px]">
+                        <Form.Item label="ID Telegram" name="telegram" className="w-[300px]">
                           <Input size="large" placeholder={profile?.telegram} />
                         </Form.Item>
                       </Col>
@@ -218,7 +218,7 @@ export default function ProfilePage() {
                         </Col>
                       }
                       <Col xs={24} xl={12}>
-                        <Form.Item label="Telegram" name="telegram" className="w-[300px]">
+                        <Form.Item label="ID Telegram" name="telegram" className="w-[300px]">
                           <Input disabled size="large" placeholder={profile?.telegram} />
                         </Form.Item>
                       </Col>

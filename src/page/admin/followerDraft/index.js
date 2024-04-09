@@ -28,7 +28,8 @@ export default function FollowerDraftDashboard() {
     const updateStatus = async (value, e) => {
         await axiosInstance
         .post(`/followerDraft/updateStatus/${value?.follower_draft_id}`, {
-            status: e
+            status: e,
+            vps_id: value?.vps_id
         })
         .finally(() => {
             getAllFollowerDraft();

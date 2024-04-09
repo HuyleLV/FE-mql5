@@ -142,7 +142,17 @@ export default function CustomeSider() {
     {
       key: "report",
       icon: <ContainerOutlined />,
-      label: <Link to={"/admin/report"}>Quản lý report</Link>,
+      label: "Quản lý report",
+      children: [
+        {
+          key: "report-category",
+          label: <Link to={"/admin/report-category"}>Danh mục report</Link>,
+        },
+        {
+          key: "report",
+          label: <Link to={"/admin/report"}>Danh sách report</Link>,
+        }
+      ],
     },
     {
       key: "logout",

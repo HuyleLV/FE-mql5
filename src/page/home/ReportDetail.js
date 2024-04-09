@@ -4,7 +4,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa6";
 import { GoLink } from "react-icons/go";
-import { Button, Form, message, Input, Radio, Space, } from "antd";
+import { Button, Form, message, Input, Radio, Space, Modal, } from "antd";
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
@@ -15,6 +15,7 @@ import pdf from "../../component/image/pdf.png";
 import parse from "html-react-parser";
 import dayjsInstance from "../../utils/dayjs";
 import { FormatDollar } from "../../utils/format";
+import axiosInstance from "../../utils/axios";
 
 export default function ReportDetail() {
 
@@ -31,6 +32,8 @@ export default function ReportDetail() {
     const [cookies, setCookie, removeCookie] = useCookies(["user"]);
     const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
     const [value, setValue] = useState(1);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isBuy, setIsBuy] = useState([]);
     
 
     const getByReportSlug = async () => {
@@ -39,10 +42,46 @@ export default function ReportDetail() {
                 `${process.env.REACT_APP_API_URL}/report/getBySlug/${params?.report_slug}`
             )
             .then(({ data }) => {
-                console.log(data);
                 setReport(data[0]);
             });
     }
+
+    const checkBuy = async () => {
+        await axios
+            .get(`${process.env.REACT_APP_API_URL}/report/checkBuy`, {params: {
+                product_id: report?.report_id,
+                type: 2,
+                create_by: cookies?.user?.user_id
+            }})
+            .then(({ data }) => {
+                setIsBuy(data);
+            });
+    }
+
+    const handleOk = async () => {
+        if(cookies?.user.account_balance >= report?.report_price) {
+        const transfer = {
+            transfer_product_price: report?.report_price,
+            product_id: report?.report_id,
+            type: 2,
+            create_by: cookies?.user.user_id
+        };
+
+        await axiosInstance
+            .post(`/user/updateBalance`, {price: report?.report_price})
+            .catch(() => message.error("Error server!"));
+    
+        await axios
+            .post(`${process.env.REACT_APP_API_URL}/transferProduct/create`, transfer)
+            .then((res) => {
+            message.success("Gửi lệnh chuyển tiền thành công!");
+            setIsModalOpen(false);
+            })
+            .catch(() => message.error("Error server!"));
+        } else {
+        message.warning("Số dư của bạn không đủ!");
+        }
+    };
 
 
     const loginUser = async () => {
@@ -69,6 +108,8 @@ export default function ReportDetail() {
     
     useEffect(() => { 
         getByReportSlug();
+        checkBuy();
+        console.log(isBuy)
     }, []);
 
     return (
@@ -129,11 +170,27 @@ export default function ReportDetail() {
                 </div>
                 
                 {cookies?.user ?
-                    <div className="w-[150px]">
-                        <a href={report?.report_pdf} download={report?.report_title}>
-                            <img src={pdf} width={150}/>
-                            <p className="font-semibold text-lg text-center">{report?.report_price > 0 ? FormatDollar(report?.report_price) : "Free"}</p>
-                        </a>
+                    <div className="w-[150px] py-10">
+                        {isBuy?.length > 0 ? 
+                            <a href={report?.report_pdf} download={report?.report_title}>
+                                <img src={pdf} width={150}/>
+                                <p className="font-semibold text-lg text-center">{report?.report_price > 0 ? FormatDollar(report?.report_price) : "Free"}</p>
+                            </a> 
+                            :
+                            <>
+                                {report?.report_price > 0 ? (
+                                    <button onClick={()=>setIsModalOpen(true)}>
+                                        <img src={pdf} width={150}/>
+                                        <p className="font-semibold text-lg text-center">{report?.report_price > 0 ? FormatDollar(report?.report_price) : "Free"}</p>
+                                    </button>
+                                ) : (
+                                    <a href={report?.report_pdf} download={report?.report_title}>
+                                        <img src={pdf} width={150}/>
+                                        <p className="font-semibold text-lg text-center">{report?.report_price > 0 ? FormatDollar(report?.report_price) : "Free"}</p>
+                                    </a> 
+                                )}
+                            </>
+                        }
                     </div>
                     :
                     <div className="w-full text-center p-10 my-10" style={{ borderRadius: 20, marginBottom: -70, background: "linear-gradient(to right, #ada996, #f2f2f2, #dbdbdb, #eaeaea)" }}>
@@ -208,6 +265,33 @@ export default function ReportDetail() {
                     </DialogBody>
                 </Dialog>
             </div>
+            {cookies?.user ? (
+                <Modal
+                    title="Thanh toán sản phẩm"
+                    className="grid justify-items-center"
+                    open={isModalOpen}
+                    onOk={handleOk}
+                    okText="Xác nhận"
+                    cancelText="Không"
+                    onCancel={() => setIsModalOpen(false)}
+                    okButtonProps={{ className: "bg-blue-500" }}
+                    >
+                    <p className="flex px-5 py-5 text-lg">
+                        Bạn muốn mua sản phẩm này!
+                    </p>
+                </Modal>
+            ) : (
+                <Modal
+                    title="Bạn chưa đăng nhập?"
+                    className="flex justify-center"
+                    open={isModalOpen}
+                    onOk={() => setIsModalOpen(false)}
+                    onCancel={() => setIsModalOpen(false)}
+                    okButtonProps={{ className: "bg-blue-500" }}
+                    >
+                    <p className="p-5">Vui lòng đăng nhập để được thanh toán</p>
+                </Modal>
+            )}
         </>
 
 
