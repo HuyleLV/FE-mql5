@@ -28,6 +28,8 @@ export default function MasterDetail() {
     const [priceVps, setPriceVps] = useState(0);
     const [vpsTime, setVpsTime] = useState(1);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [isReport, setIsReport] = useState(1);
+    const [report, setReport] = useState([]);
 
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
@@ -43,6 +45,19 @@ export default function MasterDetail() {
             getAllByUser(data);
           });
     };
+
+    const getReportByMasterKey = async () => {
+        await axios
+          .get(`${process.env.REACT_APP_API_URL}/signal/getReportByMasterKey/${params?.master_key}`)
+          .catch(function (error) {
+            message.error(error.response.status);
+          })
+          .then(( res ) => {
+            const data = res?.data;
+            setReport(data[0]);
+          });
+    };
+    
 
     const getAllByUser = async (data) => {
         await axios
@@ -134,6 +149,7 @@ export default function MasterDetail() {
         getTotalByMasterKey();
         getAllVps();
         getPriceMaster();
+        getReportByMasterKey();
     }, []);
 
     useEffect(() => {         
@@ -216,9 +232,154 @@ export default function MasterDetail() {
                     </button>
                 </div>
                 <div className="py-10 flex justify-center">
-                    <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl">Báo cáo</button>
-                    <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl mx-20">Phân tích</button>
-                    <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl">Lịch sử</button>
+                    <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl" onClick={()=>setIsReport(1)}>
+                        Báo cáo
+                    </button>
+                    <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl mx-20" onClick={()=>setIsReport(2)}>
+                        Phân tích
+                    </button>
+                    <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl" onClick={()=>setIsReport(3)}>
+                        Lịch sử
+                    </button>
+                </div>
+                <div>
+                    {isReport === 1 && (
+                        <Row className="bg-gray-100 text-white rounded-xl p-10">
+                            <Col xs={24} xl={24} className="text-black p-2">
+                                <p className="text-center font-bold text-xl pb-5">BÁO CÁO</p>
+                            </Col>
+
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Sụt giảm cao nhất</p>
+                                    <p className="text-center font-bold text-lg"></p>
+                                </div>
+                            </Col>
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Giao dịch có lợi nhuận cao nhất</p>
+                                    <p className="text-center font-bold text-lg">{report?.profit_max}</p>
+                                </div>
+                            </Col>
+                            
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Tổng lệnh đã trade:</p>
+                                    <p className="text-center font-bold text-lg">{report?.total}</p>
+                                </div>
+                            </Col>
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Giao dịch loss nhiều nhất:</p>
+                                    <p className="text-center font-bold text-lg">{report?.profit_min}</p>
+                                </div>
+                            </Col>
+                            
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Tổng lệnh đang chạy</p>
+                                    <p className="text-center font-bold text-lg">{report?.total_open}</p>
+                                </div>
+                            </Col>
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Lợi nhuận trung bình</p>
+                                    <p className="text-center font-bold text-lg">{report?.lntb}</p>
+                                </div>
+                            </Col>
+                            
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Tổng lệnh win</p>
+                                    <p className="text-center font-bold text-lg">{report?.total_win}</p>
+                                </div>
+                            </Col>
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Loss trung bình</p>
+                                    <p className="text-center font-bold text-lg"></p>
+                                </div>
+                            </Col>
+                            
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Tổng lệnh loss</p>
+                                    <p className="text-center font-bold text-lg">{report?.total_loss}</p>
+                                </div>
+                            </Col>
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Thời gian phục hồi</p>
+                                    <p className="text-center font-bold text-lg"></p>
+                                </div>
+                            </Col>
+                            
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Lợi nhuận trung bình / lot</p>
+                                    <p className="text-center font-bold text-lg">{report?.lntb_lot}</p>
+                                </div>
+                            </Col>
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Lợi nhuận liên tiếp</p>
+                                    <p className="text-center font-bold text-lg"></p>
+                                </div>
+                            </Col>
+                            
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Lợi nhuận trung bình / ngày</p>
+                                    <p className="text-center font-bold text-lg"></p>
+                                </div>
+                            </Col>
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Loss liên tiếp</p>
+                                    <p className="text-center font-bold text-lg"></p>
+                                </div>
+                            </Col>
+                            
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Số lệnh win liên tiếp</p>
+                                    <p className="text-center font-bold text-lg"></p>
+                                </div>
+                            </Col>
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Volume giữ cao nhất</p>
+                                    <p className="text-center font-bold text-lg">{report?.volumne_max}</p>
+                                </div>
+                            </Col>
+                            
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Số lệnh loss liên tiếp</p>
+                                    <p className="text-center font-bold text-lg"></p>
+                                </div>
+                            </Col>
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Khối lượng lệnh trung bình</p>
+                                    <p className="text-center font-bold text-lg">{report?.volumne_tb}</p>
+                                </div>
+                            </Col>
+                            
+                            <Col xs={24} xl={12} className="p-2">
+                                <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                                    <p className="text-center font-bold text-lg">Số lệnh trạng thái nhiều nhất</p>
+                                    <p className="text-center font-bold text-lg">{report?.slttnn}</p>
+                                </div>
+                            </Col>
+                        </Row>
+                    )}
+
+                    {isReport === 2 && (
+                        <Row>
+                            
+                        </Row>
+                    )}
                 </div>
             </div>
             <Modal 

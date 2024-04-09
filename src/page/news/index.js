@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Pagination, Row } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
@@ -11,6 +11,10 @@ export default function News() {
     const [identify, setIdentify] = useState([]);
     const [identifyHot, setIdentifyHot] = useState([]);
     const [identifyHotHover, setIdentifyHotHover] = useState([]);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        pageSize: 10,
+    });
 
     const getAllNew = async () => {
         await axios
@@ -25,14 +29,15 @@ export default function News() {
     const getByIdentify_category = async (identify_category_id) => {
         await axios
             .get(
-                `${process.env.REACT_APP_API_URL}/identify/getByIdentify_category/${identify_category_id}`,{
+                `${process.env.REACT_APP_API_URL}/identify/getByIdentify_categoryNew/${identify_category_id}`,{
                     params: {
-                        page: 2
+                        ...pagination,
+                        pageSite: 2
                     }
                 }
             )
             .then(({ data }) => {
-                setIdentify(data);
+                setIdentify(data?.data);
             });
     }
 
@@ -145,35 +150,53 @@ export default function News() {
                         </button>
                     ))}
                 </div>
+                
                 <div className="p-5 rounded-xl mt-10">
                     <Row>
                         {identify?.length === 0 
-                        ?
-                            <p className="font-bold text-2xl">Chưa có bài viết mới!</p>
-                        :
-                        identify?.map((e, index) => (
-                            <>
-                                <Col xs={24} xl={8}>
-                                    <a href={"/tin-tuc/" + e?.identify_slug} style={{color: "black"}}>
-                                        <div className="flex justify-center m-5">
-                                            <div className="w-[400px] h-[460px] border-b-2">
-                                                <img src={e?.identify_image} style={{width: 400, height: 300}}/>
-                                                <div className="py-2">
-                                                    <p className="py-2 text-sm">
-                                                        Tác giả: {e?.displayName ? e?.displayName : "Admin"}
-                                                    </p>
-                                                    <p className="font-bold text-xl">{e?.identify_title}</p>
-                                                    <p className="py-2 text-sm">{dayjsInstance(e?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                            ?
+                                <p className="font-bold text-2xl">Chưa có bài viết mới!</p>
+                            :
+                            <div className="w-full h-full mt-5 pb-20 relative">
+                                {identify?.map((e, index) => (
+                                    <Col xs={24} xl={8}>
+                                        <a href={"/tin-tuc/" + e?.identify_slug} style={{color: "black"}}>
+                                            <div className="flex justify-center m-5">
+                                                <div className="w-[400px] h-[460px] border-b-2">
+                                                    <img src={e?.identify_image} style={{width: 400, height: 300}}/>
+                                                    <div className="py-2">
+                                                        <p className="py-2 text-sm">
+                                                            Tác giả: {e?.displayName ? e?.displayName : "Admin"}
+                                                        </p>
+                                                        <p className="font-bold text-xl">{e?.identify_title}</p>
+                                                        <p className="py-2 text-sm">{dayjsInstance(e?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </Col>                                  
-                            </>
-                        ))}
+                                        </a>
+                                    </Col>    
+                                ))}
+
+                                <Pagination
+                                    className="flex justify-center absolute inset-x-0 bottom-0"
+                                    current={pagination.page}
+                                    total={identify?.total}
+                                    pageSize={pagination.pageSize}
+                                    showSizeChanger
+                                    onChange={(p, ps)=> {
+                                        setPagination({
+                                            page: p,
+                                            pageSize: ps
+                                        })
+                                    }}
+                                />
+                            </div>
+                        }
                     </Row>
                 </div>
+                    
             </div>
+                        
         </div>
     )
 }

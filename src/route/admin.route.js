@@ -35,6 +35,8 @@ import VpsDashboard from "../page/admin/vps";
 import VpsDetail from "../page/admin/vps/detail";
 import FollowerDraftDashboard from "../page/admin/followerDraft";
 import ProductPageDashboard from "../page/admin/products/productPage";
+import ReportCategoryDashboard from "../page/admin/report/category";
+import ReportCategoryDetail from "../page/admin/report/category/detail";
 
 export default function AdminRouter () {
     return (
@@ -75,6 +77,8 @@ export default function AdminRouter () {
         <Route path="/admin/short/:id" element={<ShortDetail />} />
         <Route path="/admin/report" element={<ReportDashboard />} />
         <Route path="/admin/report/:id" element={<ReportDetail />} />
+        <Route path="/admin/report-category" element={<ReportCategoryDashboard />} />
+        <Route path="/admin/report-category/:id" element={<ReportCategoryDetail />} />
       </Routes>
     );
   };

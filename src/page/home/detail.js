@@ -224,7 +224,7 @@ export default function HomeDetail() {
                     </Row>
                 </div>
             </div>            
-            <div className="py-10 bg-white">
+            {/* <div className="py-10 bg-white">
                 <div className="max-w-screen-2xl items-center mx-auto pt-10">
                     <p className="font-bold text-3xl text-center">VIDEO VỀ SẢN PHẨM</p>
                     <iframe 
@@ -237,7 +237,7 @@ export default function HomeDetail() {
                         allowfullscreen>
                     </iframe>
                 </div>
-            </div>       
+            </div>        */}
             <div className="py-10 bg-white">
                 <div className="max-w-screen-2xl items-center mx-auto pt-10">
                     <Row>

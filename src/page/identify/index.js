@@ -1,16 +1,28 @@
-import { Col, Row } from "antd";
+import { Button, Col, DatePicker, Pagination, Rate, Row, message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import dayjsInstance from "../../utils/dayjs";
 import image_mk4 from "../../component/image/mk4.jpg";
+import dayjs from "dayjs";
+import { useCookies } from "react-cookie";
 
 export default function Identify() {  
+    const [cookies] = useCookies(["user"]);
     const [identifyCategory, setIdentifyCategory] = useState([]);
     const [identify, setIdentify] = useState([]);
     const [identifyHot, setIdentifyHot] = useState([]);
+    const [comment, setComment] = useState([]);
+    const [rateComment, setRateComment] = useState(5);
+    const [identifyCategoryId, setIdentifyCategoryId] = useState(0);
+    const [comment_content, setcomment_content] = useState("");
+    const [paginationComment, setPaginationComment] = useState({
+      page: 1,
+      pageSize: 6,
+    });
 
     const getByIdentify_category = async (identify_category_id) => {
+        console.log(identify_category_id)
         await axios
             .get(
                 `${process.env.REACT_APP_API_URL}/identify/getByIdentify_category/${identify_category_id}`, {
@@ -22,6 +34,8 @@ export default function Identify() {
             .then(({ data }) => {
                 setIdentify(data[0]);
             });
+            
+        setIdentifyCategoryId(identify_category_id);
     }
 
     const getAllIdentifyCategory = async () => {
@@ -47,10 +61,65 @@ export default function Identify() {
             });
     }
 
+    const fetchcomment = async () => {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/comment/getById/0`, {params: paginationComment})
+        .then((res) => {
+          const data = res?.data;
+          console.log(data)
+          setComment(data);
+        })
+        .catch(() => message.error("Error server!"));
+    };
+
+    const postcomment = async () => {
+        const value = {
+            comment_content: comment_content.target.value,
+            comment_star: rateComment,
+            product_id: 0,
+            create_by: cookies?.user.user_id,
+        };
+
+        await axios
+        .post(`${process.env.REACT_APP_API_URL}/comment/create`, value)
+        .then((res) => {
+            message.success("Bình luận thành công");
+            fetchcomment();
+        });
+    };
+
+    const onChange = async (date) => {
+        const create_at = dayjs(date).format("YYYY-MM-DD");
+        const create_atD = dayjs(date).add(1, 'day').format("YYYY-MM-DD 00:00:00");
+        
+        await axios
+            .get(
+                `${process.env.REACT_APP_API_URL}/identify/getByTime/${identifyCategoryId}`, {
+                    params: {
+                        page: 1,
+                        create_at: create_at,
+                        create_atD: create_atD
+                    }
+                }
+            )
+            .then(({ data }) => {
+                console.log(data)
+                setIdentify(data[0]);
+            });
+     };
+
     useEffect(() => { 
         getAllIdentifyCategory();
         getAllIdentifyHot();
+        fetchcomment();
     }, []);
+
+    useEffect(() => { 
+        if(identify?.length === 0 && identifyCategory?.[0]?.identify_category_id) {
+            getByIdentify_category(identifyCategory?.[0]?.identify_category_id);
+            setIdentifyCategoryId(identifyCategory?.[0]?.identify_category_id);
+        }
+    }, [identify, identifyCategory]);
 
     return (
         <>
@@ -92,8 +161,14 @@ export default function Identify() {
         
             <div className="max-w-screen-2xl items-center mx-auto">
                 <div className="mt-[100px]">
-                    <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] my-10 pl-4">
-                        <p className="font-bold text-2xl py-5">Nhận định thị trường</p>
+                    <div className="flex justify-between items-center">
+                        <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] my-10 pl-4">
+                            <p className="font-bold text-2xl py-5">Nhận định thị trường</p>
+                        </div>
+                        <DatePicker 
+                            onChange={onChange}
+                            format={'DD/MM/YYYY'} 
+                        />
                     </div>
                     <Row>
                         <Col xs={24} xl={4}>
@@ -123,6 +198,95 @@ export default function Identify() {
                             </div>
                         </Col>
                     </Row>
+                </div>
+                
+                <div className="py-10">
+                    <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[200px] my-10 pl-4">
+                        <p className="font-bold text-2xl py-5">Comment</p>
+                    </div>
+                    {comment?.data !== undefined ? 
+                        <>
+                        {comment.data?.map((i) => {
+                            return (
+                            <>
+                                <div className="flex border">
+                                <div className="w-1/3 md:w-1/6 p-4">
+                                    <p className="flex justify-center">
+                                        <img
+                                            alt="img"
+                                            src={i.photos}
+                                            className="w-[80px] h-[80px] rounded-tl-lg rounded-br-lg"
+                                        />
+                                    </p>
+                                </div>
+                                <div className="w-2/3 md:w-5/6">
+                                    <div className="flex py-5 max-md:flex-col">
+                                    <p className="font-bold text-[#42639c]">
+                                        {i.displayName}
+                                    </p>
+                                    <p className="text-[10px] pt-1 px-2">
+                                        {dayjs(i.create_at).format("DD/MM/YYYY hh:mm")}
+                                    </p>
+                                    <Rate allowHalf value={i.comment_star} disabled />
+                                    </div>
+                                    <p>{i.comment_content}</p>
+                                </div>
+                                </div>
+                            </>
+                            );
+                        })}
+                        <div className="py-6">
+                            <Pagination
+                            className="flex justify-center"
+                            current={paginationComment.page}
+                            total={comment?.total}
+                            pageSize={paginationComment.pageSize}
+                            onChange={(p)=> {
+                                setPaginationComment({
+                                page: p,
+                                pageSize: paginationComment.pageSize
+                                })
+                            }}
+                            />
+                        </div>
+                        </>
+                    : <></>
+                    }
+
+                    {cookies?.user && (
+                        <div className="p-[10px] flex ">
+                            <div className="px-10">
+                                <img
+                                    alt="img"
+                                    src={cookies?.user?.photos}
+                                    className="w-[120px] h-[120px] rounded-tl-lg rounded-br-lg"
+                                />
+                                <p className="text-center font-bold text-xl text-[#42639c]">{cookies?.user?.displayName}</p>
+                            </div>
+                            <div className="w-full">
+                                <div className="mb-[10px] w-full">
+                                    <textarea
+                                    id="comment_content"
+                                    name="comment_content"
+                                    rows="4"
+                                    className="w-full px-3 py-2 border rounded-md"
+                                    placeholder="Gửi nhận xét về sản phẩm"
+                                    onChange={setcomment_content}
+                                    ></textarea>
+                                </div>
+                                <p>
+                                    <Rate
+                                    allowHalf
+                                    onChange={setRateComment}
+                                    value={rateComment}
+                                    />
+                                </p>
+                                <Button className="my-5 w-[200px] h-10" onClick={postcomment}>
+                                    Gửi
+                                </Button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

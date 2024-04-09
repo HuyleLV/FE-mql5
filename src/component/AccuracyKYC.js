@@ -42,6 +42,7 @@ export default function AccuracyKYC({ handleOpen }) {
         await axios.post(`${process.env.REACT_APP_API_URL}/user/updateInfoKyc/${cookies?.user?.user_id}`, data)
             .finally(() => {
                 message.success("Cập nhập thành công!");
+                handleOpen();
             });
     };
 
@@ -243,9 +244,6 @@ export default function AccuracyKYC({ handleOpen }) {
                                     className="font-semibold text-lg"
                                     label="Loại tài liệu"
                                     name="identification_type"
-                                    rules={[
-                                        { required: true, message: "Enter display file!" },
-                                    ]}
                                 >
                                     <select
                                         {...register("identification_type")} 
@@ -303,21 +301,21 @@ export default function AccuracyKYC({ handleOpen }) {
                 }
                 <div className="mt-10 flex justify-center">
                     {activeStep === 1 ?
-                        <Button style={{ background: "#EEEEEE", fontSize: 16, padding: 10, borderRadius: 6, marginRight: 30, color: "#1677FF" }} onClick={handleOpen} disabled={isFirstStep}>
+                        <Button style={{ background: "#EEEEEE", fontSize: 16, padding: 10, borderRadius: 6, marginRight: 30, color: "#1677FF", height: 40 }} onClick={handleOpen} disabled={isFirstStep}>
                             Thoát
                         </Button> :
-                        <Button style={{ background: "#EEEEEE", fontSize: 16, padding: 10, borderRadius: 6, marginRight: 30, color: "#1677FF" }} onClick={handlePrev} disabled={isFirstStep}>
+                        <Button style={{ background: "#EEEEEE", fontSize: 16, padding: 10, borderRadius: 6, marginRight: 30, color: "#1677FF", height: 40 }} onClick={handlePrev} disabled={isFirstStep}>
                             Quay lại
                         </Button>
                     }
                     {activeStep != 2 ?
-                        <Button style={{ background: "#1677FF", fontSize: 16, padding: 10, borderRadius: 6, color: "#fff" }} onClick={handleNext} disabled={isLastStep}>
+                        <Button style={{ background: "#1677FF", fontSize: 16, padding: 10, borderRadius: 6, color: "#fff", height: 40 }} onClick={handleNext} disabled={isLastStep}>
                             Tiếp tục
                         </Button>
                         : 
                         <Form.Item>
                             <Button 
-                                style={{ background: "#1677FF", fontSize: 16, padding: 10, borderRadius: 6, color: "#fff" }}  
+                                style={{ background: "#1677FF", fontSize: 16, padding: 10, borderRadius: 6, color: "#fff", height: 40 }}  
                                 disabled={isLastStep}
                                 type={"primary"} 
                                 htmlType={"submit"}>

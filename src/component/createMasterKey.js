@@ -5,7 +5,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 
-export default function CreateMasterKey() {
+export default function CreateMasterKey({allMaster}) {
     const [cookies] = useCookies(["user"]);
     const [currentStep, setCurrentStep] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
@@ -157,7 +157,11 @@ export default function CreateMasterKey() {
             className="bg-yellow-500 px-5 py-2 rounded-xl hover:bg-yellow-600"
             onClick={() => setIsOpen(true)}
         >
-            <p className="font-semibold text-lg">Đăng ký làm master</p>
+            {allMaster?.length > 0 ? 
+                <p className="font-semibold text-lg">Tạo chiến dịch mới</p>
+                :
+                <p className="font-semibold text-lg">Đăng ký làm master</p>
+            }
         </button>
       <Modal 
         title={steps[currentStep].title}
@@ -167,7 +171,7 @@ export default function CreateMasterKey() {
           <div style={{ display: "flex", justifyContent: "right" }}>
             {currentStep !== 0 && (
                 <Button key="prev" onClick={handlePrev}>
-                Previous
+                    Previous
                 </Button>
             )}
             <div>
