@@ -26,17 +26,15 @@ export default function CustomUpload({
 
   const uploadFile = async (file) => {
     const uploadForm = new FormData();
-      uploadForm.append("product_link", file);
-      const result = await axios.post(
-        `${process.env.REACT_APP_API_URL}/upload/file`,
-        uploadForm
-      );
-      const url = `${process.env.REACT_APP_API_URL}${result?.data}`;
+    uploadForm.append("product_link", file);
+    const result = await axios.post(
+      `${process.env.REACT_APP_API_URL}/upload/file`,
+      uploadForm
+    );
+    const url = `${process.env.REACT_APP_API_URL}${result?.data}`;
 
-      return { url };
+    return { url };
   };
-
-
 
   const getFileList = () => {
     if (!value) {
@@ -65,7 +63,7 @@ export default function CustomUpload({
         fileList?.map(async (file) => {
           const action = uploadFile
           return action(file)
-            .then((data) => {
+            .then((data) => { 
               return data?.url
             })
             .catch((err) => {

@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import ReactQuill from "react-quill";
+import CustomReactQuill from "../customReactQuill";
 import "react-quill/dist/quill.snow.css";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import CustomUpload from "../customUpload";
@@ -26,6 +26,7 @@ export default function ProductForm({
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [categoryChild, setCategoryChild] = useState([]);
+  const [editorValue, setEditorValue] = useState('');
 
   const fetchCategoryChild = async () => {
     try {
@@ -154,7 +155,7 @@ export default function ProductForm({
         <Row gutter={8}>
           <Col xs={24}>
             <Form.Item name="product_description" label={"Mô tả"}>
-              <ReactQuill className="h-[400px] pb-10" theme="snow" />
+              <CustomReactQuill value={editorValue} onChange={(e)=> setEditorValue(e)} />
             </Form.Item>
           </Col>
 

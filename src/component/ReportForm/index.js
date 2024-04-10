@@ -14,8 +14,8 @@ import {
   import axios from "axios";
   import { ExclamationCircleOutlined } from "@ant-design/icons";
   import CustomUpload from "../customUpload";
-import ReactQuill from "react-quill";
 import axiosInstance from "../../utils/axios";
+import CustomReactQuill from "../customReactQuill";
   
   export default function ReportForm({
     id = "",
@@ -25,6 +25,7 @@ import axiosInstance from "../../utils/axios";
     const navigate = useNavigate();
     const [form] = Form.useForm();    
     const [ReportCategory, setReportCategory] = useState([]);
+    const [editorValue, setEditorValue] = useState('');
 
     const getAllReportCategory = async () => {
       try {
@@ -142,7 +143,7 @@ import axiosInstance from "../../utils/axios";
                 label={"Nội dung"}
                 rules={[{ required: true, message: "Vui lòng nhập nội dung!" }]}
             >
-                <ReactQuill className="h-[400px] pb-10" theme="snow" />
+              <CustomReactQuill value={editorValue} onChange={(e)=> setEditorValue(e)} />
             </Form.Item>
   
           <Row gutter={40} className={"my-[40px] pl-[20px]"}>

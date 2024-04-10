@@ -19,38 +19,34 @@ export default function Ecosystem({ setIsModalOpen }) {
     let colorBlue = "#ffffff"
 
     return (
-        <div className="py-10 bg-slate-50 rounded-3xl bg-gradient-to-r from-green-800 to-blue-600">
-            <div className="max-w-screen-2xl items-center mx-auto py-4 text-center" >
-                <p className="font-bold text-3xl textWhite"> Hệ Sinh Thái Net Partner</p>
+        <div className="py-5 bg-slate-50 rounded-3xl bg-gradient-to-r from-green-800 to-blue-600">
+            <div className="max-w-screen-2xl items-center mx-auto text-center" >
+                <p className="font-bold text-3xl textWhite pb-10"> Hệ Sinh Thái Net Partner</p>
 
-                <Row className="pt-5" style={{ flex: 1, justifyContent: "space-between", alignItems: "center" }}>
+                <Row style={{ flex: 1, justifyContent: "space-between" }}>
                     <Col xs={24} xl={4} className="px-4 justify-center">
-                        <div className="flex justify-center items-center w-h3t">
-                            <HiMiniUserGroup size={100} color={colorBlue} />
-                            <FaHandHolding size={150} color={colorBlue} style={{ position: "absolute", marginTop: 50 }} />
+                        <div className="flex justify-center items-center pb-16">
+                            <HiMiniUserGroup size={60} color={colorBlue} />
+                            <FaHandHolding size={100} color={colorBlue} style={{ position: "absolute", marginTop: 50 }} />
                         </div>
-                        <div className="pt-5">
-                            <p className="font-semibold text-xl textWhite">100.000+</p>
-                            <p className="text-xl font-semibold textWhite">
-                                Khách Hàng
-                            </p>
-                        </div>
+                        <p className="font-semibold text-xl textWhite">5.000+</p>
+                        <p className="text-xl font-semibold textWhite">
+                            Khách Hàng
+                        </p>
                     </Col>
                     <Col xs={24} xl={4} className="px-4">
-                        <div className="flex justify-center items-center w-h3t">
-                            <HiOutlineLightBulb size={150} color={colorBlue} />
-                            <TbSettingsCog size={50} color={colorBlue} style={{ position: "absolute", marginTop: -50 }} />
+                        <div className="flex justify-center items-center pb-5">
+                            <HiOutlineLightBulb size={100} color={colorBlue} />
+                            <TbSettingsCog size={30} color={colorBlue} style={{ position: "absolute", marginTop: -40 }} />
                         </div>
-                        <div className="pt-5">
-                            <p className="font-semibold text-xl textWhite">6 Năm</p>
-                            <p className="text-xl font-semibold textWhite">
-                                Phát Triển Mạnh Mẽ
-                            </p>
-                        </div>
+                        <p className="font-semibold text-xl textWhite">6 Năm</p>
+                        <p className="text-xl font-semibold textWhite">
+                            Phát Triển Mạnh Mẽ
+                        </p>
                     </Col>
                     <Col xs={24} xl={4} className="px-4">
-                        <div className="flex justify-center items-center w-h3t">
-                            <GrUserSettings size={120} color={colorBlue} />
+                        <div className="flex justify-center items-center pb-5">
+                            <GrUserSettings size={100} color={colorBlue} />
                         </div>
                         <p className="font-semibold text-xl textWhite">10+</p>
                         <p className="text-xl font-semibold textWhite">
@@ -58,9 +54,9 @@ export default function Ecosystem({ setIsModalOpen }) {
                         </p>
                     </Col>
                     <Col xs={24} xl={4} className="px-4">
-                        <div className="flex justify-center items-center w-h3t">
-                            <PiUserSwitch size={170} color={colorBlue} />
-                            <LuPackage size={30} color={colorBlue} style={{ position: "absolute" }} />
+                        <div className="flex justify-center items-center">
+                            <PiUserSwitch size={120} color={colorBlue} />
+                            <LuPackage size={20} color={colorBlue} style={{ position: "absolute" }} />
                         </div>
                         <p className="font-semibold text-xl textWhite">50+</p>
                         <p className="text-xl font-semibold textWhite">
@@ -68,9 +64,9 @@ export default function Ecosystem({ setIsModalOpen }) {
                         </p>
                     </Col>
                     <Col xs={24} xl={4} className="px-4">
-                        <div className="flex justify-center items-center w-h3t">
-                            <AiOutlineGlobal size={150} color={colorBlue} />
-                            <TiGroup size={120} color={colorBlue} style={{ position: "absolute", marginTop: 100 }} />
+                        <div className="flex justify-center items-center pb-5">
+                            <AiOutlineGlobal size={100} color={colorBlue} />
+                            <TiGroup size={80} color={colorBlue} style={{ position: "absolute", marginTop: 70 }} />
                         </div>
                         <p className="font-semibold text-xl textWhite">Cộng Đồng</p>
                         <p className="text-xl font-semibold textWhite">
@@ -79,7 +75,7 @@ export default function Ecosystem({ setIsModalOpen }) {
                     </Col>
                 </Row>
 
-                <Button onClick={() => setIsModalOpen(true)} type="primary" className="mx-2 mt-10"><p className="font-bold text-base" style={{ color: colorBlue }}>Tham Gia Ngay</p></Button>
+                <Button onClick={() => setIsModalOpen(true)} type="primary" className="mx-2"><p className="font-bold text-base" style={{ color: colorBlue }}>Tham Gia Ngay</p></Button>
             </div>
         </div>
     )

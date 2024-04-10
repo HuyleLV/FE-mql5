@@ -14,7 +14,7 @@ import {
   import axios from "axios";
   import { ExclamationCircleOutlined } from "@ant-design/icons";
   import CustomUpload from "../customUpload";
-import ReactQuill from "react-quill";
+  import CustomReactQuill from "../customReactQuill";
   
   export default function EducationForm({
     id = "",
@@ -24,6 +24,7 @@ import ReactQuill from "react-quill";
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [educationCategoryChild, setEducationCategoryChild] = useState([]);
+    const [editorValue, setEditorValue] = useState('');
 
     const getAllEducationCategoryChild = async () => {
       try {
@@ -125,7 +126,7 @@ import ReactQuill from "react-quill";
                 label={"Nội dung"}
                 rules={[{ required: true, message: "Vui lòng nhập nội dung!" }]}
             >
-                <ReactQuill className="h-[400px] pb-10" theme="snow" />
+              <CustomReactQuill value={editorValue} onChange={(e)=> setEditorValue(e)} />
             </Form.Item>
   
           <Row gutter={40} className={"my-[40px] pl-[20px]"}>

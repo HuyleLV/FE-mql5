@@ -13,8 +13,6 @@ import {
   import { Link, useNavigate } from "react-router-dom";
   import axios from "axios";
   import { ExclamationCircleOutlined } from "@ant-design/icons";
-  import CustomUpload from "../customUpload";
-import ReactQuill from "react-quill";
   
   export default function EducationCategoryForm({
     id = "",
