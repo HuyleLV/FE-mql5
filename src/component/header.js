@@ -240,29 +240,34 @@ export default function Header() {
                     <div className="bg-white border rounded-md pr-2">
                       <ul className="flex flex-col font-normal px-4 md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                            <p className="text-black text-lg">Forum</p>
-                          </Link>
+                          <a className="block md:p-0 md:hover:text-blue-400" href={"/san-pham"}>
+                            Sản Phẩm
+                          </a>
                         </li>
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                            <p className="text-black text-lg">Market</p>
-                          </Link>
+                          <a className="block md:p-0 md:hover:text-blue-400" href={"/signal"}>
+                            Tín Hiệu
+                          </a>
                         </li>
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                            <p className="text-black text-lg">Signals</p>
-                          </Link>
+                          <a className="block md:p-0 md:hover:text-blue-400" href={"/nhan-dinh"}>
+                            Nhận Định
+                          </a>
                         </li>
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                            <p className="text-black text-lg">Freelance</p>
-                          </Link>
+                          <a className="block md:p-0 md:hover:text-blue-400" href={"/tin-tuc"}>
+                            Tin Tức
+                          </a>
                         </li>
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
-                            <p className="text-black text-lg">Quotes</p>
-                          </Link>
+                          <a className="block md:p-0 md:hover:text-blue-400" href={"/education"}>
+                            Kiến Thức
+                          </a>
+                        </li>
+                        <li className="hover:bg-yellow-400 hover:text-black p-1">
+                          <a className="block md:p-0 md:hover:text-blue-400" href={"/wallet"}>
+                            Ví
+                          </a>
                         </li>
                       </ul>
                     </div>
@@ -283,32 +288,32 @@ export default function Header() {
                     <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0 h-full items-center text-2xl">
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/san-pham"}>
-                          Sản phẩm
+                          Sản Phẩm
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/signal"}>
-                          Signals
+                          Tín Hiệu
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/nhan-dinh"}>
-                          Nhận định
+                          Nhận Định
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/tin-tuc"}>
-                          Tin tức
+                          Tin Tức
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/education"}>
-                          Edu
+                          Kiến Thức
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/wallet"}>
-                          Wallet
+                          Ví
                         </a>
                       </li>
                     </ul>

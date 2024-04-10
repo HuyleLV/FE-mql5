@@ -367,13 +367,13 @@ export default function SignalPage() {
   return (
     <div className="my-[60px] max-w-screen-2xl mx-auto">
       <Row className="flex items-center p-[20px] my-10 border border-[var(--mid-gray)] rounded bg-gradient-to-r from-slate-800 to-blue-700 text-white">
-        <Col xs={24} xl={4}>
-        <div className="flex items-center">
-            <img src={icon_master} style={{width: 100}}/>
-            <p className="font-bold text-2xl pl-2">Master Trade</p>
-        </div>
+        <Col xs={24} xl={6}>
+          <div className="flex items-center justify-center">
+              <img src={icon_master} style={{width: 100}}/>
+              <p className="font-bold text-2xl pl-2">Master Trade</p>
+          </div>
         </Col>
-        <Col xs={24} xl={16} >
+        <Col xs={24} xl={12} >
         <div className="flex justify-center">
             <div className="flex items-center px-5">
             <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
@@ -389,10 +389,15 @@ export default function SignalPage() {
             </div>
         </div>
         </Col>
-        <Col xs={24} xl={4}>
+        <Col xs={24} xl={6}>
           {profile?.kyc === 0 ? 
-            <p className="font-semibold bg-yellow-500 px-5 py-2 rounded-full text-center">Bạn phải KYC để được xử dụng chức năng này!</p> 
-            : <CreateMasterKey allMaster={allMaster}/>
+            <div className="flex justify-center w-full">
+              <p className="font-semibold bg-yellow-500 px-5 py-2 w-[200px] rounded-full text-center">Bạn phải KYC để được xử dụng chức năng này!</p> 
+            </div>
+            : 
+            <div className="flex justify-center w-full">
+              <CreateMasterKey allMaster={allMaster}/>
+            </div>
           }
         </Col>
       </Row>
@@ -486,161 +491,161 @@ export default function SignalPage() {
             >
             <Tabs type="card">
                 <TabPane tab="Quản lý Follower" key="1">
-                <div className="w-full h-full mt-5 pb-2 relative">
-                    <Table
-                    className={"custom-table pb-[20px]"}
-                    dataSource={follower?.data}
-                    columns={columnFollower}
-                    pagination={false}
-                    />
-                    <Pagination
-                    className="flex justify-center"
-                    current={pagination.page}
-                    total={follower?.total}
-                    pageSize={pagination.pageSize}
-                    showSizeChanger
-                    onChange={(p, ps)=> {
-                        setPagination({
-                        page: p,
-                        pageSize: ps
-                        })
-                    }}
-                    />
-                </div>
-                </TabPane>
-                <TabPane tab="Quản lý lệnh" key="2">
-                <div className="w-full h-full mt-5 pb-2 relative">
-                    <Table
+                  <div className="w-full h-full mt-5 pb-2 relative">
+                      <Table
                       className={"custom-table pb-[20px]"}
-                      dataSource={signal?.data}
-                      columns={columnSignal}
+                      dataSource={follower?.data}
+                      columns={columnFollower}
                       pagination={false}
-                    />
-                    <Pagination
+                      />
+                      <Pagination
                       className="flex justify-center"
-                      current={paginationSignal.page}
-                      total={signal?.total}
-                      pageSize={paginationSignal.pageSize}
+                      current={pagination.page}
+                      total={follower?.total}
+                      pageSize={pagination.pageSize}
                       showSizeChanger
                       onChange={(p, ps)=> {
-                          setPaginationSignal({
+                          setPagination({
                           page: p,
                           pageSize: ps
                           })
                       }}
-                    />
-                </div>
+                      />
+                  </div>
+                </TabPane>
+                <TabPane tab="Quản lý lệnh" key="2">
+                  <div className="w-full h-full mt-5 pb-2 relative">
+                      <Table
+                        className={"custom-table pb-[20px]"}
+                        dataSource={signal?.data}
+                        columns={columnSignal}
+                        pagination={false}
+                      />
+                      <Pagination
+                        className="flex justify-center"
+                        current={paginationSignal.page}
+                        total={signal?.total}
+                        pageSize={paginationSignal.pageSize}
+                        showSizeChanger
+                        onChange={(p, ps)=> {
+                            setPaginationSignal({
+                            page: p,
+                            pageSize: ps
+                            })
+                        }}
+                      />
+                  </div>
                 </TabPane>
                 <TabPane tab="Bắn tín hiệu" key="3">  
-                <div className="flex justify-center">
-                    <Form
-                    layout={"vertical"}
-                    colon={false}
-                    form={form}
-                    onFinishFailed={(e) => console.log(e)}
-                    onFinish={onSendSignal}
-                    >
-                    <Row className="w-[500px]">
-                        <Col lg={24} xs={24}>
-                        <Form.Item 
-                            label={"Type"} 
-                            name="type" 
-                            rules={[
-                            {
-                              required: true,
-                              message: 'Vui lòng nhập!',
-                            },
-                            ]}
-                        >
-                            <Select
-                            size="large"
-                            placeholder="Nhập"
-                            options={[
+                  <div className="flex justify-center">
+                      <Form
+                      layout={"vertical"}
+                      colon={false}
+                      form={form}
+                      onFinishFailed={(e) => console.log(e)}
+                      onFinish={onSendSignal}
+                      >
+                      <Row className="w-[500px]">
+                          <Col lg={24} xs={24}>
+                          <Form.Item 
+                              label={"Type"} 
+                              name="type" 
+                              rules={[
                               {
-                                value: "buy"
-                              },
-                              {
-                                value: "sell"
-                              }
-                            ]}  
-                            />
-                        </Form.Item>
-                        </Col>
-                        <Col lg={24} xs={24}>
-                        <Form.Item 
-                            label="Symbol" 
-                            name="symbol"
-                            rules={[
-                            {
-                              required: true,
-                              message: 'Vui lòng nhập!',
-                            },
-                            ]}
-                        >
-                            <Input size="large" placeholder="Nhập"/>
-                        </Form.Item>
-                        </Col>
-                        <Col lg={24} xs={24}>
-                        <Form.Item 
-                            label="Price" 
-                            name="price"
-                            rules={[
-                            {
-                              required: true,
-                              message: 'Vui lòng nhập!',
-                            },
-                            ]}
-                        >
-                            <Input size="large" placeholder="Nhập ..."/>
-                        </Form.Item>
-                        </Col>
-                        <Col lg={24} xs={24}>
-                        <Form.Item 
-                            label="Take profit" 
-                            name="take_profit"
-                            rules={[
-                            {
-                              required: true,
-                              message: 'Vui lòng nhập!',
-                            },
-                            {
-                                validator() {
-                                if(type === "buy" && Number(take_profit) < Number(price)){
-                                  return Promise.reject(`Giá mua phải lớn hơn ${price}!`);
-                                } else if(type === "sell" && Number(take_profit) > Number(price)){
-                                  return Promise.reject(`Giá bán phải bé hơn ${price}!`);
-                                } else {
-                                  return Promise.resolve();
-                                }
-                                }
-                            }
-                            ]}
-                        >
-                            <Input size="large" />
-                        </Form.Item>
-                        </Col>
-                        <Col lg={24} xs={24}>
-                        <Form.Item 
-                            label="Stop losss" 
-                            name="stop_loss"
-                            rules={[
-                            {
                                 required: true,
                                 message: 'Vui lòng nhập!',
-                            },
-                            ]}
-                        >
-                            <Input size="large"/>
-                        </Form.Item>
-                        </Col>
-                        <Col lg={24} xs={24} >
-                        <Button type={"primary"} htmlType={"submit"} className="w-[200px]">
-                            <p className="font-bold">Send</p>
-                        </Button>
-                        </Col>
-                    </Row>
-                    </Form>
-                </div>
+                              },
+                              ]}
+                          >
+                              <Select
+                              size="large"
+                              placeholder="Nhập"
+                              options={[
+                                {
+                                  value: "buy"
+                                },
+                                {
+                                  value: "sell"
+                                }
+                              ]}  
+                              />
+                          </Form.Item>
+                          </Col>
+                          <Col lg={24} xs={24}>
+                          <Form.Item 
+                              label="Symbol" 
+                              name="symbol"
+                              rules={[
+                              {
+                                required: true,
+                                message: 'Vui lòng nhập!',
+                              },
+                              ]}
+                          >
+                              <Input size="large" placeholder="Nhập"/>
+                          </Form.Item>
+                          </Col>
+                          <Col lg={24} xs={24}>
+                          <Form.Item 
+                              label="Price" 
+                              name="price"
+                              rules={[
+                              {
+                                required: true,
+                                message: 'Vui lòng nhập!',
+                              },
+                              ]}
+                          >
+                              <Input size="large" placeholder="Nhập ..."/>
+                          </Form.Item>
+                          </Col>
+                          <Col lg={24} xs={24}>
+                          <Form.Item 
+                              label="Take profit" 
+                              name="take_profit"
+                              rules={[
+                              {
+                                required: true,
+                                message: 'Vui lòng nhập!',
+                              },
+                              {
+                                  validator() {
+                                  if(type === "buy" && Number(take_profit) < Number(price)){
+                                    return Promise.reject(`Giá mua phải lớn hơn ${price}!`);
+                                  } else if(type === "sell" && Number(take_profit) > Number(price)){
+                                    return Promise.reject(`Giá bán phải bé hơn ${price}!`);
+                                  } else {
+                                    return Promise.resolve();
+                                  }
+                                  }
+                              }
+                              ]}
+                          >
+                              <Input size="large" />
+                          </Form.Item>
+                          </Col>
+                          <Col lg={24} xs={24}>
+                          <Form.Item 
+                              label="Stop losss" 
+                              name="stop_loss"
+                              rules={[
+                              {
+                                  required: true,
+                                  message: 'Vui lòng nhập!',
+                              },
+                              ]}
+                          >
+                              <Input size="large"/>
+                          </Form.Item>
+                          </Col>
+                          <Col lg={24} xs={24} >
+                          <Button type={"primary"} htmlType={"submit"} className="w-[200px]">
+                              <p className="font-bold">Send</p>
+                          </Button>
+                          </Col>
+                      </Row>
+                      </Form>
+                  </div>
                 </TabPane>
             </Tabs>
             </Col>
@@ -734,7 +739,7 @@ export default function SignalPage() {
                         <div className="flex justify-center">
                           {IconSignal(_?.symbol)}
                         </div>
-                        <p className="font-medium texl-lg pt-2">{dayjsInstance(_?.open_time).format("DD/MM/YYYY")}</p>
+                        <p className="font-medium texl-lg pt-2">{dayjsInstance(_?.open_time).format("DD/MM/YYYY hh:mm:ss")}</p>
                       </div>
                     </div>
                   </div>

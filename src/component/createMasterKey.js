@@ -1,5 +1,5 @@
 import { CheckOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, message } from "antd";
+import { Button, Form, Input, Modal, Radio, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import React, { useState } from "react";
@@ -9,6 +9,11 @@ export default function CreateMasterKey({allMaster}) {
     const [cookies] = useCookies(["user"]);
     const [currentStep, setCurrentStep] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
+    const [csbm, setCsbm] = useState(false);
+    const [csbv, setCsbv] = useState(false);
+    const [qtcb, setQtcb] = useState(false);
+    const [bqvqt, setBqvqt] = useState(false);
+
     const [formData, setFormData] = useState({
         master_key_name: "",
         description: "",
@@ -84,22 +89,34 @@ export default function CreateMasterKey({allMaster}) {
             </Form.Item>
             <div>
                 <p className="font-bold text-lg">Bằng việc trở thành Master bạn đồng ý với:</p>
-                <p className="pt-2 text-base font-normal flex items-center">
-                    <CheckOutlined className="bg-green-400 p-1 rounded-full font-bold text-xl text-white mr-2"/>
-                    Chính Sách Bảo Mật
-                </p> 
-                <p className="pt-2 text-base font-normal flex items-center">
-                    <CheckOutlined className="bg-green-400 p-1 rounded-full font-bold text-xl text-white mr-2"/>
-                    Chính Sách Bảo Vệ Rủi Ro, Chống Lừa Đảo
-                </p>
-                <p className="pt-2 text-base font-normal flex items-center">
-                    <CheckOutlined className="bg-green-400 p-1 rounded-full font-bold text-xl text-white mr-2"/>
-                    Quy Tắc Công Bằng
-                </p>
-                <p className="pt-2 text-base font-normal flex items-center">
-                    <CheckOutlined className="bg-green-400 p-1 rounded-full font-bold text-xl text-white mr-2"/>
-                    Bản Quyền và Quy Tắc Cộng Đồng
-                </p>
+                <div className="my-2">
+                    <Radio value={csbm} onChange={()=>setCsbm(!csbm)} className="flex items-center">
+                        <p className="text-xl font-normal">
+                            Chính Sách Bảo Mật
+                        </p> 
+                    </Radio>
+                </div>
+                <div className="my-2">
+                    <Radio value={csbv} onChange={()=>setCsbv(!csbv)} className="flex items-center">
+                        <p className="text-xl font-normal">
+                            Chính Sách Bảo Vệ Rủi Ro, Chống Lừa Đảo
+                        </p> 
+                    </Radio>
+                </div>
+                <div className="my-2">
+                    <Radio value={qtcb} onChange={()=>setQtcb(!qtcb)} className="flex items-center">
+                        <p className="text-xl font-normal">
+                            Quy Tắc Công Bằng
+                        </p> 
+                    </Radio>
+                </div>
+                <div className="my-2">
+                    <Radio value={bqvqt} onChange={()=>setBqvqt(!bqvqt)} className="flex items-center">
+                        <p className="text-xl font-normal">
+                            Bản Quyền và Quy Tắc Cộng Đồng
+                        </p> 
+                    </Radio>
+                </div>
             </div>
         </>
       ),
@@ -176,14 +193,28 @@ export default function CreateMasterKey({allMaster}) {
             )}
             <div>
               {currentStep !== steps.length - 1 && (
-                <Button
-                  key="next"
-                  type="primary"
-                  onClick={handleNext}
-                  disabled={currentStep === steps.length - 1}
-                >
-                  Next
-                </Button>
+                <>
+                    {csbm === true && csbv === true && qtcb === true && bqvqt === true ? 
+                        <Button
+                            key="next"
+                            type="primary"
+                            onClick={handleNext}
+                            disabled={currentStep === steps.length - 1}
+                        >
+                            Next
+                        </Button>
+                    :
+                        <Button
+                            key="next"
+                            type="primary"
+                            onClick={handleNext}
+                            disabled={true}
+                        >
+                            Next
+                        </Button>
+                    }
+
+                </>
               )}
             </div>
             {currentStep === steps.length - 1 && (

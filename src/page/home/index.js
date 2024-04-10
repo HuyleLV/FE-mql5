@@ -197,7 +197,7 @@ export default function Home() {
     return (
         <div>
             <div className="relative">
-                <video src={video_home} autoPlay muted controls={false} loop>
+                <video src={video_home} className="h-screen" style={{ width: '100vw', objectFit: 'cover' }} autoPlay muted controls={false} loop>
                 </video>
                 <div className="absolute top-0 px-[5%] text-white">
                     <p className="font-bold text-xl top-0 pt-20">Đỉnh Cao Công Nghệ Tài Chính</p>

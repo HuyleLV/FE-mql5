@@ -523,7 +523,7 @@ export default function MarketDetail() {
                     className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
                     onClick={activate}
                   >
-                    Buy: {product?.[0].product_price} USD
+                  Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
                   </button>
                 </a>
                 :
@@ -531,18 +531,18 @@ export default function MarketDetail() {
                   className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
                   onClick={() => setIsModalOpen(true)}
                 >
-                  Buy: {product?.[0].product_price} USD
+                  Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
                 </button>
               }
               {cookies?.user ?
                 <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
                   <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
-                    Free Demo
+                    Trải Nghiệm Miễn Phí
                   </button>
                 </a>
                 :
                 <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={() => setIsModalOpen(true)}>
-                  Free Demo
+                  Trải nghiệm miễn phí
                 </button>
               }
               <div className="mt-4 text-sm w-full">
@@ -609,14 +609,14 @@ export default function MarketDetail() {
                   <div>
                     {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
-                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Hide</button>
+                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Ẩn Bớt</button>
                 </div>
               :
                 <div className="p-5">
                   <div className="h-24 truncate">
                     {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
-                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
+                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>Hiện Thêm</button>
                 </div>
             }
 
