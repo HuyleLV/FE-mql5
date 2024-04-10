@@ -1,11 +1,11 @@
-import { Button, Col, Dropdown, Form, Image, Input, Modal, Radio, Row, Select, Space, Switch, message } from "antd";
+import { Button, Col, Dropdown, Form, Image, Input, Modal, Radio, Row, Select, Space, Switch, Tooltip, message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import dayjsInstance from "../../utils/dayjs";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import logo from "../../component/image/logo.png";
-import { CheckOutlined, FilterOutlined, SmileOutlined } from "@ant-design/icons";
+import { CheckOutlined, FilterOutlined, InfoOutlined, SmileOutlined } from "@ant-design/icons";
 import { FormatDollar } from "../../utils/format";
 import axiosInstance from "../../utils/axios";
 import { useCookies } from "react-cookie";
@@ -15,6 +15,11 @@ export default function MasterDetail() {
     const navigate = useNavigate();
     const location = useLocation();
     const currentPath = location.pathname;
+    const [form] = Form.useForm();
+
+    const mass_1 = Form.useWatch('mass_1', form);
+    const mass_2 = Form.useWatch('mass_2', form);
+    const mass_3 = Form.useWatch('mass_3', form);
 
     const [master, setMaster] = useState([]);
     const [allMaster, setAllMaster] = useState([]);
@@ -119,10 +124,20 @@ export default function MasterDetail() {
     }
 
     const onSubmit = async (value) => {
+        let i = 0;
+        if(value?.mass_1?.length > 0) {
+            i = 1;
+        }else if(value?.mass_2?.length > 0){
+            i = 2;
+        }else if(value?.mass_3?.length > 0){
+            i = 3;
+        }
 
         if(cookies?.user?.account_balance >= totalPrice) {
             const data = {
                 ...value,
+                regime: i,
+                mass: i === 1 ? mass_1 : i === 2 ? mass_2 : i=== 3 ? mass_3 : 0,
                 master_key: params?.master_key,
                 total_price: totalPrice,
                 create_by: cookies?.user?.user_id
@@ -176,18 +191,18 @@ export default function MasterDetail() {
                 <Row justify={"center"} align={"middle"} className="py-10">
                     <Col xs={24} xl={12}>
                         <div className="flex border-b-2 border-r-2 p-2 h-[200px]">
-                        <Image
-                            preview={false}
-                            src={master?.user?.photos}
-                            width={150}
-                            height={150}
-                        />
-                        <div className="pl-5">
-                            <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{master?.user?.displayName}</span></p>
-                            <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{master?.user?.email}</span></p>
-                            <p className="text-[20px] font-none">My master Key: <span className="text-[22px] font-medium">{master?.user?.master_key}</span></p>
-                            {/* <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{master?.user?.private_key}</span></p> */}
-                        </div>
+                            <Image
+                                preview={false}
+                                src={master?.user?.photos}
+                                width={150}
+                                height={150}
+                            />
+                            <div className="pl-5">
+                                <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{master?.user?.displayName}</span></p>
+                                <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{master?.user?.email}</span></p>
+                                <p className="text-[20px] font-none">My master Key: <span className="text-[22px] font-medium">{master?.user?.master_key}</span></p>
+                                {/* <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{master?.user?.private_key}</span></p> */}
+                            </div>
                         </div>
                     </Col>
                     <Col xs={24} xl={12}>
@@ -209,15 +224,15 @@ export default function MasterDetail() {
                             </div>
                             <div className="text-xl font-semibold flex">
                                 <div>
-                                    <p>Ranking: {master?.rank ? master?.rank : "Chưa có rank!"}</p>
-                                    <p>Tổng signal: {master?.results?.[0]?.total ? master?.results?.[0]?.total : 0}</p>
+                                    <p>Ranking: {master?.rank ? Math.round(master?.rank * 100) / 100 : "Chưa có rank!"}</p>
+                                    <p>Tổng signal: {master?.results?.[0]?.total ? Math.round(master?.results?.[0]?.total * 100) / 100 : 0}</p>
                                     <p>
-                                    Win / Lost: {master?.results?.[0]?.win ? master?.results?.[0]?.win : 0} / {master?.results?.[0]?.loss ? master?.results?.[0]?.loss : 0}
+                                        Win / Loss: {master?.results?.[0]?.win ? master?.results?.[0]?.win : 0} / {master?.results?.[0]?.loss ? master?.results?.[0]?.loss : 0}
                                     </p>
                                 </div>
                                 <div className="pl-10">
-                                    <p>Win Rate: {master?.results?.[0]?.win_rate ? master?.results?.[0]?.win_rate : 0}</p>
-                                    <p>Profit: {master?.results?.[0]?.total_profit ? master?.results?.[0]?.total_profit : 0}</p>
+                                    <p>Win Rate: {master?.results?.[0]?.win_rate ? Math.round(master?.results?.[0]?.win_rate * 100) / 100 : 0}</p>
+                                    <p>Profit: {master?.results?.[0]?.total_profit ? Math.round(master?.results?.[0]?.total_profit * 100) / 100 : 0}</p>
                                 </div>
                             </div>
                         </div>
@@ -246,52 +261,118 @@ export default function MasterDetail() {
                     {isReport === 1 && (
                         <Row className="bg-gray-100 text-white rounded-xl p-10">
                             <Col xs={24} xl={24} className="text-black p-2">
-                                <p className="text-center font-bold text-xl pb-5">BÁO CÁO</p>
+                                <p className="text-center font-bold text-2xl pb-5">BÁO CÁO</p>
                             </Col>
 
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
-                                    <p className="text-center font-bold text-lg">Sụt giảm cao nhất</p>
+                                    <div className="flex items-center">
+                                        <p className="text-center font-bold text-lg">Sụt giảm cao nhất</p>
+                                        <Tooltip 
+                                            placement="top" 
+                                            title={
+                                                <span className="text-white font-semibold text-md">Tỷ lệ sụt giảm dựa trên số dư</span>
+                                            } 
+                                            className="flex items-center bg-gray-400 rounded-full ml-2"
+                                            >
+                                            <InfoOutlined className="p-1 text-white text-md"/>
+                                        </Tooltip>
+                                    </div>
                                     <p className="text-center font-bold text-lg"></p>
                                 </div>
                             </Col>
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
-                                    <p className="text-center font-bold text-lg">Giao dịch có lợi nhuận cao nhất</p>
-                                    <p className="text-center font-bold text-lg">{report?.profit_max}</p>
+                                    <div className="flex items-center">
+                                        <p className="text-center font-bold text-lg">Giao dịch có lợi nhuận cao nhất</p>
+                                        <Tooltip 
+                                            placement="top" 
+                                            title={
+                                                <span className="text-white font-semibold text-md">Giao dịch có lợi nhuận cao nhất</span>
+                                            } 
+                                            className="flex items-center bg-gray-400 rounded-full ml-2"
+                                            >
+                                            <InfoOutlined className="p-1 text-white text-md"/>
+                                        </Tooltip>
+                                    </div>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.profit_max * 100) / 100}</p>
                                 </div>
                             </Col>
                             
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
-                                    <p className="text-center font-bold text-lg">Tổng lệnh đã trade:</p>
-                                    <p className="text-center font-bold text-lg">{report?.total}</p>
+                                    <div className="flex items-center">
+                                        <p className="text-center font-bold text-lg">Tổng lệnh đã trade</p>
+                                        <Tooltip 
+                                            placement="top" 
+                                            title={
+                                                <span className="text-white font-semibold text-md">Tổng số giao dịch đã trade</span>
+                                            } 
+                                            className="flex items-center bg-gray-400 rounded-full ml-2"
+                                            >
+                                            <InfoOutlined className="p-1 text-white text-md"/>
+                                        </Tooltip>
+                                    </div>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.total * 100) / 100}</p>
                                 </div>
                             </Col>
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
-                                    <p className="text-center font-bold text-lg">Giao dịch loss nhiều nhất:</p>
-                                    <p className="text-center font-bold text-lg">{report?.profit_min}</p>
+                                    <div className="flex items-center">
+                                        <p className="text-center font-bold text-lg">Giao dịch loss nhiều nhất</p>
+                                        <Tooltip 
+                                            placement="top" 
+                                            title={
+                                                <span className="text-white font-semibold text-md">Giao dịch có loss lớn nhất</span>
+                                            } 
+                                            className="flex items-center bg-gray-400 rounded-full ml-2"
+                                            >
+                                            <InfoOutlined className="p-1 text-white text-md"/>
+                                        </Tooltip>
+                                    </div>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.profit_min * 100) / 100}</p>
                                 </div>
                             </Col>
                             
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
-                                    <p className="text-center font-bold text-lg">Tổng lệnh đang chạy</p>
-                                    <p className="text-center font-bold text-lg">{report?.total_open}</p>
+                                    <div className="flex items-center">
+                                        <p className="text-center font-bold text-lg">Tổng lệnh đang chạy</p>
+                                        <Tooltip 
+                                            placement="top" 
+                                            title={
+                                                <span className="text-white font-semibold text-md">Tổng số giao dịch đang mở</span>
+                                            } 
+                                            className="flex items-center bg-gray-400 rounded-full ml-2"
+                                            >
+                                            <InfoOutlined className="p-1 text-white text-md"/>
+                                        </Tooltip>
+                                    </div>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.total_open * 100) / 100}</p>
                                 </div>
                             </Col>
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
-                                    <p className="text-center font-bold text-lg">Lợi nhuận trung bình</p>
-                                    <p className="text-center font-bold text-lg">{report?.lntb}</p>
+                                    <div className="flex items-center">
+                                        <p className="text-center font-bold text-lg">Lợi nhuận trung bình</p>
+                                        <Tooltip 
+                                            placement="top" 
+                                            title={
+                                                <span className="text-white font-semibold text-md">Bằng tổng lợi nhuận chia tổng giao dịch thắng</span>
+                                            } 
+                                            className="flex items-center bg-gray-400 rounded-full ml-2"
+                                            >
+                                            <InfoOutlined className="p-1 text-white text-md"/>
+                                        </Tooltip>
+                                    </div>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.lntb * 100) / 100}</p>
                                 </div>
                             </Col>
                             
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
                                     <p className="text-center font-bold text-lg">Tổng lệnh win</p>
-                                    <p className="text-center font-bold text-lg">{report?.total_win}</p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.total_win * 100) / 100}</p>
                                 </div>
                             </Col>
                             <Col xs={24} xl={12} className="p-2">
@@ -304,7 +385,7 @@ export default function MasterDetail() {
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
                                     <p className="text-center font-bold text-lg">Tổng lệnh loss</p>
-                                    <p className="text-center font-bold text-lg">{report?.total_loss}</p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.total_loss * 100) / 100}</p>
                                 </div>
                             </Col>
                             <Col xs={24} xl={12} className="p-2">
@@ -317,7 +398,7 @@ export default function MasterDetail() {
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
                                     <p className="text-center font-bold text-lg">Lợi nhuận trung bình / lot</p>
-                                    <p className="text-center font-bold text-lg">{report?.lntb_lot}</p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.lntb_lot * 100) / 100}</p>
                                 </div>
                             </Col>
                             <Col xs={24} xl={12} className="p-2">
@@ -349,7 +430,7 @@ export default function MasterDetail() {
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
                                     <p className="text-center font-bold text-lg">Volume giữ cao nhất</p>
-                                    <p className="text-center font-bold text-lg">{report?.volumne_max}</p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.volumne_max * 100) / 100}</p>
                                 </div>
                             </Col>
                             
@@ -362,14 +443,14 @@ export default function MasterDetail() {
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
                                     <p className="text-center font-bold text-lg">Khối lượng lệnh trung bình</p>
-                                    <p className="text-center font-bold text-lg">{report?.volumne_tb}</p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.volumne_tb * 100) / 100}</p>
                                 </div>
                             </Col>
                             
                             <Col xs={24} xl={12} className="p-2">
                                 <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
                                     <p className="text-center font-bold text-lg">Số lệnh trạng thái nhiều nhất</p>
-                                    <p className="text-center font-bold text-lg">{report?.slttnn}</p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.slttnn * 100) / 100}</p>
                                 </div>
                             </Col>
                         </Row>
@@ -391,6 +472,7 @@ export default function MasterDetail() {
                 onCancel={()=>setIsOpen(false)}
                 footer={null}>
                 <Form 
+                    form={form}
                     layout={"vertical"}
                     onFinishFailed={(e) => console.log(e)}
                     onFinish={onSubmit}
@@ -411,7 +493,20 @@ export default function MasterDetail() {
                                             </p>
                                             <div className="grid grid-cols-2 gap-2 pt-2">
                                                 <Form.Item
-                                                    label={"Broker"}
+                                                    label={
+                                                        <div className="flex items-center">
+                                                            <p className="font-semibold">Broker</p>
+                                                            <Tooltip 
+                                                                placement="top" 
+                                                                title={
+                                                                    <span className="text-white font-semibold text-md">Chọn Broker tài khoản của bạn</span>
+                                                                } 
+                                                                className="flex items-center bg-gray-400 rounded-full ml-2"
+                                                                >
+                                                                <InfoOutlined className="p-1 text-white text-md"/>
+                                                            </Tooltip>
+                                                        </div>
+                                                    }
                                                     name="broker"
                                                     rules={[{ required: true, message: "Vui lòng chọn broker!" }]}
                                                 >
@@ -419,7 +514,20 @@ export default function MasterDetail() {
                                                 </Form.Item>
                                                 
                                                 <Form.Item
-                                                    label={"Password"}
+                                                    label={
+                                                        <div className="flex items-center">
+                                                            <p className="font-semibold">Password</p>
+                                                            <Tooltip 
+                                                                placement="top" 
+                                                                title={
+                                                                    <span className="text-white font-semibold text-md">Nhập password tài khoản của bạn</span>
+                                                                } 
+                                                                className="flex items-center bg-gray-400 rounded-full ml-2"
+                                                                >
+                                                                <InfoOutlined className="p-1 text-white text-md"/>
+                                                            </Tooltip>
+                                                        </div>
+                                                    }
                                                     name="password"
                                                     rules={[{ required: true, message: "Vui lòng chọn VPS!" }]}
                                                 >
@@ -428,43 +536,124 @@ export default function MasterDetail() {
                                             </div>
                                             <p className="font-semibold text-lg">Chế độ sao chép</p>
                                             <div className="grid grid-cols-2 gap-2 pt-2">
-                                                <Form.Item
-                                                    label={"Chọn chế độ"}
-                                                    name="regime"
-                                                    rules={[{ required: true, message: "Vui lòng chọn chế độ!" }]}
-                                                >
-                                                    <Select
-                                                        showSearch
-                                                        placeholder="Select a person"
-                                                        optionFilterProp="children"
-                                                        defaultValue={1}
-                                                        options={[
-                                                            {
-                                                                label: "Theo khối lượng mặc định",
-                                                                value: 1
-                                                            },
-                                                            {
-                                                                label: "Theo tỷ lệ khối lượng",
-                                                                value: 2
-                                                            },
-                                                            {
-                                                                label: "Theo tỷ lệ số dư",
-                                                                value: 3
-                                                            }
-                                                        ]}
-                                                    />
-                                                </Form.Item>
                                                 
+                                                <div className="flex">
+                                                    <p className="font-semibold">Chọn chế độ</p>
+                                                    <Tooltip 
+                                                        placement="top" 
+                                                        title={
+                                                            <span className="text-white font-semibold text-md">Chọn chế độ mà bạn muốn theo dõi tín hiệu</span>
+                                                        } 
+                                                        className="flex items-center bg-gray-400 rounded-full ml-2 h-min"
+                                                        >
+                                                        <InfoOutlined className="p-1 text-white text-md"/>
+                                                    </Tooltip>
+                                                </div>
+
                                                 <Form.Item
-                                                    label={"Nhập khối lượng"}
-                                                    name="mass"
-                                                    rules={[{ required: true, message: "Vui lòng chọn Khối lượng!" }]}
+                                                    name="mass_1"
+                                                    className="col-span-2"
                                                 >
-                                                    <Input type="text" placeholder="Khối lượng" />
+                                                    <div className="flex items-center">
+                                                        <div className="w-full flex">
+                                                            <p className="font-semibold">Theo khối lượng mặc định:</p>
+                                                            <Tooltip 
+                                                                placement="top" 
+                                                                title={
+                                                                    <span className="text-white font-semibold text-md">Khối lượng luôn cố định như bạn cài đặt</span>
+                                                                } 
+                                                                className="flex items-center bg-gray-400 rounded-full ml-2 h-min"
+                                                                >
+                                                                <InfoOutlined className="p-1 text-white text-md"/>
+                                                            </Tooltip>
+                                                        </div>
+                                                        <Input type="number" placeholder="Điền khối lượng" disabled={mass_2?.length > 0 || mass_3?.length > 0 ? true : false} />
+                                                        <Tooltip 
+                                                            placement="top" 
+                                                            title={
+                                                                <span className="text-white font-semibold text-md">Chọn chế độ mà bạn muốn theo dõi tín hiệu</span>
+                                                            } 
+                                                            className="flex items-center bg-gray-400 rounded-full ml-2 h-min"
+                                                            >
+                                                            <InfoOutlined className="p-1 text-white text-md invisible"/>
+                                                        </Tooltip>
+                                                    </div>
+                                                </Form.Item>
+                                                <Form.Item
+                                                    name="mass_2"
+                                                    className="col-span-2"
+                                                >
+                                                    <div className="flex items-center">
+                                                        <div className="w-full flex">
+                                                            <p className="font-semibold">Theo tỷ lệ khối lượng:</p>
+                                                            <Tooltip 
+                                                                placement="top" 
+                                                                title={
+                                                                    <span className="text-white font-semibold text-md">Lệnh được sao chép với khối lượng theo tỷ lệ sao chép đã chọn</span>
+                                                                } 
+                                                                className="flex items-center bg-gray-400 rounded-full ml-2 h-min"
+                                                                >
+                                                                <InfoOutlined className="p-1 text-white text-md"/>
+                                                            </Tooltip>
+                                                        </div>
+                                                        <Input type="number" disabled={mass_1?.length > 0 || mass_3?.length > 0 ? true : false} placeholder="X...lần" />
+                                                        <Tooltip 
+                                                            placement="top" 
+                                                            title={
+                                                                <span className="text-white font-semibold text-md">Cho phép tài khoản sao chép bằng ... lần khối lượng giao dịch</span>
+                                                            } 
+                                                            className="flex items-center bg-gray-400 rounded-full ml-2 h-min"
+                                                            >
+                                                            <InfoOutlined className="p-1 text-white text-md"/>
+                                                        </Tooltip>
+                                                    </div>
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    name="mass_3"
+                                                    className="col-span-2"
+                                                >
+                                                    <div className="flex items-center">
+                                                        <div className="w-full flex">
+                                                            <p className="font-semibold">Theo tỷ lệ số dư:</p>
+                                                            <Tooltip 
+                                                                placement="top" 
+                                                                title={
+                                                                    <span className="text-white font-semibold text-md">Khối lượng lệnh sẽ được sao chép theo tỷ lệ số dư</span>
+                                                                } 
+                                                                className="flex items-center bg-gray-400 rounded-full ml-2 h-min"
+                                                                >
+                                                                <InfoOutlined className="p-1 text-white text-md"/>
+                                                            </Tooltip>
+                                                        </div>
+                                                        <Input type="number" disabled={mass_1?.length > 0 || mass_2?.length > 0 ? true : false} placeholder="Tỷ lệ" />
+                                                        <Tooltip 
+                                                            placement="top" 
+                                                            title={
+                                                                <span className="text-white font-semibold text-md">Khối lượng lệnh sẽ được sao chép theo tỷ lệ số dư</span>
+                                                            } 
+                                                            className="flex items-center bg-gray-400 rounded-full ml-2 h-min"
+                                                            >
+                                                            <InfoOutlined className="p-1 text-white text-md invisible"/>
+                                                        </Tooltip>
+                                                    </div>
                                                 </Form.Item>
                                             </div>
                                             <Form.Item
-                                                label={"DrawDown"}
+                                                label={
+                                                    <div className="flex items-center">
+                                                        <p className="font-semibold">DrawDown</p>
+                                                        <Tooltip 
+                                                            placement="top" 
+                                                            title={
+                                                                <span className="text-white font-semibold text-md">Nhập % drawdown mà bạn mong muốn</span>
+                                                            } 
+                                                            className="flex items-center bg-gray-400 rounded-full ml-2"
+                                                            >
+                                                            <InfoOutlined className="p-1 text-white text-md"/>
+                                                        </Tooltip>
+                                                    </div>
+                                                }
                                                 name="drawDown"
                                                 rules={[{ required: true, message: "Vui lòng nhập DrawDown!" }]}
                                             >
@@ -537,7 +726,20 @@ export default function MasterDetail() {
                                 <Row>
                                     <Col xs={24} xl={12} className="p-2">
                                         <Form.Item
-                                            label={"ID"}
+                                            label={
+                                                <div className="flex items-center">
+                                                    <p className="font-semibold">ID</p>
+                                                    <Tooltip 
+                                                        placement="top" 
+                                                        title={
+                                                            <span className="text-white font-semibold text-md">Nhập id Metatrader mà bạn muốn copy theo</span>
+                                                        } 
+                                                        className="flex items-center bg-gray-400 rounded-full ml-2"
+                                                        >
+                                                        <InfoOutlined className="p-1 text-white text-md"/>
+                                                    </Tooltip>
+                                                </div>
+                                            }
                                             name="mt4_acc"
                                             rules={[{ required: true, message: "Vui lòng nhập ID!" }]}
                                         >
@@ -546,7 +748,11 @@ export default function MasterDetail() {
                                     </Col>
                                     <Col xs={24} xl={12} className="p-2">
                                         <Form.Item
-                                            label={"Nền tảng"}
+                                            label={
+                                                <div className="flex items-center">
+                                                    <p className="font-semibold">Nền Tảng</p>
+                                                </div>
+                                            }
                                             name="communication"
                                             rules={[{ required: true, message: "Vui lòng chọn nền tảng!" }]}
                                         >

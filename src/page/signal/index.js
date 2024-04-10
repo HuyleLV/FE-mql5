@@ -451,14 +451,14 @@ export default function SignalPage() {
               <div className="text-xl font-semibold flex">
                 <div>
                   <p>Ranking: {totalSignal?.rank ? totalSignal?.rank : "Chưa có rank!"}</p>
-                  <p>Tổng signal: {totalSignal?.results?.[0]?.total ? totalSignal?.results?.[0]?.total : 0}</p>
+                  <p>Tổng signal: {totalSignal?.results?.[0]?.total ? Math.round(totalSignal?.results?.[0]?.total * 100) / 100 : 0}</p>
                   <p>
                     Win / Lost: {totalSignal?.results?.[0]?.win ? totalSignal?.results?.[0]?.win : 0} / {totalSignal?.results?.[0]?.loss ? totalSignal?.results?.[0]?.loss : 0}
                   </p>
                 </div>
                 <div className="pl-10">
-                  <p>Win Rate: {totalSignal?.results?.[0]?.win_rate ? totalSignal?.results?.[0]?.win_rate : 0}</p>
-                  <p>Profit: {totalSignal?.results?.[0]?.total_profit ? totalSignal?.results?.[0]?.total_profit : 0}</p>
+                  <p>Win Rate: {totalSignal?.results?.[0]?.win_rate ? Math.round(totalSignal?.results?.[0]?.win_rate * 100) / 100 : 0}</p>
+                  <p>Profit: {totalSignal?.results?.[0]?.total_profit ? Math.round(totalSignal?.results?.[0]?.total_profit * 100) / 100 : 0}</p>
                 </div>
               </div>
             </div>
@@ -686,10 +686,10 @@ export default function SignalPage() {
                 </div>
                 <div>
                   <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
-                  <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? _?.results[0]?.win_rate : 0}</span></p>
-                  <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? _?.results[0]?.win : 0}</span></p>
-                  <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? _?.results[0]?.loss : 0}</span></p>
-                  <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? _?.results[0]?.total_profit : 0}</span></p>
+                  <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span></p>
+                  <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? Math.round(_?.results[0]?.win * 100) / 100 : 0}</span></p>
+                  <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? Math.round(_?.results[0]?.loss * 100) / 100 : 0}</span></p>
+                  <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span></p>
                 </div>
                 <div className="flex justify-center py-2">
                   <a href={"/master/" + _?.user?.master_key}>

@@ -6,6 +6,9 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 
 export default function CreateMasterKey({allMaster}) {
+    const [form] = Form.useForm();
+    const master_key_name = Form.useWatch('master_key_name', form);
+    const description = Form.useWatch('description', form);
     const [cookies] = useCookies(["user"]);
     const [currentStep, setCurrentStep] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
@@ -90,28 +93,28 @@ export default function CreateMasterKey({allMaster}) {
             <div>
                 <p className="font-bold text-lg">Bằng việc trở thành Master bạn đồng ý với:</p>
                 <div className="my-2">
-                    <Radio value={csbm} onChange={()=>setCsbm(!csbm)} className="flex items-center">
+                    <Radio value={csbm} onChange={()=>setCsbm(true)} className="flex items-center">
                         <p className="text-xl font-normal">
                             Chính Sách Bảo Mật
                         </p> 
                     </Radio>
                 </div>
                 <div className="my-2">
-                    <Radio value={csbv} onChange={()=>setCsbv(!csbv)} className="flex items-center">
+                    <Radio value={csbv} onChange={()=>setCsbv(true)} className="flex items-center">
                         <p className="text-xl font-normal">
                             Chính Sách Bảo Vệ Rủi Ro, Chống Lừa Đảo
                         </p> 
                     </Radio>
                 </div>
                 <div className="my-2">
-                    <Radio value={qtcb} onChange={()=>setQtcb(!qtcb)} className="flex items-center">
+                    <Radio value={qtcb} onChange={()=>setQtcb(true)} className="flex items-center">
                         <p className="text-xl font-normal">
                             Quy Tắc Công Bằng
                         </p> 
                     </Radio>
                 </div>
                 <div className="my-2">
-                    <Radio value={bqvqt} onChange={()=>setBqvqt(!bqvqt)} className="flex items-center">
+                    <Radio value={bqvqt} onChange={()=>setBqvqt(true)} className="flex items-center">
                         <p className="text-xl font-normal">
                             Bản Quyền và Quy Tắc Cộng Đồng
                         </p> 
@@ -188,20 +191,20 @@ export default function CreateMasterKey({allMaster}) {
           <div style={{ display: "flex", justifyContent: "right" }}>
             {currentStep !== 0 && (
                 <Button key="prev" onClick={handlePrev}>
-                    Previous
+                    Quay lại
                 </Button>
             )}
             <div>
               {currentStep !== steps.length - 1 && (
                 <>
-                    {csbm === true && csbv === true && qtcb === true && bqvqt === true ? 
+                    {csbm === true && csbv === true && qtcb === true && bqvqt === true && master_key_name?.length > 0 && description?.length > 0 ? 
                         <Button
                             key="next"
                             type="primary"
                             onClick={handleNext}
                             disabled={currentStep === steps.length - 1}
                         >
-                            Next
+                            Tiếp tục
                         </Button>
                     :
                         <Button
@@ -210,7 +213,7 @@ export default function CreateMasterKey({allMaster}) {
                             onClick={handleNext}
                             disabled={true}
                         >
-                            Next
+                            Tiếp tục
                         </Button>
                     }
 
@@ -219,13 +222,13 @@ export default function CreateMasterKey({allMaster}) {
             </div>
             {currentStep === steps.length - 1 && (
                 <Button className="ml-2" htmlType="submit" type="primary" onClick={handleSubmit}>
-                    Submit
+                    Xác nhận
                 </Button>
             )}
           </div>
         ]}
       >
-        <Form layout="vertical" onFinish={handleSubmit}>
+        <Form layout="vertical" form={form} onFinish={handleSubmit}>
           {steps[currentStep].content}
         </Form>
       </Modal>

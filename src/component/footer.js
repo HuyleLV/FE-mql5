@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { Flex, Tooltip, Image, Row, Col, Input, Button } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import logo from "../component/image/logo.png"
 import { useDevice } from "../hooks";
 import { CaretRightOutlined } from "@ant-design/icons";
+import facebook from "../component/image/facebook.png"
+import twitter from "../component/image/twitter.png"
+import youtube from "../component/image/youtube.png"
+import instagram from "../component/image/instagram.png"
+import telegram from "../component/image/telegram.png"
 
 export default function Footer() {
   const { isMobile } = useDevice();
@@ -12,7 +15,7 @@ export default function Footer() {
   return (
     <div className="bg-zinc-900">
       <div className="max-w-screen-2xl items-center mx-auto mt-20 pt-10 pb-5" id="footer">
-        <p className="py-5 text-center text-white text-xl font-semibold">
+        <p className="py-10 text-center text-white text-xl font-semibold">
           NETPARTNER - Cung cấp những giải pháp tài chính nhanh nhất, hiệu quả nhất, chính xác nhất cho <br/>
           mỗi khách hàng của từng doanh nghiệp
         </p>
@@ -20,48 +23,82 @@ export default function Footer() {
           <Col xs={24} xl={6}>
             <img src={logo} width={150}/>
             <div className="text-base text-white">
-              <p className="py-1 pt-2"><span className="text-white font-medium">Địa chỉ: <span className="text-[#999999]">97 Trần Bình, Mỹ Đình 2, Nam Từ Liêm,<p> Hà Nội</p></span></span></p>
-              <p><span className="text-white font-medium">Điện thoại: <span className="text-[#999999]">0356496403</span></span></p>
-              <p className="py-1"><span className="text-white font-medium">Email: <span className="text-[#999999]">invest.netpartner@gmail.com</span></span></p>
+              <p className="py-1 pt-2"><span className="text-white font-medium">Địa chỉ: <span className="text-[#999999]">Nguyễn Hoàng, Mỹ Đình 2, Nam Từ Liêm,<p> Hà Nội</p></span></span></p>
+              <p><span className="text-white font-medium">Điện thoại: <span className="text-[#999999]">0356 496 403</span></span></p>
+              <p className="py-1"><span className="text-white font-medium">Email: <span className="text-[#999999]">Support@Netpartner.com.vn</span></span></p>
               <p><span className="text-white font-medium">Website: <Link to={"https://netpartner.com.vn"} className="text-[#999999]">netpartner.com.vn</Link></span></p>
             </div>
           </Col>
           <Col xs={isMobile ? 12 : 24} xl={4}>
-            <div className="border-b-2 w-[100px] border-amber-200">
+            <div className="border-b-2 w-[140px] border-amber-200">
               <p className="font-medium text-white py-2 text-lg">HOME</p>
             </div>
-            <div className="text-[#999999] font-medium text-lg text-[#999999]">
-              <p className="py-1 pt-4"><CaretRightOutlined /> Home</p>
-              <p><CaretRightOutlined /> Trang Chủ</p>
-              <p className="py-1"><CaretRightOutlined /> Thị Trường</p>
-              <p><CaretRightOutlined /> Giải Pháp</p>
-              <p className="py-1"><CaretRightOutlined /> Tài Liệu</p>
-              <p><CaretRightOutlined /> Về Chúng Tôi</p>
+            <div className="font-medium text-lg">
+              <a href="https://netpartner.com.vn/">
+                <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Trang Chủ</p>
+              </a>
+              <a href="https://netpartner.com.vn/san-pham/">
+                <p className="text-[#999999]"><CaretRightOutlined /> Sản Phẩm</p>
+              </a>
+              <a href="https://netpartner.com.vn/thi-truong/">
+                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Thị Trường</p>
+              </a>
+              <a href="https://netpartner.com.vn/blocks/block-giai-phap/">
+                <p className="text-[#999999]"><CaretRightOutlined /> Giải Pháp</p>
+              </a>
+              <a href="https://netpartner.com.vn/tai-lieu/">
+                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Tài Liệu</p>
+              </a>
+              <a href="https://netpartner.com.vn/blocks/footer-about-us/">
+                <p className="text-[#999999]"><CaretRightOutlined /> Về Chúng Tôi</p>
+              </a>
             </div>
           </Col>
           <Col xs={isMobile ? 12 : 24} xl={4}>
-            <div className="border-b-2 w-[100px] border-amber-200">
+            <div className="border-b-2 w-[140px] border-amber-200">
               <p className="font-medium text-white py-2 text-lg">DỊCH VỤ</p>
             </div>
-            <div className="text-[#999999] font-medium text-lg text-[#999999]">
-              <p className="py-1 pt-4"><CaretRightOutlined /> Giải Pháp Giao Dịch</p>
-              <p><CaretRightOutlined /> Zoom Thực Chiến</p>
-              <p className="py-1"><CaretRightOutlined /> Đào Tạo Nhân Lực</p>
-              <p><CaretRightOutlined /> Cố Vấn Tài Chính</p>
-              <p className="py-1"><CaretRightOutlined /> Phần Mềm Kết Nối</p>
+            <div className="font-medium text-lg">
+              <a href="https://netpartner.com.vn/giai-phap-toan-dien/">
+                <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Giải Pháp Giao Dịch</p>
+              </a>
+              <a href="https://netpartner.com.vn/tai-lieu/zoom-thuc-chien/">
+                <p className="text-[#999999]"><CaretRightOutlined /> Zoom Thực Chiến</p>
+              </a>
+              <a href="https://netpartner.com.vn/dao-tao-nhan-luc/">
+                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Đào Tạo Nhân Lực</p>
+              </a>
+              <a href="https://netpartner.com.vn/co-van-tai-chinh/">
+                <p className="text-[#999999]"><CaretRightOutlined /> Cố Vấn Tài Chính</p>
+              </a>
+              <a href="https://netpartner.com.vn/phan-mem-ket-noi/">
+                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Phần Mềm Kết Nối</p>
+              </a>
             </div>
           </Col>
           <Col xs={isMobile ? 12 : 24} xl={4}>
             <div className="border-b-2 w-[140px] border-amber-200">
               <p className="font-medium text-white py-2 text-lg">THÔNG TIN</p>
             </div>
-            <div className="text-[#999999] font-medium text-lg text-[#999999]">
-              <p className="py-1 pt-4"><CaretRightOutlined /> Thông Tin</p>
-              <p><CaretRightOutlined /> Cơ Hội Hợp Tác</p>
-              <p className="py-1"><CaretRightOutlined /> Cơ Hội Làm Việc</p>
-              <p><CaretRightOutlined />  Chính Sách Bảo Mật</p>
-              <p className="py-1"><CaretRightOutlined />  Hỗ Trợ</p>
-              <p className="py-1"><CaretRightOutlined />  Cộng Đồng</p>
+            <div className="font-medium text-lg">
+              <a href="https://netpartner.com.vn/thong-tin/">
+                <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Thông Tin</p>
+              </a>
+              <a href="https://netpartner.com.vn/co-hoi-hop-tac/">
+                <p className="text-[#999999]"><CaretRightOutlined /> Cơ Hội Hợp Tác</p>
+              </a>
+              <a href="https://netpartner.com.vn/co-hoi-lam-viec/">
+                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Cơ Hội Làm Việc</p>
+              </a>
+              <a href="https://netpartner.com.vn/chinh-sach-bao-mat/">
+                <p className="text-[#999999]"><CaretRightOutlined /> Chính Sách Bảo Mật</p>
+              </a>
+              <a href="https://netpartner.com.vn/ho-tro/">
+                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Hỗ Trợ</p>
+              </a>
+              <a href="https://netpartner.com.vn/cong-dong/">
+                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Cộng Đồng</p>
+              </a>
             </div>
           </Col>
           <Col xs={24} xl={6}>
@@ -74,10 +111,31 @@ export default function Footer() {
               <Button type="primary" className="mx-2"><p className="font-semibold">ĐĂNG KÝ</p></Button>
             </div>
 
+            <div className="border-b-2 w-[200px] border-amber-200 pt-5">
+              <p className="font-medium text-white py-2">KẾT NỐI VỚI CHÚNG TÔI</p>
+            </div>
+            <div className="flex pt-5">
+              <div className="border border-white rounded-full p-2 hover:bg-blue-500 hover:border-blue-500">
+                <img src={facebook} width={20} height={20}/>
+              </div>
+              <div className="border border-white rounded-full p-2 mx-3 hover:bg-black hover:border-black">
+                <img src={twitter} width={20} height={20}/>
+              </div>
+              <div className="border border-white rounded-full p-2 hover:bg-pink-500 hover:border-pink-500">
+                <img src={instagram} width={20} height={20}/>
+              </div>
+              <div className="border border-white rounded-full p-2 mx-3 hover:bg-red-500 hover:border-red-500 flex items-center">
+                <img src={youtube} width={20} height={20}/>
+              </div>
+              <div className="border border-white rounded-full p-2 hover:bg-blue-500 hover:border-blue-500 flex items-center">
+                <img src={telegram} width={20} height={20}/>
+              </div>
+              
+            </div>
           </Col>
         </Row>
       </div>
-        <p className="text-center border-t border-gray-600 py-2 text-[#999999]">© 2018-2023 Bản quyền thuộc về Netpartner</p>
+        <p className="text-center border-t border-gray-600 py-2 text-[#999999]">Since 2016 © - Bản Quyền Thuộc Về Net Partner</p>
     </div>
   );
 }

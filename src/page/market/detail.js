@@ -365,18 +365,18 @@ export default function MarketDetail() {
                 className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
                 onClick={() => setIsModalOpen(true)}
               >
-                Buy: {product?.[0].product_price} USD
+                Mua Ngay: {product?.[0].product_price} USD
               </button>
             }
             {cookies?.user ?
               <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
                 <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
-                  Free Demo
+                  Trải Nghiệm Miễn Phí
                 </button>
               </a>
               :
               <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={() => setIsModalOpen(true)}>
-                Free Demo
+                Trải Nghiệm Miễn Phí
               </button>
             }
           </div>
@@ -415,14 +415,14 @@ export default function MarketDetail() {
                   <div className="max-w-full">
                     {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
-                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Hide</button>
+                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Ẩn Bớt</button>
                 </div>
               :
                 <div className="p-5">
                   <div className="h-24 truncate">
                     {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
-                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>More</button>
+                  <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>Hiện Thêm</button>
                 </div>
             }
 
@@ -520,15 +520,15 @@ export default function MarketDetail() {
               {isBuy?.length > 0 ?  
                 <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
                   <button
-                    className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
+                    className="bg-[#42639c] py-2 w-[200px] mt-2 font-semibold text-white hover:bg-white hover:border-[#42639c] hover:border hover:text-[#42639c]"
                     onClick={activate}
                   >
-                  Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
+                    Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
                   </button>
                 </a>
                 :
                 <button
-                  className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
+                  className="bg-[#42639c] py-2 w-[200px] mt-2 font-semibold text-white hover:bg-white hover:border-[#42639c] hover:border hover:text-[#42639c]"
                   onClick={() => setIsModalOpen(true)}
                 >
                   Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
@@ -536,13 +536,13 @@ export default function MarketDetail() {
               }
               {cookies?.user ?
                 <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
-                  <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
-                    Trải Nghiệm Miễn Phí
+                  <button className="border border-[#42639c] w-[200px] py-2 mt-4 font-semibold text-[#42639c] hover:bg-[#42639c] hover:text-white" onClick={activate}>
+                    Trải Nghiệm Miễn Phí 7 Ngày
                   </button>
                 </a>
                 :
-                <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={() => setIsModalOpen(true)}>
-                  Trải nghiệm miễn phí
+                <button className="border border-[#42639c] w-[200px] py-2 mt-4 font-semibold text-[#42639c] hover:bg-[#42639c] hover:text-white" onClick={() => setIsModalOpen(true)}>
+                  Trải nghiệm miễn phí 7 Ngày
                 </button>
               }
               <div className="mt-4 text-sm w-full">
@@ -606,14 +606,14 @@ export default function MarketDetail() {
               hide === true 
               ?
                 <div className="p-5">
-                  <div>
+                  <div className="h-min">
                     {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Ẩn Bớt</button>
                 </div>
               :
                 <div className="p-5">
-                  <div className="h-24 truncate">
+                  <div className="h-20 text-ellipsis overflow-hidden">
                     {parse(String(product?.[0].product_description).replaceAll("ul>","p>"))}
                   </div>
                   <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>Hiện Thêm</button>
