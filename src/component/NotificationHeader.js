@@ -41,7 +41,7 @@ export default function NotificationHeader({ notifications, lengthSocket, length
             let userArr = noti_user.split(',')
             const indexUser = userArr.indexOf(user_id.toString());
             var fruits = item?.check_read;
-            let dd = fruits.split(',')
+            let dd = fruits?.split(',')
             return dd[indexUser - 1]
         })
 
@@ -86,7 +86,7 @@ export default function NotificationHeader({ notifications, lengthSocket, length
         let userArr = noti_user.split(',')
         const index = userArr.indexOf(user_id.toString());
         var fruits = value?.check_read;
-        let dd = fruits.split(',')
+        let dd = fruits?.split(',')
         dd[index - 1] = "1"
         await dd?.length <= 1 ? handleReaded(value.notification_id, 1) : handleReaded(value.notification_id, dd.toString())
     }
@@ -97,7 +97,7 @@ export default function NotificationHeader({ notifications, lengthSocket, length
             let userArr = noti_user.split(',')
             const indexUser = userArr.indexOf(user_id.toString());
             var fruits = item?.check_read;
-            let dd = fruits.split(',')
+            let dd = fruits?.split(',')
 
             return (
                 {

@@ -506,13 +506,15 @@ export default function MarketDetail() {
         </div>
       ): (
         <div className="flex max-lg:flex-wrap">
-          <div className="w-full md:w-1/2 mx-auto md:border">
+          <div className="w-full md:w-1/2 mx-auto md:border flex justify-center items-start">
             <div className="flex flex-col justify-center p-5">
-              <img
-                src={logo}
-                className="w-[100px] md:w-[200px] h-[100px] md:h-[200px] rounded-tl-3xl rounded-br-3xl object-cover"
-                alt="name"
-              />
+              <div className="flex justify-center">
+                <img
+                  src={logo}
+                  className="w-[110px] md:w-[210px] h-[110px] md:h-[210px] rounded-tl-3xl rounded-br-3xl object-cover"
+                  alt="name"
+                />
+              </div>
               <p className="text-[#42639c] font-bold pt-4">
                 {FormatDollar(product?.[0].product_price)} USD
               </p>
@@ -520,7 +522,7 @@ export default function MarketDetail() {
               {isBuy?.length > 0 ?  
                 <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
                   <button
-                    className="bg-[#42639c] py-2 w-[200px] mt-2 font-semibold text-white hover:bg-white hover:border-[#42639c] hover:border hover:text-[#42639c]"
+                    className="text-md bg-[#42639c] py-2 w-[210px] mt-2 font-semibold text-white hover:bg-white hover:border-[#42639c] hover:border hover:text-[#42639c]"
                     onClick={activate}
                   >
                     Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
@@ -528,7 +530,7 @@ export default function MarketDetail() {
                 </a>
                 :
                 <button
-                  className="bg-[#42639c] py-2 w-[200px] mt-2 font-semibold text-white hover:bg-white hover:border-[#42639c] hover:border hover:text-[#42639c]"
+                  className="text-md bg-[#42639c] py-2 w-[210px] mt-2 font-semibold text-white hover:bg-white hover:border-[#42639c] hover:border hover:text-[#42639c]"
                   onClick={() => setIsModalOpen(true)}
                 >
                   Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
@@ -536,12 +538,12 @@ export default function MarketDetail() {
               }
               {cookies?.user ?
                 <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
-                  <button className="border border-[#42639c] w-[200px] py-2 mt-4 font-semibold text-[#42639c] hover:bg-[#42639c] hover:text-white" onClick={activate}>
+                  <button className="text-sm border border-[#42639c] w-[210px] py-2 mt-4 font-semibold text-[#42639c] hover:bg-[#42639c] hover:text-white" onClick={activate}>
                     Trải Nghiệm Miễn Phí 7 Ngày
                   </button>
                 </a>
                 :
-                <button className="border border-[#42639c] w-[200px] py-2 mt-4 font-semibold text-[#42639c] hover:bg-[#42639c] hover:text-white" onClick={() => setIsModalOpen(true)}>
+                <button className="text-sm border border-[#42639c] w-[210px] py-2 mt-4 font-semibold text-[#42639c] hover:bg-[#42639c] hover:text-white" onClick={() => setIsModalOpen(true)}>
                   Trải nghiệm miễn phí 7 Ngày
                 </button>
               }

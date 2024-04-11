@@ -93,7 +93,6 @@ export default function ReportDetail() {
         await axios
             .post(`${process.env.REACT_APP_API_URL}/user/login`, value)
             .then((res) => {
-                console.log(res?.data);
                 setCookieToken("accessToken", res?.data);
                 message.success("Đăng nhập thành công!");
                 navigate("/");
@@ -102,15 +101,13 @@ export default function ReportDetail() {
     };
 
     const onChange = (e) => {
-        console.log('radio checked', e.target.value);
         setValue(e.target.value);
     };
     
     useEffect(() => { 
         getByReportSlug();
         checkBuy();
-        console.log(isBuy)
-    }, []);
+    }, [isBuy]);
 
     return (
         <>
@@ -172,7 +169,7 @@ export default function ReportDetail() {
                 {cookies?.user ?
                     <div className="w-[150px] py-10">
                         {isBuy?.length > 0 ? 
-                            <a href={report?.report_pdf} download={report?.report_title}>
+                            <a href={report?.report_pdf} download={report?.report_title} target="_blank">
                                 <img src={pdf} width={150}/>
                                 <p className="font-semibold text-lg text-center">{report?.report_price > 0 ? FormatDollar(report?.report_price) : "Free"}</p>
                             </a> 

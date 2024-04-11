@@ -14,6 +14,7 @@ import TopMaster from "./TopMaster";
 import JobTrade from "./JobTrade";
 import Reports from "./Report";
 import { FormatDollar } from "../../utils/format";
+import { useSpring, animated } from "react-spring";
 
 export default function Home() {
     const { isMobile } = useDevice();
@@ -22,6 +23,7 @@ export default function Home() {
     const [topMaster, setTopMaster] = useState([]);
     const [shorts, setShorts] = useState([]);
     const [cookies] = useCookies(["user"]);
+    const [key, setKey] = useState(1);
     const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
     
 
@@ -184,6 +186,17 @@ export default function Home() {
         }
     };
 
+    
+  const scrolling = useSpring({
+    from: { transform: "translate(100%,0)" },
+    to: { transform: "translate(-100%,0)" },
+    config: { duration: 20000 },
+    reset: true,
+    onRest: () => {
+      setKey(key + 1);
+    }
+  });
+
     useEffect(() => {
         fetchProducts();
         getTopMaster();
@@ -200,6 +213,11 @@ export default function Home() {
                 <video src={video_home} className="h-screen" style={{ width: '100vw', objectFit: 'cover' }} autoPlay muted controls={false} loop>
                 </video>
                 <div className="absolute top-0 px-[5%] text-white">
+                    <div className="w-full flex justify-center truncate">
+                        <animated.div key={key} style={scrolling} className={"truncate font-none"}>
+                            Chào mừng bạn đến với phiên bản beta Net Partner - Hãy trải nghiệm những nội dung mới lạ những giải pháp cách mạng về tài chính. Tất cả hòm thư góp ý vui lòng gửi về support@netpartner.com.vn, Net Partner xin chân thành cám ơn!!
+                        </animated.div>
+                    </div>
                     <p className="font-bold text-xl top-0 pt-20">Đỉnh Cao Công Nghệ Tài Chính</p>
                     <p className="font-bold text-6xl w-[800px] pt-[150px]">
                         <p className="text-[70px] pb-4">Xây Dựng Sự Giàu Có </p>
@@ -290,13 +308,13 @@ export default function Home() {
                                             <p className="font-semibold text-lg"> Email: {_?.user?.email ? _?.user?.email : "Admin@gmail.com"}</p>
                                             <p className="font-semibold text-lg"> Master key: {_?.user?.master_key}</p>
                                         </div>
-                                    </div>
+                                    </div>                
                                     <div>
                                         <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
-                                        <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? _?.results[0]?.win_rate : 0}</span></p>
-                                        <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? _?.results[0]?.win : 0}</span></p>
-                                        <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? _?.results[0]?.loss : 0}</span></p>
-                                        <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? _?.results[0]?.total_profit : 0}</span></p>
+                                        <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span></p>
+                                        <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? Math.round(_?.results[0]?.win * 100) / 100 : 0}</span></p>
+                                        <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? Math.round(_?.results[0]?.loss * 100) / 100 : 0}</span></p>
+                                        <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span></p>
                                     </div>
                                     <div className="flex justify-center py-2">
                                         {cookies?.user ? 

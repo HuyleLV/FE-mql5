@@ -1,4 +1,4 @@
-import { Col, Input, Modal, Pagination, Row, Space, Table, Tabs, message } from "antd";
+import { Col, Input, Modal, Pagination, Row, Space, Table, Tabs, Typography, message } from "antd";
 import TabPane from "antd/es/tabs/TabPane";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -10,8 +10,10 @@ import { DownloadOutlined, PhoneOutlined, WarningOutlined } from "@ant-design/ic
 import Paragraph from "antd/es/skeleton/Paragraph";
 import { CustomUpload } from "../../component";
 import { FormatDollar, FormatVND } from "../../utils/format";
-import image_mk4 from "../../component/image/mk4.jpg";
+import telegram from "../../component/image/telegram.png";
 import axiosInstance from "../../utils/axios";
+import banking from "../../component/image/banking.jpg";
+import vietcombank from "../../component/image/vietcombank.png";
 
 export default function Wallet() { 
     const { isMobile } = useDevice();
@@ -21,6 +23,7 @@ export default function Wallet() {
     const navigate = useNavigate();
     const [transfer, setTransfer] = useState([]);
     const [transferProduct, setTransferProduct] = useState([]);
+    const [transferReport, setTransferReport] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [imgTransfer, setImgTransfer] = useState("");
     const [price, setPrice] = useState(0);
@@ -36,6 +39,11 @@ export default function Wallet() {
       pageSize: 8
     });
 
+    const [paginationReport, setPaginationReport] = useState({
+      page: 1,
+      pageSize: 8
+    });
+
     const fetchTransfer = async () => {
       await axios
         .get(`${process.env.REACT_APP_API_URL}/transfer/getByIdUser/${cookies.user?.user_id}`, {params: pagination})
@@ -47,10 +55,19 @@ export default function Wallet() {
 
     const fetchTransferProduct = async () => {
       await axios
-        .get(`${process.env.REACT_APP_API_URL}/transferProduct/getByIdUser/${cookies.user?.user_id}`, {params: paginationProduct})
+        .get(`${process.env.REACT_APP_API_URL}/transferProduct/getByIdUser/${cookies.user?.user_id}`, {params: {...paginationProduct, type: 1}})
         .then(( res ) => {
           const data = res?.data;
           setTransferProduct(data);
+        });
+    };
+
+    const fetchTransferReport = async () => {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/transferProduct/getByIdUser/${cookies.user?.user_id}`, {params: {...paginationReport, type: 2}})
+        .then(( res ) => {
+          const data = res?.data;
+          setTransferReport(data);
         });
     };
     
@@ -155,11 +172,13 @@ export default function Wallet() {
         render: (_, record) => {
           return (
             <Space>
-              <div
-                className="text-blue-500"
-              >
-                <PhoneOutlined />
-              </div>
+              <a href="https://t.me/Net_lnvest" target="_blank">
+                <div
+                  className="text-blue-500 bg-blue-500 rounded-full p-2"
+                >
+                  <img src={telegram} width={20} className=""/>
+                </div>
+              </a>
             </Space>
           );
         },
@@ -180,7 +199,7 @@ export default function Wallet() {
         dataIndex: "product_name",
         width: 160,
         hidden: isMobile ? true : false,
-        render: (_, record) => <div>{record?.product_name}</div>,
+        render: (_, record) => <div>{record?.product_name ? record?.product_name : record?.report_title}</div>,
       },
       {
         title: <div>Ảnh</div>,
@@ -190,7 +209,7 @@ export default function Wallet() {
         hidden: isMobile ? true : false,
         render: (_, record) => 
           <div>
-            <img src={record?.product_image ? JSON.parse(record?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : <></>} className="h-40 w-40"/>
+            <img src={record?.product_image ? JSON.parse(record?.product_image)?.filter((i) => i?.type === "logo")?.[0]?.data : record?.report_img} className="h-40 w-40"/>
           </div>,
       },
       {
@@ -198,7 +217,7 @@ export default function Wallet() {
         key: "transfer_product_price",
         dataIndex: "transfer_product_price",
         width: 160,
-        render: (_, record) => <div>{FormatDollar(record?.transfer_product_price)}</div>,
+        render: (_, record) => <div>{FormatDollar(record?.transfer_product_price ? record?.transfer_product_price : record?.report_price)}</div>,
       },
       {
         title: <div className={"base-table-cell-label "}>Ngày tạo</div>,
@@ -223,13 +242,15 @@ export default function Wallet() {
         render: (_, record) => {
           return (
             <div className="justify-center flex">
-              <div
-                className="bg-blue-500 text-white rounded-full mr-4 cursor-pointer"
-              >
-                <PhoneOutlined className="p-2 text-xl"/>
-              </div>
+              <a href="https://t.me/Net_lnvest" target="_blank">
+                <div
+                  className="text-blue-500 bg-blue-500 rounded-full p-2"
+                >
+                  <img src={telegram} width={20} className=""/>
+                </div>
+              </a>
               
-              <a target="_blank" href={record?.product_link} rel="noreferrer">
+              <a target="_blank" href={record?.product_link ? record?.product_link : record?.report_pdf} rel="noreferrer" className="ml-2">
                 <div
                   className="bg-green-500 text-white rounded-full cursor-pointer"
                 >
@@ -250,6 +271,7 @@ export default function Wallet() {
           fetchTransfer();
           fetchTransferProduct();
           getDollar();
+          fetchTransferReport();
         }
     }, [cookies, pagination, price]);
     return (
@@ -353,6 +375,37 @@ export default function Wallet() {
                   </>
                 }
               </TabPane>
+              <TabPane tab="Lịch sử mua báo cáo" key="3" className="px-5">
+                <p className="text-center text-xl font-bold pb-10">Lịch sử mua báo cáo</p>
+                  
+                {transfer?.data?.length > 0 ?
+                  <>
+                    <Table 
+                      className={"custom-table pb-10"}
+                      rowKey={(record) => record?.transfer_id + ""}
+                      dataSource={transferReport?.data} 
+                      columns={columnProduct} 
+                      pagination={false}
+                    />
+                    <Pagination
+                      className="flex justify-center"
+                      current={paginationReport.page}
+                      total={transferReport?.total}
+                      pageSize={paginationReport.pageSize}
+                      onChange={(p)=> {
+                        setPaginationReport({
+                          page: p,
+                          pageSize: paginationReport.pageSize
+                        })
+                      }}
+                    />
+                  </>
+                  : 
+                  <>
+                    <p className="font-bold texl-2xl text-center bg-yellow-300 py-4 mb-10">Chưa có thông tin chuyển tiền</p>
+                  </>
+                }
+              </TabPane>
             </Tabs>
             <Modal
               open={isModalOpen}
@@ -392,11 +445,37 @@ export default function Wallet() {
                 <Col xs={24} xl={12} className="text-center">
                   <p className="font-semibold text-xl pt-5">Quét mã qua Ứng dụng ngân hàng/</p>
                   <p className="font-semibold text-xl pb-5">Ví điện tử</p>
-                  <div className="flex justify-center pb-10">
-                    <img
-                      src={image_mk4}
-                      className="w-[300px] h-[300px]"
-                    />
+                  <div className="pb-10 flex justify-center">
+                    <div>
+                      <div className="flex justify-center">
+                        <img
+                          src={vietcombank}
+                          className="h-[80px]"
+                        />
+                      </div>
+                      <img
+                        src={banking}
+                        className="w-[320px] h-[300px]"
+                      />
+                      <Typography.Paragraph 
+                        className="font-semibold" 
+                        style={{fontSize: 20}} 
+                        copyable={{
+                          tooltips: [<p className="text-white font-bold">Copy</p>, <p className="text-white font-bold">Copied</p>],
+                        }}
+                      >
+                        BUI THI LAN
+                      </Typography.Paragraph>
+                      <Typography.Paragraph 
+                        className="font-semibold" 
+                        style={{fontSize: 20}} 
+                        copyable={{
+                          tooltips: [<p className="text-white font-bold">Copy</p>, <p className="text-white font-bold">Copied</p>],
+                        }}
+                      >
+                        1019119549
+                      </Typography.Paragraph>
+                    </div>
                   </div>
                 </Col>
               </Row>

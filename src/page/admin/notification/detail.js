@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import { TextEditor } from "./editer";
+import CustomReactQuill from "../../../component/customReactQuill";
 
 export default function NotificationDetail() {
 
@@ -41,6 +41,7 @@ export default function NotificationDetail() {
   const [title, setTitle] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
   const [displayMessageTitle, setDisplayMessageTitle] = useState("");
+  const [editorValue, setEditorValue] = useState('');
 
   useEffect(() => {
     const timeOutId = setTimeout(() => setDisplayMessage(query), 500);
@@ -54,7 +55,7 @@ export default function NotificationDetail() {
 
   const [pagination, setPagination] = useState({
     page: 1,
-    pageSize: 10,
+    pageSize: 1000,
   });
 
   const fetchUser = async () => {
@@ -100,10 +101,10 @@ export default function NotificationDetail() {
     // setTitle(null)
   }
 
-  const createTableNoti = async (user_id, title, message, read) => {
+  const createTableNoti = async (user_id, title, messager, read) => {
     const submitValues = {
       notification_title: title,
-      notification_description: message,
+      notification_description: messager,
       notification_user: user_id,
       check_read: read,
       create_by: cookies.admin?.user_id
@@ -111,8 +112,8 @@ export default function NotificationDetail() {
     await axios
       .post(`${process.env.REACT_APP_API_URL}/notification/createUser`, submitValues)
       .then(async (res) => {
-        console.log("Success!");
         resetInput()
+        message.success("Gửi thông báo thành công");
 
       })
       .catch(({ response }) => {
@@ -120,33 +121,36 @@ export default function NotificationDetail() {
       });
   };
 
-  const handleSend = async (user_id, title, message, read) => {
+  const handleSend = async (user_id, title, messager, read) => {
     await socket?.emit("sendNotification", {
       receiverName: user_id,
       title: title,
-      message: message
+      message: messager
     });
-    createTableNoti(user_id, title, message, read)
+    createTableNoti(user_id, title, messager, read)
+    message.success("Gửi thông báo thành công");
   }
 
-  const handleSendAll = async (all, title, message, read) => {
+  const handleSendAll = async (all, title, messager, read) => {
     await socket?.emit("sendNotificationAll", {
       all,
       title: title,
-      message: message
+      message: messager
     });
 
-    createTableNoti(all, title, message, read)
+    createTableNoti(all, title, messager, read);
+    message.success("Gửi thông báo thành công");
   }
 
-  const handleSendMaster = async (master, title, message, read) => {
+  const handleSendMaster = async (master, title, messager, read) => {
     await socket?.emit("sendNotificationMaster", {
       master,
       title: title,
-      message: message
+      message: messager
     });
 
-    createTableNoti(master, title, message, read)
+    createTableNoti(master, title, messager, read)
+    message.success("Gửi thông báo thành công");
   }
 
   return (
@@ -192,13 +196,9 @@ export default function NotificationDetail() {
 
             <div className="py-2">
               <p>Nội dung:</p>
-              <textarea
-                className="border border-gray-300 rounded-md py-2 w-full"
-                onChange={event => setQuery(event.target.value)}
-                placeholder=" "></textarea>
+              <CustomReactQuill onChange={(e)=> setQuery(e)} />
             </div>  
 
-            {/* <TextEditor setQuery={setQuery} /> */}
 
             <Button
               type={"primary"}

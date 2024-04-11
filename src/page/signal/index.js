@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination, message, Tabs, Select, Dropdown } from "antd";
+import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination, message, Tabs, Select, Dropdown, Modal, Tooltip } from "antd";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import dayjsInstance from "../../utils/dayjs";
@@ -8,7 +8,7 @@ import TabPane from "antd/es/tabs/TabPane";
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchProps from "../../component/SearchProps";
 import icon_master from "../../component/image/icon/icon_market.svg"
-import { CheckOutlined, FilterOutlined, SmileOutlined } from "@ant-design/icons";
+import { CheckOutlined, FilterOutlined, InfoOutlined, SmileOutlined } from "@ant-design/icons";
 import logo from "../../component/image/logo.png"
 import flag_england from "../../component/image/flag_england.png"
 import CreateMasterKey from "../../component/createMasterKey";
@@ -27,6 +27,8 @@ export default function SignalPage() {
   const [follower, setFollower] = useState([]);
   const [signalHot, setSignalHot] = useState([]);
   const [messCheck, setMessCheck] = useState("");
+  const [isReport, setIsReport] = useState(0);
+  const [report, setReport] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
     pageSize: 8,
@@ -153,6 +155,18 @@ export default function SignalPage() {
       });
   };
 
+  const getReportByMasterKey = async () => {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/signal/getReportByMasterKey/${masterKeyName?.master_key}`)
+        .catch(function (error) {
+          message.error(error.response.status);
+        })
+        .then(( res ) => {
+          const data = res?.data;
+          setReport(data[0]);
+        });
+  };
+
   useEffect(() => {
     if (Object.keys(profile)?.length > 0) {
       form.resetFields();
@@ -177,6 +191,7 @@ export default function SignalPage() {
       getSignal();
       getFollowerbyMasterKey();
       getTotalByMasterKey();
+      getReportByMasterKey();
     }
   }, [masterKeyName?.master_key, paginationSignal, pagination]);
 
@@ -489,6 +504,17 @@ export default function SignalPage() {
                 xs={24}
                 className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
             >
+            <div className="py-5 flex justify-center">
+              <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl" onClick={()=>setIsReport(1)}>
+                  Báo cáo
+              </button>
+              <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl mx-20" onClick={()=>setIsReport(2)}>
+                  Phân tích
+              </button>
+              <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl" onClick={()=>setIsReport(3)}>
+                  Lịch sử
+              </button>
+            </div>
             <Tabs type="card">
                 <TabPane tab="Quản lý Follower" key="1">
                   <div className="w-full h-full mt-5 pb-2 relative">
@@ -513,7 +539,7 @@ export default function SignalPage() {
                       />
                   </div>
                 </TabPane>
-                <TabPane tab="Quản lý lệnh" key="2">
+                {/* <TabPane tab="Quản lý lệnh" key="2">
                   <div className="w-full h-full mt-5 pb-2 relative">
                       <Table
                         className={"custom-table pb-[20px]"}
@@ -535,8 +561,8 @@ export default function SignalPage() {
                         }}
                       />
                   </div>
-                </TabPane>
-                <TabPane tab="Bắn tín hiệu" key="3">  
+                </TabPane> */}
+                {/* <TabPane tab="Bắn tín hiệu" key="3">  
                   <div className="flex justify-center">
                       <Form
                       layout={"vertical"}
@@ -646,7 +672,7 @@ export default function SignalPage() {
                       </Row>
                       </Form>
                   </div>
-                </TabPane>
+                </TabPane> */}
             </Tabs>
             </Col>
           </>
@@ -749,6 +775,401 @@ export default function SignalPage() {
           ))}
         </Row>
       </div>
+      
+      <Modal
+        title="Báo cáo"
+        open={isReport === 1}
+        onCancel={()=>setIsReport(0)}
+        width={1600}
+        footer={<></>}
+      >
+        <div className="py-5">
+          <Row className="bg-gray-100 text-white rounded-xl p-10">
+              <Col xs={24} xl={24} className="text-black p-2">
+                  <p className="text-center font-bold text-2xl pb-5">BÁO CÁO</p>
+              </Col>
+
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Sụt giảm cao nhất</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Tỷ lệ sụt giảm dựa trên số dư</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg"></p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Giao dịch có lợi nhuận cao nhất</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Giao dịch có lợi nhuận cao nhất</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.profit_max * 100) / 100}</p>
+                  </div>
+              </Col>
+              
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Tổng lệnh đã trade</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Tổng số giao dịch đã trade</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.total * 100) / 100}</p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Giao dịch loss nhiều nhất</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Giao dịch có loss lớn nhất</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.profit_min * 100) / 100}</p>
+                  </div>
+              </Col>
+              
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Tổng lệnh đang chạy</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Tổng số giao dịch đang mở</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.total_open * 100) / 100}</p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Lợi nhuận trung bình</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Bằng tổng lợi nhuận chia tổng giao dịch thắng</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.lntb * 100) / 100}</p>
+                  </div>
+              </Col>
+              
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Tổng lệnh win</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Tổng số giao dịch thắng</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.total_win * 100) / 100}</p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Thua lỗ trung bình</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Bằng tổng thua lỗ chia tổng giao dịch loss</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg"></p>
+                  </div>
+              </Col>
+              
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Tổng lệnh loss</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Tổng số giao dịch lỗ</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.total_loss * 100) / 100}</p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Thời gian phục hồi</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Thời gian phục hồi dựa trên mức sụt giảm cao nhất</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg"></p>
+                  </div>
+              </Col>
+              
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Lợi nhuận trung bình / lot</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Lợi nhuận trung bình trên 1 lot</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.lntb_lot * 100) / 100}</p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Lợi nhuận liên tiếp</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Tổng lợi nhuận của chuỗi giao dịch win liên tiếp cao nhất</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg"></p>
+                  </div>
+              </Col>
+              
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Lợi nhuận trung bình / ngày</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Lợi nhuận trung bình của 1 ngày</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg"></p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Loss liên tiếp</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Tổng thua lỗ của chuỗi giao dịch loss liên tiếp cao nhất</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg"></p>
+                  </div>
+              </Col>
+              
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Số lệnh win liên tiếp</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Chuỗi giao dịch win liên tiếp lớn nhất</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg"></p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Volume giữ cao nhất</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Tổng khối lượng của tổng số lệnh lớn nhất được giữ khi giao dịch</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.volumne_max * 100) / 100}</p>
+                  </div>
+              </Col>
+              
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Số lệnh loss liên tiếp</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Chuỗi giao dịch loss liên tiếp lớn nhất</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg"></p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Khối lượng lệnh trung bình</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Khối lượng lệnh trung bình của tài khoản</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.volumne_tb * 100) / 100}</p>
+                  </div>
+              </Col>
+              
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Số lệnh trạng thái nhiều nhất</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Tổng giao dịch được giữ lớn nhất</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.slttnn * 100) / 100}</p>
+                  </div>
+              </Col>
+              <Col xs={24} xl={12} className="p-2">
+                  <div className="flex justify-between py-2 px-10 bg-gradient-to-r from-slate-800 to-blue-700 rounded-xl">
+                      <div className="flex items-center">
+                          <p className="text-center font-bold text-lg">Tăng trưởng tài khoản</p>
+                          <Tooltip 
+                              placement="top" 
+                              title={
+                                  <span className="text-white font-semibold text-md">Phần trăm tăng trưởng tài khoản</span>
+                              } 
+                              className="flex items-center bg-gray-400 rounded-full ml-2"
+                              >
+                              <InfoOutlined className="p-1 text-white text-md"/>
+                          </Tooltip>
+                      </div>
+                      <p className="text-center font-bold text-lg"></p>
+                  </div>
+              </Col>
+          </Row>
+        </div>
+      </Modal>      
+      <Modal
+        title="Lịch sử"
+        open={isReport === 3}
+        onCancel={()=>setIsReport(0)}
+        width={1600}
+        footer={<></>}
+      >
+        <div className="w-full h-full mt-5 pb-2 relative">
+          <Table
+            className={"custom-table pb-[20px]"}
+            dataSource={signal?.data}
+            columns={columnSignal}
+            pagination={false}
+          />
+          <Pagination
+            className="flex justify-center"
+            current={paginationSignal.page}
+            total={signal?.total}
+            pageSize={paginationSignal.pageSize}
+            showSizeChanger
+            onChange={(p, ps)=> {
+                setPaginationSignal({
+                page: p,
+                pageSize: ps
+                })
+            }}
+          />
+        </div>
+      </Modal>
     </div>
   );
 }

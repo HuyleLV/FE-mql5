@@ -4,6 +4,7 @@ import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
+import chinhsbm from "../component/image/PDF/chinh-sach-bao-mat.pdf"
 
 export default function CreateMasterKey({allMaster}) {
     const [form] = Form.useForm();
@@ -92,33 +93,32 @@ export default function CreateMasterKey({allMaster}) {
             </Form.Item>
             <div>
                 <p className="font-bold text-lg">Bằng việc trở thành Master bạn đồng ý với:</p>
-                <div className="my-2">
-                    <Radio value={csbm} onChange={()=>setCsbm(true)} className="flex items-center">
-                        <p className="text-xl font-normal">
-                            Chính Sách Bảo Mật
-                        </p> 
-                    </Radio>
+                <div className="my-2 flex items-center">
+                    <Radio value={csbm} onChange={()=>setCsbm(true)} className="flex items-center"></Radio>
+                    <a className="text-xl font-normal" href={chinhsbm} target="_blank">
+                        Chính Sách Bảo Mật
+                    </a> 
                 </div>
-                <div className="my-2">
+                <div className="my-2 flex items-center">
                     <Radio value={csbv} onChange={()=>setCsbv(true)} className="flex items-center">
-                        <p className="text-xl font-normal">
-                            Chính Sách Bảo Vệ Rủi Ro, Chống Lừa Đảo
-                        </p> 
                     </Radio>
+                    <a className="text-xl font-normal" href={chinhsbm} target="_blank">
+                        Chính Sách Bảo Vệ Rủi Ro, Chống Lừa Đảo
+                    </a> 
                 </div>
-                <div className="my-2">
+                <div className="my-2 flex items-center">
                     <Radio value={qtcb} onChange={()=>setQtcb(true)} className="flex items-center">
-                        <p className="text-xl font-normal">
-                            Quy Tắc Công Bằng
-                        </p> 
                     </Radio>
+                    <a className="text-xl font-normal" href={chinhsbm} target="_blank">
+                        Quy Tắc Công Bằng
+                    </a> 
                 </div>
-                <div className="my-2">
+                <div className="my-2 flex items-center">
                     <Radio value={bqvqt} onChange={()=>setBqvqt(true)} className="flex items-center">
-                        <p className="text-xl font-normal">
-                            Bản Quyền và Quy Tắc Cộng Đồng
-                        </p> 
                     </Radio>
+                    <a className="text-xl font-normal" href={chinhsbm} target="_blank">
+                        Bản Quyền và Quy Tắc Cộng Đồng
+                    </a> 
                 </div>
             </div>
         </>

@@ -22,7 +22,6 @@ export default function Identify() {
     });
 
     const getByIdentify_category = async (identify_category_id) => {
-        console.log(identify_category_id)
         await axios
             .get(
                 `${process.env.REACT_APP_API_URL}/identify/getByIdentify_category/${identify_category_id}`, {
@@ -66,7 +65,6 @@ export default function Identify() {
         .get(`${process.env.REACT_APP_API_URL}/comment/getById/0`, {params: paginationComment})
         .then((res) => {
           const data = res?.data;
-          console.log(data)
           setComment(data);
         })
         .catch(() => message.error("Error server!"));
@@ -91,7 +89,6 @@ export default function Identify() {
     const onChange = async (date) => {
         const create_at = dayjs(date).format("YYYY-MM-DD");
         const create_atD = dayjs(date).add(1, 'day').format("YYYY-MM-DD 00:00:00");
-        
         await axios
             .get(
                 `${process.env.REACT_APP_API_URL}/identify/getByTime/${identifyCategoryId}`, {
@@ -103,7 +100,6 @@ export default function Identify() {
                 }
             )
             .then(({ data }) => {
-                console.log(data)
                 setIdentify(data[0]);
             });
      };
@@ -165,10 +161,15 @@ export default function Identify() {
                         <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] my-10 pl-4">
                             <p className="font-bold text-2xl py-5">Nhận định thị trường</p>
                         </div>
-                        <DatePicker 
-                            onChange={onChange}
-                            format={'DD/MM/YYYY'} 
-                        />
+                        <div>
+                            <Button type="primary" onClick={()=>onChange(dayjs(new Date()).subtract(1, 'day'))}><p className="font-semibold">Hôm Qua</p></Button>
+                            <Button type="primary" onClick={()=>onChange(dayjs(new Date()).subtract(2, 'day'))} className="mx-4"><p className="font-semibold">Hôm Kia</p></Button>
+                            <Button type="primary" onClick={()=>onChange(dayjs(new Date()).subtract(7, 'day'))} className="mr-4"><p className="font-semibold">Tuần Trước</p></Button>
+                            <DatePicker 
+                                onChange={onChange}
+                                format={'DD/MM/YYYY'} 
+                            />
+                        </div>
                     </div>
                     <Row>
                         <Col xs={24} xl={4}>

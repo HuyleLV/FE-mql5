@@ -268,7 +268,7 @@ export default function Product() {
                         </div>
                     </Col>
                 </Row>
-                <div className="border-t-2 border-blue-500 py-10">
+                <div className="border-t-2 border-blue-500 py-5">
                     <div className="flex justify-center">
                         <div className={`px-10 mx-5 py-5 rounded-full cursor-pointer ${tab === 1 ? 'bg-gray-200' : ''}`} onClick={()=>setTab(1)}>
                             <div className="flex justify-center">
