@@ -16,6 +16,8 @@ export default function NotificationHeader({ notifications, lengthSocket, length
 
     const [count, setCount] = useState(0)
 
+    const [isRefresh, setIsRefresh] = useState(false)
+
     const [index, setIndex] = useState(null)
 
     const handleRead = (id) => {
@@ -33,7 +35,7 @@ export default function NotificationHeader({ notifications, lengthSocket, length
     }
 
     const countRead = async () => {
-
+        setIsRefresh(true)
         let numbers = await notifications.filter((word) => word.check_read.length > 2)
 
         let cutArr = numbers.map((item, index) => {
@@ -56,19 +58,20 @@ export default function NotificationHeader({ notifications, lengthSocket, length
         let numberLess2 = await notifications.filter((word) => word.check_read.length < 2)
 
         let less2Arr = await numberLess2.reduce((acc, child) => {
-                    if (!acc[child.check_read]) {
-                        acc[child.check_read] = "0";
-                    }
-                    acc[child.check_read]++;
-                    return acc;
-                }, {});
+            if (!acc[child.check_read]) {
+                acc[child.check_read] = "0";
+            }
+            acc[child.check_read]++;
+            return acc;
+        }, {});
 
-        setCount(count[0] === undefined && less2Arr[0] === undefined ? (0 + lengthSocket) : (count[0] + less2Arr[0] + lengthSocket));
+        setCount((count[0] === undefined ? 0 : count[0]) + (less2Arr[0] === undefined ? 0 : less2Arr[0]));
+        setIsRefresh(false)
     }
 
     useEffect(() => {
         countRead()
-    }, [lengthSocket])
+    }, [lengthSocket, isRefresh])
 
     const decrease = () => {
         setCount(prevCount => {

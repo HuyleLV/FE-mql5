@@ -61,13 +61,20 @@ export default function Header() {
   }, [socket])
 
   useEffect(() => {
-
     cookies?.user && socket?.on("getNotification", (data) => {
       message.warning("Có 1 tin nhắn mới !!");
       setNotifications((prev) => [prev, data]);
       setCheckUpdate(!checkUpdate)
     })
-  }, [socket])
+  }, [socket, refresh, checkUpdate])
+
+  useEffect(() => {
+    cookies?.user && socket?.on("getNotificationAll", (data) => {
+      message.warning("Có 1 tin nhắn mới !!");
+      setNotifications((prev) => [prev, data]);
+      setCheckUpdate(!checkUpdate)
+    })
+  }, [socket, refresh, checkUpdate])
 
   useEffect(() => {
     cookies?.user && cookies?.user?.active_status === 1 && socket?.on("getNotificationMaster", (data) => {
@@ -75,7 +82,7 @@ export default function Header() {
       setNotifications((prev) => [...prev, data]);
       setCheckUpdate(!checkUpdate)
     })
-  }, [socket, refresh])
+  }, [socket, refresh, checkUpdate])
 
   useEffect(() => {
     cookies?.user && getAllNotification(cookies?.user?.user_id, cookies?.user?.active_status === 1 ? -2 : 0);
@@ -240,34 +247,29 @@ export default function Header() {
                     <div className="bg-white border rounded-md pr-2">
                       <ul className="flex flex-col font-normal px-4 md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <a className="block md:p-0 md:hover:text-blue-400" href={"/san-pham"}>
-                            Sản Phẩm
-                          </a>
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Forum</p>
+                          </Link>
                         </li>
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <a className="block md:p-0 md:hover:text-blue-400" href={"/signal"}>
-                            Tín Hiệu
-                          </a>
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Market</p>
+                          </Link>
                         </li>
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <a className="block md:p-0 md:hover:text-blue-400" href={"/nhan-dinh"}>
-                            Nhận Định
-                          </a>
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Signals</p>
+                          </Link>
                         </li>
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <a className="block md:p-0 md:hover:text-blue-400" href={"/tin-tuc"}>
-                            Tin Tức
-                          </a>
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Freelance</p>
+                          </Link>
                         </li>
                         <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <a className="block md:p-0 md:hover:text-blue-400" href={"/education"}>
-                            Kiến Thức
-                          </a>
-                        </li>
-                        <li className="hover:bg-yellow-400 hover:text-black p-1">
-                          <a className="block md:p-0 md:hover:text-blue-400" href={"/wallet"}>
-                            Ví
-                          </a>
+                          <Link className="block md:p-0 md:hover:text-black" to={"/"}>
+                            <p className="text-black text-lg">Quotes</p>
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -288,32 +290,32 @@ export default function Header() {
                     <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0 h-full items-center text-2xl">
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/san-pham"}>
-                          Sản Phẩm
+                          Sản phẩm
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/signal"}>
-                          Tín Hiệu
+                          Signals
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/nhan-dinh"}>
-                          Nhận Định
+                          Nhận định
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/tin-tuc"}>
-                          Tin Tức
+                          Tin tức
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/education"}>
-                          Kiến Thức
+                          Edu
                         </a>
                       </li>
                       <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/wallet"}>
-                          Ví
+                          Wallet
                         </a>
                       </li>
                     </ul>

@@ -128,7 +128,6 @@ export default function NotificationDetail() {
       message: messager
     });
     createTableNoti(user_id, title, messager, read)
-    message.success("Gửi thông báo thành công");
   }
 
   const handleSendAll = async (all, title, messager, read) => {
@@ -139,7 +138,6 @@ export default function NotificationDetail() {
     });
 
     createTableNoti(all, title, messager, read);
-    message.success("Gửi thông báo thành công");
   }
 
   const handleSendMaster = async (master, title, messager, read) => {
@@ -150,7 +148,6 @@ export default function NotificationDetail() {
     });
 
     createTableNoti(master, title, messager, read)
-    message.success("Gửi thông báo thành công");
   }
 
   return (
@@ -196,8 +193,8 @@ export default function NotificationDetail() {
 
             <div className="py-2">
               <p>Nội dung:</p>
-              <CustomReactQuill onChange={(e)=> setQuery(e)} />
-            </div>  
+              <CustomReactQuill onChange={(e) => setQuery(e)} />
+            </div>
 
 
             <Button
