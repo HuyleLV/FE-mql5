@@ -73,7 +73,7 @@ const Login = () => {
                   />
                 </Form.Item>
                 <div className="flex justify-end mt-[-8px]">
-                  <Link href="#" className="text-cyan-500">Quên mật khẩu?</Link>
+                  <Link to="/quen-mat-khau" className="text-cyan-500">Quên mật khẩu?</Link>
                 </div>
                 <div className="pb-5 pt-2">
                   <Radio.Group onChange={onChange} value={value}>

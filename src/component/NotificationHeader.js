@@ -7,6 +7,7 @@ import { GoDotFill } from "react-icons/go";
 import { IoIosNotifications } from "react-icons/io";
 import TimeAgo from 'javascript-time-ago'
 import ReactTimeAgo from "react-time-ago";
+import parse from "html-react-parser";
 
 import en from 'javascript-time-ago/locale/en'
 
@@ -123,11 +124,10 @@ export default function NotificationHeader({ notifications, lengthSocket, length
                                         <ReactTimeAgo date={item.create_at} locale="en-US" />
                                     </span>
                                 </div>
-                                <span className="text-[14px] font-semibold light-gray">{item.notification_description}</span>
+                                <span className="text-[14px] font-semibold light-gray line-clamp-2">{parse(item.notification_description)}</span>
                             </Col>
                             {(item.check_read === "0" || dd[indexUser - 1] === "0")
                                 && <GoDotFill color="#0866FF" />}
-
                         </Row>
 
                     ),
@@ -146,7 +146,7 @@ export default function NotificationHeader({ notifications, lengthSocket, length
                     <span className="text-[10px] font-semibold light-gray">
                         <ReactTimeAgo date={values?.create_at} locale="en-US" />
                     </span>
-                    <p className="py-2 text-lg">{values?.notification_user}</p>
+                    <p className="py-2 text-lg">{parse(values?.notification_description)}</p>
                 </div>
             ),
         });

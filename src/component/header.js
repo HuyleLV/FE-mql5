@@ -102,6 +102,7 @@ export default function Header() {
   };
 
 
+
   const getUser = async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/user/getById`, {
@@ -367,13 +368,13 @@ export default function Header() {
                 {notificationData == null ? null : notificationData?.data.length < 1
                   ? <IoIosNotifications size={30} style={{ marginRight: 2 }} />
                   : <NotificationHeader
-                    notifications={notificationData?.data}
-                    lengthSocket={notifications?.length}
-                    length={notificationData?.data.length}
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                    user_id={cookies?.user?.user_id}
-                  />
+                      notifications={notificationData?.data}
+                      lengthSocket={notifications?.length}
+                      length={notificationData?.data.length}
+                      setRefresh={setRefresh}
+                      refresh={refresh}
+                      user_id={cookies?.user?.user_id}
+                    />
                 }
 
                 <Dropdown placement="bottomRight" menu={{ items }}>

@@ -421,7 +421,7 @@ export default function SignalPage() {
       {profile?.kyc === 1 ?
         <>
           <Col xs={24} xl={10}>
-              <div className="flex border-r-2 p-2">
+              <div className="flex p-2">
                 <Image
                   preview={false}
                   src={profile?.photos}
@@ -446,7 +446,7 @@ export default function SignalPage() {
                 </div>
               </div>
           </Col>
-          <Col xs={24} xl={14}>
+          <Col xs={24} xl={14} className="border-l-2">
             <div className="p-2 pl-5 text-black">
               <div className="flex justify-between">
                 <p className="text-xl font-bold pb-5 float-start h-full">Thống kê giao dịch</p>
@@ -466,14 +466,18 @@ export default function SignalPage() {
               <div className="text-xl font-semibold flex">
                 <div>
                   <p>Ranking: {totalSignal?.rank ? totalSignal?.rank : "Chưa có rank!"}</p>
-                  <p>Tổng signal: {totalSignal?.results?.[0]?.total ? Math.round(totalSignal?.results?.[0]?.total * 100) / 100 : 0}</p>
+                  <p className="py-2">Tổng signal: {totalSignal?.results?.[0]?.total ? Math.round(totalSignal?.results?.[0]?.total * 100) / 100 : 0}</p>
                   <p>
-                    Win / Lost: {totalSignal?.results?.[0]?.win ? totalSignal?.results?.[0]?.win : 0} / {totalSignal?.results?.[0]?.loss ? totalSignal?.results?.[0]?.loss : 0}
+                    Win / Lost: {totalSignal?.results?.[0]?.gltb ? totalSignal?.results?.[0]?.win : 0} / {totalSignal?.results?.[0]?.loss ? totalSignal?.results?.[0]?.loss : 0}
                   </p>
+                  <p className="py-2">Thời gian giao dịch: {totalSignal?.results?.[0]?.time_trade ? Math.round(totalSignal?.results?.[0]?.time_trade * 100) / 100 : 0} h</p>
+                  <p className="pb-2">Thời gian giữ lệnh trung bình: {totalSignal?.results?.[0]?.gltb ? Math.round(totalSignal?.results?.[0]?.gltb * 100) / 100 : 0} h</p>
                 </div>
                 <div className="pl-10">
-                  <p>Win Rate: {totalSignal?.results?.[0]?.win_rate ? Math.round(totalSignal?.results?.[0]?.win_rate * 100) / 100 : 0}</p>
-                  <p>Profit: {totalSignal?.results?.[0]?.total_profit ? Math.round(totalSignal?.results?.[0]?.total_profit * 100) / 100 : 0}</p>
+                  <p>Tỷ lệ win: {totalSignal?.results?.[0]?.win_rate ? Math.round(totalSignal?.results?.[0]?.win_rate * 100) / 100 : 0}</p>
+                  <p className="py-2">Profit: {totalSignal?.results?.[0]?.total_profit ? Math.round(totalSignal?.results?.[0]?.total_profit * 100) / 100 : 0}</p>
+                  <p>Lệnh trung bình 1 ngày: {totalSignal?.results?.[0]?.tb1n ? Math.round(totalSignal?.results?.[0]?.tb1n * 100) / 100 : 0}</p>
+                  <p className="py-2">Follower: {totalSignal?.results?.[0]?.follower ? Math.round(totalSignal?.results?.[0]?.follower * 100) / 100 : 0}</p>
                 </div>
               </div>
             </div>
@@ -700,7 +704,7 @@ export default function SignalPage() {
             <Col xs={24} xl={8} className="mb-10">
               <div className="border rounded mx-10 p-5 shadow text-black">
                 <p className="font-semibold text-xl text-center pb-5">Rank: {_?.rank}</p>
-                <div className="flex items-center justify-center border-y py-5">
+                <div className="flex items-center justify-center border-y py-2">
                   <img 
                     src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
                     className="rounded-full" 
@@ -711,13 +715,13 @@ export default function SignalPage() {
                   </div>
                 </div>
                 <div>
-                  <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
-                  <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span></p>
-                  <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? Math.round(_?.results[0]?.win * 100) / 100 : 0}</span></p>
-                  <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? Math.round(_?.results[0]?.loss * 100) / 100 : 0}</span></p>
-                  <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span></p>
+                  <p className="font-semibold text-lg p-1 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
+                  <p className="font-semibold text-lg p-1 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span></p>
+                  <p className="font-semibold text-lg p-1 flex justify-between">Win: <span>{_?.results[0]?.win ? Math.round(_?.results[0]?.win * 100) / 100 : 0}</span></p>
+                  <p className="font-semibold text-lg p-1 flex justify-between">Loss: <span>{_?.results[0]?.loss ? Math.round(_?.results[0]?.loss * 100) / 100 : 0}</span></p>
+                  <p className="font-semibold text-lg p-1 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span></p>
                 </div>
-                <div className="flex justify-center py-2">
+                <div className="flex justify-center py-1">
                   <a href={"/master/" + _?.user?.master_key}>
                     <button className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
                       Chi tiết
@@ -803,7 +807,7 @@ export default function SignalPage() {
                               <InfoOutlined className="p-1 text-white text-md"/>
                           </Tooltip>
                       </div>
-                      <p className="text-center font-bold text-lg"></p>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.sgcn * 100) / 100}</p>
                   </div>
               </Col>
               <Col xs={24} xl={12} className="p-2">
@@ -1135,7 +1139,7 @@ export default function SignalPage() {
                               <InfoOutlined className="p-1 text-white text-md"/>
                           </Tooltip>
                       </div>
-                      <p className="text-center font-bold text-lg"></p>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.tttk * 100) / 100} %</p>
                   </div>
               </Col>
           </Row>
@@ -1163,8 +1167,8 @@ export default function SignalPage() {
             showSizeChanger
             onChange={(p, ps)=> {
                 setPaginationSignal({
-                page: p,
-                pageSize: ps
+                  page: p,
+                  pageSize: ps
                 })
             }}
           />

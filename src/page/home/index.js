@@ -213,8 +213,8 @@ export default function Home() {
                 <video src={video_home} className="h-screen" style={{ width: '100vw', objectFit: 'cover' }} autoPlay muted controls={false} loop>
                 </video>
                 <div className="absolute top-0 px-[5%] text-white">
-                    <div className="w-full flex justify-center truncate">
-                        <animated.div key={key} style={scrolling} className={"truncate font-none"}>
+                    <div className="w-full flex justify-center overflow-hidden">
+                        <animated.div key={key} style={scrolling} className={"font-none w-full"}>
                             Chào mừng bạn đến với phiên bản beta Net Partner - Hãy trải nghiệm những nội dung mới lạ những giải pháp cách mạng về tài chính. Tất cả hòm thư góp ý vui lòng gửi về support@netpartner.com.vn, Net Partner xin chân thành cám ơn!!
                         </animated.div>
                     </div>
@@ -299,7 +299,7 @@ export default function Home() {
                             {i < 6 &&
                                 <div className="border rounded mx-10 p-5 shadow text-black">
                                     <p className="font-semibold text-xl text-center pb-5">Rank: {_?.rank}</p>
-                                    <div className="flex items-center justify-center border-y py-5">
+                                    <div className="flex items-center justify-center border-y py-2">
                                         <img 
                                             src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
                                             className="rounded-full" 
@@ -310,13 +310,13 @@ export default function Home() {
                                         </div>
                                     </div>                
                                     <div>
-                                        <p className="font-semibold text-lg p-2 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
-                                        <p className="font-semibold text-lg p-2 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span></p>
-                                        <p className="font-semibold text-lg p-2 flex justify-between">Win: <span>{_?.results[0]?.win ? Math.round(_?.results[0]?.win * 100) / 100 : 0}</span></p>
-                                        <p className="font-semibold text-lg p-2 flex justify-between">Loss: <span>{_?.results[0]?.loss ? Math.round(_?.results[0]?.loss * 100) / 100 : 0}</span></p>
-                                        <p className="font-semibold text-lg p-2 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span></p>
+                                        <p className="font-semibold text-lg p-1 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
+                                        <p className="font-semibold text-lg p-1 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span></p>
+                                        <p className="font-semibold text-lg p-1 flex justify-between">Win: <span>{_?.results[0]?.win ? Math.round(_?.results[0]?.win * 100) / 100 : 0}</span></p>
+                                        <p className="font-semibold text-lg p-1 flex justify-between">Loss: <span>{_?.results[0]?.loss ? Math.round(_?.results[0]?.loss * 100) / 100 : 0}</span></p>
+                                        <p className="font-semibold text-lg p-1 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span></p>
                                     </div>
-                                    <div className="flex justify-center py-2">
+                                    <div className="flex justify-center py-1">
                                         {cookies?.user ? 
                                             <a href={"/master/" + _?.user?.master_key}>
                                                 <button className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">

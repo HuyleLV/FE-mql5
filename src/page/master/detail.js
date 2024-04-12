@@ -1,4 +1,4 @@
-import { Button, Col, Dropdown, Form, Image, Input, Modal, Radio, Row, Select, Space, Switch, Tooltip, message } from "antd";
+import { Button, Col, Dropdown, Form, Image, Input, Modal, Pagination, Radio, Row, Select, Space, Switch, Table, Tooltip, message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
@@ -35,17 +35,25 @@ export default function MasterDetail() {
     const [totalPrice, setTotalPrice] = useState(0);
     const [isReport, setIsReport] = useState(1);
     const [report, setReport] = useState([]);
+    const [signal, setSignal] = useState([]);
+    const [masterKey, setMasterKey] = useState(params?.master_key);
+
+    const [paginationSignal, setPaginationSignal] = useState({
+      page: 1,
+      pageSize: 8,
+    });
 
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
     const getTotalByMasterKey = async () => {
         await axios
-          .get(`${process.env.REACT_APP_API_URL}/signal/getTotalByMasterKey/${params?.master_key}`)
+          .get(`${process.env.REACT_APP_API_URL}/signal/getTotalByMasterKey/${masterKey}`)
           .catch(function (error) {
             message.error(error.response.status);
           })
           .then(( res ) => {
             const data = res?.data;
+            console.log(data);
             setMaster(data);
             getAllByUser(data);
           });
@@ -53,7 +61,7 @@ export default function MasterDetail() {
 
     const getReportByMasterKey = async () => {
         await axios
-          .get(`${process.env.REACT_APP_API_URL}/signal/getReportByMasterKey/${params?.master_key}`)
+          .get(`${process.env.REACT_APP_API_URL}/signal/getReportByMasterKey/${masterKey}`)
           .catch(function (error) {
             message.error(error.response.status);
           })
@@ -63,10 +71,9 @@ export default function MasterDetail() {
           });
     };
     
-
     const getAllByUser = async (data) => {
         await axios
-            .get(`${process.env.REACT_APP_API_URL}/masterLicense/getAllByUser/${data.user?.user_id}`)
+            .get(`${process.env.REACT_APP_API_URL}/masterLicense/getAllByUserInMaster/${data.user?.user_id}`)
             .catch(function (error) {
                 message.error(error.response.status);
             })
@@ -111,7 +118,20 @@ export default function MasterDetail() {
             });
     };
 
+    const getSignal = async () => {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/signal/getByMasterKey/${masterKey}`, {params: paginationSignal})
+        .catch(function (error) {
+          message.error(error.response.status);
+        })
+        .then(( res ) => {
+          const data = res?.data;
+          setSignal(data);
+        });
+    };
+
     const handleChange = async (values) => {
+        setMasterKey(values?.master_key);
         await axios
             .get(`${process.env.REACT_APP_API_URL}/signal/getTotalByMasterKey/${values?.master_key}`)
             .catch(function (error) {
@@ -160,12 +180,96 @@ export default function MasterDetail() {
         }
     }
 
+    
+  const columnSignal = [
+    {
+      title: <div>ID</div>,
+      key: "signal_id",
+      dataIndex: "signal_id",
+      width: 50,
+      render: (_, record) => <div>{record?.signal_id}</div>,
+    },
+    {
+      title: <div>Master Key</div>,
+      key: "master_key",
+      dataIndex: "master_key",
+      width: 50,
+      render: (_, record) => <div>{record?.master_key}</div>,
+    },
+    {
+      title: <div>Type</div>,
+      key: "type",
+      dataIndex: "type",
+      width: 50,
+      render: (_, record) => <div>{record?.type}</div>,
+    },
+    {
+      title: <div>symbol</div>,
+      key: "symbol",
+      dataIndex: "symbol",
+      width: 50,
+      render: (_, record) => <div>{record?.symbol}</div>,
+    },
+    {
+      title: <div>Giá</div>,
+      key: "price",
+      dataIndex: "price",
+      width: 50,
+      render: (_, record) => <div>{record?.price}</div>,
+    },
+    {
+      title: <div>take_profit</div>,
+      key: "take_profit",
+      dataIndex: "take_profit",
+      width: 50,
+      render: (_, record) => <div>{record?.take_profit}</div>,
+    },
+    {
+      title: <div>stop_loss</div>,
+      key: "stop_loss",
+      dataIndex: "stop_loss",
+      width: 50,
+      render: (_, record) => <div>{record?.stop_loss}</div>,
+    },
+    {
+      title: <div className="text-center">Trạng thái lệnh</div>,
+      key: "signal_status",
+      dataIndex: "signal_status",
+      width: 50,
+      render: (_, record) => 
+      record?.signal_status === 1 ?
+        <div className="flex justify-center text-center">
+            Close 
+        </div> 
+      : 
+        <div>
+          <p className="text-center">Open</p>
+        </div> 
+      ,
+    },
+    {
+      title: <div>Ngày tạo</div>,
+      key: "create_at",
+      dataIndex: "create_at",
+      width: 50,
+      render: (_, record) => <div>{dayjsInstance(record?.create_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
+    },
+    {
+      title: <div>Ngày cập nhật</div>,
+      key: "update_at",
+      dataIndex: "update_at",
+      width: 50,
+      render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
+    },
+  ]
+
     useEffect(() => { 
         getTotalByMasterKey();
         getAllVps();
         getPriceMaster();
         getReportByMasterKey();
-    }, []);
+        getSignal();
+    }, [masterKey]);
 
     useEffect(() => {         
         if(!cookies?.user){ 
@@ -188,9 +292,9 @@ export default function MasterDetail() {
                     </p>
                 </div>
                 
-                <Row justify={"center"} align={"middle"} className="py-10">
+                <Row justify={"center"} align={"middle"} className="pt-10 border-b-2">
                     <Col xs={24} xl={12}>
-                        <div className="flex border-b-2 border-r-2 p-2 h-[200px]">
+                        <div className="flex p-2 h-[200px]">
                             <Image
                                 preview={false}
                                 src={master?.user?.photos}
@@ -205,8 +309,8 @@ export default function MasterDetail() {
                             </div>
                         </div>
                     </Col>
-                    <Col xs={24} xl={12}>
-                        <div className="border-b-2 p-2 pl-5 text-black h-[200px]">
+                    <Col xs={24} xl={12} className="border-l-2">
+                        <div className="p-2 pl-5 text-black">
                             <div className="flex justify-between">
                                 <p className="text-xl font-bold pb-5">Thống kê giao dịch</p>
                                 <Dropdown
@@ -224,21 +328,25 @@ export default function MasterDetail() {
                             </div>
                             <div className="text-xl font-semibold flex">
                                 <div>
-                                    <p>Ranking: {master?.rank ? Math.round(master?.rank * 100) / 100 : "Chưa có rank!"}</p>
-                                    <p>Tổng signal: {master?.results?.[0]?.total ? Math.round(master?.results?.[0]?.total * 100) / 100 : 0}</p>
+                                    <p>Ranking: {master?.rank ? master?.rank : "Chưa có rank!"}</p>
+                                    <p className="py-2">Tổng signal: {master?.results?.[0]?.total ? Math.round(master?.results?.[0]?.total * 100) / 100 : 0}</p>
                                     <p>
-                                        Win / Loss: {master?.results?.[0]?.win ? master?.results?.[0]?.win : 0} / {master?.results?.[0]?.loss ? master?.results?.[0]?.loss : 0}
+                                        Win / Lost: {master?.results?.[0]?.gltb ? master?.results?.[0]?.win : 0} / {master?.results?.[0]?.loss ? master?.results?.[0]?.loss : 0}
                                     </p>
-                                </div>
-                                <div className="pl-10">
-                                    <p>Win Rate: {master?.results?.[0]?.win_rate ? Math.round(master?.results?.[0]?.win_rate * 100) / 100 : 0}</p>
-                                    <p>Profit: {master?.results?.[0]?.total_profit ? Math.round(master?.results?.[0]?.total_profit * 100) / 100 : 0}</p>
+                                    <p className="py-2">Thời gian giao dịch: {master?.results?.[0]?.time_trade ? Math.round(master?.results?.[0]?.time_trade * 100) / 100 : 0} h</p>
+                                    <p className="pb-2">Thời gian giữ lệnh trung bình: {master?.results?.[0]?.gltb ? Math.round(master?.results?.[0]?.gltb * 100) / 100 : 0} h</p>
+                                    </div>
+                                    <div className="pl-10">
+                                    <p>Tỷ lệ win: {master?.results?.[0]?.win_rate ? Math.round(master?.results?.[0]?.win_rate * 100) / 100 : 0}</p>
+                                    <p className="py-2">Profit: {master?.results?.[0]?.total_profit ? Math.round(master?.results?.[0]?.total_profit * 100) / 100 : 0}</p>
+                                    <p>Lệnh trung bình 1 ngày: {master?.results?.[0]?.tb1n ? Math.round(master?.results?.[0]?.tb1n * 100) / 100 : 0}</p>
+                                    <p className="py-2">Follower: {master?.results?.[0]?.follower ? Math.round(master?.results?.[0]?.follower * 100) / 100 : 0}</p>
                                 </div>
                             </div>
                         </div>
                     </Col>
                 </Row>
-                <div className="flex justify-center pb-10 border-b">
+                <div className="flex justify-center py-5 border-b">
                     <button 
                         className="px-4 py-2 bg-blue-500 hover:bg-gray-500 rounded-full text-white font-semibold text-xl"
                         onClick={()=>setIsOpen(true)}
@@ -278,7 +386,7 @@ export default function MasterDetail() {
                                             <InfoOutlined className="p-1 text-white text-md"/>
                                         </Tooltip>
                                     </div>
-                                    <p className="text-center font-bold text-lg"></p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.sgcn * 100) / 100}</p>
                                 </div>
                             </Col>
                             <Col xs={24} xl={12} className="p-2">
@@ -400,7 +508,7 @@ export default function MasterDetail() {
                                             <InfoOutlined className="p-1 text-white text-md"/>
                                         </Tooltip>
                                     </div>
-                                    <p className="text-center font-bold text-lg"></p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.loss_tb * 100) / 100}</p>
                                 </div>
                             </Col>
                             
@@ -610,7 +718,7 @@ export default function MasterDetail() {
                                             <InfoOutlined className="p-1 text-white text-md"/>
                                         </Tooltip>
                                     </div>
-                                    <p className="text-center font-bold text-lg"></p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.tttk * 100) / 100} %</p>
                                 </div>
                             </Col>
                         </Row>
@@ -621,6 +729,31 @@ export default function MasterDetail() {
                             
                         </Row>
                     )}
+
+                    {isReport === 3 && (
+                        <div className="w-full h-full mt-5 pb-2 relative">
+                            <Table
+                                className={"custom-table pb-[20px]"}
+                                dataSource={signal?.data}
+                                columns={columnSignal}
+                                pagination={false}
+                            />
+                            <Pagination
+                                className="flex justify-center"
+                                current={paginationSignal.page}
+                                total={signal?.total}
+                                pageSize={paginationSignal.pageSize}
+                                showSizeChanger
+                                onChange={(p, ps)=> {
+                                    setPaginationSignal({
+                                        page: p,
+                                        pageSize: ps
+                                    })
+                                }}
+                            />
+                        </div>
+                    )}
+                    
                 </div>
             </div>
             <Modal 

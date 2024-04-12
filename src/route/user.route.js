@@ -20,6 +20,7 @@ import SignalPage from "../page/signal";
 import ReportDetail from "../page/home/ReportDetail";
 import Product from "../page/product";
 import MasterDetail from "../page/master/detail";
+import ForgotPassword from "../page/forgotPassword";
 
 export default function User () {
     return (
@@ -37,6 +38,7 @@ export default function User () {
         <Route path="/education/:education_slug" element={<EducationDetail />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/quen-mat-khau" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register/accept" element={<AcceptEmail />} />
         <Route path="/profile" element={<ProfilePage />} />
