@@ -929,7 +929,7 @@ export default function SignalPage() {
                               <InfoOutlined className="p-1 text-white text-md"/>
                           </Tooltip>
                       </div>
-                      <p className="text-center font-bold text-lg"></p>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.loss_tb * 100) / 100}</p>
                   </div>
               </Col>
               
@@ -964,7 +964,7 @@ export default function SignalPage() {
                               <InfoOutlined className="p-1 text-white text-md"/>
                           </Tooltip>
                       </div>
-                      <p className="text-center font-bold text-lg"></p>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.tgph * 100) / 100}</p>
                   </div>
               </Col>
               
@@ -999,7 +999,7 @@ export default function SignalPage() {
                               <InfoOutlined className="p-1 text-white text-md"/>
                           </Tooltip>
                       </div>
-                      <p className="text-center font-bold text-lg"></p>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.lnlt * 100) / 100}</p>
                   </div>
               </Col>
               
@@ -1017,7 +1017,7 @@ export default function SignalPage() {
                               <InfoOutlined className="p-1 text-white text-md"/>
                           </Tooltip>
                       </div>
-                      <p className="text-center font-bold text-lg"></p>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.lntb_date * 100) / 100}</p>
                   </div>
               </Col>
               <Col xs={24} xl={12} className="p-2">
@@ -1034,7 +1034,7 @@ export default function SignalPage() {
                               <InfoOutlined className="p-1 text-white text-md"/>
                           </Tooltip>
                       </div>
-                      <p className="text-center font-bold text-lg"></p>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.llt * 100) / 100}</p>
                   </div>
               </Col>
               
@@ -1052,7 +1052,7 @@ export default function SignalPage() {
                               <InfoOutlined className="p-1 text-white text-md"/>
                           </Tooltip>
                       </div>
-                      <p className="text-center font-bold text-lg"></p>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.slwlt * 100) / 100}</p>
                   </div>
               </Col>
               <Col xs={24} xl={12} className="p-2">
@@ -1087,7 +1087,7 @@ export default function SignalPage() {
                               <InfoOutlined className="p-1 text-white text-md"/>
                           </Tooltip>
                       </div>
-                      <p className="text-center font-bold text-lg"></p>
+                      <p className="text-center font-bold text-lg">{Math.round(report?.slllt * 100) / 100}</p>
                   </div>
               </Col>
               <Col xs={24} xl={12} className="p-2">
