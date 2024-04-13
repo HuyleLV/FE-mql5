@@ -386,7 +386,7 @@ export default function MasterDetail() {
                                             <InfoOutlined className="p-1 text-white text-md"/>
                                         </Tooltip>
                                     </div>
-                                    <p className="text-center font-bold text-lg">{Math.round(report?.sgcn * 100) / 100}</p>
+                                    <p className="text-center font-bold text-lg">{Math.round(report?.sgcn * 100) / 100} %</p>
                                 </div>
                             </Col>
                             <Col xs={24} xl={12} className="p-2">
