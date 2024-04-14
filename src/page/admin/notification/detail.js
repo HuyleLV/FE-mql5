@@ -42,6 +42,7 @@ export default function NotificationDetail() {
   const [displayMessage, setDisplayMessage] = useState("");
   const [displayMessageTitle, setDisplayMessageTitle] = useState("");
   const [editorValue, setEditorValue] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timeOutId = setTimeout(() => setDisplayMessage(query), 500);
@@ -114,6 +115,7 @@ export default function NotificationDetail() {
       .then(async (res) => {
         resetInput()
         message.success("Gửi thông báo thành công");
+        navigate("/admin/notification")
 
       })
       .catch(({ response }) => {

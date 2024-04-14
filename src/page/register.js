@@ -3,15 +3,12 @@ import { Form, Input, Button, Row, Col, Image, message, Checkbox } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDevice } from "../hooks";
-import google from "../component/image/google.png"
 import image_mk4 from "../component/image/mk4.jpg";
 import logo from "../component/image/logo.png";
 import icon_1 from "../component/image/icon/icon_1.svg";
 import icon_2 from "../component/image/icon/icon_2.svg";
 import icon_3 from "../component/image/icon/icon_3.svg";
 import icon_4 from "../component/image/icon/icon_4.svg";
-import icon_5 from "../component/image/icon/icon_5.svg";
-import { icon } from "@fortawesome/fontawesome-svg-core";
 
 const Register = () => {
   const [form] = Form.useForm();

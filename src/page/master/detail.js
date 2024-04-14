@@ -1,14 +1,15 @@
 import { Button, Col, Dropdown, Form, Image, Input, Modal, Pagination, Radio, Row, Select, Space, Switch, Table, Tooltip, message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import parse from "html-react-parser";
 import dayjsInstance from "../../utils/dayjs";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import logo from "../../component/image/logo.png";
-import { CheckOutlined, FilterOutlined, InfoOutlined, SmileOutlined } from "@ant-design/icons";
+import {  FilterOutlined, InfoOutlined } from "@ant-design/icons";
 import { FormatDollar } from "../../utils/format";
 import axiosInstance from "../../utils/axios";
 import { useCookies } from "react-cookie";
+import SignalByHour from "../../component/ChartCustom/signalByHour";
+import SignalByDate from "../../component/ChartCustom/signalByDate";
+import SignalBuySell from "../../component/ChartCustom/signalBuySell";
 
 export default function MasterDetail() {  
     const params = useParams();
@@ -67,7 +68,7 @@ export default function MasterDetail() {
           })
           .then(( res ) => {
             const data = res?.data;
-            setReport(data[0]);
+            setReport(data?.[0]);
           });
     };
     
@@ -181,87 +182,87 @@ export default function MasterDetail() {
     }
 
     
-  const columnSignal = [
-    {
-      title: <div>ID</div>,
-      key: "signal_id",
-      dataIndex: "signal_id",
-      width: 50,
-      render: (_, record) => <div>{record?.signal_id}</div>,
-    },
-    {
-      title: <div>Master Key</div>,
-      key: "master_key",
-      dataIndex: "master_key",
-      width: 50,
-      render: (_, record) => <div>{record?.master_key}</div>,
-    },
-    {
-      title: <div>Type</div>,
-      key: "type",
-      dataIndex: "type",
-      width: 50,
-      render: (_, record) => <div>{record?.type}</div>,
-    },
-    {
-      title: <div>symbol</div>,
-      key: "symbol",
-      dataIndex: "symbol",
-      width: 50,
-      render: (_, record) => <div>{record?.symbol}</div>,
-    },
-    {
-      title: <div>Giá</div>,
-      key: "price",
-      dataIndex: "price",
-      width: 50,
-      render: (_, record) => <div>{record?.price}</div>,
-    },
-    {
-      title: <div>take_profit</div>,
-      key: "take_profit",
-      dataIndex: "take_profit",
-      width: 50,
-      render: (_, record) => <div>{record?.take_profit}</div>,
-    },
-    {
-      title: <div>stop_loss</div>,
-      key: "stop_loss",
-      dataIndex: "stop_loss",
-      width: 50,
-      render: (_, record) => <div>{record?.stop_loss}</div>,
-    },
-    {
-      title: <div className="text-center">Trạng thái lệnh</div>,
-      key: "signal_status",
-      dataIndex: "signal_status",
-      width: 50,
-      render: (_, record) => 
-      record?.signal_status === 1 ?
-        <div className="flex justify-center text-center">
-            Close 
-        </div> 
-      : 
-        <div>
-          <p className="text-center">Open</p>
-        </div> 
-      ,
-    },
-    {
-      title: <div>Ngày tạo</div>,
-      key: "create_at",
-      dataIndex: "create_at",
-      width: 50,
-      render: (_, record) => <div>{dayjsInstance(record?.create_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
-    },
-    {
-      title: <div>Ngày cập nhật</div>,
-      key: "update_at",
-      dataIndex: "update_at",
-      width: 50,
-      render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
-    },
-  ]
+    const columnSignal = [
+        {
+            title: <div>ID</div>,
+            key: "signal_id",
+            dataIndex: "signal_id",
+            width: 50,
+            render: (_, record) => <div>{record?.signal_id}</div>,
+        },
+        {
+            title: <div>Master Key</div>,
+            key: "master_key",
+            dataIndex: "master_key",
+            width: 50,
+            render: (_, record) => <div>{record?.master_key}</div>,
+        },
+        {
+            title: <div>Type</div>,
+            key: "type",
+            dataIndex: "type",
+            width: 50,
+            render: (_, record) => <div>{record?.type}</div>,
+        },
+        {
+            title: <div>symbol</div>,
+            key: "symbol",
+            dataIndex: "symbol",
+            width: 50,
+            render: (_, record) => <div>{record?.symbol}</div>,
+        },
+        {
+            title: <div>Giá</div>,
+            key: "price",
+            dataIndex: "price",
+            width: 50,
+            render: (_, record) => <div>{record?.price}</div>,
+        },
+        {
+            title: <div>take_profit</div>,
+            key: "take_profit",
+            dataIndex: "take_profit",
+            width: 50,
+            render: (_, record) => <div>{record?.take_profit}</div>,
+        },
+        {
+            title: <div>stop_loss</div>,
+            key: "stop_loss",
+            dataIndex: "stop_loss",
+            width: 50,
+            render: (_, record) => <div>{record?.stop_loss}</div>,
+        },
+        {
+            title: <div className="text-center">Trạng thái lệnh</div>,
+            key: "signal_status",
+            dataIndex: "signal_status",
+            width: 50,
+            render: (_, record) => 
+            record?.signal_status === 1 ?
+                <div className="flex justify-center text-center">
+                    Close 
+                </div> 
+            : 
+                <div>
+                    <p className="text-center">Open</p>
+                </div> 
+            ,
+        },
+        {
+            title: <div>Ngày tạo</div>,
+            key: "create_at",
+            dataIndex: "create_at",
+            width: 50,
+            render: (_, record) => <div>{dayjsInstance(record?.create_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
+        },
+        {
+            title: <div>Ngày cập nhật</div>,
+            key: "update_at",
+            dataIndex: "update_at",
+            width: 50,
+            render: (_, record) => <div>{dayjsInstance(record?.update_at).format("DD/MM/YYYY hh:mm:ss")}</div>,
+        },
+    ]
 
     useEffect(() => { 
         getTotalByMasterKey();
@@ -726,7 +727,19 @@ export default function MasterDetail() {
 
                     {isReport === 2 && (
                         <Row>
-                            
+                            <Col xs={24} xl={24}>
+                                <SignalByHour masterKey={masterKey}/>
+                            </Col>
+                            <Col xs={24} xl={12} className="pt-10">
+                                <SignalByDate masterKey={masterKey}/>
+                            </Col>
+                            <Col xs={24} xl={12} className="pt-10">
+                                <div className="flex justify-center items-center">
+                                    <div className="w-[400px]">
+                                        <SignalBuySell masterKey={masterKey}/>
+                                    </div>
+                                </div>
+                            </Col>
                         </Row>
                     )}
 

@@ -119,7 +119,7 @@ export default function NotificationHeader({ notifications, lengthSocket, length
                         >
                             <Col className="w-[200px]">
                                 <div style={{ width: "100%", display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'start', alignItems: 'end' }}>
-                                    <span className="text-sm font-bold">{item.notification_title}</span>
+                                    <span className="text-sm font-bold line-clamp-2">{item.notification_title}</span>
                                     <span className="text-[10px] font-semibold light-gray">
                                         <ReactTimeAgo date={item.create_at} locale="en-US" />
                                     </span>

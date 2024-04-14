@@ -37,6 +37,7 @@ import FollowerDraftDashboard from "../page/admin/followerDraft";
 import ProductPageDashboard from "../page/admin/products/productPage";
 import ReportCategoryDashboard from "../page/admin/report/category";
 import ReportCategoryDetail from "../page/admin/report/category/detail";
+import NotificationUpdate from "../page/admin/notification/update";
 
 export default function AdminRouter () {
     return (
@@ -45,7 +46,8 @@ export default function AdminRouter () {
         <Route path="/admin/users" element={<UsersDashboard />} />
         <Route path="/admin/users/:id" element={<UserDetail />} />
         <Route path="/admin/notification" element={<NotificationDashboard />} />
-        <Route path="/admin/notification/:id" element={<NotificationDetail />} />
+        <Route path="/admin/notification/create" element={<NotificationDetail />} />
+        <Route path="/admin/notification/:id" element={<NotificationUpdate />} />
         <Route path="/admin/products" element={<ProductsDashboard />} />
         <Route path="/admin/products/:id" element={<ProductsDetail />} />
         <Route path="/admin/product-page" element={<ProductPageDashboard />} />
