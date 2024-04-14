@@ -282,7 +282,7 @@ export default function Header() {
                   )}
                   trigger={['click']}>
                   <Space>
-                    Market
+                    Sản Phẩm
                     <DownOutlined className="w-3" />
                   </Space>
                 </Dropdown>
