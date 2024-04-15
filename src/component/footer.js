@@ -116,19 +116,29 @@ export default function Footer() {
             </div>
             <div className="flex pt-5">
               <div className="border border-white rounded-full p-2 hover:bg-blue-500 hover:border-blue-500">
-                <img src={facebook} width={20} height={20}/>
+                <a target="_blank" href="https://www.facebook.com/NetAuAi">
+                  <img src={facebook} width={20} height={20}/>
+                </a>
               </div>
               <div className="border border-white rounded-full p-2 mx-3 hover:bg-black hover:border-black">
-                <img src={twitter} width={20} height={20}/>
+                <a target="_blank" href="https://twitter.com/Net_lnvest">
+                  <img src={twitter} width={20} height={20}/>
+                </a>
               </div>
               <div className="border border-white rounded-full p-2 hover:bg-pink-500 hover:border-pink-500">
-                <img src={instagram} width={20} height={20}/>
+                <a target="_blank" href="https://www.facebook.com/NetAuAi">
+                  <img src={instagram} width={20} height={20}/>
+                </a>
               </div>
               <div className="border border-white rounded-full p-2 mx-3 hover:bg-red-500 hover:border-red-500 flex items-center">
-                <img src={youtube} width={20} height={20}/>
+                <a target="_blank" href="https://www.youtube.com/channel/UCbHKyoqNuV8gBrNSdtTt67A">
+                  <img src={youtube} width={20} height={20}/>
+                </a>
               </div>
               <div className="border border-white rounded-full p-2 hover:bg-blue-500 hover:border-blue-500 flex items-center">
-                <img src={telegram} width={20} height={20}/>
+                <a target="_blank" href="https://t.me/Net_lnvest">
+                  <img src={telegram} width={20} height={20}/>
+                </a>
               </div>
               
             </div>

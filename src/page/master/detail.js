@@ -205,7 +205,7 @@ export default function MasterDetail() {
             render: (_, record) => <div>{record?.type}</div>,
         },
         {
-            title: <div>symbol</div>,
+            title: <div>Symbol</div>,
             key: "symbol",
             dataIndex: "symbol",
             width: 50,
@@ -219,18 +219,25 @@ export default function MasterDetail() {
             render: (_, record) => <div>{record?.price}</div>,
         },
         {
-            title: <div>take_profit</div>,
+            title: <div>Take profit</div>,
             key: "take_profit",
             dataIndex: "take_profit",
             width: 50,
             render: (_, record) => <div>{record?.take_profit}</div>,
         },
         {
-            title: <div>stop_loss</div>,
+            title: <div>Stop loss</div>,
             key: "stop_loss",
             dataIndex: "stop_loss",
             width: 50,
             render: (_, record) => <div>{record?.stop_loss}</div>,
+        },
+        {
+          title: <div>Profit</div>,
+          key: "profit",
+          dataIndex: "profit",
+          width: 50,
+          render: (_, record) => <div>{record?.profit}</div>,
         },
         {
             title: <div className="text-center">Trạng thái lệnh</div>,

@@ -254,7 +254,7 @@ export default function ProfilePage() {
                 </Space>
               </div>
               <div style={{ width: "40%", display: 'flex', flexDirection: 'column', justifyContent: "center", alignItems: "center" }}>
-                <Col className="w-full text-center p-4" style={{ borderLeftWidth: 2, borderBottomWidth: 2, gap: 6 }}>
+                <Col className="w-full border-2 text-center p-4">
                   {!editProfile ? (
                     <Image
                       preview={false}
@@ -277,29 +277,6 @@ export default function ProfilePage() {
                     {profile?.displayName}
                   </div>
                   <div className="text-xs font-semibold textGreen">Online</div>
-                </Col>
-                <Col className="w-full text-center p-4" style={{ borderLeftWidth: 2, gap: 6 }}>
-                  <div className="text-base font-medium">
-                    Lịch sử đăng nhập
-                  </div>
-                  <div className="w-full p-2 text-center pt-2">
-                    {historyLogin.map((item) => (
-                      <scroll>
-                        <div style={{ display: 'flex', flexDirection: 'row', width: '100%', gap: 4, marginTop: 20, justifyContent: 'center' }}>
-                          <div className="text-xs font-bold p-1 textWhite" style={{ background: "#FFC700", borderRadius: 2 }}>
-                            {item.time}
-                          </div>
-                          <div className="text-xs font-bold p-1 textWhite" style={{ background: "#65B741", borderRadius: 2 }}>
-                            IP: {item.ip}
-                          </div>
-                        </div>
-                        <div className="text-sm font-medium">
-                          Device: {item.devide}
-                        </div>
-                      </scroll>
-                    ))}
-
-                  </div>
                 </Col>
               </div>
             </div>

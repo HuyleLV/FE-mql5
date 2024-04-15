@@ -13,6 +13,9 @@ import logo from "../../component/image/logo.png"
 import flag_england from "../../component/image/flag_england.png"
 import CreateMasterKey from "../../component/createMasterKey";
 import { IconSignal } from "../../utils/iconSignal";
+import SignalByHour from "../../component/ChartCustom/signalByHour";
+import SignalByDate from "../../component/ChartCustom/signalByDate";
+import SignalBuySell from "../../component/ChartCustom/signalBuySell";
 
 export default function SignalPage() {
   const [cookies] = useCookies(["user"]);
@@ -318,7 +321,7 @@ export default function SignalPage() {
       render: (_, record) => <div>{record?.type}</div>,
     },
     {
-      title: <div>symbol</div>,
+      title: <div>Symbol</div>,
       key: "symbol",
       dataIndex: "symbol",
       width: 50,
@@ -332,18 +335,25 @@ export default function SignalPage() {
       render: (_, record) => <div>{record?.price}</div>,
     },
     {
-      title: <div>take_profit</div>,
+      title: <div>Take profit</div>,
       key: "take_profit",
       dataIndex: "take_profit",
       width: 50,
       render: (_, record) => <div>{record?.take_profit}</div>,
     },
     {
-      title: <div>stop_loss</div>,
+      title: <div>Stop loss</div>,
       key: "stop_loss",
       dataIndex: "stop_loss",
       width: 50,
       render: (_, record) => <div>{record?.stop_loss}</div>,
+    },
+    {
+      title: <div>Profit</div>,
+      key: "profit",
+      dataIndex: "profit",
+      width: 50,
+      render: (_, record) => <div>{record?.profit}</div>,
     },
     {
       title: <div className="text-center">Trạng thái lệnh</div>,
@@ -478,6 +488,7 @@ export default function SignalPage() {
                   <p className="py-2">Profit: {totalSignal?.results?.[0]?.total_profit ? Math.round(totalSignal?.results?.[0]?.total_profit * 100) / 100 : 0}</p>
                   <p>Lệnh trung bình 1 ngày: {totalSignal?.results?.[0]?.tb1n ? Math.round(totalSignal?.results?.[0]?.tb1n * 100) / 100 : 0}</p>
                   <p className="py-2">Follower: {totalSignal?.results?.[0]?.follower ? Math.round(totalSignal?.results?.[0]?.follower * 100) / 100 : 0}</p>
+                  <p className="pb-2">Broker: {masterKey?.broker ? masterKey?.broker : "Chưa có"}</p>
                 </div>
               </div>
             </div>
@@ -1144,7 +1155,34 @@ export default function SignalPage() {
               </Col>
           </Row>
         </div>
-      </Modal>      
+      </Modal>    
+      <Modal
+        title="Phân tích"
+        open={isReport === 2}
+        onCancel={()=>setIsReport(0)}
+        width={"full"}
+        footer={<></>}
+      >
+        <Row className="px-10">
+            <Col xs={24} xl={24}>
+              <div className="flex justify-center p-10">
+                <SignalByHour masterKey={masterKeyName?.master_key}/>
+              </div>
+            </Col>
+            <Col xs={24} xl={12} className="pt-10">
+              <div className="flex justify-center p-10">
+                <SignalByDate masterKey={masterKeyName?.master_key}/>
+              </div>
+            </Col>
+            <Col xs={24} xl={12} className="pt-10">
+                <div className="flex justify-center items-center">
+                    <div className="w-[400px]">
+                        <SignalBuySell masterKey={masterKeyName?.master_key}/>
+                    </div>
+                </div>
+            </Col>
+        </Row>
+      </Modal>    
       <Modal
         title="Lịch sử"
         open={isReport === 3}

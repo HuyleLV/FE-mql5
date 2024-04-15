@@ -7,6 +7,7 @@ import axios from "axios";
 import SearchProps from "../../../component/SearchProps";
 import dayjs from "dayjs";
 import { CSVLink } from "react-csv";
+import axiosInstance from "../../../utils/axios";
 
 export default function MasterDetail() {
     const params = useParams();
@@ -29,9 +30,23 @@ export default function MasterDetail() {
         });
     };
 
+    const updateExpriceDate = async (e, values) => {
+        await axiosInstance
+        .post(`/followerLicense/updateExpriceDate`, {
+            follower_license_id:  values?.follower_license_id,
+            expire_date: dayjsInstance(e.$d).format("YYYY-MM-DD")
+        })
+        .finally(() => {
+          getFollowerbyMasterKey();
+          message.success("Cập nhật thành công!");
+        })
+        .catch(()=>{
+          message.error("Cập nhật thất bại!");
+        });
+    }
+
     const updateActiveStatus =  async (e, values) => {
-      await axios
-        .post(`${process.env.REACT_APP_API_URL}/followerLicense/updateStatus`, {
+      await axiosInstance.post(`$/followerLicense/updateStatus`, {
           follower_license_id: values?.follower_license_id,
           active_status: e
         })
@@ -93,7 +108,14 @@ export default function MasterDetail() {
             key: "expire_date",
             dataIndex: "expire_date",
             width: 50,
-            render: (_, record) => <div>{dayjsInstance(record?.expire_date).format("DD/MM/YYYY HH:mm:ss")}</div>,
+            render: (_, record) => 
+            <div>
+              <DatePicker 
+                onChange={(e)=>updateExpriceDate(e, record)}
+                value={dayjsInstance(record?.expire_date)} 
+                format={'DD/MM/YYYY'} 
+              />
+            </div>,
         },
         {
           title: <div>active_status</div>,
