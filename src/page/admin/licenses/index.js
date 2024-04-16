@@ -1,4 +1,4 @@
-import { Table, Row, Col, Button, message, Modal, Space, Select, Pagination } from "antd";
+import { Table, Row, Col, Button, message, Modal, Space, Select, Pagination, DatePicker } from "antd";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import SearchProps from "../../../component/SearchProps";
 import dayjs from "dayjs";
+import axiosInstance from "../../../utils/axios";
 console.log("LicensesDashboard");
 export default function LicensesDashboard() {
   console.log("LicensesDashboard");
@@ -25,6 +26,21 @@ export default function LicensesDashboard() {
       })
       .catch(() => message.error("Error server!"));
   };
+
+  const updateEndDate = async (e, values) => {
+      await axiosInstance
+      .post(`/license/updateEndDate`, {
+        license_id:  values?.license_id,
+        end_date: dayjsInstance(e.$d).format("YYYY-MM-DD")
+      })
+      .finally(() => {
+        fetchLicense();
+        message.success("Cập nhật thành công!");
+      })
+      .catch(()=>{
+        message.error("Cập nhật thất bại!");
+      });
+  }
 
   const removeLicense = async (license_id) => {
     await axios
@@ -154,7 +170,11 @@ export default function LicensesDashboard() {
         return (
           <div>
             <span className={"!inline-block min-w-[100px]"}>
-              {dayjsInstance(record?.end_date).format("DD/MM/YYYY")}
+              <DatePicker 
+                onChange={(e)=>updateEndDate(e, record)}
+                value={dayjsInstance(record?.end_date)} 
+                format={'DD/MM/YYYY'} 
+              />
             </span>
           </div>
         );
