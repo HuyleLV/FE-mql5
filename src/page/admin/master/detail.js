@@ -46,7 +46,7 @@ export default function MasterDetail() {
     }
 
     const updateActiveStatus =  async (e, values) => {
-      await axiosInstance.post(`$/followerLicense/updateStatus`, {
+      await axiosInstance.post(`/followerLicense/updateStatus`, {
           follower_license_id: values?.follower_license_id,
           active_status: e
         })

@@ -344,16 +344,29 @@ export default function Home() {
                 <Reports />
             </div>
 
-            <Modal
-                title="Bạn chưa đăng nhập?"
-                className="flex justify-center"
-                open={isModalOpen}
-                onOk={() => (setIsModalOpen(false), navigate('/login'))}
-                onCancel={() => setIsModalOpen(false)}
-                okButtonProps={{ className: "bg-blue-500" }}
-            >
-                <p className="p-5">Vui lòng đăng nhập để được sử dụng chức năng này!</p>
-            </Modal>
+            {cookies?.user ? 
+                <Modal
+                    title="Bạn chưa đăng nhập?"
+                    className="flex justify-center"
+                    open={isModalOpen}
+                    onOk={() => (setIsModalOpen(false), navigate('/home-detail'))}
+                    onCancel={() => setIsModalOpen(false)}
+                    okButtonProps={{ className: "bg-blue-500" }}
+                >
+                    <p className="p-5">Chào mừng bạn đến với hệ sinh thái của Netpartner!</p>
+                </Modal>
+                :
+                <Modal
+                    title="Bạn chưa đăng nhập?"
+                    className="flex justify-center"
+                    open={isModalOpen}
+                    onOk={() => (setIsModalOpen(false), navigate('/login'))}
+                    onCancel={() => setIsModalOpen(false)}
+                    okButtonProps={{ className: "bg-blue-500" }}
+                >
+                    <p className="p-5">Vui lòng đăng nhập để được sử dụng chức năng này!</p>
+                </Modal>
+            }
 
         </div>
     )

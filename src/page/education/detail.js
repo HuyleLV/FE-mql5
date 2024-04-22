@@ -57,7 +57,7 @@ export default function EducationDetail() {
                             </p>
                             <p className="pl-10 font-medium text-gray-600">Đã đăng vào: {dayjsInstance(education?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
                         </div>
-                        <div className="pt-5">
+                        <div className="pt-5" >
                             {parse(String(education?.education_description).replaceAll("ul>","p>"))}
                         </div>
                         <div className="pt-10">

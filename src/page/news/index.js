@@ -11,9 +11,10 @@ export default function News() {
     const [identify, setIdentify] = useState([]);
     const [identifyHot, setIdentifyHot] = useState([]);
     const [identifyHotHover, setIdentifyHotHover] = useState([]);
+    const [clickButton, setClickButton] = useState(0);
     const [pagination, setPagination] = useState({
         page: 1,
-        pageSize: 10,
+        pageSize: 9,
     });
 
     const getAllNew = async () => {
@@ -143,21 +144,34 @@ export default function News() {
                 </Row>
             </div>
             <div className="mt-[100px]">
-                <div className="flex">
+                <div className="flex justify-center">
                     {identifyCategory?.length> 0 && identifyCategory?.map((e, index) => (
-                        <button className="bg-blue-300 rounded-full w-[180px] ml-2 hover:bg-blue-500" onClick={()=>getByIdentify_category(e?.identify_category_id)} key={index}>
-                            <p className="px-5 py-4 text-center text-xl font-bold">{e?.identify_category_title}</p>
-                        </button>
+                        <>
+                            {clickButton === 0 ?
+                                <button className="bg-blue-300 rounded-full w-[200px] m-2" onClick={()=>(getByIdentify_category(e?.identify_category_id), setClickButton(index + 1))} key={index}>
+                                    <p className="px-5 py-4 text-center text-xl font-bold">{e?.identify_category_title}</p>
+                                </button>
+                                :
+                                clickButton === (index + 1) ?
+                                    <button className="bg-blue-600 text-white rounded-full w-[200px] m-2" onClick={()=>(getByIdentify_category(e?.identify_category_id), setClickButton(index + 1))} key={index}>
+                                        <p className="px-5 py-4 text-center text-xl font-bold">{e?.identify_category_title}</p>
+                                    </button>
+                                    :
+                                    <button className="bg-blue-300 rounded-full w-[200px] m-2" onClick={()=>(getByIdentify_category(e?.identify_category_id), setClickButton(index + 1))} key={index}>
+                                        <p className="px-5 py-4 text-center text-xl font-bold">{e?.identify_category_title}</p>
+                                    </button>
+                            }
+                        </>
                     ))}
                 </div>
                 
                 <div className="p-5 rounded-xl mt-10">
-                    <Row>
-                        {identify?.length === 0 
-                            ?
-                                <p className="font-bold text-2xl">Chưa có bài viết mới!</p>
-                            :
-                            <div className="w-full h-full mt-5 pb-20 relative">
+                    {identify?.length === 0 
+                        ?
+                            <p className="font-bold text-2xl">Chưa có bài viết mới!</p>
+                        :
+                        <div className="w-full h-full mt-5 pb-20 relative">
+                            <Row>
                                 {identify?.map((e, index) => (
                                     <Col xs={24} xl={8}>
                                         <a href={"/tin-tuc/" + e?.identify_slug} style={{color: "black"}}>
@@ -176,23 +190,23 @@ export default function News() {
                                         </a>
                                     </Col>    
                                 ))}
+                            </Row>
 
-                                <Pagination
-                                    className="flex justify-center absolute inset-x-0 bottom-0"
-                                    current={pagination.page}
-                                    total={identify?.total}
-                                    pageSize={pagination.pageSize}
-                                    showSizeChanger
-                                    onChange={(p, ps)=> {
-                                        setPagination({
-                                            page: p,
-                                            pageSize: ps
-                                        })
-                                    }}
-                                />
-                            </div>
-                        }
-                    </Row>
+                            <Pagination
+                                className="flex justify-center absolute inset-x-0 bottom-0"
+                                current={pagination.page}
+                                total={identify?.total}
+                                pageSize={pagination.pageSize}
+                                showSizeChanger
+                                onChange={(p, ps)=> {
+                                    setPagination({
+                                        page: p,
+                                        pageSize: ps
+                                    })
+                                }}
+                            />
+                        </div>
+                    }
                 </div>
                     
             </div>

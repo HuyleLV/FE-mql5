@@ -27,7 +27,6 @@ class CustomReactQuill extends Component {
   };
 
   modules = {
-    // #3 Add "image" to the toolbar
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
@@ -39,6 +38,7 @@ class CustomReactQuill extends Component {
       ],
       ["link", "image"],  
       [{ 'align': [] }],
+      [{ 'color': [] }, { 'background': [] }],
       ["clean"]
     ],
     imageUploader: {
@@ -70,7 +70,9 @@ class CustomReactQuill extends Component {
     "link",
     "align",
     "image",
-    "imageBlot"
+    "imageBlot",
+    "color",
+    "background"
   ];
 
   render() {
