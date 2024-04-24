@@ -6,12 +6,12 @@ import { Bar, Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function SignalBuySell({masterKey}) {
+export default function SignalWinLoss({masterKey}) {
     const [total, setTotal] = useState([]);
 
-    const getSignalBuySell = async () => {
+    const getSignalWinLoss = async () => {
         await axios
-          .get(`${process.env.REACT_APP_API_URL}/signal/getSignalBuySell/${masterKey}`)
+          .get(`${process.env.REACT_APP_API_URL}/signal/getSignalWinLoss/${masterKey}`)
           .catch(function (error) {
             message.error(error.response.status);
           })
@@ -22,13 +22,14 @@ export default function SignalBuySell({masterKey}) {
     };
 
     const data = {  
-        labels: ['Số lệnh mua: ' + total?.total_buy, 'Số lệnh bán: ' + total?.total_sell],
+        labels: ['Số lệnh win: ' + total?.total_win, 'Số lệnh loss: ' + total?.total_loss],
         datasets: [
             {
-                label: '% Lệnh mua',
+                label: '% Lệnh',
                 data: [
-                    Math.round((total?.total_buy / (total?.total_buy + total?.total_sell)) * 100 * 100) / 100, 
-                    Math.round((total?.total_sell/ (total?.total_buy + total?.total_sell)) * 100 * 100) / 100],
+                    Math.round((total?.total_win / (total?.total_win + total?.total_loss)) * 100 * 100) / 100, 
+                    Math.round((total?.total_loss/ (total?.total_win + total?.total_loss)) * 100 * 100) / 100
+                ],
                 backgroundColor: [
                     '#10b981',
                     '#f87171',
@@ -38,12 +39,12 @@ export default function SignalBuySell({masterKey}) {
     };
 
     useEffect(() => { 
-        getSignalBuySell();
+        getSignalWinLoss();
     }, [masterKey]);
 
     return (
         <>
-            <p className='text-center pb-5 font-bold text-gray-500'>Biểu đồ Tỷ lệ lệnh mua bán</p>
+            <p className='text-center pb-5 font-bold text-gray-500'>Biểu đồ Tỷ lệ win rate</p>
             <Pie data={data}/>
         </>
     )

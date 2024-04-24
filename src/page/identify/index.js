@@ -20,6 +20,7 @@ export default function Identify() {
     const [paginationComment, setPaginationComment] = useState({
       page: 1,
       pageSize: 6,
+      type: 2
     });
 
     const getByIdentify_category = async (identify_category_id) => {
@@ -63,7 +64,7 @@ export default function Identify() {
 
     const fetchcomment = async () => {
       await axios
-        .get(`${process.env.REACT_APP_API_URL}/comment/getById/0`, {params: paginationComment})
+        .get(`${process.env.REACT_APP_API_URL}/comment/getById/${identify?.identify_id}`, {params: paginationComment})
         .then((res) => {
           const data = res?.data;
           setComment(data);
@@ -75,7 +76,8 @@ export default function Identify() {
         const value = {
             comment_content: comment_content.target.value,
             comment_star: rateComment,
-            product_id: 0,
+            product_id: identify?.identify_id,
+            type: 2,
             create_by: cookies?.user.user_id,
         };
 
@@ -108,8 +110,10 @@ export default function Identify() {
     useEffect(() => { 
         getAllIdentifyCategory();
         getAllIdentifyHot();
-        fetchcomment();
-    }, []);
+        if(identify?.identify_id){
+            fetchcomment();
+        }
+    }, [identify?.identify_id, paginationComment]);
 
     useEffect(() => { 
         if(identify?.length === 0 && identifyCategory?.[0]?.identify_category_id) {
@@ -259,8 +263,9 @@ export default function Identify() {
                                 pageSize={paginationComment.pageSize}
                                 onChange={(p)=> {
                                     setPaginationComment({
-                                    page: p,
-                                    pageSize: paginationComment.pageSize
+                                        page: p,
+                                        pageSize: paginationComment.pageSize,
+                                        type: 2
                                     })
                                 }}
                             />
@@ -282,12 +287,12 @@ export default function Identify() {
                             <div className="w-full">
                                 <div className="mb-[10px] w-full">
                                     <textarea
-                                    id="comment_content"
-                                    name="comment_content"
-                                    rows="4"
-                                    className="w-full px-3 py-2 border rounded-md"
-                                    placeholder="Gửi nhận xét về sản phẩm"
-                                    onChange={setcomment_content}
+                                        id="comment_content"
+                                        name="comment_content"
+                                        rows="4"
+                                        className="w-full px-3 py-2 border rounded-md"
+                                        placeholder="Gửi nhận xét về sản phẩm"
+                                        onChange={setcomment_content}
                                     ></textarea>
                                 </div>
                                 <p>

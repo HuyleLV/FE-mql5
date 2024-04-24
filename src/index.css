@@ -186,5 +186,16 @@
   h6 {
     @apply text-sm;
   }
+}
 
+span.ql-size-huge {
+  font-size: 30px;
+}
+
+span.ql-size-large {
+  font-size: 25px;
+}
+
+span.ql-size-small {
+  font-size: 18px;
 }

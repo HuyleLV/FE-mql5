@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import ReactQuill, { Quill } from "react-quill";
-// #1 import quill-image-uploader
+import BlotFormatter from 'quill-blot-formatter';
 import ImageUploader from "quill-image-uploader";
 import axios from "axios";
 
-// #2 register module
 Quill.register("modules/imageUploader", ImageUploader);
+Quill.register('modules/blotFormatter', BlotFormatter);
 
 class CustomReactQuill extends Component {
   constructor(props) {
@@ -27,8 +27,10 @@ class CustomReactQuill extends Component {
   };
 
   modules = {
+    blotFormatter: {},
     toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ header: [1, 2, 3, 4, 5, 6] }],
+      [{size: ["small", false, "large","huge"]}],
       ["bold", "italic", "underline", "strike", "blockquote"],
       [
         { list: "ordered" },
@@ -59,6 +61,7 @@ class CustomReactQuill extends Component {
 
   formats = [
     "header",
+    'size',
     "bold",
     "italic",
     "underline",
@@ -74,6 +77,7 @@ class CustomReactQuill extends Component {
     "color",
     "background"
   ];
+  
 
   render() {
     return (

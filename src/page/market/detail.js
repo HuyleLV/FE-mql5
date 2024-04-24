@@ -62,6 +62,7 @@ export default function MarketDetail() {
   const [paginationComment, setPaginationComment] = useState({
     page: 1,
     pageSize: 6,
+    type: 1
   });
 
   var settings = {
@@ -169,6 +170,7 @@ export default function MarketDetail() {
       comment_content: comment_content.target.value,
       comment_star: rateComment,
       product_id: params?.id,
+      type: 1,
       create_by: cookies?.user.user_id,
     };
 
@@ -686,7 +688,8 @@ export default function MarketDetail() {
                       onChange={(p)=> {
                         setPaginationComment({
                           page: p,
-                          pageSize: paginationComment.pageSize
+                          pageSize: paginationComment.pageSize,
+                          type: 1
                         })
                       }}
                     />

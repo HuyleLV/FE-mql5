@@ -125,29 +125,59 @@ export default function MasterDashboard() {
           ]}
         />,
     },
+    // {
+    //   title: "Payment status",
+    //   key: "payment_status",
+    //   dataIndex: "payment_status",
+    //   width: 100,
+    //   render: (_, record) => 
+    //     <Select
+    //         size="large"
+    //         placeholder="Select a person"
+    //         optionFilterProp="children"
+    //         value={record?.payment_status}
+    //         onChange={(e)=>updatePaymentStatus(e, record)}
+    //         options={[
+    //         { 
+    //             label: "Active",
+    //             value: 1
+    //         },
+    //         { 
+    //             label: "Inactive",
+    //             value: 0
+    //         }
+    //         ]}
+    //     />,
+    // },
     {
-      title: "Payment status",
-      key: "payment_status",
-      dataIndex: "payment_status",
+      title: "server",
+      key: "server",
+      dataIndex: "server",
       width: 100,
       render: (_, record) => 
-        <Select
-            size="large"
-            placeholder="Select a person"
-            optionFilterProp="children"
-            value={record?.payment_status}
-            onChange={(e)=>updatePaymentStatus(e, record)}
-            options={[
-            { 
-                label: "Active",
-                value: 1
-            },
-            { 
-                label: "Inactive",
-                value: 0
-            }
-            ]}
-        />,
+        <div>
+            <p>{record?.server}</p>
+        </div>,
+    },
+    {
+      title: "password",
+      key: "password",
+      dataIndex: "password",
+      width: 100,
+      render: (_, record) => 
+        <div>
+            <p>{record?.password}</p>
+        </div>,
+    },
+    {
+      title: "broker",
+      key: "broker",
+      dataIndex: "broker",
+      width: 100,
+      render: (_, record) => 
+        <div>
+            <p>{record?.broker}</p>
+        </div>,
     },
     {
       title: "User",
