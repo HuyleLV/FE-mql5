@@ -2,7 +2,7 @@ import { Tabs, List, Row, Col, message, Rate, Select, Dropdown, Space, Modal } f
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import banner from "../../component/image/banner_home.jpg"
-import image1_home from "../../component/image/image1_home.png"
+import image1_home from "../../component/image/img1_home.png"
 import video_home from "../../component/image/Video_home.mp4"
 import { useEffect, useRef, useState } from "react";
 import { CheckOutlined } from "@ant-design/icons";
@@ -74,7 +74,7 @@ export default function Home() {
                         <List
                             itemLayout="horizontal"
                             dataSource={item?.product}
-                            grid={{ gutter: 20, column: 6 }}
+                            grid={{ gutter: 20, column: 3 }}
                             renderItem={(i) => (
                                 <List.Item className="mt-8">
                                     <>
@@ -218,8 +218,8 @@ export default function Home() {
                             Chào mừng bạn đến với phiên bản beta Net Partner - Hãy trải nghiệm những nội dung mới lạ những giải pháp cách mạng về tài chính. Tất cả hòm thư góp ý vui lòng gửi về support@netpartner.com.vn, Net Partner xin chân thành cám ơn!!
                         </animated.div>
                     </div>
-                    <p className="font-bold text-xl top-0 pt-20">Đỉnh Cao Công Nghệ Tài Chính</p>
-                    <p className="font-bold text-6xl w-[800px] pt-[150px]">
+                    <p className="font-bold text-2xl top-0 pt-20 border-b w-[350px] py-2">Giải Pháp Đầu Tư An Toàn</p>
+                    <p className="font-bold text-6xl w-[800px] pt-[120px]">
                         <p className="text-[70px] pb-4">Xây Dựng Sự Giàu Có </p>
                         Của Bạn Bằng
                         <p className="text-yellow-500 py-3">Nền Tảng</p>
@@ -235,11 +235,11 @@ export default function Home() {
             </div>
             <div className="max-w-screen-2xl items-center mx-auto pt-10">
                 <Row>
-                    <Col xs={24} xl={12} className="px-10 pt-16">
-                        <p className="font-bold text-4xl">Trade with Confidence</p>
+                    <Col xs={24} xl={12} className="px-10 py-16">
+                        <p className="font-bold text-4xl">Kiếm Tiền Tự Động Cùng Net_AuAi</p>
                         <p className="pt-5 font-medium text-lg pr-20">
-                            Giải pháp giao dịch Net-AuAi, hệ thống giao dịch tiên tiến nhất từng được tạo ra.
-                            Hãy là một phần của cuộc cách mạng tài chính này để trở thành những nhà đầu tư có lợi nhuận và trở nên giàu có!
+                            Xác định xu hướng thị trường một cách tự động trên nền tảng Meta Trader bằng sản phẩm của chúng tôi. 
+                            Sử dụng dữ liệu toàn cầu để có cái nhìn tổng quan và đưa ra gợi ý giao dịch đến khách hàng một cách chính xác nhất ngay trên nền tảng giao dịch.
                         </p>
                         <div className="pt-5 flex">
                             <div>
@@ -259,17 +259,21 @@ export default function Home() {
                             <div className="pl-10">
                                 <p className="font-semibold text-lg pt-2">
                                     <CheckOutlined className="text-green-600 text-xl pr-2" />
-                                    Công nghệ Ai độc quyền
+                                    Quản lý rủi ro chuyên nghiệp
                                 </p>
                                 <p className="font-semibold text-lg pt-2">
                                     <CheckOutlined className="text-green-600 text-xl pr-2" />
-                                    Quản lý rủi ro chuyên nghiệp
+                                    Công cụ Ai độc quyền
+                                </p>
+                                <p className="font-semibold text-lg pt-2">
+                                    <CheckOutlined className="text-green-600 text-xl pr-2" />
+                                    Kết nối cùng Master Trade
                                 </p>
                             </div>
                         </div>
                         <Link to={"/home-detail"}>
                             <button className="text-xl border px-4 py-2 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-10">
-                                Trải nghiệm ngay
+                                Quan Tâm
                             </button>
                         </Link>
                     </Col>
@@ -280,10 +284,12 @@ export default function Home() {
                     </Col>
                 </Row>
 
-                <Ecosystem setIsModalOpen={setIsModalOpen} />
-
                 <div className="w-full p-5">
                     <List
+                        grid={{
+                            gutter: 16,
+                            column: isMobile? 1 : 2
+                        }}
                         rootClassName="item-cont"
                         itemLayout="vertical"
                         dataSource={products}
@@ -342,6 +348,8 @@ export default function Home() {
                 <JobTrade shorts={shorts}/>
 
                 <Reports />
+                
+                <Ecosystem setIsModalOpen={setIsModalOpen} />
             </div>
 
             {cookies?.user ? 
