@@ -151,7 +151,7 @@ export default function Identify() {
         if(news.length === 0) {
             getByNews_category(2);
         }
-    }, [news]);
+    }, []);
 
     useEffect(() => { 
         if(identify?.length === 0 && identifyCategory?.[0]?.identify_category_id) {
