@@ -249,11 +249,11 @@ export default function MasterDetail() {
             render: (_, record) => 
             record?.signal_status === 1 ?
                 <div className="flex justify-center text-center">
-                    Close 
+                    Open 
                 </div> 
             : 
                 <div>
-                    <p className="text-center">Open</p>
+                    <p className="text-center">Close</p>
                 </div> 
             ,
         },
@@ -279,7 +279,7 @@ export default function MasterDetail() {
         getPriceMaster();
         getReportByMasterKey();
         getSignal();
-    }, [masterKey]);
+    }, [masterKey, paginationSignal]);
 
     useEffect(() => {         
         if(!cookies?.user){ 

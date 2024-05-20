@@ -39,13 +39,13 @@ export default function JobTrade({shorts}) {
     }, [])
 
     return (
-        <div className={`w-full ${shorts?.data ? "mt-8" : ""}`}>
+        <div className={`w-full ${shorts?.data ? "mt-4" : ""}`}>
             <div className="w-full">
                 {shorts?.length < 1 ? null : 
                     shorts?.data ?
-                        <Slide slidesToScroll={1} slidesToShow={6} indicators={true} arrows={false}>
+                        <Slide slidesToScroll={1} slidesToShow={3} indicators={true} arrows={false}>
                             {shorts?.data?.map((item, index) => (
-                                <div onClick={() => (handleId(index), handleOpen())} className="w-auto h-[350px] p-1 m-1" style={{ position: "relative", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center", backgroundImage: `url(${item.short_image})` }}>
+                                <div onClick={() => (handleId(index), handleOpen())} className="w-auto h-[400px] p-1 m-1" style={{ position: "relative", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center", backgroundImage: `url(${item.short_image})` }}>
                                     <div style={{ width: 100, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderRadius: 10, background: "rgba(255, 255, 255, 0.7)" }}>
                                         <FcClock size={22} />
                                         <div className="font-semibold text-[10px]">

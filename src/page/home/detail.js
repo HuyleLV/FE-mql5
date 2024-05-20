@@ -35,10 +35,11 @@ export default function HomeDetail() {
             <div className="max-w-screen-2xl items-center mx-auto pt-10">
                 <Row>
                     <Col xs={24} xl={12} className="px-10 pt-16">
-                        <p className="font-bold text-4xl">Trade with Confidence</p>
+                        <p className="font-bold text-4xl">Kiếm Tiền Tự Động Cùng Net_AuAi</p>
                         <p className="pt-5 font-medium text-lg pr-20">
-                            Giải pháp giao dịch Net-AuAi, hệ thống giao dịch tiên tiến nhất từng được tạo ra. 
-                            Hãy là một phần của cuộc cách mạng tài chính này để trở thành những nhà đầu tư có lợi nhuận và trở nên giàu có!
+                            Xác định xu hướng thị trường một cách tự động trên nền tảng Meta Trader bằng sản phẩm của chúng tôi. 
+                            Sử dụng dữ liệu toàn cầu để có cái nhìn tổng quan và đưa ra gợi ý giao dịch đến khách hàng một cách 
+                            chính xác nhất ngay trên nền tảng giao dịch.
                         </p>
                         <div className="pt-5 flex">
                             <div>
@@ -83,7 +84,7 @@ export default function HomeDetail() {
             </div>
             <div className="py-10 bg-slate-50">
                 <div className="max-w-screen-2xl items-center mx-auto pt-10 text-center">
-                    <p className="font-bold text-3xl">NHỮNG CÔNG CỤ TỐT NHẤT MÀ CHÚNG TÔI CÓ!</p>
+                    <p className="font-bold text-3xl">Những Điểm Ưu Việt Mà Chúng Tôi Cung Cấp!</p>
                     <p className="pt-4 font-none text-lg">
                         Cho dù bạn muốn đặt tất cả các giao dịch của mình ở chế độ tự động thí điểm hay kiểm soát các giao <br/>
                         dịch của mình bằng cách giao dịch thủ công, EA Giải pháp quản lý giao dịch !TakePropips có thể làm tất <br/>
@@ -94,14 +95,20 @@ export default function HomeDetail() {
                             <div className="flex justify-end items-center w-full h-full">
                                 <div className="text-right">
                                     <p className="font-semibold text-xl">1, Technical Analysis</p>
-                                    <p className="pt-2 font-none text-lg">
-                                        Xác định xu hướng thị trường, <br/>
-                                        sức mạnh đồng tiền.
+                                    <p className="pt-2 font-normal text-base">
+                                        Xác định xu hướng thị trường, sức mạnh  <br/>
+                                        đồng tiền. Không có đủ kinh nghiệm để <br/>
+                                        phân tích thị trường? Sản phầm này sẽ <br/>
+                                        giúp bạn về thời điểm vào lệnh.
                                     </p>
                                     <p className="font-semibold text-xl pt-10">2, Managerment solotions</p>
                                     <p className="pt-2 font-none text-lg">
-                                        Dashboard quản lý 1 cách vô cùng <br/>
-                                        thuận tiện.
+                                        Là công cụ Quản Lý Giao Dịch với Trợ Lý  <br/>
+                                        Ảo tiên tiến nhất mà bạn từng gặp.  <br/>
+                                        Một công cụ Hoàn Hảo cho các nhà giao dịch  <br/>
+                                        Chuyên Nghiệp, giúp họ Tự Động Hoá   <br/>
+                                        các tác vụ mang đến trải nghiệm xuất <br/>
+                                        sắc để trở nên giàu có.
                                     </p>
                                 </div>
                             </div>
@@ -116,14 +123,19 @@ export default function HomeDetail() {
                                 <div className="text-left">
                                     <p className="font-semibold text-xl">3, Trading Style</p>
                                     <p className="pt-2 font-none text-lg">
-                                        Giao dịch theo phong cách phù hợp <br/>
-                                        của riêng bạn.
+                                        Bạn là nhà giao dịch lướt sóng, nhà giao dịch <br/>
+                                        trong ngày hay nhà giao dịch dài hạn? <br/>
+                                        Bạn muốn giao dịch FX, Chỉ số, Vàng hay <br/>
+                                        Tiền điện tử. Sản phẩm dành cho bạn!
                                     </p>
                                     <p className="font-semibold text-xl pt-10">4, Trading Signals</p>
                                     <p className="pt-2 font-none text-lg">
-                                        Siêu công cụ sẽ giúp bạn kết nối cùng <br/>
-                                        Master để việc giao dịch trở nên dễ<br/>
-                                        dàng
+                                        Tín hiệu giao dịch được xây dựng trên hệ thống <br/>
+                                        giao dịch độc quyền xác định được Xu Hướng <br/>
+                                        thị trường cung cấp Hành Động Giao Dịch với <br/>
+                                        xác xuất chiến thắng cao. Hệ thống Ai cung <br/>
+                                        cấp tín hiệu trên bất kỳ cặp nào và trên <br/>
+                                        tất cả các khung thời gian
                                     </p>
                                 </div>
                             </div>
@@ -135,9 +147,9 @@ export default function HomeDetail() {
                 <div className="max-w-screen-2xl items-center mx-auto pt-10">
                     <p className="font-bold text-3xl text-center">Chúng tôi hoạt động như thế nào ?</p>
                     <p className="pt-4 font-none text-lg text-center">
-                        <span className="font-semibold">Net AuAI Trading Management Solutions EA</span> là hệ thống giao dịch tự động tất cả trong một cung cấp <br/>
-                        cho bạn mọi công cụ bạn cần như giao dịch tự động, tín hiệu mua và bán, quản lý giao dịch, <br/>
-                        công cụ phân tích kỹ thuật, công cụ phân tích cơ bản sử dụng AI và hơn thế nữa!
+                        <span className="font-semibold">Tại Net Partner</span> chúng tôi tin rằng thành công trong giao dịch không chỉ là có Công Cụ Phù Hợp mà còn có Tư Duy Đúng <br/>
+                        Đắn. Đó là lý do tại sao chúng tôi không chỉ cung cấp phần mềm giao dịch tiên tiến mà còn cung cấp Kiến Thức và Hỗ Trợ để<br/>
+                        giúp khách hàng phát triển các kỹ năng đầu tư và sự kỷ luật cần thiết để đạt được Thành Công trên thị trường.
                     </p>
                     <Row className="pt-10">
                         <Col xs={24} xl={12}>
@@ -149,30 +161,30 @@ export default function HomeDetail() {
                             <div className="flex items-center pt-10">
                                 <img src={icon_1} style={{width: 130, height: 130}}/>
                                 <div className="pl-4">  
-                                    <p className="font-semibold text-xl">Phân tích thị trường và tạo tín hiệu</p>
+                                    <p className="font-semibold text-2xl">Phân tích thị trường và tạo tín hiệu</p>
                                     <p className="text-lg pt-2">
-                                        EA của chúng tôi phân tích thị trường ngoại hối 24/7, tạo ra tín hiệu giao dịch
-                                        chính xác thông qua các thuật toán và chi báo nâng cao.
+                                        Sản phẩm của chúng tôi phân tích thị trường ngoại hối 24/7, tạo ra tín hiệu giao dịch chính xác 
+                                        thông qua các thuật toán và chi báo nâng cao.
                                     </p>
                                 </div>
                             </div>
                             <div className="flex items-center pt-10">
                                 <img src={icon_3} style={{width: 130, height: 130}}/>
                                 <div className="pl-4">
-                                    <p className="font-semibold text-xl">Thực hiện giao dịch tự động hoặc thủ công</p>
+                                    <p className="font-semibold text-2xl">Thực hiện giao dịch tự động hoặc thủ công</p>
                                     <p className="text-lg pt-2">
-                                        Chọn giữa thực hiện giao dịch tự động dựa trên tín hiệu được tạo hoặc áp dụng tín hiệu 
-                                        theo cách thủ công cho chiến lược giao dịch của bạn.
+                                        Chọn giữa thực hiện giao dịch tự động dựa trên tín hiệu được tạo hoặc áp dụng tín hiệu theo cách 
+                                        thủ công cho chiến lược giao dịch của bạn.
                                     </p>
                                 </div>
                             </div>
                             <div className="flex items-center pt-10">
                                 <img src={icon_2} style={{width: 130, height: 130}}/>
                                 <div className="pl-4">
-                                    <p className="font-semibold text-xl">Quản lý rủi ro mạnh mẽ</p>
+                                    <p className="font-semibold text-2xl">Quản lý rủi ro mạnh mẽ</p>
                                     <p className="text-lg pt-2">
-                                        Sử dụng các biện pháp bảo vệ như rút vốn và bảo vệ lợi nhuận, EA bảo vệ các giao 
-                                        dịch của bạn và giảm thiểu tổn thất tiềm ẩn.
+                                        Sử dụng các biện pháp bảo vệ như rút vốn và bảo vệ lợi nhuận, Sản phẩm bảo vệ các giao dịch của bạn 
+                                        bảo toàn lợi nhuận và hạn chế thua lỗ
                                     </p>
                                 </div>
                             </div>
@@ -191,7 +203,8 @@ export default function HomeDetail() {
                             </div>
                             <p className="font-semibold text-xl">Tiết kiệm thời gian và công sức</p>
                             <p className="text-base pt-2">
-                                EA của chúng tôi có thể tự phân tích thị trường và bạn sẽ được cảnh báo khi phát hiện các thiết lập có xác suất cao 24/7!
+                                Sản phẩm của chúng tôi có thể tự phân tích thị trường và bạn sẽ được cảnh báo 
+                                khi phát hiện các điểm vào lệnh với xác xuất chiến thắng trên 70%
                             </p>
                         </Col>
                         <Col xs={24} xl={6} className="px-4">
@@ -200,16 +213,19 @@ export default function HomeDetail() {
                             </div>
                             <p className="font-semibold text-xl">Kiếm thu nhập thụ động</p>
                             <p className="text-base pt-2">
-                                Tận hưởng giao dịch rãnh tay vì EA của chúng tôi chuyển đổi liền mạch các cơ hội thị trường thành thu nhập thụ động ổn định!
+                                Tận hưởng giao dịch tự động vì sản phẩm của chúng tôi chuyển đổi liền mạch 
+                                các cơ hội tại thị trường thành thu nhập thụ động ổn định!
                             </p>
                         </Col>
                         <Col xs={24} xl={6} className="px-4">
                             <div className="flex justify-center">
                                 <img src={icon_6} style={{height: 300}}/>
                             </div>
-                            <p className="font-semibold text-xl">Tài khoản giao dịch</p>
+                            <p className="font-semibold text-xl">Đạt mục tiêu tài chính</p>
                             <p className="text-base pt-2">
-                                Tăng cơ hội vượt qua các thử thách của công ty hỗ trợ để bạn có thể bắt đầu giao dịch trên các tài khoản được cấp vốn!
+                                Sứ Mệnh của chúng tôi là giúp các nhà giao dịch đạt được Mục Tiêu Tài Chính của 
+                                họ bằng cách cung cấp cho họ các Công Cụ, Đào Tạo và Hỗ Trợ những thứ họ cần để 
+                                thành công một cách nhanh nhất
                             </p>
                         </Col>
                         <Col xs={24} xl={6} className="px-4">
@@ -224,20 +240,20 @@ export default function HomeDetail() {
                     </Row>
                 </div>
             </div>            
-            {/* <div className="py-10 bg-white">
+            <div className="py-10 bg-white">
                 <div className="max-w-screen-2xl items-center mx-auto pt-10">
                     <p className="font-bold text-3xl text-center">VIDEO VỀ SẢN PHẨM</p>
                     <iframe 
                         className="w-full pt-10"
                         height="800" 
-                        src="https://www.youtube.com/embed/q2iF26_Nf-8" 
+                        src="https://www.youtube.com/embed/jNOPRlFV1zU" 
                         title="TakePropips Trading Management Solutions EA Overview" 
                         frameborder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                         allowfullscreen>
                     </iframe>
                 </div>
-            </div>        */}
+            </div>       
             <div className="py-10 bg-white">
                 <div className="max-w-screen-2xl items-center mx-auto pt-10">
                     <Row>
@@ -249,11 +265,12 @@ export default function HomeDetail() {
                         <Col xs={24} xl={12}>
                             <div className="flex justify-center items-center h-full">
                                 <div className="p-10">
-                                    <p className="font-bold text-2xl">Đặt giao dịch của bạn ở chế độ lái tự động!</p>
+                                    <p className="font-bold text-2xl">Để nhanh chóng trở thành master trong thị trường!</p>
                                     <p className="font-none text-lg pt-5">
-                                        Hãy tưởng tượng một hành trình giao dịch nơi các chiến lược của bạn trở nên sống động một cách dễ dàng. 
-                                        Hệ thống giao dịch ô tô của chúng tôi ở đây giống như một người bạn đáng tin cậy, đảm nhiệm các giao dịch 
-                                        và chiến lược, giúp bạn tự do đạt được ước mơ tài chính của mình mà không bị ràng buộc vào màn hình.
+                                        Cho dù bạn là nhà giao dịch theo xu hướng, nhà giao dịch ngược xu hướng hay cả hai, 
+                                        sản phẩm của chúng tôi nhanh xu hướng hiện tại của thị trường có thể cải thiện việc 
+                                        ra quyết định của bạn khi tham gia giao dịch. Không nhưng thế, với kho kiến thức khổng lồ, 
+                                        trực quan, dễ hiểu sẽ nhanh chóng giúp bạn thành Master Tradae
                                     </p>
                                 </div>
                             </div>
@@ -263,11 +280,11 @@ export default function HomeDetail() {
                         <Col xs={24} xl={12}>
                             <div className="flex justify-center items-center h-full">
                                 <div className="p-5">
-                                    <p className="font-bold text-2xl">Giao dịch thông minh hơn, không khó hơn</p>
+                                    <p className="font-bold text-2xl">Giao dịch thông minh hơn với hệ thống Ai</p>
                                     <p className="font-none text-lg pt-5">
-                                        Hãy cùng nhau làm cho giao dịch trở nên dễ dàng! Hệ thống của chúng tôi sẵn sàng 
-                                        trở thành người hướng dẫn thân thiện cho bạn, đơn giản hóa những quyết định khó khăn 
-                                        đó và giúp bạn điều hướng thị trường một cách dễ dàng.
+                                        Hãy cùng nhau làm cho giao dịch trở nên dễ dàng! Hệ thống của chúng tôi sẵn sàng trở thành 
+                                        người hướng dẫn thân thiện cho bạn, đơn giản hóa những quyết định khó khăn đó và giúp bạn 
+                                        điều hướng thị trường một cách dễ dàng.
                                     </p>
                                 </div>
                             </div>

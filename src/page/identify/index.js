@@ -202,26 +202,26 @@ export default function Identify() {
                 <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] my-10 pl-4 mx-2">
                     <p className="font-bold text-2xl py-5">Tin Tức Hot Nhất</p>
                 </div>
-                <Row>
+                <div className="flex w-full">
                     {newsHot?.map((_, index) => (
-                        <Col xs={24} xl={6}>
-                            <a href={"/tin-tuc/" + _?.identify_slug} style={{color: "black"}}>
-                                <div className="flex justify-center m-2">
-                                    <div className="w-[400px] h-[460px] border-b-2">
-                                        <img src={_?.identify_image} style={{width: 400, height: 300}}/>
-                                        <div className="py-2">
+                        <div className="flex w-1/5 p-2">
+                            <a href={"/tin-tuc/" + _?.identify_slug} style={{color: "black"}} className="border">
+                                <div className="flex justify-center">
+                                    <div>
+                                        <img src={_?.identify_image} style={{width: 400, height: 200}}/>
+                                        <div className="p-2">
                                             <p className="py-2 text-sm">
                                                 Tác giả: {_?.displayName ? _?.displayName : "Admin"}
                                             </p>
-                                            <p className="font-bold text-xl">{_?.identify_title}</p>
+                                            <p className="font-bold text-base">{_?.identify_title}</p>
                                             <p className="py-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
                                         </div>
                                     </div>
                                 </div>
                             </a>
-                        </Col>
+                        </div>
                     ))}
-                </Row>
+                </div>
 
                 <Row className="pt-10">
                     <Col xs={24} xl={14}>
@@ -351,7 +351,7 @@ export default function Identify() {
                                         {cookies?.user && (
                                             <div className="p-[10px] flex ">
                                                 <div className="px-10">
-                                                    <div className="flex justify-center items-center h-[70px]">
+                                                    <div className="flex justify-center items-center h-[70px] w-full">
                                                         <img
                                                             alt="img"
                                                             src={cookies?.user?.photos}
