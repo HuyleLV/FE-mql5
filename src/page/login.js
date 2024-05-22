@@ -13,7 +13,6 @@ const Login = () => {
   const password = Form.useWatch("password", form);
   const navigate = useNavigate();
   const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
-  const [value, setValue] = useState(1);
 
   const loginUser = async () => {
     const value = {
@@ -33,11 +32,6 @@ const Login = () => {
       .catch(() => message.error("Tài khoản hoặc mật khẩu không đúng!"));
   };
 
-  const onChange = (e) => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
-  };
-
   useEffect(() => {
 
   }, []);
@@ -51,7 +45,7 @@ const Login = () => {
           </div>
         </Col>
         <Col xs={24} xl={10}>
-          <div className="flex justify-center">
+          <div className="flex justify-center items-center h-full">
             <div className="w-[500px] border-4 border-cyan-600 rounded-3xl p-10">
               <div className="flex justify-center">
                 <img src={logo} width={200}/>
@@ -72,16 +66,8 @@ const Login = () => {
                     placeholder="Password"
                   />
                 </Form.Item>
-                <div className="flex justify-end mt-[-8px]">
+                <div className="flex justify-end mt-[-8px] mb-[20px]">
                   <Link to="/quen-mat-khau" className="text-cyan-500">Quên mật khẩu?</Link>
-                </div>
-                <div className="pb-5 pt-2">
-                  <Radio.Group onChange={onChange} value={value}>
-                    <Space direction="vertical">
-                      <Radio className="font-semibold" value={1}>Đăng nhập thành viên</Radio>
-                      <Radio className="font-semibold" value={2}>Đăng nhập khách hàng</Radio>
-                    </Space>
-                  </Radio.Group>
                 </div>
                 <button
                   className="border-2 border-cyan-500 bg-cyan-500 hover:bg-white w-full rounded-2xl py-3 font-semibold text-xl text-white hover:text-cyan-500"

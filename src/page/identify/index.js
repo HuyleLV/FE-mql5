@@ -17,6 +17,7 @@ export default function Identify() {
     const [comment, setComment] = useState([]);
     const [rateComment, setRateComment] = useState(5);
     const [identifyCategoryId, setIdentifyCategoryId] = useState(0);
+    const [hide, setHide] = useState(false);
     const [comment_content, setcomment_content] = useState("");
     const [clickButton, setClickButton] = useState(0);
     const [pagination, setPagination] = useState({
@@ -164,16 +165,16 @@ export default function Identify() {
         <>
             <div className="flex justify-center py-10">
                 <p className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] font-bold text-3xl py-5 text-center">
-                    Biểu đồ thị trường
+                    Biểu Đồ Thị Trường
                 </p>
             </div>
             <Row>
                 <Col xs={24} xl={5}>
-                    <p className="text-center text-2xl font-bold">Nhận định hot nhất</p>
+                    <p className="text-center text-2xl font-bold">Nhận Định Hot Nhất</p>
                     {identifyHot.map((_, i) => (
                         <a href={"/tin-tuc/" + _?.identify_slug} style={{color: "black"}}>
                             <div className="border p-2 mx-5 my-2 flex">
-                                <img src={_?.identify_image} style={{width: 80, height: 60}}/>
+                                <img src={_?.identify_image} style={{width: 80, height: 80}}/>
                                 <div className="pl-2">
                                     <p className="font-semibold text-xl">{_?.identify_title?.slice(0, 25)}...</p>
                                     <p className="pt-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
@@ -264,7 +265,7 @@ export default function Identify() {
                                 <Col xs={24} xl={18} className="px-2">
                                     <div>
                                         <div className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] pl-4">
-                                            <p className="font-bold text-2xl py-5">Nhận định thị trường</p>
+                                            <p className="font-bold text-2xl py-5">Nhận Định Thị Trường</p>
                                         </div>
                                         <div className="py-10">
                                             <Button type="primary" onClick={()=>onChange(dayjs(new Date()))} className="mr-4"><p className="font-semibold">Hôm Nay</p></Button>
@@ -287,9 +288,27 @@ export default function Identify() {
                                                 <p className="py-2 text-lg">
                                                     Tác giả: {identify?.displayName} - Ngày đăng: {dayjsInstance(identify?.create_at).format("DD/MM/YYYY HH:mm:ss")}
                                                 </p>
-                                                <p className="pt-2 text-xl">
-                                                    {parse(String(identify?.identify_description).replaceAll("ul>","p>"))}
-                                                </p>
+                                                {
+                                                    hide === true 
+                                                    ?
+                                                        <div>
+                                                            <div className="h-min">
+                                                                <p className="pt-2 text-xl">
+                                                                    {parse(String(identify?.identify_description).replaceAll("ul>","p>"))}
+                                                                </p>
+                                                            </div>
+                                                            <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(false)}>Ẩn Bớt</button>
+                                                        </div>
+                                                    :
+                                                        <div>
+                                                            <div className="h-[500px] text-ellipsis overflow-hidden">
+                                                                <p className="pt-2 text-xl">
+                                                                    {parse(String(identify?.identify_description).replaceAll("ul>","p>"))}
+                                                                </p>
+                                                            </div>
+                                                            <button className="bg-blue-500 p-1 rounded text-white w-[100px] mt-4 font-bold" onClick={()=>setHide(true)}>Hiện Thêm</button>
+                                                        </div>
+                                                }
                                             </>
                                         }
                                     </div>

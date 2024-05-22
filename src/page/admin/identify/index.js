@@ -144,6 +144,9 @@ export default function IdentifyDashboard() {
                 value: 5
               },
               { 
+                value: 6
+              },
+              { 
                 label: "null",
                 value: null
               }

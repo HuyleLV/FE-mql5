@@ -103,7 +103,6 @@ export default function MarketDetail() {
           create_by: cookies?.user?.user_id
       }})
       .then(({ data }) => {
-        console.log(data);
         setIsBuy(data);
       });
   }
@@ -119,7 +118,7 @@ export default function MarketDetail() {
 
       await axiosInstance
         .post(`/user/updateBalance`, {price: product?.[0].product_price})
-        .catch(() => message.error("Error server!"));
+        .catch((e) => message.error(String(e?.response?.data?.message)));
   
       await axios
         .post(`${process.env.REACT_APP_API_URL}/transferProduct/create`, transfer)
