@@ -11,6 +11,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import Ecosystem from "./Ecosystem";
 import TopMaster from "./TopMaster";
+import { Slide } from 'react-slideshow-image';
 import JobTrade from "./JobTrade";
 import Reports from "./Report";
 import { FormatDollar } from "../../utils/format";
@@ -297,6 +298,35 @@ export default function Home() {
                         </div>
                     </Col>
                 </Row>
+            </div>
+
+
+            <div className="relative h-[250px] bg-[#031340] my-10 flex items-center justify-center">
+                <div className="max-w-screen-2xl mx-auto absolute -top-6">
+                    <Slide slidesToScroll={1} slidesToShow={1} cssClass="mx-[100px]">
+                        <div>
+                            <div className="flex items-center">
+                                <img src={banner} className="w-[300px] h-[300px] rounded-full" />
+                                <div className="px-5 w-full">
+                                    <h3 className="text-white text-3xl font-bold bg-[#004AAD] p-5">Anh Minh</h3>
+                                    <p className="text-white text-xl font-semibold= p-5">Feeb back Feeb backFeeb back </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flex items-center px-10">
+                                <img src={banner} className="w-[300px] h-[300px] rounded-full" />
+                                <div className="px-5 w-full">
+                                    <h3 className="text-white text-3xl font-bold bg-[#004AAD] p-5">Anh Minh</h3>
+                                    <p className="text-white text-xl font-semibold p-5">Feeb back Feeb back Feeb back </p>
+                                </div>
+                            </div>
+                        </div>
+                    </Slide>
+                </div>
+            </div>
+
+            <div className="max-w-screen-2xl items-center mx-auto pt-10">
 
                 <div className="w-full p-5">
                     <List
