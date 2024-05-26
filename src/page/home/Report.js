@@ -48,9 +48,9 @@ export default function Reports() {
     }, []);
 
     return (
-        <div className="w-full p-5">
+        <div className="w-full py-10">
             <div className="border-b-2 border-blue-500 flex justify-between items-center">
-                <p className="font-bold p-4 text-3xl">Reports</p>
+                <p className="font-bold p-4 text-3xl">Phân Tích - Nghiên Cứu</p>
                 <Link to={"/san-pham"}>
                     <button className="text-xl border px-4 py-1 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800">Xem thêm</button>
                 </Link>

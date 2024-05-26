@@ -301,9 +301,9 @@ export default function Home() {
             </div>
 
 
-            <div className="relative h-[250px] bg-[#031340] my-10 flex items-center justify-center">
-                <div className="max-w-screen-2xl mx-auto absolute -top-6">
-                    <Slide slidesToScroll={1} slidesToShow={1} cssClass="mx-[100px]">
+            <div className="h-[250px] bg-[#031340] my-10">
+                <div className="max-w-screen-2xl mx-auto">
+                    <Slide slidesToScroll={1} slidesToShow={1} cssClass="mx-[100px] -mt-6">
                         <div>
                             <div className="flex items-center">
                                 <img src={banner} className="w-[300px] h-[300px] rounded-full" />
@@ -341,51 +341,54 @@ export default function Home() {
                     />
                 </div>
 
-                <div className="pt-10">
-                    <h1 className="font-bold p-4 text-3xl border-b-2 border-blue-500">Top Masters</h1>
-                    <Row className="py-2 mt-2">
-                        {topMaster.map((_, i) => (
-                            <Col xs={24} xl={8} className="mb-10">
-                                {i < 6 &&
-                                    <div className="border rounded mx-10 p-5 shadow text-black">
-                                        <p className="font-semibold text-xl text-center pb-5">Rank: {_?.rank}</p>
-                                        <div className="flex items-center justify-center border-y py-2">
-                                            <img 
-                                                src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
-                                                className="rounded-full" 
-                                                style={{width: 50, height: 50}}/>
-                                            <div className="pl-5">
-                                                <p className="font-semibold text-lg"> Email: {_?.user?.email ? _?.user?.email : "Admin@gmail.com"}</p>
-                                                <p className="font-semibold text-lg"> Master key: {_?.user?.master_key}</p>
+                <div className="py-10">
+                    <h1 className="font-bold px-4 text-3xl border-blue-500">Các Giao Dịch Thành Công</h1>
+                    <p className="p-4 border-b-2 text-blue-700 text-xl font-semibold">Theo dõi, kết nối với những Master Trade Tại Net Partner</p>
+                    {topMaster?.length > 0 && (
+                        <Slide slidesToScroll={1} slidesToShow={4} cssClass="py-10 mx-10">
+                            {topMaster.map((_, i) => (
+                                <div key={i}>
+                                    {i < 9 &&
+                                        <div className="border-2 border-black rounded-2xl mx-10 p-3 shadow text-black">
+                                            <p className="font-semibold text-xl text-center pb-5">Rank: {_?.rank}</p>
+                                            <div className="flex items-center justify-center py-2">
+                                                <img 
+                                                    src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
+                                                    className="rounded-full" 
+                                                    style={{width: 50, height: 50}}/>
+                                                <div className="pl-5">
+                                                    <p className="font-semibold text-md"> Name: {_?.user?.displayName ? _?.user?.displayName : "Admin"}</p>
+                                                    <p className="font-semibold text-md"> ID: {_?.user?.master_key}</p>
+                                                </div>
+                                            </div>                
+                                            <div>
+                                                <p className="font-semibold text-lg p-1 flex justify-between">Tổng lệnh: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
+                                                <p className="font-semibold text-lg p-1 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span></p>
+                                                <p className="font-semibold text-lg p-1 flex justify-between">Win: <span>{_?.results[0]?.win ? Math.round(_?.results[0]?.win * 100) / 100 : 0}</span></p>
+                                                <p className="font-semibold text-lg p-1 flex justify-between">Loss: <span>{_?.results[0]?.loss ? Math.round(_?.results[0]?.loss * 100) / 100 : 0}</span></p>
+                                                <p className="font-semibold text-lg p-1 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span></p>
                                             </div>
-                                        </div>                
-                                        <div>
-                                            <p className="font-semibold text-lg p-1 flex justify-between">Tổng giao dịch: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
-                                            <p className="font-semibold text-lg p-1 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span></p>
-                                            <p className="font-semibold text-lg p-1 flex justify-between">Win: <span>{_?.results[0]?.win ? Math.round(_?.results[0]?.win * 100) / 100 : 0}</span></p>
-                                            <p className="font-semibold text-lg p-1 flex justify-between">Loss: <span>{_?.results[0]?.loss ? Math.round(_?.results[0]?.loss * 100) / 100 : 0}</span></p>
-                                            <p className="font-semibold text-lg p-1 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span></p>
-                                        </div>
-                                        <div className="flex justify-center py-1">
-                                            {cookies?.user ? 
-                                                <a href={"/master/" + _?.user?.master_key}>
-                                                    <button className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
+                                            <div className="flex justify-center py-1">
+                                                {cookies?.user ? 
+                                                    <a href={"/master/" + _?.user?.master_key}>
+                                                        <button className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
+                                                            Chi tiết
+                                                        </button>
+                                                    </a>
+                                                    :
+                                                    <button 
+                                                        className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white" 
+                                                        onClick={()=>setIsModalOpen(true)}>
                                                         Chi tiết
                                                     </button>
-                                                </a>
-                                                :
-                                                <button 
-                                                    className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white" 
-                                                    onClick={()=>setIsModalOpen(true)}>
-                                                    Chi tiết
-                                                </button>
-                                            }
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                }
-                            </Col>
-                        ))}
-                    </Row>
+                                    }
+                                </div>
+                            ))}
+                        </Slide>
+                    )}
                 </div>
 
                 <p className="font-bold p-4 text-3xl border-b-2 border-blue-500">Tin Thị Trường</p>
@@ -412,6 +415,86 @@ export default function Home() {
 
                 <Reports />
                 
+                <div className="p-5 mb-10">
+                    <Row className="flex items-center">
+                        <Col xs={24} xl={13}>
+                            <p className="text-2xl font-semibold">
+                                Hỗ trợ cho các tổ chức trong nhiều ngành<br></br>
+                                và khu vực địa lý
+                            </p>
+                            <p className="text-lg pt-4">
+                                NET PARTNER giúp hợp nhất giao tiếp, kết nối con người và cộng tác tốt hơn trong<br></br>
+                                phòng họp, lớp học và mọi nơi khác.
+                            </p>
+                            <Link to={""}>
+                                <button className="text-xl border px-4 py-2 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-5">
+                                    Khám Phá Giải Pháp Của NET
+                                </button>
+                            </Link>
+                        </Col>
+                        <Col xs={24} xl={11}>
+                            <div className="flex">
+                                <div className="border border-blue-200 w-1/2 p-5 m-2 rounded-2xl">
+                                    <div className="flex justify-center pb-2">
+                                        <img src={banner} className="w-[80px] h-[60px]" />
+                                    </div>
+                                    <p className="text-xl text-center font-semibold">Giải Pháp Giao Dịch</p>
+                                </div>
+                                <div className="border border-blue-200 w-1/2 p-5 m-2 rounded-2xl">
+                                    <div className="flex justify-center pb-2">
+                                        <img src={banner} className="w-[80px] h-[60px]" />
+                                    </div>
+                                    <p className="text-xl text-center font-semibold">Giải Pháp Đầu Tư</p>
+                                </div>
+                            </div>
+                            <div className="flex">
+                                <div className="border border-blue-200 w-1/2 p-5 m-2 rounded-2xl">
+                                    <div className="flex justify-center pb-2">
+                                        <img src={banner} className="w-[80px] h-[60px]" />
+                                    </div>
+                                    <p className="text-xl text-center font-semibold">Giải Pháp Dữ Liệu</p>
+                                </div>
+                                <div className="border border-blue-200 w-1/2 p-5 m-2 rounded-2xl">
+                                    <div className="flex justify-center pb-2">
+                                        <img src={banner} className="w-[80px] h-[60px]" />
+                                    </div>
+                                    <p className="text-xl text-center font-semibold">Giải Pháp Đối Tác</p>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+
+            <Row>
+                <Col xs={24} xl={8} className="px-10 py-20 text-white bg-[#031340]">
+                    <p className="font-bold text-xl">Có Gì Mới Tại NET PARTNER</p>
+                    <p className="text-lg py-5">Cập nhật tin tức, tìm hiểu các phương pháp tốt nhất và hơn thế nữa.</p>
+                    <Link to={""}>
+                        <button className="text-xl border px-4 py-2 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-5">
+                            Đọc Blog Của Chúng Tôi
+                        </button>
+                    </Link>
+                </Col>
+                <Col xs={24} xl={16} className="px-10 py-10 text-white bg-blue-600">
+                    <Slide slidesToScroll={1} slidesToShow={2} cssClass="mx-[50px]">
+                        <div>
+                            <img src={banner} className="h-[400px] rounded-xl px-2" />
+                        </div>
+                        <div>
+                            <img src={banner} className="h-[400px] rounded-xl px-2" />
+                        </div>
+                        <div>
+                            <img src={banner} className="h-[400px] rounded-xl px-2" />
+                        </div>
+                        <div>
+                            <img src={banner} className="h-[400px] rounded-xl px-2" />
+                        </div>
+                    </Slide>
+                </Col>
+            </Row>
+
+            <div className="max-w-screen-2xl items-center mx-auto pt-10">
                 <Ecosystem setIsModalOpen={setIsModalOpen} />
             </div>
 
