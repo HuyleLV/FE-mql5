@@ -320,6 +320,11 @@ export default function Header() {
                         </a>
                       </li>
                       <li className="px-4">
+                        <a className="block md:p-0 md:hover:text-blue-400" href={"/quy"}>
+                          Quỹ
+                        </a>
+                      </li>
+                      <li className="px-4">
                         <a className="block md:p-0 md:hover:text-blue-400" href={"/wallet"}>
                           Ví
                         </a>

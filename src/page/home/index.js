@@ -3,6 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import banner from "../../component/image/banner_home.jpg"
 import image1_home from "../../component/image/img1_home.png"
+import icon1 from "../../component/image/icon/home/icon_1.svg"
+import icon2 from "../../component/image/icon/home/icon_2.svg"
+import icon3 from "../../component/image/icon/home/icon_3.svg"
+import icon4 from "../../component/image/icon/home/icon_4.svg"
 import video_home from "../../component/image/Video_home.mp4"
 import { useEffect, useRef, useState } from "react";
 import { CheckOutlined } from "@ant-design/icons";
@@ -436,13 +440,13 @@ export default function Home() {
                             <div className="flex">
                                 <div className="border border-blue-200 w-1/2 p-5 m-2 rounded-2xl">
                                     <div className="flex justify-center pb-2">
-                                        <img src={banner} className="w-[80px] h-[60px]" />
+                                        <img src={icon1} className="w-[80px] h-[60px]" />
                                     </div>
                                     <p className="text-xl text-center font-semibold">Giải Pháp Giao Dịch</p>
                                 </div>
                                 <div className="border border-blue-200 w-1/2 p-5 m-2 rounded-2xl">
                                     <div className="flex justify-center pb-2">
-                                        <img src={banner} className="w-[80px] h-[60px]" />
+                                        <img src={icon2} className="w-[80px] h-[60px]" />
                                     </div>
                                     <p className="text-xl text-center font-semibold">Giải Pháp Đầu Tư</p>
                                 </div>
@@ -450,13 +454,13 @@ export default function Home() {
                             <div className="flex">
                                 <div className="border border-blue-200 w-1/2 p-5 m-2 rounded-2xl">
                                     <div className="flex justify-center pb-2">
-                                        <img src={banner} className="w-[80px] h-[60px]" />
+                                        <img src={icon3} className="w-[80px] h-[60px]" />
                                     </div>
                                     <p className="text-xl text-center font-semibold">Giải Pháp Dữ Liệu</p>
                                 </div>
                                 <div className="border border-blue-200 w-1/2 p-5 m-2 rounded-2xl">
                                     <div className="flex justify-center pb-2">
-                                        <img src={banner} className="w-[80px] h-[60px]" />
+                                        <img src={icon4} className="w-[80px] h-[60px]" />
                                     </div>
                                     <p className="text-xl text-center font-semibold">Giải Pháp Đối Tác</p>
                                 </div>
@@ -467,11 +471,11 @@ export default function Home() {
             </div>
 
             <Row>
-                <Col xs={24} xl={8} className="px-10 py-20 text-white bg-[#031340]">
-                    <p className="font-bold text-xl">Có Gì Mới Tại NET PARTNER</p>
+                <Col xs={24} xl={8} className="px-10 py-20 text-white bg-[#031340] text-center">
+                    <p className="font-bold text-2xl">Có Gì Mới Tại NET PARTNER</p>
                     <p className="text-lg py-5">Cập nhật tin tức, tìm hiểu các phương pháp tốt nhất và hơn thế nữa.</p>
                     <Link to={""}>
-                        <button className="text-xl border px-4 py-2 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-5">
+                        <button className="text-xl border px-4 py-2 text-white rounded-[10px] border-blue-600 font-semibold hover:bg-blue-600 mt-5">
                             Đọc Blog Của Chúng Tôi
                         </button>
                     </Link>

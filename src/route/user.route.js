@@ -21,6 +21,7 @@ import ReportDetail from "../page/home/ReportDetail";
 import Product from "../page/product";
 import MasterDetail from "../page/master/detail";
 import ForgotPassword from "../page/forgotPassword";
+import Fund from "../page/fund";
 
 export default function User () {
     return (
@@ -28,6 +29,7 @@ export default function User () {
         <Route path="/" element={<Home />} />
         <Route path="/home-detail" element={<HomeDetail />} />
         <Route path="/san-pham" element={<Product />} />
+        <Route path="/quy" element={<Fund />} />
         <Route path="/signal" element={<SignalPage />} />
         <Route path="/master/:master_key" element={<MasterDetail />} />
         <Route path="/market" element={<Market />} />
