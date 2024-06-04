@@ -498,7 +498,7 @@ export default function Home() {
                 </Col>
             </Row>
 
-            <div className="max-w-screen-2xl items-center mx-auto pt-10">
+            <div className="max-w-screen-2xl items-center mx-auto py-10">
                 <Ecosystem setIsModalOpen={setIsModalOpen} />
             </div>
 

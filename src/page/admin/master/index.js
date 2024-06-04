@@ -1,5 +1,5 @@
-import { Table, message, Button, Row, Col, Pagination, Select, DatePicker } from "antd";
-import { EditOutlined, InfoOutlined } from "@ant-design/icons";
+import { Table, message, Button, Row, Col, Pagination, Select, DatePicker, Space, Modal } from "antd";
+import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, InfoOutlined } from "@ant-design/icons";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -7,68 +7,88 @@ import axios from "axios";
 import SearchProps from "../../../component/SearchProps";
 import dayjs from "dayjs";
 import { CSVLink, CSVDownload } from "react-csv";
+import axiosInstance from "../../../utils/axios";
 
 export default function MasterDashboard() {
-    const [master, setMaster] = useState([]);
-    const [pagination, setPagination] = useState({
-        page: 1,
-        pageSize: 10,
-    });
+  const [master, setMaster] = useState([]);
+  const [pagination, setPagination] = useState({
+      page: 1,
+      pageSize: 10,
+  });
 
-    const getAllMaster = async () => {
-        await axios
-        .get(`${process.env.REACT_APP_API_URL}/masterLicense/getAll`, {params: pagination})
-        .then((res) => {
-            const data = res?.data;
-            setMaster(data);
-        })
-        .catch(() => message.error("Error server!"));
-    };
+  const getAllMaster = async () => {
+      await axios
+      .get(`${process.env.REACT_APP_API_URL}/masterLicense/getAll`, {params: pagination})
+      .then((res) => {
+          const data = res?.data;
+          setMaster(data);
+      })
+      .catch(() => message.error("Error server!"));
+  };
 
-    const updatePaymentStatus = async (e, values) => {
-        await axios
-        .post(`${process.env.REACT_APP_API_URL}/masterLicense/updatePaymentStatus`, {
-            master_license_id: values?.master_license_id,
-            payment_status: e
-        })
-        .finally(() => {
-          getAllMaster();
+  const updatePaymentStatus = async (e, values) => {
+      await axios
+      .post(`${process.env.REACT_APP_API_URL}/masterLicense/updatePaymentStatus`, {
+          master_license_id: values?.master_license_id,
+          payment_status: e
+      })
+      .finally(() => {
+        getAllMaster();
+        message.success("Cập nhật trạng thái thành công !");
+      })
+      .catch(()=>{
+        message.error("Cập nhật thất bại!");
+      });
+  }
+
+  const updateActiveStatus = async (e, values) => {
+      await axios
+      .post(`${process.env.REACT_APP_API_URL}/masterLicense/checkExpriceDate`, {
+          master_license_id: values?.master_license_id,
+          active_status: e
+      })
+      .finally(() => {
+        getAllMaster();
           message.success("Cập nhật trạng thái thành công !");
-        })
-        .catch(()=>{
+      })
+      .catch(()=>{
           message.error("Cập nhật thất bại!");
-        });
-    }
+      });
+  }
 
-    const updateActiveStatus = async (e, values) => {
-        await axios
-        .post(`${process.env.REACT_APP_API_URL}/masterLicense/checkExpriceDate`, {
-            master_license_id: values?.master_license_id,
-            active_status: e
-        })
-        .finally(() => {
-          getAllMaster();
-            message.success("Cập nhật trạng thái thành công !");
-        })
-        .catch(()=>{
-            message.error("Cập nhật thất bại!");
-        });
-    }
+  const updateExpriceDate = async (e, values) => {
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/masterLicense/updateExpriceDate`, {
+          master_license_id: values?.master_license_id,
+          exprice_date: dayjsInstance(e.$d).format("YYYY-MM-DD")
+      })
+      .finally(() => {
+        getAllMaster();
+        message.success("Cập nhật thành công!");
+      })
+      .catch(()=>{
+        message.error("Cập nhật thất bại!");
+      });
+  }
 
-    const updateExpriceDate = async (e, values) => {
-        await axios
-        .post(`${process.env.REACT_APP_API_URL}/masterLicense/updateExpriceDate`, {
-            master_license_id: values?.master_license_id,
-            exprice_date: dayjsInstance(e.$d).format("YYYY-MM-DD")
-        })
-        .finally(() => {
-          getAllMaster();
-          message.success("Cập nhật thành công!");
-        })
-        .catch(()=>{
-          message.error("Cập nhật thất bại!");
-        });
-    }
+  const removeMaster = async (master_key) => {
+    await axiosInstance
+      .delete(`/masterLicense/delete/${master_key}`)
+      .finally(() => {
+        getAllMaster();
+        message.success("Xoá thành công");
+      });
+  };
+
+  const confirmDelete = (master_key) => {
+    Modal.confirm({
+      icon: <ExclamationCircleOutlined />,
+      content: "Bạn có chắc chắn xoá master này?",
+      okText: "Xác nhận",
+      cancelText: "Huỷ",
+      onOk: () => removeMaster(master_key),
+    });
+  };
 
   const columns = [
     {
@@ -246,15 +266,23 @@ export default function MasterDashboard() {
       title: "More",
       key: "operation",
       dataIndex: "operation",
-      width: 50,
+      width: 100,
       render: (_, record) => {
         return (
-          <Link
-            to={`/admin/master/${record?.master_key}`}
-            className="flex justify-center"
-          >
-            <InfoOutlined className="border rounded-full p-1 hover:bg-blue-100"/>
-          </Link>
+          <Space>
+            <div
+              className={"text-[var(--red)] border px-1 rounded-full hover:cursor-pointer hover:bg-red-100"}
+              onClick={() => confirmDelete(record?.master_key)}
+            >
+              <DeleteOutlined />
+            </div>
+            <Link
+              to={`/admin/master/${record?.master_key}`}
+              className="flex justify-center"
+            >
+              <InfoOutlined className="border rounded-full p-1 hover:bg-blue-100"/>
+            </Link>
+          </Space>
         );
       },
     },

@@ -331,30 +331,29 @@ export default function Product() {
                     </div>
                 )}
                 
-                {tab === 3 && (
-                    <div className="flex justify-center">
-                        <p className="text-5xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
-                    </div>
-                )}
-                
-                {tab === 4 && (
-                    <div className="flex justify-center">
-                        <p className="text-5xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
-                    </div>
-                )}
-                
-                {tab === 5 && (
-                    <div className="flex justify-center">
-                        <p className="text-5xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
-                    </div>
-                )}
-                
-                {tab === 6  && (
-                    <Partner />
-                )}
-
-                
             </div>
+
+            {tab === 3 && (
+                <div className="flex justify-center">
+                    <p className="text-5xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
+                </div>
+            )}
+            
+            {tab === 4 && (
+                <div className="flex justify-center">
+                    <p className="text-5xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
+                </div>
+            )}
+            
+            {tab === 5 && (
+                <div className="flex justify-center">
+                    <p className="text-5xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
+                </div>
+            )}
+                
+            {tab === 6  && (
+                <Partner />
+            )}
         </>
     )
 }
