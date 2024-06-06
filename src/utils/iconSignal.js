@@ -39,143 +39,143 @@ export const IconSignal = (symbol) => {
     switch (symbol) {
         case "AUDCAD":
             return (
-                <img alt="icon signal" src={AUDCAD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={AUDCAD} className="w-[100px] h-[40px]"/>
             );
         case "AUDCHF":
             return (
-                <img alt="icon signal" src={AUDCHF} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={AUDCHF} className="w-[100px] h-[40px]"/>
             );
         case "AUDJPY":
             return (
-                <img alt="icon signal" src={AUDJPY} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={AUDJPY} className="w-[100px] h-[40px]"/>
             );
         case "AUDNZD":
             return (
-                <img alt="icon signal" src={AUDNZD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={AUDNZD} className="w-[100px] h-[40px]"/>
             );
         case "AUDUSD":
             return (
-                <img alt="icon signal" src={AUDUSD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={AUDUSD} className="w-[100px] h-[40px]"/>
             );
         case "BTC":
             return (
-                <img alt="icon signal" src={BTC} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={BTC} className="w-[100px] h-[40px]"/>
             );
         case "CADCHF":
             return (
-                <img alt="icon signal" src={CADCHF} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={CADCHF} className="w-[100px] h-[40px]"/>
             );
         case "CADJPY":
             return (
-                <img alt="icon signal" src={CADJPY} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={CADJPY} className="w-[100px] h-[40px]"/>
             );
         case "CHFJPY":
             return (
-                <img alt="icon signal" src={CHFJPY} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={CHFJPY} className="w-[100px] h-[40px]"/>
             );
         case "DowJones":
             return (
-                <img alt="icon signal" src={DowJones} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={DowJones} className="w-[100px] h-[40px]"/>
             );
         case "DXY":
             return (
-                <img alt="icon signal" src={DXY} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={DXY} className="w-[100px] h-[40px]"/>
             );
         case "EURAUD":
             return (
-                <img alt="icon signal" src={EURAUD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={EURAUD} className="w-[100px] h-[40px]"/>
             );
         case "EURCAD":
             return (
-                <img alt="icon signal" src={EURCAD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={EURCAD} className="w-[100px] h-[40px]"/>
             );
         case "EURCHF":
             return (
-                <img alt="icon signal" src={EURCHF} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={EURCHF} className="w-[100px] h-[40px]"/>
             );
         case "EURGBP":
             return (
-                <img alt="icon signal" src={EURGBP} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={EURGBP} className="w-[100px] h-[40px]"/>
             );
         case "EURJPY":
             return (
-                <img alt="icon signal" src={EURJPY} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={EURJPY} className="w-[100px] h-[40px]"/>
             );
         case "EURNZD":
             return (
-                <img alt="icon signal" src={EURNZD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={EURNZD} className="w-[100px] h-[40px]"/>
             );
         case "EURUSD":
             return (
-                <img alt="icon signal" src={EURUSD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={EURUSD} className="w-[100px] h-[40px]"/>
             );
         case "GBPAUD":
             return (
-                <img alt="icon signal" src={GBPAUD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={GBPAUD} className="w-[100px] h-[40px]"/>
             );
         case "GBPCAD":
             return (
-                <img alt="icon signal" src={GBPCAD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={GBPCAD} className="w-[100px] h-[40px]"/>
             );
         case "GBPCHF":
             return (
-                <img alt="icon signal" src={GBPCHF} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={GBPCHF} className="w-[100px] h-[40px]"/>
             );
         case "GBPJPY":
             return (
-                <img alt="icon signal" src={GBPJPY} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={GBPJPY} className="w-[100px] h-[40px]"/>
             );
         case "GBPNZD":
             return (
-                <img alt="icon signal" src={GBPNZD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={GBPNZD} className="w-[100px] h-[40px]"/>
             );
         case "GBPUSD":
             return (
-                <img alt="icon signal" src={GBPUSD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={GBPUSD} className="w-[100px] h-[40px]"/>
             );
         case "NZDCAD":
             return (
-                <img alt="icon signal" src={NZDCAD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={NZDCAD} className="w-[100px] h-[40px]"/>
             );
         case "NZDCHF":
             return (
-                <img alt="icon signal" src={NZDCHF} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={NZDCHF} className="w-[100px] h-[40px]"/>
             );
         case "NZDJPY":
             return (
-                <img alt="icon signal" src={NZDJPY} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={NZDJPY} className="w-[100px] h-[40px]"/>
             );
         case "NZDUSD":
             return (
-                <img alt="icon signal" src={NZDUSD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={NZDUSD} className="w-[100px] h-[40px]"/>
             );
         case "Oil":
             return (
-                <img alt="icon signal" src={Oil} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={Oil} className="w-[100px] h-[40px]"/>
             );
         case "SP500":
             return (
-                <img alt="icon signal" src={SP500} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={SP500} className="w-[100px] h-[40px]"/>
             );
         case "USDCAD":
             return (
-                <img alt="icon signal" src={USDCAD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={USDCAD} className="w-[100px] h-[40px]"/>
             );
         case "USDCHF":
             return (
-                <img alt="icon signal" src={USDCHF} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={USDCHF} className="w-[100px] h-[40px]"/>
             );
         case "USDJPY":
             return (
-                <img alt="icon signal" src={USDJPY} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={USDJPY} className="w-[100px] h-[40px]"/>
             );
         case "XAGUSD":
             return (
-                <img alt="icon signal" src={XAGUSD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={XAGUSD} className="w-[100px] h-[40px]"/>
             );
         case "XAUUSD":
             return (
-                <img alt="icon signal" src={XAUUSD} className="w-[120px] h-[60px]"/>
+                <img alt="icon signal" src={XAUUSD} className="w-[100px] h-[40px]"/>
             );
       }
 }

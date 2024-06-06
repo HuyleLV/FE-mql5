@@ -18,6 +18,7 @@ import { parseSafe } from "../../helper";
 import { isImageOrVideo } from "../../utils/isImageOrVideo";
 import JobTrade from "../home/JobTrade";
 import Partner from "../../component/Partner";
+import TradingSymtem from "../../component/TradingSymtem";
 
 export default function Product() {  
     const { isMobile } = useDevice();
@@ -334,8 +335,8 @@ export default function Product() {
             </div>
 
             {tab === 3 && (
-                <div className="flex justify-center">
-                    <p className="text-5xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
+                <div>
+                    <TradingSymtem />
                 </div>
             )}
             

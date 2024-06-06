@@ -771,18 +771,18 @@ export default function SignalPage() {
                   <div className="flex justify-center opacity-20">
                     <img src={logo} className="h-[150px]" alt="Logo" />
                   </div>
-                  <div className="absolute top-10 left-10">
-                    <div className="flex justify-between items-center">
-                      <div className="text-xl font-bold">
+                  <div className="absolute top-10 left-10 w-full">
+                    <div className="flex items-center">
+                      <div className="text-xl font-bold w-1/2">
                         <p>Entry: {_?.price}</p>
                         <p className="py-2">Take Profit: {_?.take_profit}</p>
                         <p>Stop loss: {_?.stop_loss}</p>
                       </div>
-                      <div className="ml-20">
+                      <div>
                         <div className="flex justify-center">
                           {IconSignal(_?.symbol)}
                         </div>
-                        <p className="font-medium texl-lg pt-2">{dayjsInstance(_?.open_time).format("DD/MM/YYYY hh:mm:ss")}</p>
+                        <p className="text-base pt-2">{dayjsInstance(_?.open_time).format("DD/MM/YYYY hh:mm:ss")}</p>
                       </div>
                     </div>
                   </div>

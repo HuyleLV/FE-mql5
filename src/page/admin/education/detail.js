@@ -41,7 +41,6 @@ export default function EducationDetail() {
 
   useEffect(() => {
     if (id && id !== "create") {
-      console.log(123);
       fetchEducation();
     }
   }, [id]);
@@ -62,7 +61,7 @@ export default function EducationDetail() {
       }
       navigate("/admin/education");
     } catch (error) {
-      console.log(error);
+      message.error(error);
     }
   };
 

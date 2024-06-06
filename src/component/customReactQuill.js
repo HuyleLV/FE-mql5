@@ -85,7 +85,7 @@ class CustomReactQuill extends Component {
         <ReactQuill
           onChange={this.handleChange}
           theme="snow"
-          className="h-[500px] mb-10"
+          className="h-[800px] mb-10"
           modules={this.modules}
           formats={this.formats}
           value={this.state.value}

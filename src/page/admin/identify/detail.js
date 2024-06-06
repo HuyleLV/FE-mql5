@@ -62,7 +62,7 @@ export default function IdentifyDetail() {
       }
       navigate("/admin/identify");
     } catch (error) {
-      console.log(error);
+      message.error(error);
     }
   };
 
