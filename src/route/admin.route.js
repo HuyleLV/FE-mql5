@@ -38,6 +38,8 @@ import ProductPageDashboard from "../page/admin/products/productPage";
 import ReportCategoryDashboard from "../page/admin/report/category";
 import ReportCategoryDetail from "../page/admin/report/category/detail";
 import NotificationUpdate from "../page/admin/notification/update";
+import IndicatorNewsDashboard from "../page/admin/indicatorNews";
+import IndicatorNewsDetail from "../page/admin/indicatorNews/detail";
 
 export default function AdminRouter () {
     return (
@@ -81,6 +83,8 @@ export default function AdminRouter () {
         <Route path="/admin/report/:id" element={<ReportDetail />} />
         <Route path="/admin/report-category" element={<ReportCategoryDashboard />} />
         <Route path="/admin/report-category/:id" element={<ReportCategoryDetail />} />
+        <Route path="/admin/indicator-news" element={<IndicatorNewsDashboard />} />
+        <Route path="/admin/indicator-news/:id" element={<IndicatorNewsDetail />} />
       </Routes>
     );
   };

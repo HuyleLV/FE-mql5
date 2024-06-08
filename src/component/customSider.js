@@ -140,6 +140,11 @@ export default function CustomeSider() {
       label: <Link to={"/admin/follower-draft"}>Quản lý Follower Draft</Link>,
     },
     {
+      key: "indicator-news",
+      icon: <ContainerOutlined />,
+      label: <Link to={"/admin/indicator-news"}>Quản lý BV chỉ báo</Link>,
+    },
+    {
       key: "report",
       icon: <ContainerOutlined />,
       label: "Quản lý report",

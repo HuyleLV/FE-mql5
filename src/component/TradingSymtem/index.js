@@ -1,9 +1,13 @@
-import { Col, Row, Spin } from "antd";
+import { Col, Row, Spin, message } from "antd";
 import { IconSignal } from "../../utils/iconSignal";
 import dayjsInstance from "../../utils/dayjs";
 import logo from "../../component/image/logo.png"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Symbol } from "../../utils/symbol";
 
 export default function TradingSymtem() {
+
     return (
         <>
             <div className="max-w-screen-2xl mx-auto">
@@ -40,8 +44,7 @@ export default function TradingSymtem() {
                     </div>
                     <div className="flex items-center justify-center">
                         <div>
-                            <p className="text-center font-bold text-[#004AAD] text-xl">XAUUSD</p>
-                            <p className="text-center font-bold text-lg">2390.34</p>
+                            {Symbol("XAUUSD")}
                             <p className="text-center font-semibold text-green-600 text-sm">+13.88(+0.58%)</p>
                         </div>
                     </div>
@@ -66,16 +69,16 @@ export default function TradingSymtem() {
                             </div>
                         </div>
                         <div className="w-full p-2 relative">
-                            <div className="flex justify-center opacity-15">
+                            <div className="flex justify-center opacity-10">
                                 <img src={logo} className="h-[100px]" alt="Logo" />
                             </div>
                             <div className="absolute flex items-center top-2 left-2 w-full">
                                 <div className="w-1/2">
-                                    <p className="text-sm font-semibold">Entry: 864687</p>
-                                    <p className="text-sm font-semibold">Tp1: 864687</p>
-                                    <p className="text-sm font-semibold">Tp2: 864687</p>
-                                    <p className="text-sm font-semibold">Tp3: 864687</p>
-                                    <p className="text-sm font-semibold">SL: 864687</p>
+                                    <p className="text-sm font-bold">Entry: <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-bold">Tp1: <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-bold">Tp2: <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-bold">Tp3: <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-bold">SL: <span className="font-normal">864687</span></p>
                                 </div>
                                 <div className="px-2 py-1 bg-cyan-100">
                                     <p>P&L (Pips)</p>
@@ -84,44 +87,9 @@ export default function TradingSymtem() {
                             </div>
                         </div>
                     </div>
-                    <div className="grid col-span-2 mx-2 border border-t-4 border-t-red-600 border-slate-500 hover:bg-white">
+                    <div className="grid col-span-2 mx-2 border border-t-4 border-t-red-600 border-slate-500 hover:bg-white flex items-center">
                         <Spin tip="Đang cập nhật" size="large">
-                            <div className="border-b border-b-slate-500 border-x-slate-500 p-2">
-                                <div className="flex justify-between items-center">
-                                    <div className="flex items-center">
-                                        <p className="bg-red-500 font-semibold text-white text-xs w-min py-1 px-1 rounded-lg">
-                                            SELL
-                                        </p>
-                                        <p className="pl-2 font-semibold text-black text-xs">XAUUSD</p>
-                                    </div>
-                                    <div>
-                                        <div className="flex justify-center">
-                                            {IconSignal("XAUUSD")}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="text-xs">ID: 54748</p>
-                                    <p className="font-medium text-xs text-gray-700">{dayjsInstance(Date()).format("DD/MM/YYYY hh:mm:ss")}</p>
-                                </div>
-                            </div>
-                            <div className="w-full p-2 relative">
-                                <div className="flex justify-center opacity-15">
-                                    <img src={logo} className="h-[100px]" alt="Logo" />
-                                </div>
-                                <div className="absolute flex items-center top-3 left-2 w-full">
-                                    <div className="w-1/2">
-                                        <p className="text-sm font-semibold">Entry: 864687</p>
-                                        <p className="text-sm font-semibold">Tp1: 864687</p>
-                                        <p className="text-sm font-semibold">Tp2: 864687</p>
-                                        <p className="text-sm font-semibold">Tp3: 864687</p>
-                                        <p className="text-sm font-semibold">SL: 864687</p>
-                                    </div>
-                                    <div className="px-2 py-1 bg-cyan-100">
-                                        <p>P&L (Pips)</p>
-                                        <p className="text-xl font-bold text-emerald-500">+45.5</p>
-                                    </div>
-                                </div>
+                            <div className="h-full">
                             </div>
                         </Spin>
                     </div>
@@ -146,16 +114,16 @@ export default function TradingSymtem() {
                             </div>
                         </div>
                         <div className="w-full p-2 relative">
-                            <div className="flex justify-center opacity-15">
+                            <div className="flex justify-center opacity-10">
                                 <img src={logo} className="h-[100px]" alt="Logo" />
                             </div>
                             <div className="absolute flex items-center top-2 left-2 w-full">
                                 <div className="w-1/2">
-                                    <p className="text-sm font-semibold">Entry: 864687</p>
-                                    <p className="text-sm font-semibold">Tp1: 864687</p>
-                                    <p className="text-sm font-semibold">Tp2: 864687</p>
-                                    <p className="text-sm font-semibold">Tp3: 864687</p>
-                                    <p className="text-sm font-semibold">SL: 864687</p>
+                                    <p className="text-sm font-semibold">Entry:  <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-semibold">Tp1:  <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-semibold">Tp2:  <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-semibold">Tp3:  <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-semibold">SL:  <span className="font-normal">864687</span></p>
                                 </div>
                                 <div className="px-2 py-1 bg-cyan-100">
                                     <p>P&L (Pips)</p>
@@ -185,16 +153,16 @@ export default function TradingSymtem() {
                             </div>
                         </div>
                         <div className="w-full p-2 relative">
-                            <div className="flex justify-center opacity-15">
+                            <div className="flex justify-center opacity-10">
                                 <img src={logo} className="h-[100px]" alt="Logo" />
                             </div>
                             <div className="absolute flex items-center top-2 left-2 w-full">
                                 <div className="w-1/2">
-                                    <p className="text-sm font-semibold">Entry: 864687</p>
-                                    <p className="text-sm font-semibold">Tp1: 864687</p>
-                                    <p className="text-sm font-semibold">Tp2: 864687</p>
-                                    <p className="text-sm font-semibold">Tp3: 864687</p>
-                                    <p className="text-sm font-semibold">SL: 864687</p>
+                                    <p className="text-sm font-semibold">Entry:  <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-semibold">Tp1:  <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-semibold">Tp2:  <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-semibold">Tp3:  <span className="font-normal">864687</span></p>
+                                    <p className="text-sm font-semibold">SL:  <span className="font-normal">864687</span></p>
                                 </div>
                                 <div className="px-2 py-1 bg-cyan-100">
                                     <p>P&L (Pips)</p>
@@ -224,7 +192,7 @@ export default function TradingSymtem() {
                             </div>
                         </div>
                         <div className="w-full p-2 relative">
-                            <div className="flex justify-center opacity-15">
+                            <div className="flex justify-center opacity-10">
                                 <img src={logo} className="h-[100px]" alt="Logo" />
                             </div>
                             <div className="absolute flex items-center top-2 left-2 w-full">
@@ -244,15 +212,15 @@ export default function TradingSymtem() {
                     </div>
                     <div className="flex items-center justify-center">
                         <div>
-                            <div className="bg-cyan-100 py-1 px-2 text-center m-2">
+                            <div className=" py-1 px-2 text-center m-2">
                                 <p className="text-sm font-semibold">Lời lỗ:</p>
                                 <p className="font-semibold text-lg text-emerald-500">+12248.8</p>
                             </div>
-                            <div className="bg-cyan-100 py-1 px-2 text-center m-2">
+                            <div className=" py-1 px-2 text-center m-2">
                                 <p className="text-sm font-semibold">Tuần trước:</p>
                                 <p className="font-semibold text-lg text-emerald-500">+12248.8</p>
                             </div>
-                            <div className="bg-cyan-100 py-1 px-2 text-center m-2">
+                            <div className=" py-1 px-2 text-center m-2">
                                 <p className="text-sm font-semibold">Tháng trước:</p>
                                 <p className="font-semibold text-lg text-emerald-500">+12248.8</p>
                             </div>

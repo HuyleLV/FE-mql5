@@ -164,9 +164,16 @@ export default function Identify() {
     return (
         <>
             <div className="flex justify-center py-10">
-                <p className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] font-bold text-3xl py-5 text-center">
-                    Biểu Đồ Thị Trường
-                </p>
+                <div>
+                    <p className="bg-gradient-to-r from-sky-500 to-blue-700 w-[400px] font-bold text-3xl py-5 text-center">
+                        Biểu Đồ Thị Trường
+                    </p>
+                    <div className="flex justify-center items-center pt-5">
+                        <a href="/lich-kinh-te">
+                            <Button type="primary" title="sdwa"><p className="font-bold">Lịch kinh tế</p></Button>
+                        </a>
+                    </div>
+                </div>
             </div>
             <Row>
                 <Col xs={24} xl={5}>
