@@ -9,12 +9,14 @@ import {
     Select,
     Modal,
     Rate,
+    DatePicker,
   } from "antd";
   import { useEffect, useState } from "react";
   import { Link, useNavigate } from "react-router-dom";
   import axios from "axios";
   import { ExclamationCircleOutlined } from "@ant-design/icons";
 import CustomUpload from "../customUpload";
+import dayjsInstance from "../../utils/dayjs";
   
   export default function IndicatorNewsForm({
     id = "",
@@ -81,6 +83,21 @@ import CustomUpload from "../customUpload";
                 rules={[{ required: true, message: "Vui lòng nhập tên chỉ báo!" }]}
             >
                 <Input size="large" placeholder={"Nhập"} />
+            </Form.Item>
+
+            <Form.Item
+                label={"Ngày tạo"}
+                name="create_at"
+                rules={[{ required: true, message: "Vui lòng nhập tên ngày tạo!" }]}
+                getValueProps={(e) => ({
+                  value: e ? dayjsInstance(e) : "",
+                })}
+            >
+              
+              <DatePicker 
+                showTime
+                format="YYYY-MM-DD HH:mm:ss"
+              />
             </Form.Item>
 
             <Form.Item

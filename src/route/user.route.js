@@ -23,6 +23,7 @@ import MasterDetail from "../page/master/detail";
 import ForgotPassword from "../page/forgotPassword";
 import Fund from "../page/fund";
 import EcoCalendar from "../page/identify/ecoCalendar";
+import EcoNewsDetail from "../page/identify/ecoNewsDetail";
 
 export default function User () {
     return (
@@ -36,6 +37,7 @@ export default function User () {
         <Route path="/market" element={<Market />} />
         <Route path="/nhan-dinh" element={<Identify />} />
         <Route path="/lich-kinh-te" element={<EcoCalendar />} />
+        <Route path="/lich-kinh-te/:economic_news_slug" element={<EcoNewsDetail />} />
         <Route path="/tin-tuc" element={<News />} />
         <Route path="/tin-tuc/:identify_slug" element={<NewsDetail />} />
         <Route path="/education" element={<Education />} />

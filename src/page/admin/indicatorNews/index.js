@@ -110,7 +110,7 @@ export default function IndicatorNewsDashboard() {
             return (
               <div className={"cursor-pointer text-[14px] font-normal"}>
                 <span className={"!inline-block min-w-[100px]"}>
-                  {dayjsInstance(record?.create_at).format("DD/MM/YYYY")}
+                  {dayjsInstance(record?.create_at).format("DD/MM/YYYY HH:mm:ss")}
                 </span>
               </div>
             );

@@ -46,7 +46,6 @@ export default function IndicatorNewsDetail() {
   }, [id]);
 
   const onSubmit = async (values) => {
-    console.log(values)
     const submitValues = {
       ...values,
       create_by: cookies.admin?.user_id

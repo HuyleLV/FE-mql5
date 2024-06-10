@@ -112,7 +112,7 @@ export default function EcoCalendar() {
         getAllHot();
         getAllEconomicNews();
         getAllIndicatorNews();
-    }, []);
+    }, [pagination]);
 
     return (
         <div className="max-w-screen-2xl mx-auto py-10">
@@ -155,21 +155,23 @@ export default function EcoCalendar() {
                     <div className="border-2 border-black rounded-2xl">
 
                         {economicNews.map((_, i) => (
-                            <div className="grid grid-cols-3 gap-4 p-5">
-                                <div>
-                                    <img src={_?.economic_news_image} className="h-[200px] w-full"/>
-                                </div>
-                                <div className="col-span-2">
-                                    <p className="font-bold text-xl">{_?.economic_news_title}</p>
-                                    <p className="text-lg py-5">
-                                        {parse(String(_?.economic_news_description).replaceAll("ul>","p>"))}
-                                    </p>
-                                    <div className="flex justify-between pt-10">
-                                        <p className="font-normal text-gray-600">{_?.displayName}, {dayjsInstance(_?.create_at).format("DD/MM/YYYY HH:mm:ss")}</p>
-                                        <ShareAltOutlined className="text-xl pr-10"/>
+                            <a href={"/lich-kinh-te/" + _?.economic_news_slug} style={{color: "black"}}>
+                                <div className="grid grid-cols-3 gap-4 p-5">
+                                    <div>
+                                        <img src={_?.economic_news_image} className="h-[200px] w-full"/>
+                                    </div>
+                                    <div className="col-span-2">
+                                        <p className="font-bold text-xl">{_?.economic_news_title}</p>
+                                        <p className="text-lg pt-5 line-clamp-3">
+                                            {parse(String(_?.economic_news_description).replaceAll("ul>","p>"))}
+                                        </p>
+                                        <div className="flex justify-between pt-10">
+                                            <p className="font-normal text-gray-600">{_?.displayName}, {dayjsInstance(_?.create_at).format("DD/MM/YYYY HH:mm:ss")}</p>
+                                            <ShareAltOutlined className="text-xl pr-10"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         ))}
 
                     </div>
@@ -193,12 +195,14 @@ export default function EcoCalendar() {
                     <div className="border-2 border-black rounded-2xl p-5">
 
                         {economicNewsHot.map((_, i)=> (
-                            <div className="flex py-2">
-                                <p className="px-5 font-bold text-lg">{i + 1}</p>
-                                <p className="px-5 font-semibold text-lg">
-                                    {_?.economic_news_title}
-                                </p>
-                            </div>
+                            <a href={"/lich-kinh-te/" + _?.economic_news_slug} style={{color: "black"}}>
+                                <div className="flex py-2">
+                                    <p className="px-5 font-bold text-lg">{i + 1}</p>
+                                    <p className="px-5 font-semibold text-lg">
+                                        {_?.economic_news_title}
+                                    </p>
+                                </div>
+                            </a>
                         ))}
 
                     </div>

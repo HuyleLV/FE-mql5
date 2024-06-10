@@ -312,8 +312,13 @@ export default function Home() {
                             <div className="flex items-center">
                                 <img src={banner} className="w-[300px] h-[300px] rounded-full" />
                                 <div className="px-5 w-full">
-                                    <h3 className="text-white text-3xl font-bold bg-[#004AAD] p-5">Anh Minh</h3>
-                                    <p className="text-white text-xl font-semibold= p-5">Feeb back Feeb backFeeb back </p>
+                                    <h3 className="text-white text-3xl font-bold bg-[#004AAD] p-5">Nguyễn Thanh Tùng</h3>
+                                    <p className="text-white text-lg font-semibold p-5">
+                                        "Sản phẩm này thực sự đã thay đổi cuộc sống của tôi. 
+                                        Trước đây, tôi luôn lo lắng về việc đầu tư và quản lý tài chính cá nhân, 
+                                        nhưng giờ đây, mọi thứ đã trở nên đơn giản hơn rất nhiều. Tôi cảm thấy an 
+                                        tâm hơn khi đầu tư và có thể tập trung vào các khía cạnh khác của cuộc sống."
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -321,8 +326,54 @@ export default function Home() {
                             <div className="flex items-center px-10">
                                 <img src={banner} className="w-[300px] h-[300px] rounded-full" />
                                 <div className="px-5 w-full">
-                                    <h3 className="text-white text-3xl font-bold bg-[#004AAD] p-5">Anh Minh</h3>
-                                    <p className="text-white text-xl font-semibold p-5">Feeb back Feeb back Feeb back </p>
+                                    <h3 className="text-white text-3xl font-bold bg-[#004AAD] p-5">Lê Minh Thư</h3>
+                                    <p className="text-white text-lg font-semibold p-5">
+                                        "Là một công chức nhà nước, thời gian của tôi rất hạn chế. 
+                                        Nhờ sản phẩm này, tôi có thể dễ dàng đầu tư và theo dõi danh mục đầu 
+                                        tư của mình mà không cần phải dành quá nhiều thời gian. Điều này cho 
+                                        phép tôi tập trung vào công việc hiện tại mà vẫn kiếm thêm được những nguồn thu nhập ngoài"
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flex items-center px-10">
+                                <img src={banner} className="w-[300px] h-[300px] rounded-full" />
+                                <div className="px-5 w-full">
+                                    <h3 className="text-white text-3xl font-bold bg-[#004AAD] p-5">Trần Văn Hải</h3>
+                                    <p className="text-white text-lg font-semibold p-5">
+                                        "Làm việc trong ngành y tế đòi hỏi tôi phải có một cuộc sống bận rộn và căng thẳng. 
+                                        Sản phẩm tài chính này đã giúp tôi quản lý và đầu tư tài chính một cách an toàn và 
+                                        tiện lợi, giảm bớt áp lực về tài chính, không những thế nền tảng Net Partner giúp tôi 
+                                        học hỏi được rất nhiều thứ trong đầu tư"
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flex items-center px-10">
+                                <img src={banner} className="w-[300px] h-[300px] rounded-full" />
+                                <div className="px-5 w-full">
+                                    <h3 className="text-white text-3xl font-bold bg-[#004AAD] p-5">Phạm Thị Mai</h3>
+                                    <p className="text-white text-lg font-semibold p-5">
+                                        "Tôi rất quan tâm đến môi trường và luôn tìm kiếm các giải pháp đầu tư bền vững. 
+                                        Sản phẩm này không chỉ giúp tôi đầu tư an toàn và tiện lợi mà còn cung cấp các tùy chọn đầu 
+                                        tư phù hợp. Tôi ấn tượng với giải pháp mà Net Partner cung cấp. Nó giúp tôi tự động hóa việc 
+                                        đầu tư và theo dõi ngân sách cá nhân."
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flex items-center px-10">
+                                <img src={banner} className="w-[300px] h-[300px] rounded-full" />
+                                <div className="px-5 w-full">
+                                    <h3 className="text-white text-3xl font-bold bg-[#004AAD] p-5">Vũ Hoàng Anh</h3>
+                                    <p className="text-white text-lg font-semibold p-5">
+                                        "Tôi là một người bận rộn và không có nhiều kiến thức về đầu tư. Sản phẩm này thực sự 
+                                        là một cứu cánh, giúp tôi đầu tư một cách an toàn mà không cần phải lo lắng nhiều. Nó 
+                                        đã giúp tôi tiết kiệm thời gian và tăng cường sự tự tin trong quản lý tài chính cá nhân."
+                                    </p>
                                 </div>
                             </div>
                         </div>
