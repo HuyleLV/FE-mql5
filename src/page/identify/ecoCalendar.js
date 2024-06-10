@@ -1,90 +1,118 @@
-import { Button, Col, DatePicker, Rate, Row, Space, Table } from "antd";
+import { Button, Col, DatePicker, Pagination, Rate, Row, Space, Table } from "antd";
 import image_mk4 from "../../component/image/mk4.jpg";
 import dayjs from "dayjs";
 import {
     ShareAltOutlined
 } from '@ant-design/icons';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import parse from "html-react-parser";
+import dayjsInstance from "../../utils/dayjs";
 
 export default function EcoCalendar() {  
+    const [economicNewsHot, setEconomicNewsHot] = useState([]);
+    const [economicNews, setEconomicNews] = useState([]);
+    const [indicatorNews, setIndicatorNews] = useState([]);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        pageSize: 9,
+    });
 
-    const onChange = () => {
-
+    const getAllEconomicNews = async () => {
+        await axios
+            .get(`${process.env.REACT_APP_API_URL}/economicNews/getAll`, {params: pagination})
+            .then(({ data }) => {
+                setEconomicNews(data?.data);
+            });
     }
 
-    const data = [
-        {
-          key: '1',
-          time: '03:30',
-          IMP: 3,
-          indicator: 'New York No. 1 Lake Park',
-          real: "213 Tr",
-          forecast: "2134 Tr",
-          before: "123 Tr"
-        },
-        {
-          key: '2',
-          time: '04:30',
-          IMP: 5,
-          indicator: 'Mỹ tồn trữ dầu thô hàng tuần',
-          real: "213 Tr",
-          forecast: "2134 Tr",
-          before: "123 Tr"
-        },
-        {
-          key: '3',
-          time: '05:30',
-          IMP: 2,
-          indicator: 'New York No. 1 Lake Park',
-          real: "213 Tr",
-          forecast: "2134 Tr",
-          before: "123 Tr"
-        },
-    ];
+    const getAllIndicatorNews = async () => {
+        await axios
+            .get(`${process.env.REACT_APP_API_URL}/indicatorNews/getByTime`, {
+                params: {
+                    create_at: dayjs(new Date()),
+                    create_atD: dayjs(new Date()).add(1, 'day').format("YYYY-MM-DD 00:00:00")
+                }
+            })
+            .then(({ data }) => {
+                setIndicatorNews(data);
+            });
+    }
+
+    const getAllHot = async () => {
+        await axios
+            .get(`${process.env.REACT_APP_API_URL}/economicNews/getAllHot`)
+            .then(({ data }) => {
+                setEconomicNewsHot(data);
+            });
+    }
+
+    const onChange = async (date) => {
+        const create_at = dayjs(date).format("YYYY-MM-DD");
+        const create_atD = dayjs(date).add(1, 'day').format("YYYY-MM-DD 00:00:00");
+        await axios
+            .get(
+                `${process.env.REACT_APP_API_URL}/indicatorNews/getByTime`, {
+                    params: {
+                        create_at: create_at,
+                        create_atD: create_atD
+                    }
+                }
+            )
+            .then(({ data }) => {
+                setIndicatorNews(data);
+            });
+    }
 
     const columns = [
         {
           title: 'Thời gian',
-          dataIndex: 'time',
-          width: 100,
-          key: 'time',
-          render: (time) => <div>{time}</div>,
+          dataIndex: 'create_at',
+          width: 200,
+          key: 'create_at',
+          render: (create_at) => <div>{dayjsInstance(create_at).format("DD/MM/YYYY HH:mm:ss")}</div>,
         },
         {
           title: 'IMP',
-          dataIndex: 'IMP',
+          dataIndex: 'indicator_news_imp',
           width: 200,
-          key: 'IMP',
-          render: (IMP) => <div><Rate disabled defaultValue={IMP}/></div>,
+          key: 'indicator_news_imp',
+          render: (indicator_news_imp) => <div><Rate disabled defaultValue={indicator_news_imp}/></div>,
         },
         {
           title: 'Tên chỉ báo',
-          dataIndex: 'indicator',
-          key: 'indicator',
-          render: (indicator) => <div className="font-semibold">{indicator}</div>,
+          dataIndex: 'indicator_news_title',
+          key: 'indicator_news_title',
+          render: (indicator_news_title) => <div className="font-semibold">{indicator_news_title}</div>,
         },
         {
           title: <div className="text-center">Thực tế</div>,
-          dataIndex: 'real',
+          dataIndex: 'indicator_news_real',
           width: 120,
-          key: 'real',
-          render: (real) => <div className="font-semibold text-center">{real}</div>,
+          key: 'indicator_news_real',
+          render: (indicator_news_real) => <div className="font-semibold text-center">{indicator_news_real} Tr</div>,
         },
         {
           title: <div className="text-center">Dự báo</div>,
-          dataIndex: 'forecast',
+          dataIndex: 'indicator_news_forecast',
           width: 120,
-          key: 'forecast',
-          render: (forecast) => <div className="text-center">{forecast}</div>,
+          key: 'indicator_news_forecast',
+          render: (indicator_news_forecast) => <div className="text-center">{indicator_news_forecast} Tr</div>,
         },
         {
           title: <div className="text-center">Trước đó</div>,
-          dataIndex: 'before',
+          dataIndex: 'indicator_news_before',
           width: 120,
-          key: 'before',
-          render: (before) => <div className="text-center">{before}</div>,
+          key: 'indicator_news_before',
+          render: (indicator_news_before) => <div className="text-center">{indicator_news_before} Tr</div>,
         }
     ];
 
+    useEffect(() => { 
+        getAllHot();
+        getAllEconomicNews();
+        getAllIndicatorNews();
+    }, []);
 
     return (
         <div className="max-w-screen-2xl mx-auto py-10">
@@ -118,84 +146,61 @@ export default function EcoCalendar() {
                         format={'DD/MM/YYYY'} 
                     />
                 </div>
-                <Table columns={columns} dataSource={data} pagination={false}/>
+                <Table columns={columns} dataSource={indicatorNews} pagination={false}/>
             </div>
 
             <Row>
                 <Col xs={24} xl={16} className="pr-10">
                     <p className="font-bold text-2xl pb-5">Bản Tin Tài Chính</p>
                     <div className="border-2 border-black rounded-2xl">
-                        <div className="grid grid-cols-3 gap-4 p-5">
-                            <div>
-                                <img src={image_mk4} className="h-[200px] w-full"/>
-                            </div>
-                            <div className="col-span-2">
-                                <p className="font-bold text-xl">Bản tin tài chính ngày 23/4</p>
-                                <p className="text-lg py-5">
-                                    Đồng USD không biến động đáng kể, 
-                                    vẫn giữ nguyên mốc 106,12. Nó đã 
-                                    trượt khỏi mức cao nhất trong 5...
-                                </p>
-                                <div className="flex justify-between pt-10">
-                                    <p className="font-normal text-gray-600">Luxer, 10:02-23/04</p>
-                                    <ShareAltOutlined className="text-xl pr-10"/>
+
+                        {economicNews.map((_, i) => (
+                            <div className="grid grid-cols-3 gap-4 p-5">
+                                <div>
+                                    <img src={_?.economic_news_image} className="h-[200px] w-full"/>
+                                </div>
+                                <div className="col-span-2">
+                                    <p className="font-bold text-xl">{_?.economic_news_title}</p>
+                                    <p className="text-lg py-5">
+                                        {parse(String(_?.economic_news_description).replaceAll("ul>","p>"))}
+                                    </p>
+                                    <div className="flex justify-between pt-10">
+                                        <p className="font-normal text-gray-600">{_?.displayName}, {dayjsInstance(_?.create_at).format("DD/MM/YYYY HH:mm:ss")}</p>
+                                        <ShareAltOutlined className="text-xl pr-10"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="grid grid-cols-3 gap-4 p-5">
-                            <div>
-                                <img src={image_mk4} className="h-[200px] w-full"/>
-                            </div>
-                            <div className="col-span-2">
-                                <p className="font-bold text-xl">Bản tin tài chính ngày 23/4</p>
-                                <p className="text-lg py-5">
-                                    Đồng USD không biến động đáng kể, 
-                                    vẫn giữ nguyên mốc 106,12. Nó đã 
-                                    trượt khỏi mức cao nhất trong 5...
-                                </p>
-                                <div className="flex justify-between pt-10">
-                                    <p className="font-normal text-gray-600">Luxer, 10:02-23/04</p>
-                                    <ShareAltOutlined className="text-xl pr-10"/>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
+
+                    </div>
+                    <div className="py-10">
+                        <Pagination
+                            className="flex justify-center"
+                            current={pagination.page}
+                            total={economicNews?.total}
+                            pageSize={pagination.pageSize}
+                            onChange={(p, ps)=> {
+                                setPagination({
+                                    page: p,
+                                    pageSize: ps
+                                })
+                            }}
+                        />
                     </div>
                 </Col>
                 <Col xs={24} xl={8}>
                     <p className="font-bold text-2xl pb-5">Bài Viết Hot Nhất</p>
                     <div className="border-2 border-black rounded-2xl p-5">
-                        <div className="flex py-2">
-                            <p className="px-5 font-bold text-lg">1</p>
-                            <p className="px-5 font-semibold text-lg">
-                                Đồng USD không biến động đáng kể, 
-                                vẫn giữ nguyên mốc 106,12. Nó đã 
-                                trượt khỏi mức cao nhất trong 5...
-                            </p>
-                        </div>
-                        <div className="flex py-2">
-                            <p className="px-5 font-bold text-lg">2</p>
-                            <p className="px-5 font-semibold text-lg">
-                                Đồng USD không biến động đáng kể, 
-                                vẫn giữ nguyên mốc 106,12. Nó đã 
-                                trượt khỏi mức cao nhất trong 5...
-                            </p>
-                        </div>
-                        <div className="flex py-2">
-                            <p className="px-5 font-bold text-lg">3</p>
-                            <p className="px-5 font-semibold text-lg">
-                                Đồng USD không biến động đáng kể, 
-                                vẫn giữ nguyên mốc 106,12. Nó đã 
-                                trượt khỏi mức cao nhất trong 5...
-                            </p>
-                        </div>
-                        <div className="flex py-2">
-                            <p className="px-5 font-bold text-lg">4</p>
-                            <p className="px-5 font-semibold text-lg">
-                                Đồng USD không biến động đáng kể, 
-                                vẫn giữ nguyên mốc 106,12. Nó đã 
-                                trượt khỏi mức cao nhất trong 5...
-                            </p>
-                        </div>
+
+                        {economicNewsHot.map((_, i)=> (
+                            <div className="flex py-2">
+                                <p className="px-5 font-bold text-lg">{i + 1}</p>
+                                <p className="px-5 font-semibold text-lg">
+                                    {_?.economic_news_title}
+                                </p>
+                            </div>
+                        ))}
+
                     </div>
                 </Col>
             </Row>

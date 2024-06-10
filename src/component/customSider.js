@@ -140,10 +140,23 @@ export default function CustomeSider() {
       label: <Link to={"/admin/follower-draft"}>Quản lý Follower Draft</Link>,
     },
     {
-      key: "indicator-news",
+      key: "Economic",
       icon: <ContainerOutlined />,
-      label: <Link to={"/admin/indicator-news"}>Quản lý BV chỉ báo</Link>,
+      label: "Trang Lịch Kinh Tế",
+      children: [
+        {
+          key: "indicator-news",
+          icon: <ContainerOutlined />,
+          label: <Link to={"/admin/indicator-news"}>Bài Viết Chỉ Báo</Link>,
+        },
+        {
+          key: "economic_news",
+          icon: <ContainerOutlined />,
+          label: <Link to={"/admin/economic-news"}>Bản Tin Tài Chính</Link>,
+        }
+      ],
     },
+
     {
       key: "report",
       icon: <ContainerOutlined />,
