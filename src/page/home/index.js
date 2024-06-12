@@ -234,7 +234,7 @@ export default function Home() {
                 <div className="absolute top-0 px-[5%] text-white">
                     <div className="w-full flex justify-center overflow-hidden">
                         <animated.div key={key} style={scrolling} className={"font-none w-full"}>
-                            Chào mừng bạn đến với phiên bản beta Net Partner - Hãy trải nghiệm những nội dung mới lạ những giải pháp cách mạng về tài chính. Tất cả hòm thư góp ý vui lòng gửi về support@netpartner.com.vn, Net Partner xin chân thành cám ơn!!
+                            Chào mừng bạn đến với phiên bản beta Tipper Trade - Hãy trải nghiệm những nội dung mới lạ những giải pháp cách mạng về tài chính. Tất cả hòm thư góp ý vui lòng gửi về support@netpartner.com.vn, Tipper Trade xin chân thành cám ơn!!
                         </animated.div>
                     </div>
                     <p className="font-bold text-2xl top-0 pt-20 border-b w-[350px] py-2">Giải Pháp Đầu Tư An Toàn</p>
@@ -244,7 +244,7 @@ export default function Home() {
                         <p className="text-yellow-500 py-3">Nền Tảng</p>
                         <p className="text-green-500">Của Chúng Tôi</p>
                     </p>
-                    <p className="font-semibold text-xl pt-10">Công cụ tối ưu được cung cấp bởi Netpartner</p>
+                    <p className="font-semibold text-xl pt-10">Công cụ tối ưu được cung cấp bởi Tipper Trade</p>
                     <Link to={"/home-detail"}>
                         <button className="text-xl border px-4 py-2 rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-20">
                             Trải nghiệm ngay
@@ -344,7 +344,7 @@ export default function Home() {
                                     <p className="text-white text-lg font-semibold p-5">
                                         "Làm việc trong ngành y tế đòi hỏi tôi phải có một cuộc sống bận rộn và căng thẳng. 
                                         Sản phẩm tài chính này đã giúp tôi quản lý và đầu tư tài chính một cách an toàn và 
-                                        tiện lợi, giảm bớt áp lực về tài chính, không những thế nền tảng Net Partner giúp tôi 
+                                        tiện lợi, giảm bớt áp lực về tài chính, không những thế nền tảng Tipper Trade giúp tôi 
                                         học hỏi được rất nhiều thứ trong đầu tư"
                                     </p>
                                 </div>
@@ -358,7 +358,7 @@ export default function Home() {
                                     <p className="text-white text-lg font-semibold p-5">
                                         "Tôi rất quan tâm đến môi trường và luôn tìm kiếm các giải pháp đầu tư bền vững. 
                                         Sản phẩm này không chỉ giúp tôi đầu tư an toàn và tiện lợi mà còn cung cấp các tùy chọn đầu 
-                                        tư phù hợp. Tôi ấn tượng với giải pháp mà Net Partner cung cấp. Nó giúp tôi tự động hóa việc 
+                                        tư phù hợp. Tôi ấn tượng với giải pháp mà Tipper Trade cung cấp. Nó giúp tôi tự động hóa việc 
                                         đầu tư và theo dõi ngân sách cá nhân."
                                     </p>
                                 </div>
@@ -398,7 +398,7 @@ export default function Home() {
 
                 <div className="py-10">
                     <h1 className="font-bold px-4 text-3xl border-blue-500">Các Giao Dịch Thành Công</h1>
-                    <p className="p-4 border-b-2 text-blue-700 text-xl font-semibold">Theo dõi, kết nối với những Master Trade Tại Net Partner</p>
+                    <p className="p-4 border-b-2 text-blue-700 text-xl font-semibold">Theo dõi, kết nối với những Master Trade Tại Tipper Trade</p>
                     {topMaster?.length > 0 && (
                         <Slide slidesToScroll={1} slidesToShow={4} cssClass="py-10 mx-10">
                             {topMaster.map((_, i) => (
@@ -478,12 +478,12 @@ export default function Home() {
                                 và khu vực địa lý
                             </p>
                             <p className="text-lg pt-4">
-                                NET PARTNER giúp hợp nhất giao tiếp, kết nối con người và cộng tác tốt hơn trong<br></br>
+                                Tipper Trade giúp hợp nhất giao tiếp, kết nối con người và cộng tác tốt hơn trong<br></br>
                                 phòng họp, lớp học và mọi nơi khác.
                             </p>
                             <Link to={""}>
                                 <button className="text-xl border px-4 py-2 text-white rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-5">
-                                    Khám Phá Giải Pháp Của NET
+                                    Khám Phá Giải Pháp Của Tipper Trade
                                 </button>
                             </Link>
                         </Col>
@@ -523,7 +523,7 @@ export default function Home() {
 
             <Row>
                 <Col xs={24} xl={8} className="px-10 py-20 text-white bg-[#031340] text-center">
-                    <p className="font-bold text-2xl">Có Gì Mới Tại NET PARTNER</p>
+                    <p className="font-bold text-2xl">Có Gì Mới Tại Tipper Trade</p>
                     <p className="text-lg py-5">Cập nhật tin tức, tìm hiểu các phương pháp tốt nhất và hơn thế nữa.</p>
                     <Link to={""}>
                         <button className="text-xl border px-4 py-2 text-white rounded-[10px] border-blue-600 font-semibold hover:bg-blue-600 mt-5">
@@ -562,7 +562,7 @@ export default function Home() {
                     onCancel={() => setIsModalOpen(false)}
                     okButtonProps={{ className: "bg-blue-500" }}
                 >
-                    <p className="p-5">Chào mừng bạn đến với hệ sinh thái của Netpartner!</p>
+                    <p className="p-5">Chào mừng bạn đến với hệ sinh thái của Tipper Trade!</p>
                 </Modal>
                 :
                 <Modal

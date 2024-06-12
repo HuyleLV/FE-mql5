@@ -16,7 +16,7 @@ export default function Footer() {
     <div className="bg-zinc-900">
       <div className="max-w-screen-2xl items-center mx-auto pt-10 pb-5" id="footer">
         <p className="py-10 text-center text-white text-xl font-semibold">
-          NETPARTNER - Cung cấp những giải pháp tài chính nhanh nhất, hiệu quả nhất, chính xác nhất cho <br/>
+          Tipper Trade - Cung cấp những giải pháp tài chính nhanh nhất, hiệu quả nhất, chính xác nhất cho <br/>
           mỗi khách hàng của từng doanh nghiệp
         </p>
         <Row className={isMobile ? "px-[50px]" : "pb-10"}>

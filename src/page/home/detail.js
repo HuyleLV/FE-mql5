@@ -147,7 +147,7 @@ export default function HomeDetail() {
                 <div className="max-w-screen-2xl items-center mx-auto pt-10">
                     <p className="font-bold text-3xl text-center">Chúng tôi hoạt động như thế nào ?</p>
                     <p className="pt-4 font-none text-lg text-center">
-                        <span className="font-semibold">Tại Net Partner</span> chúng tôi tin rằng thành công trong giao dịch không chỉ là có Công Cụ Phù Hợp mà còn có Tư Duy Đúng <br/>
+                        <span className="font-semibold">Tại Tipper Trade</span> chúng tôi tin rằng thành công trong giao dịch không chỉ là có Công Cụ Phù Hợp mà còn có Tư Duy Đúng <br/>
                         Đắn. Đó là lý do tại sao chúng tôi không chỉ cung cấp phần mềm giao dịch tiên tiến mà còn cung cấp Kiến Thức và Hỗ Trợ để<br/>
                         giúp khách hàng phát triển các kỹ năng đầu tư và sự kỷ luật cần thiết để đạt được Thành Công trên thị trường.
                     </p>

@@ -21,7 +21,7 @@ export default function Ecosystem({ setIsModalOpen }) {
     return (
         <div className="py-5 bg-slate-50 rounded-3xl bg-gradient-to-r from-green-800 to-blue-600">
             <div className="max-w-screen-2xl items-center mx-auto text-center" >
-                <p className="font-bold text-3xl textWhite pb-10"> Hệ Sinh Thái Net Partner</p>
+                <p className="font-bold text-3xl textWhite pb-10"> Hệ Sinh Thái Tipper Trade</p>
 
                 <Row style={{ flex: 1, justifyContent: "space-between" }}>
                     <Col xs={24} xl={4} className="px-4 justify-center">
