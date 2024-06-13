@@ -8,12 +8,13 @@ import twitter from "../component/image/twitter.png"
 import youtube from "../component/image/youtube.png"
 import instagram from "../component/image/instagram.png"
 import telegram from "../component/image/telegram.png"
+import bg_footer from "../component/image/bg_footer.jpg"
 
 export default function Footer() {
   const { isMobile } = useDevice();
 
   return (
-    <div className="bg-zinc-900">
+    <div style={{'--image-url': `url(${bg_footer})`}} className='bg-[image:var(--image-url)] bg-no-repeat bg-cover bg-center'>
       <div className="max-w-screen-2xl items-center mx-auto pt-10 pb-5" id="footer">
         <p className="py-10 text-center text-white text-xl font-semibold">
           Tipper Trade - Cung cấp những giải pháp tài chính nhanh nhất, hiệu quả nhất, chính xác nhất cho <br/>
@@ -25,8 +26,8 @@ export default function Footer() {
             <div className="text-base text-white">
               <p className="py-1 pt-2"><span className="text-white font-medium">Địa chỉ: <span className="text-[#999999]">Nguyễn Hoàng, Mỹ Đình 2, Nam Từ Liêm,<p> Hà Nội</p></span></span></p>
               <p><span className="text-white font-medium">Điện thoại: <span className="text-[#999999]">0356 496 403</span></span></p>
-              <p className="py-1"><span className="text-white font-medium">Email: <span className="text-[#999999]">Support@Netpartner.com.vn</span></span></p>
-              <p><span className="text-white font-medium">Website: <Link to={"https://netpartner.com.vn"} className="text-[#999999]">netpartner.com.vn</Link></span></p>
+              <p className="py-1"><span className="text-white font-medium">Email: <span className="text-[#999999]">supptippertrade@gmail.com</span></span></p>
+              <p><span className="text-white font-medium">Website: <Link to={"https://tippertrade.com"} className="text-[#999999]">tippertrade.com</Link></span></p>
             </div>
           </Col>
           <Col xs={isMobile ? 12 : 24} xl={4}>
@@ -34,22 +35,22 @@ export default function Footer() {
               <p className="font-medium text-white py-2 text-lg">HOME</p>
             </div>
             <div className="font-medium text-lg">
-              <a href="https://netpartner.com.vn/">
+              <a href="https://tippertrade.com/">
                 <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Trang Chủ</p>
               </a>
-              <a href="https://netpartner.com.vn/san-pham/">
+              <a href="https://tippertrade.com/san-pham/">
                 <p className="text-[#999999]"><CaretRightOutlined /> Sản Phẩm</p>
               </a>
-              <a href="https://netpartner.com.vn/thi-truong/">
+              <a href="https://tippertrade.com/thi-truong/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Thị Trường</p>
               </a>
-              <a href="https://netpartner.com.vn/blocks/block-giai-phap/">
+              <a href="https://tippertrade.com/blocks/block-giai-phap/">
                 <p className="text-[#999999]"><CaretRightOutlined /> Giải Pháp</p>
               </a>
-              <a href="https://netpartner.com.vn/tai-lieu/">
+              <a href="https://tippertrade.com/tai-lieu/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Tài Liệu</p>
               </a>
-              <a href="https://netpartner.com.vn/blocks/footer-about-us/">
+              <a href="https://tippertrade.com/blocks/footer-about-us/">
                 <p className="text-[#999999]"><CaretRightOutlined /> Về Chúng Tôi</p>
               </a>
             </div>
@@ -59,19 +60,19 @@ export default function Footer() {
               <p className="font-medium text-white py-2 text-lg">DỊCH VỤ</p>
             </div>
             <div className="font-medium text-lg">
-              <a href="https://netpartner.com.vn/giai-phap-toan-dien/">
+              <a href="https://tippertrade.com/giai-phap-toan-dien/">
                 <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Giải Pháp Giao Dịch</p>
               </a>
-              <a href="https://netpartner.com.vn/tai-lieu/zoom-thuc-chien/">
+              <a href="https://tippertrade.com/tai-lieu/zoom-thuc-chien/">
                 <p className="text-[#999999]"><CaretRightOutlined /> Zoom Thực Chiến</p>
               </a>
-              <a href="https://netpartner.com.vn/dao-tao-nhan-luc/">
+              <a href="https://tippertrade.com/dao-tao-nhan-luc/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Đào Tạo Nhân Lực</p>
               </a>
-              <a href="https://netpartner.com.vn/co-van-tai-chinh/">
+              <a href="https://tippertrade.com/co-van-tai-chinh/">
                 <p className="text-[#999999]"><CaretRightOutlined /> Cố Vấn Tài Chính</p>
               </a>
-              <a href="https://netpartner.com.vn/phan-mem-ket-noi/">
+              <a href="https://tippertrade.com/phan-mem-ket-noi/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Phần Mềm Kết Nối</p>
               </a>
             </div>
@@ -81,22 +82,22 @@ export default function Footer() {
               <p className="font-medium text-white py-2 text-lg">THÔNG TIN</p>
             </div>
             <div className="font-medium text-lg">
-              <a href="https://netpartner.com.vn/thong-tin/">
+              <a href="https://tippertrade.com/thong-tin/">
                 <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Thông Tin</p>
               </a>
-              <a href="https://netpartner.com.vn/co-hoi-hop-tac/">
+              <a href="https://tippertrade.com/co-hoi-hop-tac/">
                 <p className="text-[#999999]"><CaretRightOutlined /> Cơ Hội Hợp Tác</p>
               </a>
-              <a href="https://netpartner.com.vn/co-hoi-lam-viec/">
+              <a href="https://tippertrade.com/co-hoi-lam-viec/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Cơ Hội Làm Việc</p>
               </a>
-              <a href="https://netpartner.com.vn/chinh-sach-bao-mat/">
+              <a href="https://tippertrade.com/chinh-sach-bao-mat/">
                 <p className="text-[#999999]"><CaretRightOutlined /> Chính Sách Bảo Mật</p>
               </a>
-              <a href="https://netpartner.com.vn/ho-tro/">
+              <a href="https://tippertrade.com/ho-tro/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Hỗ Trợ</p>
               </a>
-              <a href="https://netpartner.com.vn/cong-dong/">
+              <a href="https://tippertrade.com/cong-dong/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Cộng Đồng</p>
               </a>
             </div>
@@ -145,7 +146,7 @@ export default function Footer() {
           </Col>
         </Row>
       </div>
-        <p className="text-center border-t border-gray-600 py-2 text-[#999999]">Since 2016 © - Bản Quyền Thuộc Về Net Partner</p>
+        <p className="text-center border-t border-gray-600 py-2 text-[#999999]">Since 2016 © - Bản Quyền Thuộc Về Tipper Trade</p>
     </div>
   );
 }
