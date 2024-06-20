@@ -36,7 +36,7 @@ export default function Dashboard() {
 
     return (
         <div className="pt-10">
-            <p className="text-center w-full font-bold text-4xl">TRANG QUẢN TRỊ CỦA NET PARTNER</p>
+            <p className="text-center w-full font-bold text-4xl">TRANG QUẢN TRỊ CỦA TIPPER TRADE</p>
             <div className="flex py-10">
                 {isOpen ?
                     <Form                        

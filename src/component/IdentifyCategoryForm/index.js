@@ -14,7 +14,6 @@ import {
   import axios from "axios";
   import { ExclamationCircleOutlined } from "@ant-design/icons";
   import CustomUpload from "../customUpload";
-import ReactQuill from "react-quill";
   
   export default function IdentifyCategoryForm({
     id = "",

@@ -77,73 +77,116 @@ import dayjsInstance from "../../utils/dayjs";
           onFinishFailed={(e) => console.log(e)}
           onFinish={onSubmit}
         >
-            <Form.Item
-                label={"Tên chỉ báo"}
-                name="indicator_news_title"
-                rules={[{ required: true, message: "Vui lòng nhập tên chỉ báo!" }]}
-            >
-                <Input size="large" placeholder={"Nhập"} />
-            </Form.Item>
+          <Form.Item
+              label={"Tên chỉ báo"}
+              name="indicator_news_title"
+              rules={[{ required: true, message: "Vui lòng nhập tên chỉ báo!" }]}
+          >
+              <Input size="large" placeholder={"Nhập"} />
+          </Form.Item>
 
-            <Form.Item
-                label={"Ngày tạo"}
-                name="create_at"
-                rules={[{ required: true, message: "Vui lòng nhập tên ngày tạo!" }]}
-                getValueProps={(e) => ({
-                  value: e ? dayjsInstance(e) : "",
-                })}
-            >
-              
-              <DatePicker 
-                showTime
-                format="YYYY-MM-DD HH:mm:ss"
-              />
-            </Form.Item>
+          <Form.Item label={"Symbol"} name="indicator_news_country">
+            <Select
+                showSearch
+                size="large"
+                placeholder="Select country"
+                optionFilterProp="children"
+                options={[
+                  {
+                    value: 'AUD',
+                    label: 'AUD',
+                  },
+                  {
+                    value: 'CAD',
+                    label: 'CAD',
+                  },
+                  {
+                    value: 'CHF',
+                    label: 'CHF',
+                  },
+                  {
+                    value: 'EUR',
+                    label: 'EUR',
+                  },
+                  {
+                    value: 'GBP',
+                    label: 'GBP',
+                  },
+                  {
+                    value: 'JPY',
+                    label: 'JPY',
+                  },
+                  {
+                    value: 'NZD',
+                    label: 'NZD',
+                  },
+                  {
+                    value: 'USD',
+                    label: 'USD',
+                  },
+                ]}
+            />
+          </Form.Item>
 
-            <Form.Item
-                label={"IMP."}
-                name="indicator_news_imp"
-                rules={[{ required: true, message: "Vui lòng nhập IMP!" }]}
-            >
-                <Rate />
-            </Form.Item>
+          <Form.Item
+              label={"Ngày tạo"}
+              name="create_at"
+              rules={[{ required: true, message: "Vui lòng nhập tên ngày tạo!" }]}
+              getValueProps={(e) => ({
+                value: e ? dayjsInstance(e) : "",
+              })}
+          >
+            
+            <DatePicker 
+              showTime
+              format="YYYY-MM-DD HH:mm:ss"
+            />
+          </Form.Item>
 
-            <Form.Item
-                label={"Thực tế"}
-                name="indicator_news_real"
-                rules={[{ required: true, message: "Vui lòng nhập thực tế!" }]}
-            >
-                <Input size="large" placeholder={"Nhập"} />
-            </Form.Item>
+          <Form.Item
+              label={"IMP."}
+              name="indicator_news_imp"
+              rules={[{ required: true, message: "Vui lòng nhập IMP!" }]}
+          >
+              <Rate />
+          </Form.Item>
 
-            <Form.Item
-                label={"Dự báo"}
-                name="indicator_news_forecast"
-                rules={[{ required: true, message: "Vui lòng nhập dự báo!" }]}
-            >
-                <Input size="large" placeholder={"Nhập"} />
-            </Form.Item>
+          <Form.Item
+              label={"Thực tế"}
+              name="indicator_news_real"
+              rules={[{ required: false, message: "Vui lòng nhập thực tế!" }]}
+          >
+              <Input size="large" placeholder={"Nhập"} />
+          </Form.Item>
 
-            <Form.Item
-                label={"Trước đó"}
-                name="indicator_news_before"
-                rules={[{ required: true, message: "Vui lòng nhập trước đó!" }]}
-            >
-                <Input size="large" placeholder={"Nhập"} />
-            </Form.Item>
-  
-            <Row gutter={40} className={"my-[40px] pl-[20px]"}>
-                <Space align="center">
-                    <Button type={"primary"} htmlType={"submit"}>
-                        {id ? "Cập nhập" : "Tạo"}
-                    </Button>
-                    {id && (
-                        <Button type={"primary"} danger onClick={confirmDeleteBusiness}>
-                        Xoá
-                        </Button>
-                    )}
-                </Space>
-            </Row>
+          <Form.Item
+              label={"Dự báo"}
+              name="indicator_news_forecast"
+              rules={[{ required: true, message: "Vui lòng nhập dự báo!" }]}
+          >
+              <Input size="large" placeholder={"Nhập"} />
+          </Form.Item>
+
+          <Form.Item
+              label={"Trước đó"}
+              name="indicator_news_before"
+              rules={[{ required: true, message: "Vui lòng nhập trước đó!" }]}
+          >
+              <Input size="large" placeholder={"Nhập"} />
+          </Form.Item>
+
+          <Row gutter={40} className={"my-[40px] pl-[20px]"}>
+              <Space align="center">
+                  <Button type={"primary"} htmlType={"submit"}>
+                      {id ? "Cập nhập" : "Tạo"}
+                  </Button>
+                  {id && (
+                      <Button type={"primary"} danger onClick={confirmDeleteBusiness}>
+                      Xoá
+                      </Button>
+                  )}
+              </Space>
+          </Row>
         </Form>
       </div>
     );

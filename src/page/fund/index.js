@@ -11,9 +11,9 @@ export default function Fund() {
                 <Row className="max-w-screen-2xl mx-auto px-10 py-20">
                     <Col xs={24} xl={14} className="text-center">
                         <p className="text-8xl font-bold text-[#6CB74E]">Giải Pháp Đầu Tư</p>
-                        <p className="text-6xl font-semibold text-[#FFDE59] py-5">NET_Fund Investment</p>
+                        <p className="text-6xl font-semibold text-[#FFDE59] py-5">TIPPER_Fund Investment</p>
                         <p className="px-10 font-semibold text-xl text-white leading-9">
-                            NET_Fund Investment (NFI) là quỹ mở được quản lý chủ động và chuyên<br></br>
+                            TIPPER_Fund Investment (NFI) là quỹ mở được quản lý chủ động và chuyên<br></br>
                             nghiệp bởi ACE Capital Group. Quỹ NFI đầu tư chủ yếu vào <br></br>
                             các sản phẩm tài chính như hàng hoá, chứng khoán, CFD.  <br></br>
                             Đây là những sản phẩm có lợi thế cạnh tranh trên thị  <br></br>
@@ -134,7 +134,7 @@ export default function Fund() {
             <div className="bg-gradient-to-r from-[#1C7AB9] via-[#1C7AB9] to-[#00C4CC] my-10">
                 <div className="max-w-screen-2xl mx-auto py-10">
                     <p className="font-bold text-2xl text-white">Tổng quan</p>
-                    <p className="font-bold text-2xl text-white">Thông tin về quỹ Net Fund Investment</p>
+                    <p className="font-bold text-2xl text-white">Thông tin về quỹ Tipper Fund Investment</p>
                     <Row className="py-5">
                         <Col xs={24} xl={12}>
                             <div className="font-semibold text-xl text-[#57E4FF] leading-8">
@@ -173,7 +173,7 @@ export default function Fund() {
                             <p className="text-white pl-2 font-semibold text-xl">Sứ Mệnh</p>
                         </div>
                         <p className="text-lg font-normal text-white">
-                            Xây dựng NET trở thành một nền tảng đầu tư tất cả 
+                            Xây dựng TIPPER trở thành một nền tảng đầu tư tất cả 
                             trong một với trải nghiệm đơn giản, dễ hiểu và thuận tiện, 
                             giúp khách hàng đạt mục tiêu về tự do tài chính.
                         </p>
@@ -239,7 +239,7 @@ export default function Fund() {
 
             <div className="max-w-screen-2xl mx-auto text-center py-10">
                 <p className="font-bold text-4xl text-[#004AAD]">Lợi ích khi đầu tư cùng quỹ</p>
-                <p className="font-bold text-4xl text-[#004AAD]">Net Fund Investment</p>
+                <p className="font-bold text-4xl text-[#004AAD]">Tipper Fund Investment</p>
                 <img src={banner_fund} className="w-full pt-10"/>
             </div>
 
@@ -285,7 +285,7 @@ export default function Fund() {
                         <Col xs={24} xl={14} className="py-5 border-b-2">
                             <div className="flex items-center h-full">
                                 <p className="font-semibold text-2xl px-5">
-                                    Đăng ký tham gia quỹ NET Fund Investment
+                                    Đăng ký tham gia quỹ Tipper Fund Investment
                                 </p>
                             </div>
                         </Col>
@@ -307,9 +307,9 @@ export default function Fund() {
                         <Col xs={24} xl={14} className="py-5">
                             <div className="flex items-center h-full">
                                 <p className="font-semibold text-2xl px-5">
-                                    Nhận Xác Thực từ Net Fund Invesment <br></br>
+                                    Nhận Xác Thực từ Tipper Fund Invesment <br></br>
                                     <span className="text-lg">
-                                        Net Fund Investment sẽ xác nhận qua tin nhắn và email khi nhận được thông tin đăng ký tham gia đầu tư của bạn
+                                        Tipper Fund Investment sẽ xác nhận qua tin nhắn và email khi nhận được thông tin đăng ký tham gia đầu tư của bạn
                                     </span>
                                 </p>
                             </div>

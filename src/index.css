@@ -186,6 +186,7 @@
   h6 {
     @apply text-sm;
   }
+
 }
 
 span.ql-size-huge {
@@ -198,4 +199,24 @@ span.ql-size-large {
 
 span.ql-size-small {
   font-size: 18px;
+}
+
+.__se__float-center {
+  display: flex;
+  justify-content: center;
+}
+
+.__se__float-none {
+  display: flex;
+  justify-content: none;
+}
+
+.__se__float-left {
+  display: flex;
+  justify-content: left;
+}
+
+.__se__float-right {
+  display: flex;
+  justify-content: right;
 }

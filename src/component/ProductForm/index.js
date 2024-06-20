@@ -13,10 +13,9 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import CustomReactQuill from "../customReactQuill";
-import "react-quill/dist/quill.snow.css";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import CustomUpload from "../customUpload";
+import CustomSunEditor from "../customSunEditor";
 
 export default function ProductForm({
   id = "",
@@ -155,7 +154,7 @@ export default function ProductForm({
         <Row gutter={8}>
           <Col xs={24}>
             <Form.Item name="product_description" label={"Mô tả"}>
-              <CustomReactQuill value={editorValue} onChange={(e)=> setEditorValue(e)} />
+              <CustomSunEditor value={editorValue} onChange={(e)=> setEditorValue(e)} />
             </Form.Item>
           </Col>
 

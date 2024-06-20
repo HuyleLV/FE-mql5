@@ -234,7 +234,7 @@ export default function Home() {
                 <div className="absolute top-0 px-[5%] text-white">
                     <div className="w-full flex justify-center overflow-hidden">
                         <animated.div key={key} style={scrolling} className={"font-none w-full"}>
-                            Chào mừng bạn đến với phiên bản beta Tipper Trade - Hãy trải nghiệm những nội dung mới lạ những giải pháp cách mạng về tài chính. Tất cả hòm thư góp ý vui lòng gửi về support@netpartner.com.vn, Tipper Trade xin chân thành cám ơn!!
+                            Chào mừng bạn đến với phiên bản beta Tipper Trade - Hãy trải nghiệm những nội dung mới lạ những giải pháp cách mạng về tài chính. Tất cả hòm thư góp ý vui lòng gửi về supp.tippertrade@gmail.com, Tipper Trade xin chân thành cám ơn!!
                         </animated.div>
                     </div>
                     <p className="font-bold text-2xl top-0 pt-20 border-b w-[350px] py-2">Giải Pháp Đầu Tư An Toàn</p>
@@ -255,7 +255,7 @@ export default function Home() {
             <div className="max-w-screen-2xl items-center mx-auto pt-10">
                 <Row>
                     <Col xs={24} xl={12} className="px-10 py-16">
-                        <p className="font-bold text-4xl">Kiếm Tiền Tự Động Cùng Net_AuAi</p>
+                        <p className="font-bold text-4xl">Kiếm Tiền Tự Động Cùng Tipper Trade</p>
                         <p className="pt-5 font-medium text-lg pr-20">
                             Xác định xu hướng thị trường một cách tự động trên nền tảng Meta Trader bằng sản phẩm của chúng tôi. 
                             Sử dụng dữ liệu toàn cầu để có cái nhìn tổng quan và đưa ra gợi ý giao dịch đến khách hàng một cách chính xác nhất ngay trên nền tảng giao dịch.
@@ -398,7 +398,7 @@ export default function Home() {
 
                 <div className="py-10">
                     <h1 className="font-bold px-4 text-3xl border-blue-500">Các Giao Dịch Thành Công</h1>
-                    <p className="p-4 border-b-2 text-blue-700 text-xl font-semibold">Theo dõi, kết nối với những Master Trade Tại Tipper Trade</p>
+                    <p className="p-4 border-b-2 text-blue-700 text-xl font-semibold">Theo Dõi và Giao Dịch cùng những Master tại Tipper Trade</p>
                     {topMaster?.length > 0 && (
                         <Slide slidesToScroll={1} slidesToShow={4} cssClass="py-10 mx-10">
                             {topMaster.map((_, i) => (

@@ -237,7 +237,7 @@ export default function Header() {
         <div className="flex items-center">
           <div className={"flex max-md:w-full"}>
             <a href="/" className="flex items-center pr-4">
-              <img src={logo} className="h-[60px] pl-4" alt="Flowbite Logo" />
+              <img src={logo} className="h-[60px] py-2 pl-4" alt="Flowbite Logo" />
             </a>
 
             {isMobile ?

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import parse from "html-react-parser";
 import dayjsInstance from "../../utils/dayjs";
+import { Country } from "../../utils/country";
 
 export default function EcoCalendar() {  
     const [economicNewsHot, setEconomicNewsHot] = useState([]);
@@ -66,11 +67,11 @@ export default function EcoCalendar() {
 
     const columns = [
         {
-          title: 'Thời gian',
+          title: <p className="text-center">Thời gian</p>,
           dataIndex: 'create_at',
           width: 200,
           key: 'create_at',
-          render: (create_at) => <div>{dayjsInstance(create_at).format("DD/MM/YYYY HH:mm:ss")}</div>,
+          render: (create_at) => <div className="text-center">{dayjsInstance(create_at).format("HH:mm:ss")}</div>,
         },
         {
           title: 'IMP',
@@ -78,6 +79,13 @@ export default function EcoCalendar() {
           width: 200,
           key: 'indicator_news_imp',
           render: (indicator_news_imp) => <div><Rate disabled defaultValue={indicator_news_imp}/></div>,
+        },
+        {
+          title: '',
+          dataIndex: 'indicator_news_country',
+          width: 150,
+          key: 'indicator_news_country',
+          render: (indicator_news_country) => <div>{Country(indicator_news_country)}</div>,
         },
         {
           title: 'Tên chỉ báo',

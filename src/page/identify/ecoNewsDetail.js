@@ -35,7 +35,7 @@ export default function EcoNewsDetail() {
 
     return (
         
-        <div className="max-w-screen-2xl mx-auto">
+        <div className="max-w-screen-2xl mx-auto px-20">
             <div className="mt-[50px]">
                 <div>
                     <p className="font-medium px-5">
@@ -43,17 +43,19 @@ export default function EcoNewsDetail() {
                     </p>
                 </div>
                 <Row className="pt-10">
-                    <Col xs={24} xl={18} className="p-5">
-                        <p className="font-bold text-3xl">{economicNews?.economic_news_title}</p>
-                        <div className="flex justify-start pt-5 items-center">
-                            <p className="flex justify-center items-center font-medium text-gray-600">
-                                <img className="rounded-full" src={economicNews?.photos ? economicNews?.photos : logo} style={{width: 30, marginRight: 10, padding: 2}}/>
-                                {economicNews?.displayName ? economicNews?.displayName : "Admin"}
-                            </p>
-                            <p className="pl-10 font-medium text-gray-600">Đã đăng vào: {dayjsInstance(economicNews?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
-                        </div>
-                        <div className="pt-5">
-                            {parse(String(economicNews?.economic_news_description).replaceAll("ul>","p>"))}
+                    <Col xs={24} xl={17} className="px-5 mb-10">
+                        <div className="border border-gray rounded-2xl rounded-xl p-5">
+                            <p className="font-bold text-3xl">{economicNews?.economic_news_title}</p>
+                            <div className="flex justify-start pt-5 items-center">
+                                <p className="flex justify-center items-center font-medium text-gray-600">
+                                    <img className="rounded-full" src={economicNews?.photos ? economicNews?.photos : logo} style={{width: 30, marginRight: 10, padding: 2}}/>
+                                    {economicNews?.displayName ? economicNews?.displayName : "Admin"}
+                                </p>
+                                <p className="pl-10 font-medium text-gray-600">Đã đăng vào: {dayjsInstance(economicNews?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                            </div>
+                            <div className="pt-5">
+                                {parse(String(economicNews?.economic_news_description).replaceAll("ul>","p>"))}
+                            </div>
                         </div>
                         <div className="pt-10">
                             <p className="font-semibold text-2xl">Bài viết liên quan</p>
@@ -63,7 +65,7 @@ export default function EcoNewsDetail() {
                                         <a href={"/lich-kinh-te/" + _?.economic_news_slug} style={{color: "black"}}>
                                             <div className="flex justify-center m-5">
                                                 <div className="h-[480px] border-b-2">
-                                                    <img src={_?.economic_news_image} style={{width: 350, height: 300}}/>
+                                                    <img src={_?.economic_news_image} style={{width: 250, height: 250}}/>
                                                     <div className="py-2">
                                                         <p className="py-2 text-sm">
                                                             Tác giả: {_?.displayName ? _?.displayName : "Admin"}
@@ -79,7 +81,7 @@ export default function EcoNewsDetail() {
                             </Row>
                         </div>
                     </Col>
-                    <Col xs={24} xl={6} className="p-5">
+                    <Col xs={24} xl={7} className="p-5 border border-gray rounded-2xl h-min">
                         <p className="font-semibold text-2xl text-center border-b mx-10 mb-5">Tin tức hot nhất</p>
                         {economicNewsHot?.map((_, index) => (
                             <a href={"/lich-kinh-te/" + _?.economic_news_slug} style={{color: "black"}}>

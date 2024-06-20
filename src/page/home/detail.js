@@ -35,7 +35,7 @@ export default function HomeDetail() {
             <div className="max-w-screen-2xl items-center mx-auto pt-10">
                 <Row>
                     <Col xs={24} xl={12} className="px-10 pt-16">
-                        <p className="font-bold text-4xl">Kiếm Tiền Tự Động Cùng Net_AuAi</p>
+                        <p className="font-bold text-4xl">Kiếm Tiền Tự Động Cùng Tipper Trade</p>
                         <p className="pt-5 font-medium text-lg pr-20">
                             Xác định xu hướng thị trường một cách tự động trên nền tảng Meta Trader bằng sản phẩm của chúng tôi. 
                             Sử dụng dữ liệu toàn cầu để có cái nhìn tổng quan và đưa ra gợi ý giao dịch đến khách hàng một cách 

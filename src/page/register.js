@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDevice } from "../hooks";
 import image_mk4 from "../component/image/dk.png";
-import logo from "../component/image/logo.png";
+import logo from "../component/image/logo_black.png";
 
 const Register = () => {
   const [form] = Form.useForm();

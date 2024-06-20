@@ -11,7 +11,7 @@ import {
   import { Link, useNavigate, useParams } from "react-router-dom";
   import axios from "axios";
   import { ExclamationCircleOutlined } from "@ant-design/icons";
-  import CustomReactQuill from "../../../component/customReactQuill";
+import CustomSunEditor from "../../../component/customSunEditor";
     
   export default function NotificationUpdate() {
     const navigate = useNavigate();
@@ -118,7 +118,7 @@ import {
                 label={"Nội dung"}
                 rules={[{ required: true, message: "Vui lòng nhập nội dung!" }]}
             >
-              <CustomReactQuill value={editorValue} onChange={(e)=> setEditorValue(e)} />
+              <CustomSunEditor value={editorValue} onChange={(e)=> setEditorValue(e)} />
             </Form.Item>
   
           <Row gutter={40} className={"my-[40px] pl-[20px]"}>

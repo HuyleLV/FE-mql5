@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import axiosInstance from "../../utils/axios";
-import CustomReactQuill from "../customReactQuill";
+import CustomSunEditor from "../customSunEditor";
   
 export default function VpsForm({
   id = "",
@@ -125,7 +125,7 @@ export default function VpsForm({
               label={"Nội dung"}
               rules={[{ required: true, message: "Vui lòng nhập nội dung!" }]}
           >
-            <CustomReactQuill value={editorValue} onChange={(e)=> setEditorValue(e)} />
+            <CustomSunEditor value={editorValue} onChange={(e)=> setEditorValue(e)} />
           </Form.Item>
 
         <Row gutter={40} className={"my-[40px] pl-[20px]"}>

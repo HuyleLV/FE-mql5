@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import google from "../component/image/google.png";
 import image_mk4 from "../component/image/mk4.jpg";
-import logo from "../component/image/logo.png";
+import logo from "../component/image/logo_black.png";
 
 const Login = () => {
   const [form] = Form.useForm();

@@ -449,11 +449,18 @@ export default function SignalPage() {
                   {masterKeyName?.private_key && (
                     <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{masterKeyName?.private_key}</span></p>
                   )}
-                  {masterKeyName?.description && (
+                  {/* {masterKeyName?.description && (
                     <>
                       <p className="text-[20px] font-none">Thông tin: </p>
                       <p className="text-[22px] font-medium">{masterKeyName?.description}</p>
                     </>
+                  )} */}
+                  {masterKeyName?.master_key && (
+                    <a href={"tin-hieu/" + profile?.user_id}>
+                      <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full mt-2">
+                        Thông tin
+                      </button>
+                    </a>
                   )}
                 </div>
               </div>

@@ -24,6 +24,7 @@ import ForgotPassword from "../page/forgotPassword";
 import Fund from "../page/fund";
 import EcoCalendar from "../page/identify/ecoCalendar";
 import EcoNewsDetail from "../page/identify/ecoNewsDetail";
+import SignalDetail from "../page/signal/detail";
 
 export default function User () {
     return (
@@ -33,6 +34,7 @@ export default function User () {
         <Route path="/san-pham" element={<Product />} />
         <Route path="/quy" element={<Fund />} />
         <Route path="/signal" element={<SignalPage />} />
+        <Route path="/tin-hieu/:user_id" element={<SignalDetail />} />
         <Route path="/master/:master_key" element={<MasterDetail />} />
         <Route path="/market" element={<Market />} />
         <Route path="/nhan-dinh" element={<Identify />} />

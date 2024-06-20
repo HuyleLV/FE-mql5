@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import CustomReactQuill from "../../../component/customReactQuill";
+import CustomSunEditor from "../../../component/customSunEditor";
 
 export default function NotificationDetail() {
 
@@ -154,7 +155,7 @@ export default function NotificationDetail() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-1/2">
+      <div className="w-2/3">
         <p className="text-center text-2xl font-semibold py-10">Form gửi thông báo</p>
 
 
@@ -195,7 +196,7 @@ export default function NotificationDetail() {
 
             <div className="py-2">
               <p>Nội dung:</p>
-              <CustomReactQuill onChange={(e) => setQuery(e)} />
+              <CustomSunEditor onChange={(e)=> setEditorValue(e)} />
             </div>
 
 

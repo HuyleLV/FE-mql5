@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import dayjsInstance from "../../../utils/dayjs";
 import { Link } from "react-router-dom";
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Country } from "../../../utils/country";
 
 export default function IndicatorNewsDashboard() {
     const [indicatorNews, setIndicatorNews] = useState([]);
@@ -59,6 +60,16 @@ export default function IndicatorNewsDashboard() {
           width: 150,
           ...SearchProps("indicator_news_title"),
           render: (_, record) => <div>{record?.indicator_news_title}</div>,
+        },
+        {
+          title: "",
+          key: "indicator_news_country",
+          dataIndex: "indicator_news_country",
+          width: 150,
+          render: (_, record) => 
+            <div>
+              {Country(record?.indicator_news_country)}
+            </div>,
         },
         {
           title: "IMP.",

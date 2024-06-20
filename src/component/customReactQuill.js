@@ -6,7 +6,6 @@ import axios from "axios";
 
 Quill.register("modules/imageUploader", ImageUploader);
 Quill.register('modules/blotFormatter', BlotFormatter);
-
 class CustomReactQuill extends Component {
   constructor(props) {
     super(props);
