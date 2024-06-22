@@ -236,7 +236,6 @@ export default function Product() {
             fetchProducts();
             getAllProductPage();
             getAllCategoryWeb();
-            console.log(report);
           }
     }, [cookies?.user]);
 

@@ -94,7 +94,7 @@ export default function TradingSymtem() {
                                 </div>
                             </div>
 
-                            {_?.data.map((_,i)=> (
+                            {_?.data.map((_)=> (
                                 <>
                                     {_?.time_frame === "M15" ? (
                                         <div className={`grid col-span-2 mx-2 border border-t-4 border-slate-500 hover:bg-white mb-10 ${_?.type === "BUY" ? "border-t-green-600" : "border-t-red-600"}`}>
@@ -123,7 +123,7 @@ export default function TradingSymtem() {
                                                 </div>
                                                 <div className="absolute flex items-center top-2 left-2 w-full">
                                                     <div className="w-1/2">
-                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.sl_entry}</span></p>
+                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.price}</span></p>
                                                         <p className="text-sm font-bold">Tp1: <span className="font-normal">{_?.tp1}</span></p>
                                                         <p className="text-sm font-bold">Tp2: <span className="font-normal">{_?.tp2}</span></p>
                                                         <p className="text-sm font-bold">Tp3: <span className="font-normal">{_?.tp3}</span></p>
@@ -131,7 +131,7 @@ export default function TradingSymtem() {
                                                     </div>
                                                     <div className="px-2 py-1 bg-cyan-100">
                                                         <p>P&L (Pips)</p>
-                                                        <p className="text-xl font-bold text-emerald-500">+45.5</p>
+                                                        <p className="text-xl font-bold text-emerald-500">{(dataSymbol[i]?.price - _?.price) * 10}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,7 +172,7 @@ export default function TradingSymtem() {
                                                 </div>
                                                 <div className="absolute flex items-center top-2 left-2 w-full">
                                                     <div className="w-1/2">
-                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.sl_entry}</span></p>
+                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.price}</span></p>
                                                         <p className="text-sm font-bold">Tp1: <span className="font-normal">{_?.tp1}</span></p>
                                                         <p className="text-sm font-bold">Tp2: <span className="font-normal">{_?.tp2}</span></p>
                                                         <p className="text-sm font-bold">Tp3: <span className="font-normal">{_?.tp3}</span></p>
@@ -180,7 +180,7 @@ export default function TradingSymtem() {
                                                     </div>
                                                     <div className="px-2 py-1 bg-cyan-100">
                                                         <p>P&L (Pips)</p>
-                                                        <p className="text-xl font-bold text-emerald-500">+45.5</p>
+                                                        <p className="text-xl font-bold text-emerald-500">{(dataSymbol[i]?.price - _?.price) * 10}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -221,7 +221,7 @@ export default function TradingSymtem() {
                                                 </div>
                                                 <div className="absolute flex items-center top-2 left-2 w-full">
                                                     <div className="w-1/2">
-                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.sl_entry}</span></p>
+                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.price}</span></p>
                                                         <p className="text-sm font-bold">Tp1: <span className="font-normal">{_?.tp1}</span></p>
                                                         <p className="text-sm font-bold">Tp2: <span className="font-normal">{_?.tp2}</span></p>
                                                         <p className="text-sm font-bold">Tp3: <span className="font-normal">{_?.tp3}</span></p>
@@ -229,7 +229,7 @@ export default function TradingSymtem() {
                                                     </div>
                                                     <div className="px-2 py-1 bg-cyan-100">
                                                         <p>P&L (Pips)</p>
-                                                        <p className="text-xl font-bold text-emerald-500">+45.5</p>
+                                                        <p className="text-xl font-bold text-emerald-500">{(dataSymbol[i]?.price - _?.price) * 10}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -270,7 +270,7 @@ export default function TradingSymtem() {
                                                 </div>
                                                 <div className="absolute flex items-center top-2 left-2 w-full">
                                                     <div className="w-1/2">
-                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.sl_entry}</span></p>
+                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.price}</span></p>
                                                         <p className="text-sm font-bold">Tp1: <span className="font-normal">{_?.tp1}</span></p>
                                                         <p className="text-sm font-bold">Tp2: <span className="font-normal">{_?.tp2}</span></p>
                                                         <p className="text-sm font-bold">Tp3: <span className="font-normal">{_?.tp3}</span></p>
@@ -278,7 +278,7 @@ export default function TradingSymtem() {
                                                     </div>
                                                     <div className="px-2 py-1 bg-cyan-100">
                                                         <p>P&L (Pips)</p>
-                                                        <p className="text-xl font-bold text-emerald-500">+45.5</p>
+                                                        <p className="text-xl font-bold text-emerald-500">{(dataSymbol[i]?.price - _?.price) * 10}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -319,7 +319,7 @@ export default function TradingSymtem() {
                                                 </div>
                                                 <div className="absolute flex items-center top-2 left-2 w-full">
                                                     <div className="w-1/2">
-                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.sl_entry}</span></p>
+                                                        <p className="text-sm font-bold">Entry: <span className="font-normal">{_?.price}</span></p>
                                                         <p className="text-sm font-bold">Tp1: <span className="font-normal">{_?.tp1}</span></p>
                                                         <p className="text-sm font-bold">Tp2: <span className="font-normal">{_?.tp2}</span></p>
                                                         <p className="text-sm font-bold">Tp3: <span className="font-normal">{_?.tp3}</span></p>
@@ -327,7 +327,7 @@ export default function TradingSymtem() {
                                                     </div>
                                                     <div className="px-2 py-1 bg-cyan-100">
                                                         <p>P&L (Pips)</p>
-                                                        <p className="text-xl font-bold text-emerald-500">+45.5</p>
+                                                        <p className="text-xl font-bold text-emerald-500">{(dataSymbol[i]?.price - _?.price) * 10}</p>
                                                     </div>
                                                 </div>
                                             </div>
