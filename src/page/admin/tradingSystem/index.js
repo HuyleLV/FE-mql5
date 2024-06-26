@@ -149,6 +149,11 @@ export default function TradingSymtemDashboard() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            {_?.status == 0 && (
+                                                <div className="flex justify-center pb-2">
+                                                    <Button type="primary" className="w-20" onClick={()=>updateStatus(_?.trading_system_id)}>Hiển Thị</Button>
+                                                </div>
+                                            )}
                                         </div>
                                     ): (
                                         <div className="grid col-span-2 mx-2 border border-t-4 border-t-red-600 border-slate-500 hover:bg-white flex items-center mb-10">
@@ -270,6 +275,11 @@ export default function TradingSymtemDashboard() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            {_?.status == 0 && (
+                                                <div className="flex justify-center pb-2">
+                                                    <Button type="primary" className="w-20" onClick={()=>updateStatus(_?.trading_system_id)}>Hiển Thị</Button>
+                                                </div>
+                                            )}
                                         </div>
                                     ): (
                                         <div className="grid col-span-2 mx-2 border border-t-4 border-t-red-600 border-slate-500 hover:bg-white flex items-center mb-10">
@@ -328,6 +338,11 @@ export default function TradingSymtemDashboard() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            {_?.status == 0 && (
+                                                <div className="flex justify-center pb-2">
+                                                    <Button type="primary" className="w-20" onClick={()=>updateStatus(_?.trading_system_id)}>Hiển Thị</Button>
+                                                </div>
+                                            )}
                                         </div>
                                     ): (
                                         <div className="grid col-span-2 mx-2 border border-t-4 border-t-red-600 border-slate-500 hover:bg-white flex items-center mb-10">
@@ -386,6 +401,11 @@ export default function TradingSymtemDashboard() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            {_?.status == 0 && (
+                                                <div className="flex justify-center pb-2">
+                                                    <Button type="primary" className="w-20" onClick={()=>updateStatus(_?.trading_system_id)}>Hiển Thị</Button>
+                                                </div>
+                                            )}
                                         </div>
                                     ): (
                                         <div className="grid col-span-2 mx-2 border border-t-4 border-t-red-600 border-slate-500 hover:bg-white flex items-center mb-10">
