@@ -42,6 +42,7 @@ import IndicatorNewsDashboard from "../page/admin/indicatorNews";
 import IndicatorNewsDetail from "../page/admin/indicatorNews/detail";
 import EconomicNewsDashboard from "../page/admin/economicNews";
 import EconomicNewsDetail from "../page/admin/economicNews/detail";
+import TradingSymtemDashboard from "../page/admin/tradingSystem";
 
 export default function AdminRouter () {
     return (
@@ -89,6 +90,7 @@ export default function AdminRouter () {
         <Route path="/admin/indicator-news/:id" element={<IndicatorNewsDetail />} />
         <Route path="/admin/economic-news" element={<EconomicNewsDashboard />} />
         <Route path="/admin/economic-news/:id" element={<EconomicNewsDetail />} />
+        <Route path="/admin/trading-system" element={<TradingSymtemDashboard />} />
       </Routes>
     );
   };

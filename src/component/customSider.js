@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import logo from "./image/logo.png"
+import logo from "./image/logo_black.png"
 const { Sider } = Layout;
 
 
@@ -138,6 +138,11 @@ export default function CustomeSider() {
       key: "follower-draft",
       icon: <ContainerOutlined />,
       label: <Link to={"/admin/follower-draft"}>Quản lý Follower Draft</Link>,
+    },
+    {
+      key: "trading-system",
+      icon: <ContainerOutlined />,
+      label: <Link to={"/admin/trading-system"}>Quản lý TradingSystem</Link>,
     },
     {
       key: "Economic",

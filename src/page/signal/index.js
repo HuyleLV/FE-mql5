@@ -19,6 +19,7 @@ import SignalBuySell from "../../component/ChartCustom/signalBuySell";
 import SignalSymbol from "../../component/ChartCustom/signalSymbol";
 import SignalWinLoss from "../../component/ChartCustom/signalWinLoss";
 import SignalOpen from "./signalOpen";
+import icon_hot from "../../component/image/icon/Hot.svg"
 
 export default function SignalPage() {
   const [cookies] = useCookies(["user"]);
@@ -391,15 +392,18 @@ export default function SignalPage() {
 
   return (
     <div className="my-[60px] max-w-screen-2xl mx-auto">
-      <div>
-        <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full mt-2 mr-2" onClick={()=>setTab(1)}>
-          Tín Hiệu
-        </button>
+      <div className="flex">
+        <div className="flex items-center">
+          <button className="bg-blue-600 px-6 h-10 text-lg font-semibold text-white rounded-full mt-2 mr-2" onClick={()=>setTab(1)}>
+            Tín Hiệu
+          </button>
+          <img src={icon_hot} className="h-10 -ml-8"/>
+        </div>
         <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full mt-2" onClick={()=>setTab(2)}>
           Các Nhà Giao Dịch Thành Công
         </button>
       </div>
-
+    
       {tab === 1 && (
         <>
           <SignalOpen />

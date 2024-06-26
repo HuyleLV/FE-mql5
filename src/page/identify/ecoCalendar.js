@@ -16,7 +16,7 @@ export default function EcoCalendar() {
     const [indicatorNews, setIndicatorNews] = useState([]);
     const [pagination, setPagination] = useState({
         page: 1,
-        pageSize: 9,
+        pageSize: 5,
     });
 
     const getAllEconomicNews = async () => {

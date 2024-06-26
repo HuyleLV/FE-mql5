@@ -1,25 +1,35 @@
-import { Col, List, Row, Spin, message } from "antd";
-import { IconSignal } from "../../utils/iconSignal";
-import dayjsInstance from "../../utils/dayjs";
-import logo from "../../component/image/logo_black.png"
+import { Button, Col, List, Row, Spin, message } from "antd";
+import { IconSignal } from "../../../utils/iconSignal";
+import dayjsInstance from "../../../utils/dayjs";
+import logo from "../../../component/image/logo_black.png"
 import { useEffect, useState } from "react";
 import axios from "axios";
-import axiosInstance from "../../utils/axios";
-import { FormatDollar } from "../../utils/format";
-import check_icon from "../../component/image/icon/check.png"
+import axiosInstance from "../../../utils/axios";
+import check_icon from "../../../component/image/icon/check.png"
 
-export default function TradingSymtem() {
+export default function TradingSymtemDashboard() {
     const [signalOpen, setSignalOpen] = useState([]);
     const [dataSymbol, setDataSymbol] = useState([]);
 
     const getSignalOpen = async () => {
-        await axiosInstance.get(`/tradingSystem/getSignalOpen`)
+        await axiosInstance.get(`/tradingSystem/getSignalOpenbyAdmin`)
             .catch(function (error) {
                 message.error(error.response.status);
             })
             .then(( res ) => {
                 const data = res?.data;
                 setSignalOpen(data);
+            });
+    };
+
+    const updateStatus = async (trading_system_id) => {
+        await axiosInstance.post(`/tradingSystem/updateStatus/${trading_system_id}`)
+            .catch(function (error) {
+                message.error(error.response.status);
+            })
+            .then(( res ) => {
+                message.success(String(res?.data?.message));
+                getSignalOpen();
             });
     };
 
@@ -52,17 +62,9 @@ export default function TradingSymtem() {
 
     return (
         <>
-            <div className="max-w-screen-2xl mx-auto">
+            <div className="max-w-screen-2xl mx-auto pt-10">
                 <div className="flex justify-between items-center">
                     <p className="float-start font-bold text-2xl">Trading System 01</p>
-                    <div>
-                        <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white">
-                            Siêu Máy Tính
-                        </button>
-                        <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white mr-5">
-                            Cặp Tiền Hiển Thị
-                        </button>
-                    </div>
                 </div>
                 <div className="py-10 border mb-10 mt-5 grid grid-cols-12"> 
                     <div></div>
@@ -205,6 +207,11 @@ export default function TradingSymtem() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            {_?.status == 0 && (
+                                                <div className="flex justify-center pb-2">
+                                                    <Button type="primary" className="w-20" onClick={()=>updateStatus(_?.trading_system_id)}>Hiển Thị</Button>
+                                                </div>
+                                            )}
                                         </div>
                                     ): (
                                         <div className="grid col-span-2 mx-2 border border-t-4 border-t-red-600 border-slate-500 hover:bg-white flex items-center mb-10">
