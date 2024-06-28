@@ -13,7 +13,6 @@ import { timeDifference } from "../../helper";
 export default function SignalOpen() {
     const [signal, setSignal] = useState([]);
     const [allSymbol, setAllSymbol] = useState([]);
-    const [timeFrame, setTimeFrame] = useState("M15");
     const [symbol, setSymbol] = useState();
     const [timeDone, setTimeDone] = useState(1);
     const [dataSymbol, setDataSymbol] = useState([]);
@@ -26,9 +25,8 @@ export default function SignalOpen() {
             });
     }
 
-    const getSignalCondition = async (timeFrame, symbol, timeDone) => {
+    const getSignalCondition = async (symbol, timeDone) => {
         await axiosInstance.get(`/tradingSystem/getSignalCondition`, {params: {
-            time_frame: timeFrame,
             symbol: symbol,
             time_done: timeDone
         }})
@@ -51,11 +49,11 @@ export default function SignalOpen() {
     
     useEffect(() => { 
         if(symbol) {
-            getSignalCondition(timeFrame, symbol, timeDone);
+            getSignalCondition(symbol, timeDone);
         }else {
-            getSignalCondition(timeFrame, allSymbol[0]?.symbol, timeDone);
+            getSignalCondition(allSymbol[0]?.symbol, timeDone);
         }
-    }, [timeFrame, symbol, timeDone, allSymbol]);
+    }, [symbol, timeDone, allSymbol]);
     
         
     useEffect(() => { 
@@ -81,41 +79,21 @@ export default function SignalOpen() {
     }, [signal, dataSymbol]);
 
     return (
-        <Row className="pt-10">
-            <Col xs={24} xl={16} className="border rounded-2xl p-5">
+        <Row className="pb-10">
+            <Col xs={24} xl={2} className="pt-20">
+                <div className="border rounded-xl mx-3 shadow-sm">
+                    <p className={`${value == 1 ? "font-semibold bg-green-100 border-r-2 border-green-500" : ""} pl-1 text-base py-2 mt-2 cursor-pointer`} onClick={()=>setValue(1)}>
+                        Đang giao dịch
+                    </p>
+                    <p className={`${value == 2 ? "font-semibold bg-green-100 border-r-2 border-green-500" : ""} pl-1 text-base py-2 mb-2 cursor-pointer`} onClick={()=>setValue(2)}>
+                        Đã kết thúc
+                    </p>
+                </div>
+            </Col>
+            <Col xs={24} xl={14} className="border rounded-2xl p-5">
                 <div className="flex items-center justify-between">
                     <p className="text-2xl font-bold">Lệnh đang chạy</p>
                     <div className="flex items-center">
-                        <Select
-                            style={{
-                                width: 150,
-                                marginRight: 10
-                            }}
-                            placeholder="Chọn khung"
-                            onChange={setTimeFrame}
-                            options={[
-                                {
-                                    value: 'M15',
-                                    label: 'M15',
-                                },
-                                {
-                                    value: 'M30',
-                                    label: 'M30',
-                                },
-                                {
-                                    value: 'H1',
-                                    label: 'H1',
-                                },
-                                {
-                                    value: 'H4',
-                                    label: 'H4',
-                                },
-                                {
-                                    value: 'DAILY',
-                                    label: 'DAILY',
-                                },
-                            ]}
-                        />
                         <Select
                             style={{
                                 width: 150,
@@ -128,22 +106,6 @@ export default function SignalOpen() {
                               }))}
                         />
                     </div>
-                </div>
-                <div className="pt-5">
-                    <Segmented
-                        defaultValue={value}
-                        onChange={setValue}
-                        options={[
-                        {
-                            label: 'Đang giao dịch',
-                            value: 1,
-                        },
-                        {
-                            label: 'Đã kết thúc',
-                            value: 2,
-                        },
-                        ]}
-                    />
                 </div>
                 <div>
                     {signal?.map((_,i) => (
@@ -219,21 +181,28 @@ export default function SignalOpen() {
                     ))}
                 </div>
             </Col>
-            <Col xs={24} xl={8} className="px-5">
+            <Col xs={24} xl={6} className="px-5">
                 <p className="text-2xl font-bold pb-5">Thống kê</p>
-                <div className="border rounded-2xl p-5 grid grid-cols-2 text-center">
-                    <div>
-                        <p className="text-lg">Lời lỗ</p>
-                        <p className="font-bold text-green-500 text-xl">+123.24</p>
-                        <p className="pt-5 text-lg">Tuần trước</p>
-                        <p className="font-bold text-green-500 text-xl">+123.24</p>
+                <div className="border rounded-2xl p-5 text-center">
+                    <div className="grid grid-cols-2 pt-4">
+                        <div>
+                            <p className="text-lg font-semibold">Lời lỗ</p>
+                            <p className="font-bold text-green-500 text-xl">+123.24</p>
+                            <p className="pt-5 text-lg font-semibold">Tuần trước</p>
+                            <p className="font-bold text-green-500 text-xl">+123.24</p>
+                        </div>
+                        <div>
+                            <p className="text-lg font-semibold">Hôm qua</p>
+                            <p className="font-bold text-green-500 text-xl">+123.24</p>
+                            <p className="pt-5 text-lg font-semibold">Tháng trước</p>
+                            <p className="font-bold text-green-500 text-xl">+123.24</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className="text-lg">Hôm qua</p>
-                        <p className="font-bold text-green-500 text-xl">+123.24</p>
-                        <p className="pt-5 text-lg">Tháng trước</p>
-                        <p className="font-bold text-green-500 text-xl">+123.24</p>
-                    </div>
+                    <a href={"/signal/thong-ke"} className="flex justify-center pt-5">
+                        <button className="text-green-500 text-lg font-semibold rounded-full border border-green-500 hover:bg-green-500 hover:text-white py-2 px-4">
+                            Xem Thêm
+                        </button>
+                    </a>
                 </div>
                 <p className="text-2xl font-bold py-5">Bảng xếp hạng</p>
                 <div className="border rounded-2xl p-5">
@@ -268,6 +237,9 @@ export default function SignalOpen() {
                         </div>
                     </div>
                 </div>
+            </Col>
+            <Col xs={24} xl={2}>
+
             </Col>
         </Row>
     )
