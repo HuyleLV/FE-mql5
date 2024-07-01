@@ -26,7 +26,9 @@ import EcoCalendar from "../page/identify/ecoCalendar";
 import EcoNewsDetail from "../page/identify/ecoNewsDetail";
 import SignalDetail from "../page/signal/detail";
 import TradingSystemDetail from "../page/signal/signalDetail";
-import SignalStatistical from "../page/signal/signalStatistical";
+import Statistical from "../page/signal/statistical";
+import StatisticalDetail from "../page/signal/statistical/detail";
+import TradingSystem from "../page/signal/tradingSystem";
 
 export default function User () {
     return (
@@ -37,7 +39,9 @@ export default function User () {
         <Route path="/quy" element={<Fund />} />
         <Route path="/signal" element={<SignalPage />} />
         <Route path="/signal/:trading_system_id" element={<TradingSystemDetail />} />
-        <Route path="/signal/thong-ke" element={<SignalStatistical />} />
+        <Route path="/signal/thong-ke" element={<Statistical />} />
+        <Route path="/signal/thong-ke/:trading_system" element={<StatisticalDetail />} />
+        <Route path="/trading-system/:trading_system" element={<TradingSystem />} />
         <Route path="/tin-hieu/:user_id" element={<SignalDetail />} />
         <Route path="/master/:master_key" element={<MasterDetail />} />
         <Route path="/market" element={<Market />} />

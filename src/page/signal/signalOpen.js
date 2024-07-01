@@ -9,12 +9,14 @@ import { IconSignal } from "../../utils/iconSignal";
 import dayjsInstance from "../../utils/dayjs";
 import check_icon from "../../component/image/icon/check.png"
 import { timeDifference } from "../../helper";
+import myGif from '../../component/image/gif.gif';
 
 export default function SignalOpen() {
     const [signal, setSignal] = useState([]);
     const [allSymbol, setAllSymbol] = useState([]);
     const [symbol, setSymbol] = useState();
     const [timeDone, setTimeDone] = useState(1);
+    const [allRanking, setAllRanking] = useState([]);
     const [dataSymbol, setDataSymbol] = useState([]);
     const [value, setValue] = useState(1);
     
@@ -22,6 +24,13 @@ export default function SignalOpen() {
         await axiosInstance.get(`/tradingSystem/getAllSymbol`)
             .then(({ data }) => {
                 setAllSymbol(data);
+            });
+    }
+    
+    const getAllRanking = async () => {
+        await axiosInstance.get(`/tradingSystem/getAllRanking`)
+            .then(({ data }) => {
+                setAllRanking(data);
             });
     }
 
@@ -37,6 +46,7 @@ export default function SignalOpen() {
 
     useEffect(() => { 
         getAllSymbol();
+        getAllRanking();
     }, []);
 
     useEffect(() => { 
@@ -92,7 +102,10 @@ export default function SignalOpen() {
             </Col>
             <Col xs={24} xl={14} className="border rounded-2xl p-5">
                 <div className="flex items-center justify-between">
-                    <p className="text-2xl font-bold">Lệnh đang chạy</p>
+                    <div className="flex">
+                        <p className="text-2xl font-bold">Lệnh đang chạy</p>
+                        <img src={myGif} alt="My GIF" className="h-8 pl-5" />
+                    </div>
                     <div className="flex items-center">
                         <Select
                             style={{
@@ -164,7 +177,7 @@ export default function SignalOpen() {
                                                 </div>
                                                 <div className="flex items-center pt-6">
                                                     <img src={logo_black} className="h-[25px] pr-2" alt="Logo" />
-                                                    <p className="text-xl font-semibold">Trading System 01</p>
+                                                    <p className="text-xl font-semibold">Trading System {_?.trading_system}</p>
                                                 </div>
                                             </div>
                                             <div className="flex items-center">
@@ -206,36 +219,22 @@ export default function SignalOpen() {
                 </div>
                 <p className="text-2xl font-bold py-5">Bảng xếp hạng</p>
                 <div className="border rounded-2xl p-5">
-                    <div className="flex py-2">
-                        <img src={logo_black} className="h-[100px]"/>
-                        <div className="w-full px-4">
-                            <p className="font-semibold text-xl">Trading System 01</p>
-                            <div className="flex justify-between w-full">
-                                <p className="text-lg">Tín hiệu: 132123</p>
-                                <p className="text-lg">Tỷ lệ thắng: 30%</p>
+
+                    {allRanking?.map((_,i) => (
+                        <a href={"/signal/thong-ke/" + _?.trading_system}>
+                            <div className="flex py-4">
+                                <img src={logo_black} className="h-[100px]"/>
+                                <div className="w-full px-4 text-black">
+                                    <p className="font-semibold text-xl">Trading System {_?.trading_system}</p>
+                                    <div className="flex justify-between w-full pt-2">
+                                        <p className="text-lg">Tín hiệu: {_?.count_signal}</p>
+                                        <p className="text-lg">Tỷ lệ thắng: {_?.win_rate * 100}%</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="flex py-2">
-                        <img src={logo_black} className="h-[100px]"/>
-                        <div className="w-full px-4">
-                            <p className="font-semibold text-xl">Trading System 02</p>
-                            <div className="flex justify-between w-full">
-                                <p className="text-lg">Tín hiệu: 132123</p>
-                                <p className="text-lg">Tỷ lệ thắng: 30%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex py-2">
-                        <img src={logo_black} className="h-[100px]"/>
-                        <div className="w-full px-4">
-                            <p className="font-semibold text-xl">Trading System 03</p>
-                            <div className="flex justify-between w-full">
-                                <p className="text-lg">Tín hiệu: 132123</p>
-                                <p className="text-lg">Tỷ lệ thắng: 30%</p>
-                            </div>
-                        </div>
-                    </div>
+                        </a>
+                    ))}
+
                 </div>
             </Col>
             <Col xs={24} xl={2}>

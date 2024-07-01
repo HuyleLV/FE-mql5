@@ -12,6 +12,8 @@ import { Spin } from "antd";
 export default function TradingSystemDetail() {
     const params = useParams();
     const [signal, setSignal] = useState([]);
+    const [tradingSystem, setTradingSystem] = useState([]);
+    const [allRanking, setAllRanking] = useState([]);
     
     const getById = async () => {
         await axiosInstance.get(`/tradingSystem/getById/${params?.trading_system_id}`)
@@ -19,10 +21,31 @@ export default function TradingSystemDetail() {
                 setSignal(data[0]);
             });
     }
+    
+    const getByTradingSystem = async (trading_system) => {
+        await axiosInstance.get(`/tradingSystem/getByTradingSystem/${trading_system}`)
+            .then(({ data }) => {
+                setTradingSystem(data[0]);
+            });
+    }
+    
+    const getAllRanking = async () => {
+        await axiosInstance.get(`/tradingSystem/getAllRanking`)
+            .then(({ data }) => {
+                setAllRanking(data);
+            });
+    }
 
     useEffect(() => { 
         getById();
+        getAllRanking();
     }, []);
+
+    useEffect(() => { 
+        if(signal) {
+            getByTradingSystem(signal?.trading_system);
+        }
+    }, [signal]);
 
     return (
         <div className="max-w-screen-2xl mx-auto py-10">
@@ -134,54 +157,44 @@ export default function TradingSystemDetail() {
                     <div className="col-span-3 mx-2 my-5">
                         <p className="font-bold text-2xl">Chiến Lược Khác</p>
                         <div className="grid grid-cols-3 py-5">
-                            <div className="border rounded-xl p-5 m-2">
-                                <img src={logo} className="h-[125px]" alt="Logo" />
-                                <p className="py-2 font-semibold text-lg text text-center">Trading System 01</p>
-                                <div className="grid grid-cols-2 text-center">
-                                    <p>Tín Hiệu: 12</p>
-                                    <p>Tỷ Lệ Thắng: 12</p>
-                                </div>
-                            </div>
-                            <div className="border rounded-xl p-5 m-2">
-                                <img src={logo} className="h-[125px]" alt="Logo" />
-                                <p className="py-2 font-semibold text-lg text-center">Trading System 01</p>
-                                <div className="grid grid-cols-2 text-center">
-                                    <p>Tín Hiệu: 12</p>
-                                    <p>Tỷ Lệ Thắng: 12</p>
-                                </div>
-                            </div>
-                            <div className="border rounded-xl p-5 m-2">
-                                <img src={logo} className="h-[125px]" alt="Logo" />
-                                <p className="py-2 font-semibold text-lg text-center">Trading System 01</p>
-                                <div className="grid grid-cols-2 text-center">
-                                    <p>Tín Hiệu: 12</p>
-                                    <p>Tỷ Lệ Thắng: 12</p>
-                                </div>
-                            </div>
+                            {allRanking?.map((_,i)=> (
+                                <a href={"/signal/thong-ke/" + _?.trading_system}>
+                                    <div className="border rounded-xl p-5 m-2">
+                                        <img src={logo} className="h-[125px]" alt="Logo" />
+                                        <p className="py-2 font-semibold text-lg text text-center">Trading System {_?.trading_system}</p>
+                                        <div className="grid grid-cols-2 text-center">
+                                            <p>Tín Hiệu: {_?.count_signal}</p>
+                                            <p>Tỷ Lệ Thắng: {_?.win_rate * 100}%</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
                         </div>
                     </div>
                 </div>
                 <div className="border border-black rounded-xl h-min">
                     <div className="flex p-2 border-b border-black items-center">
                         <img src={logo_black} className="h-20"/>
-                        <p className="font-semibold text-xl">Trading System 01</p>
+                        <p className="font-semibold text-xl">Trading System {tradingSystem?.trading_system}</p>
                     </div>
                     <div className="grid grid-cols-2 p-2 text-center">
                         <div className="py-5">
                             <p className="text-gray-500 text-lg font-semibold">Bảng xếp hạng</p>
-                            <p className="font-bold text-2xl">2</p>
+                            <p className="font-bold text-2xl">{tradingSystem?.rank}</p>
                             <p className="pt-8 text-gray-500 text-lg font-semibold">Tín hiệu</p>
-                            <p className="font-bold text-2xl">2</p>
+                            <p className="font-bold text-2xl">{tradingSystem?.count_signal}</p>
                             <p className="pt-8 text-gray-500 text-lg font-semibold">Tỷ lệ thắng</p>
-                            <p className="font-bold text-2xl">2</p>
+                            <p className="font-bold text-2xl">{tradingSystem?.win_rate * 100}%</p>
                         </div>
                         <div className="py-5">
                             <p className="text-gray-500 text-lg font-semibold">Lời / Lỗ tích lũy</p>
-                            <p className={`${signal?.pips > 0 ? "text-green-500" : "text-red-500"} font-bold text-2xl`}>+2</p>
+                            <p className={`${tradingSystem?.total_pips > 0 ? "text-green-500" : "text-red-500"} font-bold text-2xl`}>
+                                {tradingSystem?.total_pips > 0 ? "+" + tradingSystem?.total_pips : tradingSystem?.total_pips}
+                            </p>
                             <p className="pt-5 text-gray-500 text-lg font-semibold">Thời gian giữ lệnh trung bình</p>
-                            <p className="font-bold text-2xl">2</p>
+                            <p className="font-bold text-2xl">{tradingSystem?.hours_medium}</p>
                             <p className="pt-5 text-gray-500 text-lg font-semibold">Tỷ lệ lời lỗ</p>
-                            <p className="font-bold text-2xl">2</p>
+                            <p className="font-bold text-2xl">{tradingSystem?.profit}</p>
                         </div>
                     </div>
                 </div>
