@@ -17,7 +17,6 @@ export default function SignalSymbol({masterKey}) {
           })
           .then(( res ) => {
             const data = res?.data;
-            console.log(data);
             setTotal(data);
           });
     };

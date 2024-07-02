@@ -18,6 +18,7 @@ export default function SignalOpen() {
     const [timeDone, setTimeDone] = useState(1);
     const [allRanking, setAllRanking] = useState([]);
     const [dataSymbol, setDataSymbol] = useState([]);
+    const [statistics, setStatistics] = useState([]);
     const [value, setValue] = useState(1);
     
     const getAllSymbol = async () => {
@@ -44,9 +45,17 @@ export default function SignalOpen() {
             });
     }
 
+    const getTradingSystemStatistics = async () => {
+        await axiosInstance.get(`/tradingSystem/getTradingSystemStatistics`)
+            .then(({ data }) => {
+                setStatistics(data[0]);
+            });
+    }
+
     useEffect(() => { 
         getAllSymbol();
         getAllRanking();
+        getTradingSystemStatistics();
     }, []);
 
     useEffect(() => { 
@@ -145,7 +154,7 @@ export default function SignalOpen() {
                                         </div>
                                     </div>
                                     
-                                    <a href={"/master/" + _?.master_key}>
+                                    <a href={"/trading-system/" + _?.trading_system}>
                                         <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">Theo Dõi</button>
                                     </a>
                                 </div>
@@ -200,15 +209,23 @@ export default function SignalOpen() {
                     <div className="grid grid-cols-2 pt-4">
                         <div>
                             <p className="text-lg font-semibold">Lời lỗ</p>
-                            <p className="font-bold text-green-500 text-xl">+123.24</p>
+                            <p className={`${statistics?.pips > 0 ? "text-green-500" : "text-red-500"} font-bold text-xl`}>
+                                {statistics?.pips}
+                            </p>
                             <p className="pt-5 text-lg font-semibold">Tuần trước</p>
-                            <p className="font-bold text-green-500 text-xl">+123.24</p>
+                            <p className={`${statistics?.pips_week > 0 ? "text-green-500" : "text-red-500"} font-bold text-xl`}>
+                                {statistics?.pips_week ? statistics?.pips_week : "NULL"}
+                            </p>
                         </div>
                         <div>
                             <p className="text-lg font-semibold">Hôm qua</p>
-                            <p className="font-bold text-green-500 text-xl">+123.24</p>
+                            <p className={`${statistics?.pips_date > 0 ? "text-green-500" : "text-red-500"} font-bold text-xl`}>
+                                {statistics?.pips_date ? statistics?.pips_date : "NULL"}
+                            </p>
                             <p className="pt-5 text-lg font-semibold">Tháng trước</p>
-                            <p className="font-bold text-green-500 text-xl">+123.24</p>
+                            <p className={`${statistics?.pips_month > 0 ? "text-green-500" : "text-red-500"} font-bold text-xl`}>
+                                {statistics?.pips_month ? statistics?.pips_month : "NULL"}
+                            </p>
                         </div>
                     </div>
                     <a href={"/signal/thong-ke"} className="flex justify-center pt-5">

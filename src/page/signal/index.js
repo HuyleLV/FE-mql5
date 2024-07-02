@@ -1203,21 +1203,21 @@ export default function SignalPage() {
               <Col xs={24} xl={12} className="pt-10">
                   <div className="flex justify-center items-center">
                       <div className="w-[400px]">
-                          <SignalBuySell masterKey={masterKeyName?.master_key}/>
+                        <SignalBuySell masterKey={masterKeyName?.master_key}/>
                       </div>
                   </div>
               </Col>
               <Col xs={24} xl={12} className="pt-10">
                   <div className="flex justify-center items-center">
                       <div className="w-[400px]">
-                          <SignalSymbol masterKey={masterKey}/>
+                        <SignalSymbol masterKey={masterKey}/>
                       </div>
                   </div>
               </Col>
               <Col xs={24} xl={12} className="pt-10">
                   <div className="flex justify-center items-center">
                       <div className="w-[400px]">
-                          <SignalWinLoss masterKey={masterKey}/>
+                        <SignalWinLoss masterKey={masterKey}/>
                       </div>
                   </div>
               </Col>

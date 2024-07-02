@@ -54,7 +54,7 @@ export default function EcoNewsDetail() {
                                 <p className="pl-10 font-medium text-gray-600">Đã đăng vào: {dayjsInstance(economicNews?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
                             </div>
                             <div className="pt-5">
-                                {parse(String(economicNews?.economic_news_description).replaceAll("ul>","ul className='list-disc text-start pl-8'>"))}
+                                {parse(String(economicNews?.economic_news_description).replaceAll('type="disc"',"className='list-disc text-start pl-8'"))}
                             </div>
                         </div>
                         <div className="pt-10">

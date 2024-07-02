@@ -41,9 +41,7 @@ export default function TradingSymtem() {
                     {signalOpen?.map((_,i)=> (
                         <>
                             <div className="flex justify-between items-center">
-                                <a href={"/trading-system/" + _?.tradingSystem}>
-                                    <p className="float-start font-bold text-2xl">Trading System {_?.tradingSystem}</p>
-                                </a>
+                                <p className="float-start font-bold text-2xl">Trading System {_?.tradingSystem}</p>
                                 <div>
                                     <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white">
                                         Siêu Máy Tính
@@ -131,8 +129,8 @@ export default function TradingSymtem() {
                                                                 </div>
                                                                 <div className="px-2 py-1 bg-cyan-100">
                                                                     <p>P&L (Pips)</p>
-                                                                    <p className="text-xl font-bold text-emerald-500">
-                                                                        {Math.round((( _?.price_symbol - _?.price) * 10) * 100) / 100}
+                                                                    <p className={`${(_?.price_symbol - _?.price) > 0 ? "text-emerald-500" : "text-red-500"} text-xl font-bold `}>
+                                                                        {Math.round(((_?.price_symbol - _?.price) * 10) * 100) / 100}
                                                                     </p>
                                                                 </div>
                                                             </div>
