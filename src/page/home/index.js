@@ -14,7 +14,6 @@ import { useDevice } from "../../hooks";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Ecosystem from "./Ecosystem";
-import TopMaster from "./TopMaster";
 import { Slide } from 'react-slideshow-image';
 import JobTrade from "./JobTrade";
 import Reports from "./Report";
@@ -22,18 +21,17 @@ import { FormatDollar } from "../../utils/format";
 import { useSpring, animated } from "react-spring";
 import axiosInstance from "../../utils/axios";
 import { isImageOrVideo } from "../../utils/isImageOrVideo";
+import TopMaster from "../../component/TopMaster";
 
 export default function Home() {
     const { isMobile } = useDevice();
     const [products, setProducts] = useState([]);
     const token = useLocation();
-    const [topMaster, setTopMaster] = useState([]);
     const [shorts, setShorts] = useState([]);
     const [productPage, setProductPage] = useState([]);
     const [cookies] = useCookies(["user"]);
     const [key, setKey] = useState(1);
     const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
-    
 
     const navigate = useNavigate();
 
@@ -47,18 +45,6 @@ export default function Home() {
                 setProducts(data || []);
             })
             .catch(() => message.error("Error server!"));
-    };
-
-    const getTopMaster = async () => {
-      await axios
-        .get(`${process.env.REACT_APP_API_URL}/signal/getAllTopMaster`)
-        .catch(function (error) {
-          message.error(error.response.status);
-        })
-        .then(( res ) => {
-          const data = res?.data;
-          setTopMaster(data);
-        });
     };
 
     const fetchShorts = async () => {
@@ -205,19 +191,18 @@ export default function Home() {
     };
 
     
-  const scrolling = useSpring({
-    from: { transform: "translate(100%,0)" },
-    to: { transform: "translate(-100%,0)" },
-    config: { duration: 20000 },
-    reset: true,
-    onRest: () => {
-      setKey(key + 1);
-    }
-  });
+    const scrolling = useSpring({
+        from: { transform: "translate(100%,0)" },
+        to: { transform: "translate(-100%,0)" },
+        config: { duration: 20000 },
+        reset: true,
+        onRest: () => {
+        setKey(key + 1);
+        }
+    });
 
     useEffect(() => {
         fetchProducts();
-        getTopMaster();
         fetchShorts()
         getAllProductPage();
         if (new URLSearchParams(token?.search).get('token') !== null) {
@@ -396,55 +381,7 @@ export default function Home() {
                     />
                 </div>
 
-                <div className="py-10">
-                    <h1 className="font-bold px-4 text-3xl border-blue-500">Các Giao Dịch Thành Công</h1>
-                    <p className="p-4 border-b-2 text-blue-700 text-xl font-semibold">Theo Dõi và Giao Dịch cùng những Master tại Tipper Trade</p>
-                    {topMaster?.length > 0 && (
-                        <Slide slidesToScroll={1} slidesToShow={4} cssClass="py-10 mx-10">
-                            {topMaster.map((_, i) => (
-                                <div key={i}>
-                                    {i < 9 &&
-                                        <div className="border-2 border-black rounded-2xl mx-10 p-3 shadow text-black">
-                                            <p className="font-semibold text-xl text-center pb-5">Rank: {_?.rank}</p>
-                                            <div className="flex items-center justify-center py-2">
-                                                <img 
-                                                    src={_?.user?.photos ? _?.user?.photos : "https://cdn-icons-png.flaticon.com/512/848/848006.png"} 
-                                                    className="rounded-full" 
-                                                    style={{width: 50, height: 50}}/>
-                                                <div className="pl-5">
-                                                    <p className="font-semibold text-md"> Name: {_?.user?.displayName ? _?.user?.displayName : "Admin"}</p>
-                                                    <p className="font-semibold text-md"> ID: {_?.user?.master_key}</p>
-                                                </div>
-                                            </div>                
-                                            <div>
-                                                <p className="font-semibold text-lg p-1 flex justify-between">Tổng lệnh: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span></p>
-                                                <p className="font-semibold text-lg p-1 flex justify-between">Win rate: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span></p>
-                                                <p className="font-semibold text-lg p-1 flex justify-between">Win: <span>{_?.results[0]?.win ? Math.round(_?.results[0]?.win * 100) / 100 : 0}</span></p>
-                                                <p className="font-semibold text-lg p-1 flex justify-between">Loss: <span>{_?.results[0]?.loss ? Math.round(_?.results[0]?.loss * 100) / 100 : 0}</span></p>
-                                                <p className="font-semibold text-lg p-1 flex justify-between">Tổng profit: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span></p>
-                                            </div>
-                                            <div className="flex justify-center py-1">
-                                                {cookies?.user ? 
-                                                    <a href={"/master/" + _?.user?.master_key}>
-                                                        <button className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
-                                                            Chi tiết
-                                                        </button>
-                                                    </a>
-                                                    :
-                                                    <button 
-                                                        className="py-1 px-4 rounded-full bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white" 
-                                                        onClick={()=>setIsModalOpen(true)}>
-                                                        Chi tiết
-                                                    </button>
-                                                }
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            ))}
-                        </Slide>
-                    )}
-                </div>
+                {<TopMaster setIsModalOpen={setIsModalOpen} />}
 
                 <p className="font-bold p-4 text-3xl border-b-2 border-blue-500">Tin Thị Trường</p>
                 <Row>
