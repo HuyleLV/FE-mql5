@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Button, Col, Row, Segmented, Select, Spin } from "antd";
+import { Button, Checkbox, Col, Divider, Modal, Row, Segmented, Select, Spin, message} from "antd";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../utils/axios";
 import logo_black from "../../../component/image/logo_black.png"
@@ -9,9 +9,13 @@ import icon_buy from "../../../component/image/icon/buy.svg"
 import icon_sell from "../../../component/image/icon/sell.svg"
 import logo from "../../../component/image/logo_signal.png"
 import check_icon from "../../../component/image/icon/check.png"
+import { plainOptions } from "../../../helper";
+import { useCookies } from "react-cookie";
+const CheckboxGroup = Checkbox.Group;
 
 export default function TradingSystem() {
     const params = useParams();
+    const [cookies] = useCookies(["user"]);
     const [signal, setSignal] = useState([]);
     const [allSymbol, setAllSymbol] = useState([]);
     const [symbol, setSymbol] = useState();
@@ -20,6 +24,18 @@ export default function TradingSystem() {
     const [value, setValue] = useState(1);
     const [tradingSystem, setTradingSystem] = useState([]);
     const [efficiency, setEfficiency] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [checkedList, setCheckedList] = useState([]);
+    const checkAll = plainOptions.length === checkedList.length;
+    const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
+
+    const onChange = (list) => {
+        setCheckedList(list);
+    };
+    const onCheckAllChange = (e) => {
+        setCheckedList(e.target.checked ? plainOptions : []);
+    };
     
     const getByTradingSystem = async () => {
         await axiosInstance.get(`/tradingSystem/getByTradingSystem/${params?.trading_system}`)
@@ -51,6 +67,16 @@ export default function TradingSystem() {
                 setSignal(data);
             });
     }
+    
+    const createFollower = async () => {
+        await axiosInstance.post(`/followerTradingSystem/createFollower`,{
+            user_id: cookies?.user?.user_id,
+            symbol: JSON.stringify(checkedList),
+            trading_system: params?.trading_system
+        }).then((res) => {
+            message.success(String(res?.data?.message));
+        })
+    }
 
     useEffect(() => { 
         getAllSymbol();
@@ -65,7 +91,7 @@ export default function TradingSystem() {
             setTimeDone(0);
         }
     }, [value]);
-    
+
     useEffect(() => { 
         if(symbol) {
             getSignalCondition(symbol, timeDone);
@@ -112,7 +138,10 @@ export default function TradingSystem() {
                         Swing, Day Trading hay Positon thì phần mềm này là sự lựa chọn hoàn hảo nhất cho bạn
                     </p>
                     <div className="flex pt-10">
-                        <button className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4">
+                        <button 
+                            className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4"
+                            onClick={()=>setIsModalOpen(true)}
+                        >
                             Theo Dõi
                         </button>
                         <button className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4 mx-10">
@@ -180,10 +209,6 @@ export default function TradingSystem() {
                                                 <img className="h-[40px]" src={_?.type === "SELL" ? icon_sell : icon_buy}/>
                                             </div>
                                         </div>
-                                        
-                                        <a href={"/master/" + _?.master_key}>
-                                            <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">Theo Dõi</button>
-                                        </a>
                                     </div>
                                     </div>
                                     <div className="w-full border border-slate-500 px-10 py-5 relative">
@@ -276,6 +301,29 @@ export default function TradingSystem() {
                 </Col>
                 <Col xs={24} xl={2}></Col>
             </Row>
+            <Modal
+                title="Theo dõi Trading System"
+                className="flex justify-center"
+                open={isModalOpen}
+                onOk={() => (setIsModalOpen(false), createFollower())}
+                onCancel={() => setIsModalOpen(false)}
+                okButtonProps={{ className: "bg-blue-500" }}
+            >
+                <p className="p-5">Vui lòng chọn những cặp tiền bạn muốn theo dõi!</p>
+                <Checkbox 
+                    indeterminate={indeterminate} 
+                    onChange={onCheckAllChange} 
+                    checked={checkAll}
+                >
+                    Check all
+                </Checkbox>
+                <Divider />
+                <CheckboxGroup 
+                    options={plainOptions} 
+                    value={checkedList} 
+                    onChange={onChange} 
+                />
+            </Modal>
         </div>
     )
 }

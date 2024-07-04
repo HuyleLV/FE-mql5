@@ -20,6 +20,7 @@ import SignalSymbol from "../../component/ChartCustom/signalSymbol";
 import SignalWinLoss from "../../component/ChartCustom/signalWinLoss";
 import SignalOpen from "./signalOpen";
 import icon_hot from "../../component/image/icon/Hot.svg"
+import TopMaster from "../../component/TopMaster";
 
 export default function SignalPage() {
   const [cookies] = useCookies(["user"]);
@@ -731,7 +732,7 @@ export default function SignalPage() {
                   </Col>
                 }
             </Row>
-            <div className="pt-10 border-y-2 mt-10">
+            {/* <div className="pt-10 border-y-2 mt-10">
               <h1 className="font-bold text-2xl py-5">Top Masters</h1>
               <Row className="py-2">
                 {topMaster.map((_, i) => (
@@ -766,7 +767,8 @@ export default function SignalPage() {
                   </Col>
                 ))}
               </Row>
-            </div>
+            </div> */}
+            <TopMaster />
             <div className="pt-10">
               <h1 className="font-bold text-2xl py-5">Top Signals</h1>
               <Row className="py-2">

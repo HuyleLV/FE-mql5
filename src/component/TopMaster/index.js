@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import oclock from "../../component/image/icon/oclock.png"
 import user from "../../component/image/icon/user.png"
+import verify from "../../component/image/icon/veri.png"
 
 ChartJS.register(
     ArcElement, 
@@ -85,7 +86,7 @@ export default function TopMaster({setIsModalOpen}) {
                                             </p>
                                         </div>
                                         <div>
-                                            123
+                                            <img src={verify} className="h-5" />
                                         </div>
                                     </div>        
                                     <div className="grid grid-cols-2 px-2">

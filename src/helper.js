@@ -38,3 +38,11 @@ export const timeDifference = (pastTime) => {
     return undefined
   }
 }
+
+export const plainOptions = [
+  'AUDUSD', 'XAUUSD', 'EURUSD', 'USDJPY', 'USDCHF', 'GBPUSD', 'USDCAD',
+  'NZDUSD', 'EURJPY', 'GBPJPY', 'EURCHF', 'EURGBP', 'AUDCAD', 'EURCAD',
+  'AUDCHF', 'AUDJPY', 'AUDNZD', 'EURAUD', 'EURNZD', 'GBPAUD', 'GBPCAD',
+  'GBPCHF', 'CADCHF', 'CADJPY', 'CHFJPY', 'NZDJPY', 'GBPNZD', 'NZDCAD',
+  'NZDCHF', 'USDSGD', 'XAGUSD', 'USDCNH'
+];
