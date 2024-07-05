@@ -25,6 +25,7 @@ export default function TradingSystem() {
     const [tradingSystem, setTradingSystem] = useState([]);
     const [efficiency, setEfficiency] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [statusFollower, setStatusFollower] = useState(0);
 
     const [checkedList, setCheckedList] = useState([]);
     const checkAll = plainOptions.length === checkedList.length;
@@ -63,9 +64,19 @@ export default function TradingSystem() {
             symbol: symbol,
             time_done: timeDone
         }})
-            .then(({ data }) => {
-                setSignal(data);
-            });
+        .then(({ data }) => {
+            setSignal(data);
+        });
+    }
+
+    const checkFollower = async (symbol, timeDone) => {
+        await axiosInstance.get(`/followerTradingSystem/checkFollower`, {params: {
+            user_id: cookies?.user?.user_id,
+            trading_system: params?.trading_system
+        }})
+        .then(({ data }) => {
+            setStatusFollower(data?.status);
+        });
     }
     
     const createFollower = async () => {
@@ -75,6 +86,17 @@ export default function TradingSystem() {
             trading_system: params?.trading_system
         }).then((res) => {
             message.success(String(res?.data?.message));
+            checkFollower();
+        })
+    }
+    
+    const deleteFollower = async () => {
+        await axiosInstance.delete(`/followerTradingSystem/deleteFollower`, {params: {
+            user_id: cookies?.user?.user_id,
+            trading_system: params?.trading_system
+        }}).then((res) => {
+            message.success(String(res?.data?.message));
+            checkFollower();
         })
     }
 
@@ -82,6 +104,7 @@ export default function TradingSystem() {
         getAllSymbol();
         getByTradingSystem();
         getByTradingSystemEfficiency();
+        checkFollower();
     }, []);
 
     useEffect(() => { 
@@ -138,12 +161,22 @@ export default function TradingSystem() {
                         Swing, Day Trading hay Positon thì phần mềm này là sự lựa chọn hoàn hảo nhất cho bạn
                     </p>
                     <div className="flex pt-10">
-                        <button 
-                            className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4"
-                            onClick={()=>setIsModalOpen(true)}
-                        >
-                            Theo Dõi
-                        </button>
+                        {statusFollower === 1 ? (
+                            <button 
+                                className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4"
+                                onClick={deleteFollower}
+                            >
+                                Hủy Theo Dõi
+                            </button>
+                        ): (
+                            <button 
+                                className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4"
+                                onClick={()=>setIsModalOpen(true)}
+                            >
+                                Theo Dõi
+                            </button>
+                        )}
+                        
                         <button className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4 mx-10">
                             Nhiều Hơn
                         </button>

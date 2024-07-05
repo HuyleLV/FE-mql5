@@ -230,41 +230,41 @@ export default function NewsDashboard() {
 
     return (
         <>
-            <div>
-                <Row gutter={10} className={"mb-[8px]"}>
-                    <Col flex={1}>
-                        <div className={"text-[20px] font-medium"}>Danh mục nhận định</div>
-                    </Col>
-                    <Col>
-                        <Link to={"/admin/identify/create"}>
-                            <Button type={"primary"} onClick={() => {}}>
-                                Tạo
-                            </Button>
-                        </Link>
-                    </Col>
-                </Row>
-            </div>
-            <div className="w-full h-full mt-5 pb-20 relative">
-                <Table
-                    className={"custom-table"}
-                    dataSource={identify?.data}
-                    columns={columns}
-                    pagination={false}
-                />
-                <Pagination
-                    className="flex justify-center absolute inset-x-0 bottom-20"
-                    current={pagination.page}
-                    total={identify?.total}
-                    pageSize={pagination.pageSize}
-                    showSizeChanger
-                    onChange={(p, ps)=> {
-                        setPagination({
-                            page: p,
-                            pageSize: ps
-                        })
-                    }}
-                />
-            </div>
+          <div>
+              <Row gutter={10} className={"mb-[8px]"}>
+                  <Col flex={1}>
+                      <div className={"text-[20px] font-medium"}>Danh mục nhận định</div>
+                  </Col>
+                  <Col>
+                      <Link to={"/admin/identify/create"}>
+                          <Button type={"primary"} onClick={() => {}}>
+                              Tạo
+                          </Button>
+                      </Link>
+                  </Col>
+              </Row>
+          </div>
+          <div className="w-full h-full mt-5 pb-20 relative">
+              <Table
+                  className={"custom-table"}
+                  dataSource={identify?.data}
+                  columns={columns}
+                  pagination={false}
+              />
+              <Pagination
+                  className="flex justify-center absolute inset-x-0 bottom-20"
+                  current={pagination.page}
+                  total={identify?.total}
+                  pageSize={pagination.pageSize}
+                  showSizeChanger
+                  onChange={(p, ps)=> {
+                      setPagination({
+                          page: p,
+                          pageSize: ps
+                      })
+                  }}
+              />
+          </div>
         </>
     )
 }
