@@ -185,7 +185,7 @@ export default function StatisticalDetail() {
                         />
                         <div className="grid grid-cols-4 gap-4 text-center pt-5">
                             {dataMonth?.map((_,i)=> (
-                                <div className={`${month = _ ? "bg-blue-500" : "bg-white"} border border-black rounded-full p-2 font-semibold cursor-pointer hover:bg-blue-500 hover:text-white hover:border-blue-500`} onClick={()=> setMonth(_)}>
+                                <div className={`${month === _ ? "bg-blue-500 text-white" : "bg-white border-black"} border rounded-full p-2 font-semibold cursor-pointer hover:bg-blue-500 hover:text-white hover:border-blue-500`} onClick={()=> setMonth(_)}>
                                     <p className="text-xl">Tháng {_}</p>
                                 </div>
                             ))}
