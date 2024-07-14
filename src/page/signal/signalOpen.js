@@ -10,6 +10,7 @@ import dayjsInstance from "../../utils/dayjs";
 import check_icon from "../../component/image/icon/check.png"
 import { timeDifference } from "../../helper";
 import myGif from '../../component/image/gif.gif';
+import { DecimalNumber } from "../../utils/format";
 
 export default function SignalOpen() {
     const [signal, setSignal] = useState([]);
@@ -172,15 +173,15 @@ export default function SignalOpen() {
                                                 </div>
                                                 <div className="grid grid-cols-3 pt-2">
                                                     <p className="flex items-center">
-                                                        TP1: {_?.tp1}
+                                                        TP1: {DecimalNumber(_?.tp1, dataSymbol[i]?.digit)}
                                                         {_?.time_tp1 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
                                                     </p>
                                                     <p className="flex items-center">
-                                                        TP2: {_?.tp2}
+                                                        TP2: {DecimalNumber(_?.tp2, dataSymbol[i]?.digit)}
                                                         {_?.time_tp2 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
                                                     </p>
                                                     <p className="flex items-center">
-                                                        TP3: {_?.tp3}
+                                                        TP3: {DecimalNumber(_?.tp3, dataSymbol[i]?.digit)}
                                                         {_?.time_tp3 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
                                                     </p>
                                                 </div>
@@ -210,21 +211,21 @@ export default function SignalOpen() {
                         <div>
                             <p className="text-lg font-semibold">Lời lỗ</p>
                             <p className={`${statistics?.pips > 0 ? "text-green-500" : "text-red-500"} font-bold text-xl`}>
-                                {statistics?.pips}
+                                {DecimalNumber(statistics?.pips, 2)}
                             </p>
                             <p className="pt-5 text-lg font-semibold">Tuần trước</p>
                             <p className={`${statistics?.pips_week > 0 ? "text-green-500" : "text-red-500"} font-bold text-xl`}>
-                                {statistics?.pips_week ? statistics?.pips_week : "NULL"}
+                                {statistics?.pips_week ? DecimalNumber(statistics?.pips_week, 2) : "NULL"}
                             </p>
                         </div>
                         <div>
                             <p className="text-lg font-semibold">Hôm qua</p>
                             <p className={`${statistics?.pips_date > 0 ? "text-green-500" : "text-red-500"} font-bold text-xl`}>
-                                {statistics?.pips_date ? statistics?.pips_date : "NULL"}
+                                {statistics?.pips_date ? DecimalNumber(statistics?.pips_date, 2) : "NULL"}
                             </p>
                             <p className="pt-5 text-lg font-semibold">Tháng trước</p>
                             <p className={`${statistics?.pips_month > 0 ? "text-green-500" : "text-red-500"} font-bold text-xl`}>
-                                {statistics?.pips_month ? statistics?.pips_month : "NULL"}
+                                {statistics?.pips_month ? DecimalNumber(statistics?.pips_month, 2) : "NULL"}
                             </p>
                         </div>
                     </div>
@@ -245,7 +246,7 @@ export default function SignalOpen() {
                                     <p className="font-semibold text-xl">Trading System {_?.trading_system}</p>
                                     <div className="flex justify-between w-full pt-2">
                                         <p className="text-lg">Tín hiệu: {_?.count_signal}</p>
-                                        <p className="text-lg">Tỷ lệ thắng: {_?.win_rate * 100}%</p>
+                                        <p className="text-lg">Tỷ lệ thắng: {DecimalNumber(_?.win_rate * 100, 2)}%</p>
                                     </div>
                                 </div>
                             </div>

@@ -64,14 +64,28 @@ export default function TopMaster({setIsModalOpen}) {
                                                 labels: _?.chart_profit?.create_at,
                                                 datasets: [
                                                 {
-                                                    label: "",
+                                                    label: "profit",
                                                     data: _?.chart_profit?.profit,
-                                                    borderColor: "#C8ECCC",
+                                                    borderColor: "#42639c",
                                                     backgroundColor: "#F0FAF1",
-                                                    pointBorderColor: "#AAA",
-                                                    pointBackgroundColor: "#FEF1F1"
+                                                    pointStyle: false,
+                                                    borderWidth: 2
                                                 }]
                                             }} 
+                                            
+                                            options={{
+                                                plugins: {
+                                                  legend: {
+                                                    display: false
+                                                  }
+                                                },
+                                                scales: {
+                                                  x: {
+                                                    display: false
+                                                  }
+                                                }
+                                              }}
+
                                         />
                                     </div>     
                                     <div className="bg-gray-200 py-1 px-2 flex justify-between">

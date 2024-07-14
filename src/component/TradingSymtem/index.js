@@ -5,7 +5,7 @@ import logo from "../../component/image/logo_black.png"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import axiosInstance from "../../utils/axios";
-import { FormatDollar } from "../../utils/format";
+import { DecimalNumber, FormatDollar } from "../../utils/format";
 import check_icon from "../../component/image/icon/check.png"
 
 export default function TradingSymtem() {
@@ -112,17 +112,17 @@ export default function TradingSymtem() {
                                                             </div>
                                                             <div className="absolute flex items-center top-2 left-2 w-full">
                                                                 <div className="w-1/2">
-                                                                    <p className="text-sm font-bold pb-1">Entry: <span className="font-normal pl-2">{_?.price}</span></p>
+                                                                    <p className="text-sm font-bold pb-1">Entry: <span className="font-normal pl-2">{DecimalNumber(_?.price, _?.digit)}</span></p>
                                                                     <p className="text-sm font-bold flex items-center pb-1">
-                                                                        Tp1: <span className="font-normal pl-2">{_?.tp1}</span>
+                                                                        Tp1: <span className="font-normal pl-2">{DecimalNumber(_?.tp1, _?.digit)}</span>
                                                                         {_?.time_tp1 ? (<img src={check_icon} className="h-5 ml-1"/>) : (<Spin style={{marginLeft: 5}}/>)}
                                                                     </p>
                                                                     <p className="text-sm font-bold flex items-center pb-1">
-                                                                        Tp2: <span className="font-normal pl-2">{_?.tp2}</span>
+                                                                        Tp2: <span className="font-normal pl-2">{DecimalNumber(_?.tp2, _?.digit)}</span>
                                                                         {_?.time_tp2 ? (<img src={check_icon} className="h-5 ml-1"/>) : (<Spin style={{marginLeft: 5}}/>)}
                                                                     </p>
                                                                     <p className="text-sm font-bold flex items-center pb-1">
-                                                                        Tp3: <span className="font-normal pl-2">{_?.tp3}</span>
+                                                                        Tp3: <span className="font-normal pl-2">{DecimalNumber(_?.tp3, _?.digit)}</span>
                                                                         {_?.time_tp3 ? (<img src={check_icon} className="h-5 ml-1"/>) : (<Spin style={{marginLeft: 5}}/>)}
                                                                     </p>
                                                                     <p className="text-sm font-bold">SL: <span className="font-normal pl-2">{_?.sl_show}</span></p>

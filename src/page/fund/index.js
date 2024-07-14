@@ -1,9 +1,119 @@
-import { Col, Row } from "antd";
+import { Button, Col, Form, Input, InputNumber, message, Modal, Row } from "antd";
 import image_mk4 from "../../component/image/mk4.jpg";
 import banner_fund from "../../component/image/banner_fund.png";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { DecimalNumber, FormatVND } from "../../utils/format";
+import axiosInstance from "../../utils/axios";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Bar, Pie } from 'react-chartjs-2';
+import dayjs from "dayjs";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Fund() {
+    const [fund, setFund] = useState([]);
+    const [dollar, setDollar] = useState([]);
+    const [listFund, setListFund] = useState([]);
+    const [registerStep1, setRegisterStep1] = useState(0);
+    const [registerFund, setRegisterFund] = useState(0);
+    
+    const [form] = Form.useForm();
+
+    const getFundData = async () => {
+        await axiosInstance
+            .get(`/fund/getFundData`)
+            .then(({ data }) => {
+                setFund(data);
+            });
+    }
+    
+    const getDollar = async () => {
+        await axiosInstance.get(`/dollar/getById`)
+            .then((res) => {
+                const data = res?.data;
+                setDollar(data[0]);
+            })
+            .catch(() => message.error("Error server!"));
+    };
+    
+    const getListFund = async () => {
+        await axiosInstance.get(`/tradingAccount/getListFund`)
+            .then(({ data }) => {
+                setListFund(data);
+            })
+            .catch(() => message.error("Error server!"));
+    };
+
+    const onSubmit = async (e) => {
+        await axiosInstance.post(`/tradingAccount/create`, e)
+            .then((res) => {
+                message.success(String(res?.data?.message));
+                getFundData();
+
+                if(Number(res?.data?.status) === 1) {
+                    setRegisterFund(0);
+                    form.resetFields();
+                }
+            })
+    }
+
+    const dataChartFund = {  
+        labels: ["Khách Hàng", "Quỹ Tipper"],
+        datasets: [
+            {
+                label: "Phần trăm",
+                data: [
+                    fund?.fund?.[0]?.client_balance / (fund?.fund?.[0]?.client_balance + fund?.fund?.[0]?.master_balance) * 100, 
+                    fund?.fund?.[0]?.master_balance / (fund?.fund?.[0]?.client_balance + fund?.fund?.[0]?.master_balance) * 100
+                ],
+                backgroundColor: [
+                    '#14b8a6',
+                    '#06b6d4',
+                    '#f97316',
+                    '#f59e0b',
+                    '#eab308',
+                    '#84cc16',
+                    '#10b981',
+                    '#0ea5e9',
+                    '#6366f1',
+                    '#ec4899',
+                    '#64748b',
+                    '#6b7280'
+                ],
+            }
+        ],
+    };
+
+    const dataChartSymbol = {  
+        labels: fund?.symbolCategory?.map((_,i) => (_?.symbol)),
+        datasets: [
+            {
+                label: "Số lệnh",
+                data: fund?.symbolCategory?.map((_,i) => (_?.count_symbol)),
+                backgroundColor: [
+                    '#14b8a6',
+                    '#06b6d4',
+                    '#f97316',
+                    '#f59e0b',
+                    '#eab308',
+                    '#84cc16',
+                    '#10b981',
+                    '#0ea5e9',
+                    '#6366f1',
+                    '#ec4899',
+                    '#64748b',
+                    '#6b7280'
+                ],
+            }
+        ],
+    };
+
+    useEffect(() => { 
+        getFundData();
+        getDollar();
+        getListFund();
+    }, []);
 
     return (
         <div>
@@ -33,13 +143,15 @@ export default function Fund() {
                 </Row>
             </div>
 
-            <Row className="max-w-screen-2xl mx-auto p-10">
+            <Row className="max-w-screen-2xl mx-auto p-10 mt-10x">
                 <Col xs={24} xl={14}>
                     <p className="font-bold text-4xl text-center text-[#3F485D]">
                         Hiệu Xuất Đầu Tư Trên <br></br>
                         Thời Gian Thực
                     </p>
-                    <p className="font-semibold text-2xl text-center py-5">Tổng vốn: <span className="text-blue-800 font-bold">1.000.000.000 VND</span></p>
+                    <p className="font-semibold text-2xl text-center py-5">Tổng vốn: 
+                        <span className="text-blue-800 font-bold"> {FormatVND((fund?.fund?.[0]?.master_balance + fund?.fund?.[0]?.client_balance) * dollar?.dollar_vnd)}</span>
+                    </p>
                     <div className="border-2 border-gray-500 mx-20 rounded-xl my-10">
                         <div className="flex p-10 font-semibold text-xl">
                             <p className="w-2/3">
@@ -54,7 +166,7 @@ export default function Fund() {
                                 LỢI NHUẬN TỪ ĐẦU NĂM (2024) (%)
                             </p>
                             <p className="w-1/3 text-end">
-                                6.0
+                                {DecimalNumber(fund?.fund?.[0]?.profit_half_year, 2)}
                             </p>
                         </div>
                         <div className="flex p-10 font-semibold text-xl">
@@ -62,7 +174,7 @@ export default function Fund() {
                                 LỢI NHUẬN 1 NĂM (%)
                             </p>
                             <p className="w-1/3 text-end">
-                                28.3
+                                {DecimalNumber(fund?.fund?.[0]?.profit_one_year, 2)}
                             </p>
                         </div>
                         <div className="flex p-10 font-semibold text-xl border-y border-gray-500">
@@ -70,7 +182,7 @@ export default function Fund() {
                                 LỢI NHUẬN KÉP TRUNG BÌNH 3 NĂM (%/NĂM)
                             </p>
                             <p className="w-1/3 text-end">
-                                13.6
+                                {DecimalNumber(fund?.fund?.[0]?.profit_three_year, 2)}
                             </p>
                         </div>
                         <div className="flex p-10 font-semibold text-xl">
@@ -78,7 +190,7 @@ export default function Fund() {
                                 LỢI NHUẬN KÉP TRUNG BÌNH 5 NĂM (%/NĂM)
                             </p>
                             <p className="w-1/3 text-end">
-                                18.4
+                                {DecimalNumber(fund?.fund?.[0]?.profit_five_year, 2)}
                             </p>
                         </div>
                         <div className="flex p-10 font-semibold text-xl border-t border-gray-500">
@@ -86,43 +198,32 @@ export default function Fund() {
                                 LỢI NHUẬN KÉP TRUNG BÌNH TỪ NGÀY THÀNH LẬP (18-04-2017) (%/NĂM)
                             </p>
                             <p className="w-1/3 text-end">
-                                15.4
+                                {DecimalNumber(fund?.fund?.[0]?.profit_at, 2)}
                             </p>
                         </div>
                     </div>
                 </Col>
                 <Col xs={24} xl={10}>
                     <p className="font-bold text-4xl text-center text-[#3F485D]">Tỷ Lệ Phân Bổ Vốn</p>
+                    <div className="flex justify-center h-[400px] my-10">
+                        <Pie data={dataChartFund}/>
+                    </div>
+                    <p className="font-bold text-4xl text-center text-[#3F485D]">Danh mục đầu tư</p>
+                    <div className="flex justify-center h-[400px] my-10">
+                        <Pie data={dataChartSymbol}/>
+                    </div>
                 </Col>
             </Row>
 
             <div className="max-w-screen-2xl mx-auto flex justify-center">
                 <div>
                     <p className="font-bold text-4xl text-[#004AAD] py-10 text-center">Những Khách Hàng Đã Tham Gia Quỹ Của Chúng Tôi</p>
-                    <p className="text-xl border-b-2 border-gray-500 p-5">
-                        <span>1 - </span>
-                        Ông Trần Văn xxx - 0912345xxx  - acvxxx@gmail.com - ngày tham gia 01/05/2024 đã đầu tư 5.000.000đ 
-                    </p>
-                    <p className="text-xl border-b-2 border-gray-500 p-5">
-                        <span>1 - </span>
-                        Ông Trần Văn xxx - 0912345xxx  - acvxxx@gmail.com - ngày tham gia 01/05/2024 đã đầu tư 5.000.000đ 
-                    </p>
-                    <p className="text-xl border-b-2 border-gray-500 p-5">
-                        <span>1 - </span>
-                        Ông Trần Văn xxx - 0912345xxx  - acvxxx@gmail.com - ngày tham gia 01/05/2024 đã đầu tư 5.000.000đ 
-                    </p>
-                    <p className="text-xl border-b-2 border-gray-500 p-5">
-                        <span>1 - </span>
-                        Ông Trần Văn xxx - 0912345xxx  - acvxxx@gmail.com - ngày tham gia 01/05/2024 đã đầu tư 5.000.000đ 
-                    </p>
-                    <p className="text-xl border-b-2 border-gray-500 p-5">
-                        <span>1 - </span>
-                        Ông Trần Văn xxx - 0912345xxx  - acvxxx@gmail.com - ngày tham gia 01/05/2024 đã đầu tư 5.000.000đ 
-                    </p>
-                    <p className="text-xl border-b-2 border-gray-500 p-5">
-                        <span>1 - </span>
-                        Ông Trần Văn xxx - 0912345xxx  - acvxxx@gmail.com - ngày tham gia 01/05/2024 đã đầu tư 5.000.000đ 
-                    </p>
+                    {listFund?.map((_, i) => (
+                        <p className="text-2xl border-b-2 border-gray-500 p-5 flex justify-center">
+                            <span>{i+1}</span>
+                            - {_?.fullname} - {_?.phone}  - {_?.email} - ngày tham gia {dayjs(_?.create_at).format("DD/MM/YYYY")} đã đầu tư {FormatVND(_?.init_balance * dollar?.dollar_vnd)} 
+                        </p>
+                    ))}
                     <Link to={""} className="flex justify-center">
                         <button className="text-xl text-white border px-6 py-2 rounded-full bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-10">
                             Xem Thêm
@@ -262,18 +363,20 @@ export default function Fund() {
                         </Col>
                         <Col xs={24} xl={6} className="border-b-2">                            
                             <p className="pb-2">
-                                <Link to={""}>
-                                    <button className="text-xl text-white border px-6 py-2 rounded-full bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800">
-                                        Mở Tài Khoản Ngay
-                                    </button>
-                                </Link>
+                                <button 
+                                    className={`${registerStep1 == 1 ? "bg-blue-800" : "bg-blue-600"} text-xl text-white border px-6 py-2 rounded-full border-blue-600 font-semibold`}
+                                    onClick={() => (setRegisterStep1(1), message.success("Vui lòng chuyển sang bước 2 để đăng ký!"))}
+                                >
+                                    Mở Tài Khoản Ngay
+                                </button>
                             </p>
                             <p className="pb-5">
-                                <Link to={""}>
-                                    <button className="text-xl text-white border px-6 py-2 rounded-full bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800">
-                                        Tôi Đã Có Tài Khoản
-                                    </button>
-                                </Link>
+                                <button 
+                                    className={`${registerStep1 == 2 ? "bg-blue-800" : "bg-blue-600"} text-xl text-white border px-6 py-2 rounded-full border-blue-600 font-semibold`}
+                                    onClick={() => (setRegisterStep1(2), message.success("Vui lòng chuyển sang bước 2 để đăng ký!"))}
+                                >
+                                    Tôi Đã Có Tài Khoản
+                                </button>
                             </p>
                         </Col>
                         
@@ -291,11 +394,12 @@ export default function Fund() {
                         </Col>
                         <Col xs={24} xl={6} className="py-5 border-b-2">                            
                             <p className="pb-2">
-                                <Link to={""}>
-                                    <button className="text-xl text-white border px-12 py-2 rounded-full bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800">
-                                        Đăng Ký Ngay
-                                    </button>
-                                </Link>
+                                <button 
+                                    className="text-xl text-white border px-12 py-2 rounded-full bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800"
+                                    onClick={() => registerStep1 > 0 ? setRegisterFund(3) : message.warning("Vui lòng chọn ở bước 1!")}
+                                >
+                                    Đăng Ký Ngay
+                                </button>
                             </p>
                         </Col>
                         
@@ -317,6 +421,65 @@ export default function Fund() {
                     </Row>
                 </div>
             </div>
+            
+            <Modal
+                title="Đăng ký tham gia quỹ!"
+                className="flex justify-center"
+                open={
+                    registerFund == 3 
+                }
+                onCancel={() => setRegisterFund(0)}
+                footer={null}
+            >
+                <p className="p-5">Vui lòng nhập đầy đủ thông tin để tham gia quỹ!</p>
+                <Form
+                    layout={"vertical"}
+                    colon={false}
+                    form={form}
+                    onFinishFailed={(e) => console.log(e)}
+                    onFinish={onSubmit}
+                    >
+                    <Form.Item
+                        label={"Họ và tên"}
+                        name="fullname"
+                        rules={[{ required: true, message: "Vui lòng nhập tên!" }]}
+                    >
+                        <Input size="large" placeholder={"Nhập họ và tên"} />
+                    </Form.Item>
+            
+                    <Form.Item label={"Số điện thoại"} name="phone">
+                        <InputNumber className="!w-full" size="large" placeholder={"Nhập số điện thoại"} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label={"Email"}
+                        name="email"
+                        rules={[{ required: true, message: "Vui lòng nhập email!" }]}
+                    >
+                        <Input type="email" size="large" placeholder={"Nhập email"} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label={"ID MT4"}
+                        name="mt4_acc"
+                        rules={[{ required: true, message: "Vui lòng nhập ID MT4!" }]}
+                    >
+                        <Input size="large" placeholder={"Nhập ID MT4"} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label={"Server"}
+                        name="server"
+                        rules={[{ required: true, message: "Vui lòng nhập server!" }]}
+                    >
+                        <Input size="large" placeholder={"Nhập server"} />
+                    </Form.Item>
+            
+                    <Button type={"primary"} htmlType={"submit"} className="flex justify-end w-full">
+                        {"Theo dõi"}
+                    </Button>
+                </Form>
+            </Modal>
         </div>
     )
 }
