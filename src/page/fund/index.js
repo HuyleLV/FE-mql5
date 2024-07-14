@@ -155,7 +155,7 @@ export default function Fund() {
                     <div className="border-2 border-gray-500 mx-20 rounded-xl my-10">
                         <div className="flex p-10 font-semibold text-xl">
                             <p className="w-2/3">
-                                TẠI NGÀY 23/04/2024
+                                TẠI NGÀY {dayjs(Date()).format("DD/MM/YYYY")}
                             </p>
                             <p className="w-1/3 text-end">
                                 NFI
