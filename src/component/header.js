@@ -293,163 +293,165 @@ export default function Header() {
                 <div
                   className={`hidden w-full md:block md:w-auto`}
                 >
-                  {cookies?.user && (
-                    <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0 h-full items-center text-2xl">
-                      <li className="px-4">
-                        <a className="block md:p-0 md:hover:text-blue-400" href={"/san-pham"}>
-                          Sản Phẩm
-                        </a>
-                      </li>
-                      <li className="px-4">
-                        <a className="block md:p-0 md:hover:text-blue-400 flex items-center" href={"/signal"}>
-                          Tín Hiệu
-                          <img src={icon_hot} className="h-10"/>
-                        </a>
-                      </li>
-                      <li className="px-4">
-                        <a className="block md:p-0 md:hover:text-blue-400" href={"/nhan-dinh"}>
-                          Nhận Định
-                        </a>
-                      </li>
-                      {/* <li className="px-4">
-                        <a className="block md:p-0 md:hover:text-blue-400" href={"/tin-tuc"}>
-                          Tin Tức
-                        </a>
-                      </li> */}
-                      <li className="px-4">
-                        <Dropdown
-                          dropdownRender={() => (
-                            <div className="flex justify-center">
-                              <div className="grid grid-cols-4 gap-4 bg-white w-2/3 mt-3 p-5 rounded-xl drop-shadow-md">
-                                <div>
-                                  <div className="border-b h-[140px]">
-                                    <a href={"/tin-tuc"}>
-                                      <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Khám Phá</p>
-                                    </a>
-                                    <p className="font-medium">
-                                      Khám phá phương thức mới trong việc sử dụng 
-                                      các giải pháp Tipper nhằm nâng cao năng suất cho 
-                                      lực lượng lao động hiện đại.
-                                    </p>
-                                  </div>
-                                  <div className="list-disc pt-4">
-                                    <li>
-                                      <a href={"/tin-tuc"}>Blog của Tipper</a>
-                                    </li>
-                                    <li>
-                                      <a href={"/tin-tuc"}>Câu Chuyện Khách Hàng</a>
-                                    </li>
-                                    <li>
-                                      <a href={"/tin-tuc"}>Zoom Thực Chiến</a>
-                                    </li>
-                                  </div>
+                  <ul className="flex flex-col font-medium md:p-0 text-white md:flex-row md:space-x-8 md:mt-0 md:border-0 h-full items-center text-2xl">
+                    <li className="px-4">
+                      <a className="block md:p-0 md:hover:text-blue-400" href={"/san-pham"}>
+                        Sản Phẩm
+                      </a>
+                    </li>
+                    <li className="px-4">
+                      <a className="block md:p-0 md:hover:text-blue-400 flex items-center" href={"/signal"}>
+                        Tín Hiệu
+                        <img src={icon_hot} className="h-10"/>
+                      </a>
+                    </li>
+                    <li className="px-4">
+                      <a className="block md:p-0 md:hover:text-blue-400" href={"/nhan-dinh"}>
+                        Nhận Định
+                      </a>
+                    </li>
+                    {/* <li className="px-4">
+                      <a className="block md:p-0 md:hover:text-blue-400" href={"/tin-tuc"}>
+                        Tin Tức
+                      </a>
+                    </li> */}
+                    <li className="px-4">
+                      <Dropdown
+                        dropdownRender={() => (
+                          <div className="flex justify-center">
+                            <div className="grid grid-cols-4 gap-4 bg-white w-2/3 mt-3 p-5 rounded-xl drop-shadow-md">
+                              <div>
+                                <div className="border-b h-[140px]">
+                                  <a href={"/tin-tuc"}>
+                                    <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Khám Phá</p>
+                                  </a>
+                                  <p className="font-medium">
+                                    Khám phá phương thức mới trong việc sử dụng 
+                                    các giải pháp Tipper nhằm nâng cao năng suất cho 
+                                    lực lượng lao động hiện đại.
+                                  </p>
                                 </div>
-                                <div>
-                                  <div className="border-b h-[140px]">
-                                    <a href={"/education"}>
-                                      <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Học Tập</p>
-                                    </a>
-                                    <p className="font-medium">
-                                      Khám phá phương thức mới trong việc sử 
-                                      dụng các giải pháp Tipper nhằm nâng cao năng 
-                                      suất cho lực lượng lao động hiện đại.
-                                    </p>
-                                  </div>
-                                  <div className="list-disc pt-4">
-                                    <li>
-                                      <a href={"/tin-tuc"}>Giáo Trình</a>
-                                    </li>
-                                    <li>
-                                      <a href={"/tin-tuc"}>Video Hướng Dẫn</a>
-                                    </li>
-                                    <li>
-                                      <a href={"/tin-tuc"}>Bằng Chứng Thành Công</a>
-                                    </li>
-                                  </div>
+                                <div className="list-disc pt-4">
+                                  <li>
+                                    <a href={"/tin-tuc"}>Blog của Tipper</a>
+                                  </li>
+                                  <li>
+                                    <a href={"/tin-tuc"}>Câu Chuyện Khách Hàng</a>
+                                  </li>
+                                  <li>
+                                    <a href={"/tin-tuc"}>Zoom Thực Chiến</a>
+                                  </li>
                                 </div>
-                                <div>
-                                  <div className="border-b h-[140px]">
-                                    <a href={"/tin-tuc"}>
-                                      <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Kết Nối</p>
-                                    </a>
-                                    <p className="font-medium">
-                                      Kết nối với những người dùng Tipper khác, 
-                                      đồng thời chia sẻ hiểu biết của riêng 
-                                      bạn về ngành và sản phẩm.
-                                    </p>
-                                  </div>
-                                  <div className="list-disc pt-4">
-                                    <li>
-                                      <a href={"/tin-tuc"}>Tipper Community</a>
-                                    </li>
-                                    <li>
-                                      <a href={"/tin-tuc"}>Cổng Thông Tin Đối Tác</a>
-                                    </li>
-                                  </div>
+                              </div>
+                              <div>
+                                <div className="border-b h-[140px]">
+                                  <a href={"/education"}>
+                                    <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Học Tập</p>
+                                  </a>
+                                  <p className="font-medium">
+                                    Khám phá phương thức mới trong việc sử 
+                                    dụng các giải pháp Tipper nhằm nâng cao năng 
+                                    suất cho lực lượng lao động hiện đại.
+                                  </p>
                                 </div>
-                                <div>
-                                  <div className="border-b h-[140px]">
+                                <div className="list-disc pt-4">
+                                  <li>
+                                    <a href={"/tin-tuc"}>Giáo Trình</a>
+                                  </li>
+                                  <li>
+                                    <a href={"/tin-tuc"}>Video Hướng Dẫn</a>
+                                  </li>
+                                  <li>
+                                    <a href={"/tin-tuc"}>Bằng Chứng Thành Công</a>
+                                  </li>
+                                </div>
+                              </div>
+                              <div>
+                                <div className="border-b h-[140px]">
+                                  <a href={"/tin-tuc"}>
+                                    <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Kết Nối</p>
+                                  </a>
+                                  <p className="font-medium">
+                                    Kết nối với những người dùng Tipper khác, 
+                                    đồng thời chia sẻ hiểu biết của riêng 
+                                    bạn về ngành và sản phẩm.
+                                  </p>
+                                </div>
+                                <div className="list-disc pt-4">
+                                  <li>
+                                    <a href={"/tin-tuc"}>Tipper Community</a>
+                                  </li>
+                                  <li>
+                                    <a href={"/tin-tuc"}>Cổng Thông Tin Đối Tác</a>
+                                  </li>
+                                </div>
+                              </div>
+                              <div>
+                                <div className="border-b h-[140px]">
+                                  <a href={"/tin-tuc"}>
+                                    <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Hỗ Trợ</p>
+                                  </a>
+                                  <p className="font-medium">
+                                    Nhận tài liệu về việc triển khai, 
+                                    quản lý và sử dụng nền tảng Tipper.
+                                  </p>
+                                </div>
+                                <div className="list-disc pt-4">
+                                  <li>
                                     <a href={"/tin-tuc"}>
-                                      <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Hỗ Trợ</p>
+                                      Hỗ Trợ Khách Hàng <br></br>
+                                      Chúng tôi hỗ trợ khách hàng mọi thắc mắc về thông tin thị trường 24/7 
                                     </a>
-                                    <p className="font-medium">
-                                      Nhận tài liệu về việc triển khai, 
-                                      quản lý và sử dụng nền tảng Tipper.
-                                    </p>
-                                  </div>
-                                  <div className="list-disc pt-4">
-                                    <li>
-                                      <a href={"/tin-tuc"}>
-                                        Hỗ Trợ Khách Hàng <br></br>
-                                        Chúng tôi hỗ trợ khách hàng mọi thắc mắc về thông tin thị trường 24/7 
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a href={"/tin-tuc"}>
-                                        Hỗ Trợ Đối Tác <br></br>
-                                        Liên hệ với Hotline: 0356 496 403 /  <br></br>
-                                        Email : invest.Tipperpartner@gmail.com để làm đối tác toàn diện của chúng tôi
-                                      </a>
-                                    </li>
-                                  </div>
+                                  </li>
+                                  <li>
+                                    <a href={"/tin-tuc"}>
+                                      Hỗ Trợ Đối Tác <br></br>
+                                      Liên hệ với Hotline: 0356 496 403 /  <br></br>
+                                      Email : invest.Tipperpartner@gmail.com để làm đối tác toàn diện của chúng tôi
+                                    </a>
+                                  </li>
                                 </div>
                               </div>
                             </div>
-                          )}
-                          placement="bottom"
-                          trigger={['hover']}
-                        >
-                          <div className="flex items-end">
-                            <p className="block md:p-0 md:hover:text-blue-400 hover:cursor-pointer">Tài Liệu</p>
-                            <DownOutlined className="w-3 ml-2" />
                           </div>
-                        </Dropdown>
-                      </li>
-                      <li className="px-4">
-                        <a className="block md:p-0 md:hover:text-blue-400" href={"/quy"}>
-                          Quỹ
-                        </a>
-                      </li>
-                      <li className="px-4">
-                        <a className="block md:p-0 md:hover:text-blue-400" href={"/wallet"}>
-                          Ví
-                        </a>
-                      </li>
-                    </ul>
-                  )}
+                        )}
+                        placement="bottom"
+                        trigger={['hover']}
+                      >
+                        <div className="flex items-end">
+                          <p className="block md:p-0 md:hover:text-blue-400 hover:cursor-pointer">Tài Liệu</p>
+                          <DownOutlined className="w-3 ml-2" />
+                        </div>
+                      </Dropdown>
+                    </li>
+                    {cookies?.user && (
+                      <>
+                        <li className="px-4">
+                          <a className="block md:p-0 md:hover:text-blue-400" href={"/quy"}>
+                            Quỹ
+                          </a>
+                        </li>
+                        <li className="px-4">
+                          <a className="block md:p-0 md:hover:text-blue-400" href={"/wallet"}>
+                            Ví
+                          </a>
+                        </li>
+                      </>
+                    )}
+                  </ul>
                 </div>
               </>
             }
           </div>
         </div>
 
-        {!cookies?.user && (
+        {/* {!cookies?.user && (
           <div className="flex justify-center items-center">
             <p className="text-4xl font-bold text-white p-3 px-10">
               Giải Pháp Giao Dịch Toàn Diện
             </p>
           </div>
-        )}
+        )} */}
         <div className="flex items-center min-w-fit gap-x-[20px] pr-[15px] md:pr-[20px] text-[14px] py-2">
           {!cookies?.user ? (
             <>

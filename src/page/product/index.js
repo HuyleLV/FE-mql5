@@ -229,15 +229,15 @@ export default function Product() {
     };
 
     useEffect(() => { 
-        if(!cookies?.user && currentPath?.includes('/san-pham')){ 
-            message.warning("Vui lòng đăng nhập!")
-            navigate("/login");
-          } else {
+        // if(!cookies?.user && currentPath?.includes('/san-pham')){ 
+        //     message.warning("Vui lòng đăng nhập!")
+        //     navigate("/login");
+        //   } else {
             fetchProducts();
             getAllProductPage();
             getAllCategoryWeb();
-          }
-    }, [cookies?.user]);
+        //   }
+    }, []);
 
     return (
         <>
@@ -335,19 +335,25 @@ export default function Product() {
 
             {tab === 3 && (
                 <div>
-                    <TradingSymtem />
+                    {cookies?.user ? (
+                        <TradingSymtem />
+                    ) : (
+                        <div className="flex justify-center py-10">
+                            <p className="text-2xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Vui lòng đăng nhập để được sử dụng chức năng này!</p>
+                        </div>
+                    )}
                 </div>
             )}
             
             {tab === 4 && (
-                <div className="flex justify-center">
-                    <p className="text-5xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
+                <div className="flex justify-center py-10">
+                    <p className="text-4xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
                 </div>
             )}
             
             {tab === 5 && (
-                <div className="flex justify-center">
-                    <p className="text-5xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
+                <div className="flex justify-center py-10">
+                    <p className="text-4xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
                 </div>
             )}
                 

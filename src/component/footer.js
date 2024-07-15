@@ -15,7 +15,7 @@ export default function Footer() {
 
   return (
     <div style={{'--image-url': `url(${bg_footer})`}} className='bg-[image:var(--image-url)] bg-no-repeat bg-cover bg-center'>
-      <div className="max-w-screen-2xl items-center mx-auto pt-10 pb-5" id="footer">
+      <div className="max-w-screen-2xl items-center mx-auto" id="footer">
         <p className="py-10 text-center text-white text-xl font-semibold">
           Tipper Trade - Cung cấp những giải pháp tài chính nhanh nhất, hiệu quả nhất, chính xác nhất cho <br/>
           mỗi khách hàng của từng doanh nghiệp
@@ -35,13 +35,13 @@ export default function Footer() {
               <p className="font-medium text-white py-2 text-lg">HOME</p>
             </div>
             <div className="font-medium text-lg">
-              <a href="https://tippertrade.com/">
+              {/* <a href="https://tippertrade.com/">
                 <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Trang Chủ</p>
-              </a>
+              </a> */}
               <a href="https://tippertrade.com/san-pham/">
-                <p className="text-[#999999]"><CaretRightOutlined /> Sản Phẩm</p>
+                <p className="text-[#999999] py-1 pt-4 "><CaretRightOutlined /> Sản Phẩm</p>
               </a>
-              <a href="https://tippertrade.com/thi-truong/">
+              {/* <a href="https://tippertrade.com/thi-truong/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Thị Trường</p>
               </a>
               <a href="https://tippertrade.com/blocks/block-giai-phap/">
@@ -52,7 +52,7 @@ export default function Footer() {
               </a>
               <a href="https://tippertrade.com/blocks/footer-about-us/">
                 <p className="text-[#999999]"><CaretRightOutlined /> Về Chúng Tôi</p>
-              </a>
+              </a> */}
             </div>
           </Col>
           <Col xs={isMobile ? 12 : 24} xl={4}>
@@ -63,7 +63,7 @@ export default function Footer() {
               <a href="https://tippertrade.com/giai-phap-toan-dien/">
                 <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Giải Pháp Giao Dịch</p>
               </a>
-              <a href="https://tippertrade.com/tai-lieu/zoom-thuc-chien/">
+              {/* <a href="https://tippertrade.com/tai-lieu/zoom-thuc-chien/">
                 <p className="text-[#999999]"><CaretRightOutlined /> Zoom Thực Chiến</p>
               </a>
               <a href="https://tippertrade.com/dao-tao-nhan-luc/">
@@ -74,7 +74,7 @@ export default function Footer() {
               </a>
               <a href="https://tippertrade.com/phan-mem-ket-noi/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Phần Mềm Kết Nối</p>
-              </a>
+              </a> */}
             </div>
           </Col>
           <Col xs={isMobile ? 12 : 24} xl={4}>
@@ -82,13 +82,13 @@ export default function Footer() {
               <p className="font-medium text-white py-2 text-lg">THÔNG TIN</p>
             </div>
             <div className="font-medium text-lg">
-              <a href="https://tippertrade.com/thong-tin/">
+              {/* <a href="https://tippertrade.com/thong-tin/">
                 <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Thông Tin</p>
-              </a>
+              </a> */}
               <a href="https://tippertrade.com/co-hoi-hop-tac/">
-                <p className="text-[#999999]"><CaretRightOutlined /> Cơ Hội Hợp Tác</p>
+                <p className="text-[#999999] py-1 pt-4"><CaretRightOutlined /> Cơ Hội Hợp Tác</p>
               </a>
-              <a href="https://tippertrade.com/co-hoi-lam-viec/">
+              {/* <a href="https://tippertrade.com/co-hoi-lam-viec/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Cơ Hội Làm Việc</p>
               </a>
               <a href="https://tippertrade.com/chinh-sach-bao-mat/">
@@ -99,7 +99,7 @@ export default function Footer() {
               </a>
               <a href="https://tippertrade.com/cong-dong/">
                 <p className="py-1 text-[#999999]"><CaretRightOutlined /> Cộng Đồng</p>
-              </a>
+              </a> */}
             </div>
           </Col>
           <Col xs={24} xl={6}>
