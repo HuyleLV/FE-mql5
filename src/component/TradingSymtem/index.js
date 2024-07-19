@@ -1,4 +1,4 @@
-import { Col, List, Row, Spin, message } from "antd";
+import { Checkbox, Col, Divider, Dropdown, List, Row, Spin, message } from "antd";
 import { IconSignal } from "../../utils/iconSignal";
 import dayjsInstance from "../../utils/dayjs";
 import logo from "../../component/image/logo_black.png"
@@ -7,9 +7,22 @@ import axios from "axios";
 import axiosInstance from "../../utils/axios";
 import { DecimalNumber, FormatDollar } from "../../utils/format";
 import check_icon from "../../component/image/icon/check.png"
+import { plainOptions } from "../../helper";
+const CheckboxGroup = Checkbox.Group;
 
 export default function TradingSymtem() {
     const [signalOpen, setSignalOpen] = useState([]);
+    
+    const [checkedList, setCheckedList] = useState([]);
+    const checkAll = plainOptions.length === checkedList.length;
+    const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
+
+    const onChange = (list) => {
+        setCheckedList(list);
+    };
+    const onCheckAllChange = (e) => {
+        setCheckedList(e.target.checked ? plainOptions : []);
+    };
 
     const getSignalOpen = async () => {
         await axiosInstance.get(`/tradingSystem/getSignalOpen`)
@@ -46,9 +59,34 @@ export default function TradingSymtem() {
                                     <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white">
                                         Siêu Máy Tính
                                     </button>
-                                    <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white mr-5">
-                                        Cặp Tiền Hiển Thị
-                                    </button>
+                                    
+                                    <Dropdown
+                                        dropdownRender={() => (
+                                            <div className="flex justify-center">
+                                                <div className="bg-white w-[500px] mt-3 p-5 rounded-xl drop-shadow-md">
+                                                    <Checkbox 
+                                                        indeterminate={indeterminate} 
+                                                        onChange={onCheckAllChange} 
+                                                        checked={checkAll}
+                                                    >
+                                                        Hiển thị tất cả cặp tiền
+                                                    </Checkbox>
+                                                    <Divider />
+                                                    <CheckboxGroup
+                                                        options={plainOptions} 
+                                                        value={checkedList} 
+                                                        onChange={onChange} 
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+                                        placement="bottom"
+                                        trigger={['click']}
+                                    >
+                                        <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white mr-5">
+                                            Cặp Tiền Hiển Thị
+                                        </button>
+                                    </Dropdown>
                                 </div>
                             </div>
                             <div className="py-10 border mb-10 mt-5 grid grid-cols-12"> 
