@@ -98,16 +98,16 @@ import {
             </Form.Item>
 
             <Form.Item label={"Danh mục nhận định"} name="education_category_id">
-                <Select
-                    showSearch
-                    size="large"
-                    placeholder="Select a person"
-                    optionFilterProp="children"
-                    options={educationCategory?.map((value) => ({
-                    value: value.education_category_id,
-                    label: value.education_category_title,
-                    }))}
-                />
+              <Select
+                showSearch
+                size="large"
+                placeholder="Select a person"
+                optionFilterProp="children"
+                options={educationCategory?.map((value) => ({
+                  value: value.education_category_id,
+                  label: value.education_category_title,
+                }))}
+              />
             </Form.Item>
   
           <Row gutter={40} className={"my-[40px] pl-[20px]"}>
