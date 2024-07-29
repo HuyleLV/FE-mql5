@@ -17,7 +17,6 @@ export const FormatVND = (price) => {
     return VND.format(price)
 }
 
-
 export const DecimalNumber = (num, n) => {
     let base = 10**n;
     let result = Math.round(num * base) / base ;

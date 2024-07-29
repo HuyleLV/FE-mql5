@@ -31,6 +31,8 @@ export default function Product() {
     const [productPage, setProductPage] = useState([]);
     const [short, setShort] = useState([]);
     const [report, setReport] = useState([]);
+    const [isBuy, setIsBuy] = useState([]);
+    const [checkBuy, setCheckBuy] = useState(false);
 
     const fetchProducts = async () => {
         await axios
@@ -66,7 +68,18 @@ export default function Product() {
             .catch(() => message.error("Error server!"));
     };
 
-    
+    const checkBuyUser = async () => {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/report/checkBuyUser`, {params: {
+            type: 1,
+            create_by: cookies?.user?.user_id
+        }})
+        .then(({ data }) => {
+            setIsBuy(data);
+        });
+    }
+
+    const hasProductId = (id) => isBuy.some(item => item.product_id === id);
 
     const renderItem = (item) => {
         if (item?.product?.length > 0) {
@@ -229,15 +242,19 @@ export default function Product() {
     };
 
     useEffect(() => { 
-        // if(!cookies?.user && currentPath?.includes('/san-pham')){ 
-        //     message.warning("Vui lòng đăng nhập!")
-        //     navigate("/login");
-        //   } else {
-            fetchProducts();
-            getAllProductPage();
-            getAllCategoryWeb();
-        //   }
+        fetchProducts();
+        getAllProductPage();
+        getAllCategoryWeb();
+        checkBuyUser();
     }, []);
+
+    useEffect(() => { 
+        if(hasProductId(31) === true || hasProductId(34) === true || hasProductId(37) === true) {
+            setCheckBuy(true);
+        } else {
+            setCheckBuy(false);
+        }
+    }, [isBuy]);
 
     return (
         <>
@@ -336,7 +353,24 @@ export default function Product() {
             {tab === 3 && (
                 <div>
                     {cookies?.user ? (
-                        <TradingSymtem />
+                        <>
+                            {checkBuy === true ? (
+                                <TradingSymtem />
+                            ) : (
+                                <div className="flex justify-center py-10">
+                                    <div className="p-5 bg-blue-500">
+                                        <p className="text-2xl font-bold text-center text-white">
+                                            Vui lòng mua 1 trong các sản phẩm bên dưới để được sử dụng chức năng này:
+                                        </p>
+                                        <div className="list-disc text-white pt-2">
+                                            <li><a href="https://tippertrade.com/market/37">https://tippertrade.com/market/37</a></li>
+                                            <li><a href="https://tippertrade.com/market/34">https://tippertrade.com/market/34</a></li>
+                                            <li><a href="https://tippertrade.com/market/31">https://tippertrade.com/market/31</a></li>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     ) : (
                         <div className="flex justify-center py-10">
                             <p className="text-2xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Vui lòng đăng nhập để được sử dụng chức năng này!</p>

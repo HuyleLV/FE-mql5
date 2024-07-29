@@ -72,7 +72,11 @@ export default function TradingSymtem() {
     useEffect(() => { 
         const interval = setInterval(async () => {
             try {
-                await getSignalOpen(tradingSystem, checkedList);
+                if(checkedList.length > 0) {
+                    await getSignalOpen(tradingSystem, checkedList);
+                } else {
+                    await getSignalOpen(tradingSystem, plainOptions);
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -96,33 +100,50 @@ export default function TradingSymtem() {
                         ))}
                     </div>
                 
-                    <Dropdown
-                        dropdownRender={() => (
-                            <div className="flex justify-center">
-                                <div className="bg-white w-[500px] mt-3 p-5 rounded-xl drop-shadow-md">
-                                    <Checkbox 
-                                        indeterminate={indeterminate} 
-                                        onChange={onCheckAllChange} 
-                                        checked={checkAll}
-                                    >
-                                        Hiển thị tất cả cặp tiền
-                                    </Checkbox>
-                                    <Divider />
-                                    <CheckboxGroup
-                                        options={plainOptions} 
-                                        value={checkedList} 
-                                        onChange={onChange} 
-                                    />
+                    <div>
+                        <Dropdown
+                            dropdownRender={() => (
+                                <div className="flex justify-center">
+                                    <div className="bg-slate-50 w-[500px] mt-3 p-5 rounded-xl drop-shadow-md">
+                                        
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                        placement="bottom"
-                        trigger={['click']}
-                    >
-                        <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white mr-5">
-                            Cặp Tiền Hiển Thị
-                        </button>
-                    </Dropdown>
+                            )}
+                            placement="bottom"
+                            trigger={['click']}
+                        >
+                            <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white mr-5">
+                                Siêu Máy Tính
+                            </button>
+                        </Dropdown>
+                        <Dropdown
+                            dropdownRender={() => (
+                                <div className="flex justify-center">
+                                    <div className="bg-slate-50 w-[500px] mt-3 p-5 rounded-xl drop-shadow-md">
+                                        <Checkbox 
+                                            indeterminate={indeterminate} 
+                                            onChange={onCheckAllChange} 
+                                            checked={checkAll}
+                                        >
+                                            Hiển thị tất cả cặp tiền
+                                        </Checkbox>
+                                        <Divider />
+                                        <CheckboxGroup
+                                            options={plainOptions} 
+                                            value={checkedList} 
+                                            onChange={onChange} 
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                            placement="bottom"
+                            trigger={['click']}
+                        >
+                            <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white mr-5">
+                                Cặp Tiền Hiển Thị
+                            </button>
+                        </Dropdown>
+                    </div>
                 </div>
 
                 {signalOpen?.map((_, i)=> (

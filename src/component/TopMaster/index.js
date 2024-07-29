@@ -8,6 +8,7 @@ import { Line } from 'react-chartjs-2';
 import oclock from "../../component/image/icon/oclock.png"
 import user from "../../component/image/icon/user.png"
 import verify from "../../component/image/icon/veri.png"
+import { DecimalNumber } from "../../utils/format";
 
 ChartJS.register(
     ArcElement, 
@@ -103,21 +104,21 @@ export default function TopMaster({setIsModalOpen}) {
                                             <img src={verify} className="h-5" />
                                         </div>
                                     </div>        
-                                    <div className="grid grid-cols-2 px-2">
-                                        <p className="font-semibold text-base p-2">
-                                            Tổng Lệnh: <span>{_?.results[0]?.total ? _?.results[0]?.total : 0}</span>
+                                    <div className="grid grid-cols-2 px-2 text-center">
+                                        <p className="font-semibold text-base pt-2">
+                                            Tổng Lệnh: <p>{_?.results[0]?.total ? _?.results[0]?.total : 0}</p>
                                         </p>
-                                        <p className="font-semibold text-base p-2">
-                                            Sinh Lời: <span>{_?.results[0]?.total_profit ? Math.round(_?.results[0]?.total_profit * 100) / 100 : 0}</span>
+                                        <p className="font-semibold text-base pt-2">
+                                            Sinh Lời: <p>{_?.results[0]?.total_profit ? DecimalNumber(_?.results[0]?.total_profit, 2) : 0}</p>
                                         </p>
-                                        <p className="font-semibold text-base p-2">
-                                            Hiệu Suất: <span>{_?.results[0]?.win_rate ? Math.round(_?.results[0]?.win_rate * 100) / 100 : 0}</span>
+                                        <p className="font-semibold text-base py-1">
+                                            Hiệu Suất: <p>{_?.results[0]?.win_rate ? DecimalNumber(_?.results[0]?.win_rate, 2) : 0}</p>
                                         </p>
-                                        <p className="font-semibold text-base p-2">
-                                            Xếp Hạng: <span>{_?.rank ? _?.rank : 0}</span>
+                                        <p className="font-semibold text-base py-1">
+                                            Xếp Hạng: <p>{_?.rank ? _?.rank : 0}</p>
                                         </p>
                                     </div>
-                                    <div className="flex justify-center pb-3">
+                                    <div className="flex justify-center py-2">
                                         {cookies?.user ? 
                                             <a href={"/master/" + _?.user?.master_key}>
                                                 <button className="py-1 px-4 rounded-xl bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
