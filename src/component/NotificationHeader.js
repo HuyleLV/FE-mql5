@@ -23,11 +23,9 @@ export default function NotificationHeader({ notifications, lengthSocket, length
 
     const handleRead = (id) => {
         setIsRead(id);
-
     }
 
     const handleReaded = async (id, value) => {
-
         await axios.post(
             `${process.env.REACT_APP_API_URL}/notification/updateUser/${id}`, { check_read: value }
         ).then(async (res) => {
@@ -117,14 +115,16 @@ export default function NotificationHeader({ notifications, lengthSocket, length
                                 showInfo(item)
                             )}
                         >
-                            <Col className="w-[200px]">
-                                <div style={{ width: "100%", display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'start', alignItems: 'end' }}>
-                                    <span className="text-sm font-bold line-clamp-2">{item.notification_title}</span>
-                                    <span className="text-[10px] font-semibold light-gray">
+                            <Col className="w-[300px]">
+                                <div style={{ width: "100%", display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div>
+                                        <span className="text-sm font-bold line-clamp-2">{item.notification_title}</span>
+                                        <span className="text-[14px] font-semibold light-gray line-clamp-2">{parse(item.notification_description)}</span>
+                                    </div>
+                                    <span className="text-[10px] font-semibold light-gray"> 
                                         <ReactTimeAgo date={item.create_at} locale="en-US" />
                                     </span>
                                 </div>
-                                <span className="text-[14px] font-semibold light-gray line-clamp-2">{parse(item.notification_description)}</span>
                             </Col>
                             {(item.check_read === "0" || dd[indexUser - 1] === "0")
                                 && <GoDotFill color="#0866FF" />}

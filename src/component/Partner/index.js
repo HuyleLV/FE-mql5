@@ -1,14 +1,23 @@
-import { Row, Col, Form, Input, Button } from "antd";
+import { Row, Col, Form, Input, Button, message } from "antd";
 import image_mk4 from "../../component/image/mk4.jpg";
 import bg_doitac from "../../component/image/bg_doitac.png";
 import TextArea from "antd/es/input/TextArea";
 import logo from "../../component/image/logo_black.png"
+import axiosInstance from "../../utils/axios";
 
 export default function Partner() {
     const [form] = Form.useForm();
 
     const onSubmit = async (values) => {
-        console.log(values);
+        await axiosInstance
+          .post(`/user/contactFeedback`, values)
+          .then((res) => {
+            form.resetFields();
+            message.success(String(res?.data?.message));
+          })
+          .catch(({ response }) => {
+            message.error(String(response?.data?.message));
+          });
     };
 
     return (
@@ -169,7 +178,7 @@ export default function Partner() {
 
                             <Form.Item
                                 // label="Số Điện Thoại"
-                                name="message"
+                                name="feedback"
                                 rules={[{ required: true, message: "Vui lòng nhập lời nhắn!" }]}
                             >
                                 <TextArea size="large" placeholder={"Lời Nhắn"} />

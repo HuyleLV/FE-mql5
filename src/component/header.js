@@ -101,9 +101,7 @@ export default function Header() {
         setNotificationData(data);
       });
   };
-
-
-
+  
   const getUser = async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/user/getById`, {

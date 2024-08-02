@@ -178,6 +178,11 @@ export default function CustomeSider() {
       ],
     },
     {
+      key: "contact-feedback",
+      icon: <ContainerOutlined />,
+      label: <Link to={"/admin/contact-feedback"}>Quản lý Contact</Link>,
+    },
+    {
       key: "logout",
       icon: <LogoutOutlined />,
       label: <Link to={"/loginAdmin"} onClick={() => {

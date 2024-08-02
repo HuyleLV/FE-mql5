@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Pagination, Rate, Row, Space, Table } from "antd";
+import { Button, Col, DatePicker, Pagination, Rate, Row, Space, Table, message } from "antd";
 import image_mk4 from "../../component/image/mk4.jpg";
 import dayjs from "dayjs";
 import {
@@ -9,11 +9,15 @@ import axios from "axios";
 import parse from "html-react-parser";
 import dayjsInstance from "../../utils/dayjs";
 import { Country } from "../../utils/country";
+import axiosInstance from "../../utils/axios";
+import { useCookies } from "react-cookie";
 
 export default function EcoCalendar() {  
     const [economicNewsHot, setEconomicNewsHot] = useState([]);
     const [economicNews, setEconomicNews] = useState([]);
     const [indicatorNews, setIndicatorNews] = useState([]);
+    const [follow, setFollow] = useState(0);
+    const [cookies] = useCookies(["user"]);
     const [pagination, setPagination] = useState({
         page: 1,
         pageSize: 5,
@@ -46,7 +50,44 @@ export default function EcoCalendar() {
             .then(({ data }) => {
                 setEconomicNewsHot(data);
             });
-    }
+    }  
+
+    const checkFollow = async () => {
+        const user_id = cookies?.user?.user_id;
+        await axiosInstance
+            .get(`/economicNews/checkFollow`, {params: {
+                user_id: user_id
+            }})
+            .then(({ data }) => {
+                setFollow(data?.status);
+            });
+    }  
+    
+    const onFollow = async () => {
+        const user_id = cookies?.user?.user_id;
+        await axiosInstance
+          .post(`/economicNews/follow`, {user_id: user_id})
+          .then((res) => {
+            checkFollow();
+            message.success(String(res?.data?.message));
+          })
+          .catch(({ response }) => {
+            message.error(String(response?.data?.message));
+          });
+    };
+    
+    const unFollow = async () => {
+        const user_id = cookies?.user?.user_id;
+        await axiosInstance
+          .post(`/economicNews/unFollow`, {user_id: user_id})
+          .then((res) => {
+            checkFollow();
+            message.success(String(res?.data?.message));
+          })
+          .catch(({ response }) => {
+            message.error(String(response?.data?.message));
+          });
+    };
 
     const onChange = async (date) => {
         const create_at = dayjs(date).format("YYYY-MM-DD");
@@ -122,6 +163,10 @@ export default function EcoCalendar() {
         getAllIndicatorNews();
     }, [pagination]);
 
+    useEffect(() => { 
+        checkFollow();
+    }, [follow]);
+
     return (
         <div className="max-w-screen-2xl mx-auto py-10">
             <div class="grid grid-cols-3 gap-4 border-2 border-black rounded-2xl p-5">
@@ -137,7 +182,21 @@ export default function EcoCalendar() {
                         </p>
                     </div>
                     <div className="flex items-end h-full">
-                        <button className="border rounded-full bg-blue-500 px-4 py-1 text-xl font-semibold text-white hover:bg-blue-400">Theo Dõi</button>
+                        {follow === 0 ? 
+                            <button 
+                                className="border rounded-full bg-blue-500 px-4 py-1 text-xl font-semibold text-white hover:bg-blue-400"
+                                onClick={onFollow}
+                            >
+                                Theo Dõi
+                            </button>
+                            :
+                            <button 
+                                className="border rounded-full bg-blue-500 px-4 py-1 text-xl font-semibold text-white hover:bg-blue-400"
+                                onClick={unFollow}
+                            >
+                                Đã Theo Dõi
+                            </button>
+                        }
                         <button className="border rounded-full bg-blue-500 px-4 py-1 text-xl font-semibold text-white hover:bg-blue-400 ml-10">Chia Sẻ</button>
                     </div>
                 </div>

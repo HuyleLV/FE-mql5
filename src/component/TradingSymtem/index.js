@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Dropdown, List, Row, Spin, Tabs, message } from "antd";
+import { Button, Checkbox, Col, Divider, Dropdown, Form, Input, List, Row, Select, Spin, Tabs, message, DatePicker } from "antd";
 import { IconSignal } from "../../utils/iconSignal";
 import dayjsInstance from "../../utils/dayjs";
 import logo from "../../component/image/logo_black.png"
@@ -9,13 +9,19 @@ import { DecimalNumber, FormatDollar } from "../../utils/format";
 import { useCookies } from "react-cookie";
 import check_icon from "../../component/image/icon/check.png"
 import { plainOptions } from "../../helper";
+import dayjs from "dayjs";
+import SuperComputer from "../../utils/superComputer";
+const { RangePicker } = DatePicker;
 const CheckboxGroup = Checkbox.Group;
 
 export default function TradingSymtem() {
     const [signalOpen, setSignalOpen] = useState([]);
     const [trading, setTrading] = useState([]);
     const [tradingSystem, setTradingSystem] = useState(1);
+    const [symbolApi, setSymbolApi] = useState([]);
+    const [dataSuper, setDataSuper] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies(['admin']);
+    const [form] = Form.useForm();
     
     const [checkedList, setCheckedList] = useState([]);
     const checkAll = plainOptions.length === checkedList.length;
@@ -37,7 +43,17 @@ export default function TradingSymtem() {
                 const data = res?.data;
                 setTrading(data);
             });
-    };
+    };    
+
+    const getAllSymbol = async (symbol) => {
+        await axiosInstance
+            .get(`/symbol/getAll`)
+            .then((res) => {
+                const data = res?.data;
+                setSymbolApi(data);
+            })
+            .catch(() => message.error("Error server!"));
+    }
 
     const getSignalOpen = async (tradingSystem, checkedList) => {
         const list = "('" + checkedList.join("','") + "')";
@@ -64,9 +80,37 @@ export default function TradingSymtem() {
                 getSignalOpen();
             });
     };
+
+    const onSubmit = async (values) => {
+
+        await axiosInstance
+          .get(`/tradingSystem/getProfitByDate`, {params: {
+            trading_system: values?.trading_system,
+            symbol: values?.symbol,
+            date_start: dayjs(values?.time[0]).format("YYYY/MM/DD"),
+            date_end: dayjs(values?.time[1]).format("YYYY/MM/DD")
+          }})
+          .then((res) => {
+            // console.log(values?.symbol, res?.data[0]?.total_profit, values?.volume);
+            // SuperComputer(values?.symbol, res?.data[0]?.total_profit, values?.volume);
+            const data = {
+                trading_system: values?.trading_system,
+                symbol: values?.symbol,
+                profit: res?.data[0]?.total_profit,
+                volume: values?.volume,
+                date_start: dayjs(values?.time[0]).format("YYYY/MM/DD"),
+                date_end: dayjs(values?.time[1]).format("YYYY/MM/DD")
+            }
+            setDataSuper(data);
+          })
+          .catch(({ response }) => {
+            message.error(String(response?.data?.message));
+          });
+    };
      
     useEffect(() => { 
         getAllTradingSystem();
+        getAllSymbol();
     }, []);
         
     useEffect(() => { 
@@ -104,12 +148,125 @@ export default function TradingSymtem() {
                         <Dropdown
                             dropdownRender={() => (
                                 <div className="flex justify-center">
-                                    <div className="bg-slate-50 w-[500px] mt-3 p-5 rounded-xl drop-shadow-md">
-                                        
+                                    <div className="bg-slate-50 w-[900px] mt-3 p-5 rounded-xl drop-shadow-md">
+                                        <Form
+                                            layout={"vertical"}
+                                            colon={false}
+                                            form={form}
+                                            onFinishFailed={(e) => console.log(e)}
+                                            onFinish={onSubmit}
+                                        >
+                                            <div className="grid grid-cols-3">
+                                                <Form.Item
+                                                    label="Trading System"
+                                                    name="trading_system"
+                                                    style={{paddingRight: 5}}
+                                                    rules={[{ required: true, message: "Vui lòng nhập tên!" }]}
+                                                >
+                                                    <Select
+                                                        size="large"
+                                                        placeholder="Select trading system"
+                                                        optionFilterProp="children"
+                                                        options={trading.map((_,i)=>({
+                                                            value: _?.trading_system,
+                                                            label: "Trading system " + _?.trading_system,
+                                                        }))}
+                                                    />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Symbol"
+                                                    name="symbol"
+                                                    style={{paddingLeft: 5, paddingRight: 5}}
+                                                    rules={[{ required: true, message: "Vui lòng nhập email!" }]}
+                                                >
+                                                    <Select
+                                                        size="large"
+                                                        placeholder="Select a symbol"
+                                                        optionFilterProp="children"
+                                                        options={symbolApi?.map((_,i)=>({
+                                                            value: _?.symbol,
+                                                            label: _?.symbol,
+                                                        }))}
+                                                    />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Budget"
+                                                    name="budget"
+                                                    style={{paddingLeft: 5}}
+                                                    rules={[{ required: true, message: "Vui lòng nhập budget!" }]}
+                                                >
+                                                    <Input type="number" size="large" placeholder={"Budget"} />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Thời gian"
+                                                    name="time"
+                                                    className="col-span-2"
+                                                    rules={[{ required: true, message: "Vui lòng chọn khoảng thời gian!" }]}
+                                                >
+                                                    <RangePicker size="large" className="w-content"/>
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Volume"
+                                                    name="volume"
+                                                    rules={[{ required: true, message: "Vui lòng nhập volume!" }]}
+                                                >
+                                                    <Input type="number" size="large" placeholder={"volume"} />
+                                                </Form.Item>
+                                            </div>
+
+                                            <Button type={"primary"} htmlType={"submit"}>
+                                                Tính toán
+                                            </Button>
+                                            <Button 
+                                                type={"primary"} 
+                                                style={{marginLeft: 10}} 
+                                                onClick={()=> {
+                                                    form.resetFields(); 
+                                                    setDataSuper([])
+                                                }}
+                                            >
+                                                Làm mới
+                                            </Button>
+                                        </Form>
+                                        {Object.keys(dataSuper).length > 0 && (
+                                            <div className="grid grid-cols-6 pb-5 pt-10 text-center text-lg font-semibold">
+                                                <div>
+                                                    <li className="bg-blue-200 py-2">Trading System</li>
+                                                    <li className="border py-2">{dataSuper?.trading_system}</li>
+                                                </div>
+                                                <div>
+                                                    <li className="bg-blue-200 py-2">Symbol</li>
+                                                    <li className="border py-2">{dataSuper?.symbol}</li>
+                                                </div>
+                                                <div>
+                                                    <li className="bg-blue-200 py-2">Date Start</li>
+                                                    <li className="border py-2">{dataSuper?.date_start}</li>
+                                                </div>
+                                                <div>
+                                                    <li className="bg-blue-200 py-2">Date End</li>
+                                                    <li className="border py-2">{dataSuper?.date_end}</li>
+                                                </div>
+                                                <div>
+                                                    <li className="bg-blue-200 py-2">Profit (pips)</li>
+                                                    <li className="border py-2">{dataSuper?.profit ? DecimalNumber(dataSuper?.profit, 2) : 0}</li>
+                                                </div>
+                                                <div>
+                                                    <li className="bg-blue-200 py-2">Profit ($)</li>
+                                                    <SuperComputer 
+                                                        symbol={dataSuper?.symbol}
+                                                        pips={dataSuper?.profit}
+                                                        volume={dataSuper?.volume} />
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             )}
-                            placement="bottom"
+                            placement="bottomLeft"
                             trigger={['click']}
                         >
                             <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white mr-5">

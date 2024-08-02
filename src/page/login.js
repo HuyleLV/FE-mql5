@@ -23,7 +23,6 @@ const Login = () => {
     await axios
       .post(`${process.env.REACT_APP_API_URL}/user/login`, value)
       .then((res) => {
-        console.log(res?.data);
         localStorage.setItem('token', res?.data);
         setCookieToken("accessToken", res?.data);
         message.success("Đăng nhập thành công!");
