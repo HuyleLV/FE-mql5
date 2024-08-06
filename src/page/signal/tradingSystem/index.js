@@ -11,6 +11,7 @@ import logo from "../../../component/image/logo_signal.png"
 import check_icon from "../../../component/image/icon/check.png"
 import { plainOptions } from "../../../helper";
 import { useCookies } from "react-cookie";
+import { DecimalNumber } from "../../../utils/format";
 const CheckboxGroup = Checkbox.Group;
 
 export default function TradingSystem() {
@@ -177,11 +178,13 @@ export default function TradingSystem() {
                             </button>
                         )}
                         
-                        <button className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4 mx-10">
-                            Nhiều Hơn
-                        </button>
-                        <button className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4">
-                            Chia Sẽ
+                        <button 
+                            className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4 mx-10"
+                            onClick={() => {
+                                navigator.clipboard.writeText(process.env.REACT_APP_URL+"/trading-system/"+params?.trading_system);
+                                message.success("Link đã được copy!")
+                            }}>
+                            Chia Sẻ
                         </button>
                     </div>
                 </div>
@@ -291,7 +294,7 @@ export default function TradingSystem() {
                 <Col xs={24} xl={6} className="px-5">
                     <div className="border p-5 rounded-2xl">
                         <p className="text-2xl font-bold pb-5 text-center">Tổng Quan</p>
-                        <div className="grid grid-cols-2 py-4 border-t">
+                        <div className="grid grid-cols-2 py-4 border-t text-center">
                             <div>
                                 <p className="text-lg font-medium text-gray-600">Bảng xếp hạng</p>
                                 <p className="font-bold text-xl">{tradingSystem?.rank}</p>
@@ -303,12 +306,12 @@ export default function TradingSystem() {
                             <div>
                                 <p className="text-lg font-semibold text-gray-600">Lời/ Lỗ tích lũy</p>
                                 <p className={`${tradingSystem?.total_pips > 0 ? "text-green-500" : "text-red-500"} font-bold  text-xl`}>
-                                    {tradingSystem?.total_pips > 0 ? "+" + tradingSystem?.total_pips : tradingSystem?.total_pips}
+                                    {tradingSystem?.total_pips > 0 ? "+" + DecimalNumber(tradingSystem?.total_pips, 2) : DecimalNumber(tradingSystem?.total_pips, 2)}
                                 </p>
                                 <p className="pt-5 text-lg font-semibold text-gray-600">Thời gian giữ lệnh trung bình</p>
                                 <p className="font-bold text-xl">{tradingSystem?.hours_medium} giờ</p>
                                 <p className="pt-5 text-lg font-semibold text-gray-600">Tỷ lệ Lời/ Lỗ</p>
-                                <p className="font-bold text-xl">{tradingSystem?.profit}</p>
+                                <p className="font-bold text-xl">{tradingSystem?.profit ? DecimalNumber(tradingSystem?.profit, 2) : 0}</p>
                             </div>
                         </div>
                     </div>
@@ -325,7 +328,7 @@ export default function TradingSystem() {
                                     <p className="font-bold text-lg">{_?.thang + "/" + _?.nam}</p>
                                     <p className="font-bold text-lg">{_[0]?.count_signal ? _[0]?.count_signal : 0}</p>
                                     <p className={`font-bold text-lg ${_[0]?.total_pips > 0 ? "text-green-500" : "text-red-500"}`}>
-                                        {_[0]?.total_pips ? _[0]?.total_pips : 0}
+                                        {_[0]?.total_pips ? DecimalNumber(_[0]?.total_pips, 2) : 0}
                                     </p>
                                 </div>
                             ))}

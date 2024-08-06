@@ -197,7 +197,15 @@ export default function EcoCalendar() {
                                 Đã Theo Dõi
                             </button>
                         }
-                        <button className="border rounded-full bg-blue-500 px-4 py-1 text-xl font-semibold text-white hover:bg-blue-400 ml-10">Chia Sẻ</button>
+                        <button 
+                            className="border rounded-full bg-blue-500 px-4 py-1 text-xl font-semibold text-white hover:bg-blue-400 ml-10"
+                            onClick={() => {
+                                navigator.clipboard.writeText(process.env.REACT_APP_URL+"/lich-kinh-te");
+                                message.success("Link đã được copy!")
+                            }}
+                        >
+                            Chia Sẻ
+                        </button>
                     </div>
                 </div>
             </div>

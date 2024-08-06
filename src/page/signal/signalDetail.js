@@ -8,6 +8,12 @@ import icon_sell from "../../component/image/icon/sell.svg"
 import dayjsInstance from "../../utils/dayjs";
 import check_icon from "../../component/image/icon/check.png"
 import { Spin } from "antd";
+import { DecimalNumber } from "../../utils/format";
+import facebook from "../../component/image/facebook.png"
+import twitter from "../../component/image/twitter.png"
+import youtube from "../../component/image/youtube.png"
+import instagram from "../../component/image/instagram.png"
+import telegram from "../../component/image/telegram.png"
 
 export default function TradingSystemDetail() {
     const params = useParams();
@@ -48,13 +54,42 @@ export default function TradingSystemDetail() {
     }, [signal]);
 
     return (
-        <div className="max-w-screen-2xl mx-auto py-10">
-            <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-8 gap-2 mx-auto py-10">
+            <div className="flex justify-center pt-20">
+                <div className="border w-min h-min p-2 rounded-2xl">
+                    <div className="border rounded-full p-2 bg-blue-500 border-blue-500 w-8 flex justify-center items-center">
+                        <a target="_blank" href="https://www.facebook.com/NetAuAi">
+                            <img src={facebook} width={20} height={20}/>
+                        </a>
+                    </div>
+                    <div className="border rounded-full p-2 bg-black border-black w-8 my-3 flex justify-center items-center">
+                        <a target="_blank" href="https://twitter.com/Net_lnvest">
+                            <img src={twitter} width={20} height={20}/>
+                        </a>
+                    </div>
+                    <div className="border rounded-full p-2 bg-blue-500 border-blue-500 w-8 flex justify-center items-center">
+                        <a target="_blank" href="https://t.me/Net_lnvest">
+                            <img src={telegram} width={20} height={20}/>
+                        </a>
+                    </div>
+                    <div className="border rounded-full p-2 bg-red-500 border-red-500 w-8 h-8 my-3 flex justify-center items-center">
+                        <a target="_blank" href="https://www.youtube.com/channel/UCbHKyoqNuV8gBrNSdtTt67A">
+                            <img src={youtube} width={20} height={20}/>
+                        </a>
+                    </div>
+                    <div className="border rounded-full p-2 bg-[#BC2A8D] border-pink-500 w-8 flex justify-center items-center">
+                        <a target="_blank" href="https://www.facebook.com/NetAuAi">
+                            <img src={instagram} width={20} height={20}/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div className="col-span-6 grid grid-cols-4 gap-4">
                 <div className="col-span-3 p-5 grid grid-cols-3 border border-black rounded-xl">
                     <div className="mx-2 bg-blue-100 flex items-center rounded-xl h-[250px]">
                         <div className="text-center w-full">
                             <p className="text-2xl pb-5">P&L (pips)</p>
-                            <p className={`${signal?.pips > 0 ? "text-green-500" : "text-red-500"} font-bold text-4xl`}>{signal?.pips}</p>
+                            <p className={`${signal?.pips > 0 ? "text-green-500" : "text-red-500"} font-bold text-4xl`}>{DecimalNumber(signal?.pips, 2)}</p>
                         </div>
                     </div>
                     <div className={`${signal?.type === "SELL" ? "hover:bg-white" : "hover:bg-white"} col-span-2 mx-2`}>
@@ -75,7 +110,7 @@ export default function TradingSystemDetail() {
                                     </div>
                                 </div>
                                 
-                                <a href={"/master/" + signal?.master_key}>
+                                <a href={"/trading-system/" + signal?.trading_system}>
                                     <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">Theo Dõi</button>
                                 </a>
                             </div>
@@ -85,8 +120,7 @@ export default function TradingSystemDetail() {
                                 <img src={logo} className="h-[125px]" alt="Logo" />
                             </div>
                             <div className="absolute top-6 left-0 w-full">
-                                <div className="flex items-center justify-center">
-                                    
+                                <div className="flex items-center justify-center px-12">
                                     <div className={`${signal?.sl_show == signal?.price ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
                                     <div className={`${signal?.sl_show == signal?.price ? "bg-green-500" : "bg-gray-500"} w-[150px] h-0.5`}></div>
                                     <div className={`${signal?.time_tp1 ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
@@ -127,7 +161,7 @@ export default function TradingSystemDetail() {
                             </div>
                         </div>
                     </div>
-                    <div className="col-span-3 bg-gray-300 rounded-xl mx-2 my-5 flex">
+                    <div className="col-span-3 bg-gray-200 rounded-xl mx-2 my-5 flex">
                         <div className="w-3 ml-5 my-5">
                             <div className={`bg-gray-500 w-3 h-3 rounded-full`}></div>
                             <div className="flex justify-center">
@@ -163,8 +197,14 @@ export default function TradingSystemDetail() {
                                         <img src={logo} className="h-[125px]" alt="Logo" />
                                         <p className="py-2 font-semibold text-lg text text-center">Trading System {_?.trading_system}</p>
                                         <div className="grid grid-cols-2 text-center">
-                                            <p>Tín Hiệu: {_?.count_signal}</p>
-                                            <p>Tỷ Lệ Thắng: {_?.win_rate * 100}%</p>
+                                            <div>
+                                                <p>Tín Hiệu</p>
+                                                <p>{_?.count_signal}</p>
+                                            </div>
+                                            <div>
+                                                <p>Tỷ Lệ Thắng</p>
+                                                <p>{DecimalNumber(_?.win_rate * 100, 2)}%</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
@@ -189,15 +229,18 @@ export default function TradingSystemDetail() {
                         <div className="py-5">
                             <p className="text-gray-500 text-lg font-semibold">Lời / Lỗ tích lũy</p>
                             <p className={`${tradingSystem?.total_pips > 0 ? "text-green-500" : "text-red-500"} font-bold text-2xl`}>
-                                {tradingSystem?.total_pips > 0 ? "+" + tradingSystem?.total_pips : tradingSystem?.total_pips}
+                                {tradingSystem?.total_pips > 0 ? "+" + DecimalNumber(tradingSystem?.total_pips, 2) : DecimalNumber(tradingSystem?.total_pips, 2)}
                             </p>
                             <p className="pt-5 text-gray-500 text-lg font-semibold">Thời gian giữ lệnh trung bình</p>
-                            <p className="font-bold text-2xl">{tradingSystem?.hours_medium}</p>
+                            <p className="font-bold text-2xl">{DecimalNumber(tradingSystem?.hours_medium, 2)}</p>
                             <p className="pt-5 text-gray-500 text-lg font-semibold">Tỷ lệ lời lỗ</p>
-                            <p className="font-bold text-2xl">{tradingSystem?.profit}</p>
+                            <p className="font-bold text-2xl">{DecimalNumber(tradingSystem?.profit, 2)}</p>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+
             </div>
         </div>
     )
