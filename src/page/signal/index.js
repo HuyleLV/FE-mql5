@@ -769,7 +769,7 @@ export default function SignalPage() {
               </Row>
             </div> */}
             <TopMaster />
-            <div className="pt-10">
+            {/* <div className="pt-10">
               <h1 className="font-bold text-2xl py-5">Top Signals</h1>
               <Row className="py-2">
                 {signalHot?.map((_, i) => (
@@ -814,7 +814,7 @@ export default function SignalPage() {
                   </Col>
                 ))}
               </Row>
-            </div>
+            </div> */}
           </>
         )}
 

@@ -419,7 +419,10 @@ export default function TradingSymtem() {
                                                             <div className="px-2 py-1 bg-cyan-100">
                                                                 <p>P&L (Pips)</p>
                                                                 <p className="text-xl font-bold text-emerald-500">
-                                                                    {Math.round((( _?.price_symbol - _?.price) * 10) * 100) / 100}
+                                                                    {_?.type === "BUY" ?
+                                                                        DecimalNumber((((_?.price_symbol - _?.price) / _?.point_symbol) / 10), 2) :
+                                                                        DecimalNumber((((_?.price - _?.price_symbol) / _?.point_symbol) / 10), 2)
+                                                                    }
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -448,15 +451,15 @@ export default function TradingSymtem() {
                                         <div>
                                             <div className=" py-1 px-2 text-center m-2">
                                                 <p className="text-sm font-semibold">Lời lỗ:</p>
-                                                <p className="font-semibold text-lg text-emerald-500">{_?.pips ? _?.pips : "Null"}</p>
+                                                <p className="font-semibold text-lg text-emerald-500">{_?.pips ? DecimalNumber(_?.pips, 2) : "Null"}</p>
                                             </div>
                                             <div className=" py-1 px-2 text-center m-2">
                                                 <p className="text-sm font-semibold">Tuần trước:</p>
-                                                <p className="font-semibold text-lg text-emerald-500">{_?.pips_week ? _?.pips_week : "Null"}</p>
+                                                <p className="font-semibold text-lg text-emerald-500">{_?.pips_week ? DecimalNumber(_?.pips_week, 2) : "Null"}</p>
                                             </div>
                                             <div className=" py-1 px-2 text-center m-2">
                                                 <p className="text-sm font-semibold">Tháng trước:</p>
-                                                <p className="font-semibold text-lg text-emerald-500">{_?.pips_month ? _?.pips_month : "Null"}</p>
+                                                <p className="font-semibold text-lg text-emerald-500">{_?.pips_month ? DecimalNumber(_?.pips_month, 2) : "Null"}</p>
                                             </div>
                                         </div>
                                     </div>
