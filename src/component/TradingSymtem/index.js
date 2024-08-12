@@ -91,8 +91,6 @@ export default function TradingSymtem() {
             date_end: dayjs(values?.time[1]).format("YYYY/MM/DD")
           }})
           .then((res) => {
-            // console.log(values?.symbol, res?.data[0]?.total_profit, values?.volume);
-            // SuperComputer(values?.symbol, res?.data[0]?.total_profit, values?.volume);
             const data = {
                 trading_system: values?.trading_system,
                 symbol: values?.symbol,
@@ -418,7 +416,7 @@ export default function TradingSymtem() {
                                                             </div>
                                                             <div className="px-2 py-1 bg-cyan-100">
                                                                 <p>P&L (Pips)</p>
-                                                                <p className="text-xl font-bold text-emerald-500">
+                                                                <p className="text-xl font-bold text-emerald-500 text-center">
                                                                     {_?.type === "BUY" ?
                                                                         DecimalNumber((((_?.price_symbol - _?.price) / _?.point_symbol) / 10), 2) :
                                                                         DecimalNumber((((_?.price - _?.price_symbol) / _?.point_symbol) / 10), 2)

@@ -58,7 +58,8 @@ class CustomSunEditor extends Component {
     return (
       <>
         <SunEditor
-          height='500px'
+          height='600px'
+          width='850px'
           defaultValue={this.state.value}
           onChange={this.handleChange}
           getSunEditorInstance={this.getSunEditorInstance}

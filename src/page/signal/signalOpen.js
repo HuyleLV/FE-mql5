@@ -1,4 +1,4 @@
-import { Col, Row, Segmented, Select, Spin } from "antd";
+import { Checkbox, Col, Divider, Dropdown, Row, Segmented, Select, Spin, message } from "antd";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axios";
 import logo from "../../component/image/logo_signal.png"
@@ -8,13 +8,14 @@ import icon_sell from "../../component/image/icon/sell.svg"
 import { IconSignal } from "../../utils/iconSignal";
 import dayjsInstance from "../../utils/dayjs";
 import check_icon from "../../component/image/icon/check.png"
-import { timeDifference } from "../../helper";
+import close from "../../component/image/icon/close.png"
+import { plainOptions, timeDifference } from "../../helper";
 import myGif from '../../component/image/gif.gif';
 import { DecimalNumber } from "../../utils/format";
+const CheckboxGroup = Checkbox.Group;
 
 export default function SignalOpen() {
     const [signal, setSignal] = useState([]);
-    const [allSymbol, setAllSymbol] = useState([]);
     const [symbol, setSymbol] = useState();
     const [timeDone, setTimeDone] = useState(1);
     const [allRanking, setAllRanking] = useState([]);
@@ -22,12 +23,16 @@ export default function SignalOpen() {
     const [statistics, setStatistics] = useState([]);
     const [value, setValue] = useState(1);
     
-    const getAllSymbol = async () => {
-        await axiosInstance.get(`/tradingSystem/getAllSymbol`)
-            .then(({ data }) => {
-                setAllSymbol(data);
-            });
-    }
+    const [checkedList, setCheckedList] = useState([]);
+    const checkAll = plainOptions.length === checkedList.length;
+    const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
+    
+    const onChange = (list) => {
+        setCheckedList(list);
+    };
+    const onCheckAllChange = (e) => {
+        setCheckedList(e.target.checked ? plainOptions : []);
+    };
     
     const getAllRanking = async () => {
         await axiosInstance.get(`/tradingSystem/getAllRanking`)
@@ -37,8 +42,9 @@ export default function SignalOpen() {
     }
 
     const getSignalCondition = async (symbol, timeDone) => {
+        const list = "('" + symbol.join("','") + "')";
         await axiosInstance.get(`/tradingSystem/getSignalCondition`, {params: {
-            symbol: symbol,
+            symbol: list,
             time_done: timeDone
         }})
             .then(({ data }) => {
@@ -54,7 +60,6 @@ export default function SignalOpen() {
     }
 
     useEffect(() => { 
-        getAllSymbol();
         getAllRanking();
         getTradingSystemStatistics();
     }, []);
@@ -68,12 +73,12 @@ export default function SignalOpen() {
     }, [value]);
     
     useEffect(() => { 
-        if(symbol) {
-            getSignalCondition(symbol, timeDone);
+        if(checkedList.length > 0) {
+            getSignalCondition(checkedList, timeDone);
         }else {
-            getSignalCondition(allSymbol[0]?.symbol, timeDone);
+            getSignalCondition(plainOptions, timeDone);
         }
-    }, [symbol, timeDone, allSymbol]);
+    }, [symbol, timeDone, checkedList]);
     
         
     useEffect(() => { 
@@ -117,7 +122,7 @@ export default function SignalOpen() {
                         <img src={myGif} alt="My GIF" className="h-8 pl-5" />
                     </div>
                     <div className="flex items-center">
-                        <Select
+                        {/* <Select
                             style={{
                                 width: 150,
                             }}
@@ -127,7 +132,34 @@ export default function SignalOpen() {
                                 value: value.symbol,
                                 label: value.symbol,
                               }))}
-                        />
+                        /> */}
+                        <Dropdown
+                            dropdownRender={() => (
+                                <div className="flex justify-center">
+                                    <div className="bg-slate-50 w-[500px] mt-3 p-5 rounded-xl drop-shadow-md">
+                                        <Checkbox 
+                                            indeterminate={indeterminate} 
+                                            onChange={onCheckAllChange} 
+                                            checked={checkAll}
+                                        >
+                                            Hiển thị tất cả cặp tiền
+                                        </Checkbox>
+                                        <Divider />
+                                        <CheckboxGroup
+                                            options={plainOptions} 
+                                            value={checkedList} 
+                                            onChange={onChange} 
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                            placement="bottom"
+                            trigger={['click']}
+                        >
+                            <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white mr-5">
+                                Cặp Tiền Hiển Thị
+                            </button>
+                        </Dropdown>
                     </div>
                 </div>
                 <div>
@@ -155,9 +187,20 @@ export default function SignalOpen() {
                                         </div>
                                     </div>
                                     
-                                    <a href={"/trading-system/" + _?.trading_system}>
-                                        <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4">Theo Dõi</button>
-                                    </a>
+                                    <div>
+                                        <a href={"/trading-system/" + _?.trading_system}>
+                                            <button className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4 mr-2">Theo Dõi</button>
+                                        </a>
+                            
+                                        <button 
+                                            className="bg-blue-600 font-semibold rounded-full text-white py-2 px-4"
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(process.env.REACT_APP_URL+ "/signal/" + _?.trading_system_id);
+                                                message.success("Link đã được copy!")
+                                            }}>
+                                            Chia Sẻ
+                                        </button>
+                                    </div>
                                 </div>
                                 </div>
                                 <div className="w-full border border-slate-500 px-10 py-5 relative">
@@ -169,20 +212,44 @@ export default function SignalOpen() {
                                             <div className="text-xl font-semibold w-2/3">
                                                 <div className="grid grid-cols-3">
                                                     <p>Entry: {_?.price}</p>
-                                                    <p>Entry: {_?.price}</p>
+                                                    <p className="flex items-center">
+                                                        SL: {_?.sl_show}
+                                                        {_?.time_tp1 === null && value === 2 ? 
+                                                            <img src={check_icon} className="h-6 ml-3"/> :  
+                                                            <Spin style={{marginLeft: 10}}/> 
+                                                        }
+                                                    </p>
                                                 </div>
                                                 <div className="grid grid-cols-3 pt-2">
                                                     <p className="flex items-center">
                                                         TP1: {DecimalNumber(_?.tp1, dataSymbol[i]?.digit)}
-                                                        {_?.time_tp1 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+
+                                                        {_?.time_tp1 ? 
+                                                            <img src={check_icon} className="h-8 ml-3"/> : 
+                                                            value === 1 ? 
+                                                                <Spin style={{marginLeft: 10}}/> : 
+                                                                <img src={close} className="h-4 ml-3"/>
+                                                        }
                                                     </p>
                                                     <p className="flex items-center">
                                                         TP2: {DecimalNumber(_?.tp2, dataSymbol[i]?.digit)}
-                                                        {_?.time_tp2 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                                                        
+                                                        {_?.time_tp2 ? 
+                                                            <img src={check_icon} className="h-8 ml-3"/> : 
+                                                            value === 1 ? 
+                                                                <Spin style={{marginLeft: 10}}/> : 
+                                                                <img src={close} className="h-4 ml-3"/>
+                                                        }
                                                     </p>
                                                     <p className="flex items-center">
                                                         TP3: {DecimalNumber(_?.tp3, dataSymbol[i]?.digit)}
-                                                        {_?.time_tp3 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                                                        
+                                                        {_?.time_tp3 ? 
+                                                            <img src={check_icon} className="h-8 ml-3"/> : 
+                                                            value === 1 ? 
+                                                                <Spin style={{marginLeft: 10}}/> : 
+                                                                <img src={close} className="h-4 ml-3"/>
+                                                        }
                                                     </p>
                                                 </div>
                                                 <div className="flex items-center pt-6">
@@ -193,7 +260,19 @@ export default function SignalOpen() {
                                             <div className="flex items-center">
                                                 <div className="text-center bg-blue-200 p-3">
                                                     <p className="text-xl">P&L(pips)</p>
-                                                    <p className="text-xl font-bold text-emerald-500">{Math.round(((dataSymbol[i]?.price - _?.price) * 10) * 100) / 100}</p>
+                                                    <p className="text-xl font-bold text-emerald-500">
+                                                        {value === 1 ?
+                                                            <>
+                                                                {_?.type === "BUY" ?
+                                                                    DecimalNumber((((dataSymbol[i]?.price - _?.price) / dataSymbol[i]?.point) / 10), 2) :
+                                                                    DecimalNumber((((_?.price - dataSymbol[i]?.price) / dataSymbol[i]?.point) / 10), 2)
+                                                                }
+                                                            </>
+                                                            :
+                                                            <>{DecimalNumber(_?.pips, 2)}</>
+                                                        }
+                                                        
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

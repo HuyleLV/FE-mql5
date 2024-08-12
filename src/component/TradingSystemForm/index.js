@@ -43,7 +43,7 @@ import { plainOptions } from "../../helper";
           onFinish={onSubmit}
         >
             <Row>
-                <Col xs={24} xl={8} className="px-2">
+                {/* <Col xs={24} xl={8} className="px-2">
                     <Form.Item
                         label={"mt4_acc"}
                         name="mt4_acc"
@@ -60,7 +60,7 @@ import { plainOptions } from "../../helper";
                     >
                         <Input size="large" placeholder={"Nhập"} />
                     </Form.Item>
-                </Col>
+                </Col> */}
                 <Col xs={24} xl={8} className="px-2">
                     <Form.Item
                         label={"time_frame"}
@@ -96,7 +96,7 @@ import { plainOptions } from "../../helper";
                         />
                     </Form.Item>
                 </Col>
-                <Col xs={24} xl={8} className="px-2">
+                {/* <Col xs={24} xl={8} className="px-2">
                     <Form.Item
                         label={"ticket"}
                         name="ticket"
@@ -104,7 +104,7 @@ import { plainOptions } from "../../helper";
                     >
                         <Input size="large" placeholder={"Nhập"} />
                     </Form.Item>
-                </Col>
+                </Col> */}
                 <Col xs={24} xl={8} className="px-2">
                     <Form.Item
                         label={"symbol"}

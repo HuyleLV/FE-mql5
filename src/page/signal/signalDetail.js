@@ -120,16 +120,16 @@ export default function TradingSystemDetail() {
                                 <img src={logo} className="h-[125px]" alt="Logo" />
                             </div>
                             <div className="absolute top-6 left-0 w-full">
-                                <div className="flex items-center justify-center px-12">
-                                    <div className={`${signal?.sl_show == signal?.price ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
-                                    <div className={`${signal?.sl_show == signal?.price ? "bg-green-500" : "bg-gray-500"} w-[150px] h-0.5`}></div>
-                                    <div className={`${signal?.time_tp1 ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
+                                <div className="flex items-center justify-center px-14">
+                                    <div className={`${signal?.sl_entry === null && signal?.pass_sl === 1 ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
+                                    <div className={`${signal?.sl_entry === null && signal?.pass_sl === 1  ? "bg-green-500" : "bg-gray-500"} w-[150px] h-0.5`}></div>
+                                    <div className={`${signal?.sl_entry ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
                                     <div className={`${signal?.time_tp1 ? "bg-green-500" : "bg-gray-500"} w-[150px] h-0.5`}></div>
-                                    <div className={`${signal?.time_tp2 ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
+                                    <div className={`${signal?.time_tp1 ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
                                     <div className={`${signal?.time_tp2 ? "bg-green-500" : "bg-gray-500"} w-[150px] h-0.5`}></div>
-                                    <div className={`${signal?.time_tp3 ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
+                                    <div className={`${signal?.time_tp2 ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
                                     <div className={`${signal?.time_tp3 ? "bg-green-500" : "bg-gray-500"} w-[150px] h-0.5`}></div>
-                                    <div className={`${signal?.time_done ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
+                                    <div className={`${signal?.time_tp3 ? "bg-green-500" : "bg-gray-500"} w-4 h-4 rounded-full`}></div>
                                 </div>
                                 <div className="flex items-center justify-center pt-5">
                                     <div className="w-[166px] text-center">

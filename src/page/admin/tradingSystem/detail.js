@@ -14,8 +14,12 @@ export default function TradingSystemDetail() {
   const createTradingSystem = async (values) => {
     await axiosInstance.post(`/tradingSystem/create`, values)
     .then((res) => {
-      message.success(String(res?.data?.message));
-      navigate("/admin/trading-system");
+      if(Number(res?.data?.status) === 1) {
+        message.success(String(res?.data?.message));
+        navigate("/admin/trading-system");
+      } else {
+        message.warning(String(res?.data?.message));
+      }
     })
   };
 
