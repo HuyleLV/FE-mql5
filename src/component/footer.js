@@ -25,7 +25,7 @@ export default function Footer() {
             <img src={logo} width={150}/>
             <div className="text-base text-white">
               <p className="py-1 pt-2"><span className="text-white font-medium">Địa chỉ: <span className="text-[#999999]">Hà Nội, Việt Nam</span></span></p>
-              <p><span className="text-white font-medium">Điện thoại: <span className="text-[#999999]">0356 496 403</span></span></p>
+              <p><span className="text-white font-medium">Điện thoại: <span className="text-[#999999]">0964 412 494</span></span></p>
               <p className="py-1"><span className="text-white font-medium">Email: <span className="text-[#999999]">supptippertrade@gmail.com</span></span></p>
               <p><span className="text-white font-medium">Website: <Link to={"https://tippertrade.com"} className="text-[#999999]">tippertrade.com</Link></span></p>
             </div>

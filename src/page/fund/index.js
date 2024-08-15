@@ -219,7 +219,7 @@ export default function Fund() {
                 <div>
                     <p className="font-bold text-4xl text-[#004AAD] py-10 text-center">Những Khách Hàng Đã Tham Gia Quỹ Của Chúng Tôi</p>
                     {listFund?.map((_, i) => (
-                        <p className="text-2xl border-b-2 border-gray-500 p-5 flex justify-center">
+                        <p className="text-2xl border-b-2 border-gray-500 p-5 flex justify-start">
                             <span>{i+1}</span>
                             - {_?.fullname} - {_?.phone}  - {_?.email} - ngày tham gia {dayjs(_?.create_at).format("DD/MM/YYYY")} đã đầu tư {FormatVND(_?.init_balance * dollar?.dollar_vnd)} 
                         </p>

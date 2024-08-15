@@ -21,13 +21,6 @@ export default function TradingSystemDetail() {
     const [tradingSystem, setTradingSystem] = useState([]);
     const [allRanking, setAllRanking] = useState([]);
     
-    const getById = async () => {
-        await axiosInstance.get(`/tradingSystem/getById/${params?.trading_system_id}`)
-            .then(({ data }) => {
-                setSignal(data[0]);
-            });
-    }
-    
     const getByTradingSystem = async (trading_system) => {
         await axiosInstance.get(`/tradingSystem/getByTradingSystem/${trading_system}`)
             .then(({ data }) => {
@@ -43,7 +36,6 @@ export default function TradingSystemDetail() {
     }
 
     useEffect(() => { 
-        getById();
         getAllRanking();
     }, []);
 
@@ -51,6 +43,26 @@ export default function TradingSystemDetail() {
         if(signal) {
             getByTradingSystem(signal?.trading_system);
         }
+    }, [signal]);
+
+    // useEffect(()=>{
+    //     let descMeta=document.querySelector("meta[name='description']")
+    //     descMeta.setAttribute("content", `Description of your page ${signal?.pips}`)
+    // },[])
+
+    useEffect(() => { 
+        if (params?.trading_system_id) {
+            const interval = setInterval(async () => {
+              try {
+                    const response = await axiosInstance.get(`/tradingSystem/getById/${params?.trading_system_id}`);
+                    setSignal(response.data[0]);
+              } catch (error) {
+                console.error('Error fetching data:', error);
+              }
+            }, 1500);
+
+            return () => clearInterval(interval);
+          }
     }, [signal]);
 
     return (
@@ -89,7 +101,18 @@ export default function TradingSystemDetail() {
                     <div className="mx-2 bg-blue-100 flex items-center rounded-xl h-[250px]">
                         <div className="text-center w-full">
                             <p className="text-2xl pb-5">P&L (pips)</p>
-                            <p className={`${signal?.pips > 0 ? "text-green-500" : "text-red-500"} font-bold text-4xl`}>{DecimalNumber(signal?.pips, 2)}</p>
+                            <p className={`${signal?.pips > 0 ? "text-green-500" : "text-red-500"} font-bold text-4xl`}>
+                                {signal?.time_done === null ?
+                                    <>
+                                        {signal?.type === "BUY" ?
+                                            DecimalNumber((((signal?.price_symbol - signal?.price) / signal?.point) / 10), 2) :
+                                            DecimalNumber((((signal?.price - signal?.price_symbol) / signal?.point) / 10), 2)
+                                        }
+                                    </>
+                                    :
+                                    <>{DecimalNumber(signal?.pips, 2)}</>
+                                }
+                            </p>
                         </div>
                     </div>
                     <div className={`${signal?.type === "SELL" ? "hover:bg-white" : "hover:bg-white"} col-span-2 mx-2`}>
@@ -104,7 +127,7 @@ export default function TradingSystemDetail() {
                                             {signal?.symbol}
                                         </p>
                                         <p className={`${signal?.type === "SELL" ? "text-red-500" : "text-green-500"} font-bold text-xl ml-5`}>
-                                            {signal?.price}
+                                            {signal?.price_symbol}
                                         </p>
                                         <img className="h-[40px]" src={signal?.type === "SELL" ? icon_sell : icon_buy}/>
                                     </div>
@@ -165,7 +188,7 @@ export default function TradingSystemDetail() {
                         <div className="w-3 ml-5 my-5">
                             <div className={`bg-gray-500 w-3 h-3 rounded-full`}></div>
                             <div className="flex justify-center">
-                                <div className={`w-0.5 h-[220px] bg-gray-500`}></div>
+                                <div className={`w-0.5 h-[250px] bg-gray-500`}></div>
                             </div>
                             <div className={`bg-gray-500 w-3 h-3 rounded-full`}></div>
                         </div>
@@ -174,6 +197,10 @@ export default function TradingSystemDetail() {
                                 Id: {signal?.ticket} - {dayjsInstance(signal?.create_at).format("HH:mm DD/MM/YYYY")}     
                             </p>
                             <p className="font-semibold text-xl py-2">Entry: {signal?.price}</p>
+                            <p className="flex items-center font-semibold text-xl py-2">
+                                SL: {signal?.sl_show}
+                                {signal?.sl_entry === null && signal?.pass_sl === 1  ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                            </p>
                             <p className="flex items-center font-semibold text-xl py-2">
                                 TP1: {signal?.tp1}
                                 {signal?.time_tp1 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
@@ -224,7 +251,7 @@ export default function TradingSystemDetail() {
                             <p className="pt-8 text-gray-500 text-lg font-semibold">Tín hiệu</p>
                             <p className="font-bold text-2xl">{tradingSystem?.count_signal}</p>
                             <p className="pt-8 text-gray-500 text-lg font-semibold">Tỷ lệ thắng</p>
-                            <p className="font-bold text-2xl">{tradingSystem?.win_rate * 100}%</p>
+                            <p className="font-bold text-2xl">{DecimalNumber(tradingSystem?.win_rate * 100, 2)}%</p>
                         </div>
                         <div className="py-5">
                             <p className="text-gray-500 text-lg font-semibold">Lời / Lỗ tích lũy</p>

@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { Button, Checkbox, Col, Divider, Modal, Row, Segmented, Select, Spin, message} from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Checkbox, Col, Divider, Dropdown, Modal, Row, Segmented, Select, Spin, message} from "antd";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../utils/axios";
 import logo_black from "../../../component/image/logo_black.png"
@@ -9,6 +9,8 @@ import icon_buy from "../../../component/image/icon/buy.svg"
 import icon_sell from "../../../component/image/icon/sell.svg"
 import logo from "../../../component/image/logo_signal.png"
 import check_icon from "../../../component/image/icon/check.png"
+import stop from "../../../component/image/icon/stop.png"
+import close from "../../../component/image/icon/close.png"
 import { plainOptions } from "../../../helper";
 import { useCookies } from "react-cookie";
 import { DecimalNumber } from "../../../utils/format";
@@ -16,6 +18,7 @@ const CheckboxGroup = Checkbox.Group;
 
 export default function TradingSystem() {
     const params = useParams();
+    const navigate = useNavigate();
     const [cookies] = useCookies(["user"]);
     const [signal, setSignal] = useState([]);
     const [allSymbol, setAllSymbol] = useState([]);
@@ -61,8 +64,9 @@ export default function TradingSystem() {
     }
 
     const getSignalCondition = async (symbol, timeDone) => {
+        const list = "('" + symbol.join("','") + "')";
         await axiosInstance.get(`/tradingSystem/getSignalByTradingSystem/${params?.trading_system}`, {params: {
-            symbol: symbol,
+            symbol: list,
             time_done: timeDone
         }})
         .then(({ data }) => {
@@ -114,38 +118,31 @@ export default function TradingSystem() {
         } else if(value === 2) {
             setTimeDone(0);
         }
-    }, [value]);
-
-    useEffect(() => { 
-        if(symbol) {
-            getSignalCondition(symbol, timeDone);
-        }else {
-            getSignalCondition(allSymbol[0]?.symbol, timeDone);
-        }
-    }, [symbol, timeDone, allSymbol, params?.trading_system]);
+    }, [value]);    
     
-        
     useEffect(() => { 
-        if (signal?.length > 0) {
-            const interval = setInterval(async () => {
-              try {
-                const fetchData = async () => {
-                    const promises = signal.map(async (symbol) => {
-                    const response = await axiosInstance.get(`/symbol/getBySymbol/${symbol?.symbol}`);
-                    return response.data[0];
-                  });
-                  const data = await Promise.all(promises);
-                  setDataSymbol(data);
-                };
-                await fetchData();
-              } catch (error) {
+        if(checkedList.length > 0) {
+            getSignalCondition(checkedList, timeDone);
+        }else {
+            getSignalCondition(plainOptions, timeDone);
+        }
+    }, [symbol, timeDone, checkedList]);
+    
+    useEffect(() => { 
+        const interval = setInterval(async () => {
+            try {
+                if(checkedList.length > 0) {
+                    getSignalCondition(checkedList, timeDone);
+                }else {
+                    getSignalCondition(plainOptions, timeDone);
+                }
+            } catch (error) {
                 console.error('Error fetching data:', error);
-              }
-            }, 1500);
+            }
+        }, 1500);
 
-            return () => clearInterval(interval);
-          }
-    }, [signal, dataSymbol]);
+        return () => clearInterval(interval);
+    }, [signal]);
 
     return (
         <div className="my-10">
@@ -169,10 +166,20 @@ export default function TradingSystem() {
                             >
                                 Hủy Theo Dõi
                             </button>
-                        ): (
+                        ): cookies?.user ? (
                             <button 
                                 className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4"
                                 onClick={()=>setIsModalOpen(true)}
+                            >
+                                Theo Dõi
+                            </button>
+                        ) : (
+                            <button 
+                                className="text-white text-lg font-semibold border rounded-full bg-blue-500 hover:bg-white hover:text-blue-500 hover:border-blue-500 py-2 px-4"
+                                onClick={()=>{
+                                    message.warning("Vui lòng đăng nhập để được sử dụng chức năng này!"); 
+                                    navigate("/login")
+                                }}
                             >
                                 Theo Dõi
                             </button>
@@ -204,27 +211,44 @@ export default function TradingSystem() {
                 <Col xs={24} xl={14} className="border rounded-2xl p-5">
                     <div className="flex items-center justify-between">
                         <div className="flex">
-                            <p className="text-2xl font-bold">Lệnh đang chạy</p>
-                            <img src={myGif} alt="My GIF" className="h-8 pl-5" />
+                            <p className="text-2xl font-bold">{value == 1 ? "Lệnh đang chạy" : "Đã kết thúc"}</p>
+                            <img src={value == 1 ? myGif : stop} alt="My GIF" className="h-8 pl-5" />
                         </div>
-                        <div className="flex items-center">
-                            <Select
-                                style={{
-                                    width: 150,
-                                }}
-                                placeholder="Chọn cặp tiền"
-                                onChange={setSymbol}
-                                options={allSymbol?.map((value) => ({
-                                    value: value.symbol,
-                                    label: value.symbol,
-                                }))}
-                            />
-                        </div>
+                        
+                        <Dropdown
+                            dropdownRender={() => (
+                                <div className="flex justify-center">
+                                    <div className="bg-slate-50 w-[500px] mt-3 p-5 rounded-xl drop-shadow-md">
+                                        <Checkbox 
+                                            indeterminate={indeterminate} 
+                                            onChange={onCheckAllChange} 
+                                            checked={checkAll}
+                                        >
+                                            Hiển thị tất cả cặp tiền
+                                        </Checkbox>
+                                        <Divider />
+                                        <CheckboxGroup
+                                            options={plainOptions} 
+                                            value={checkedList} 
+                                            onChange={onChange} 
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                            placement="bottom"
+                            trigger={['click']}
+                        >
+                            <button className="float-end border px-5 py-2 rounded-full font-semibold text-xl hover:bg-blue-500 hover:text-white mr-5">
+                                Cặp Tiền Hiển Thị
+                            </button>
+                        </Dropdown>
                     </div>
                     <div>
                         {signal?.map((_,i) => (
                             <>
-                                <p className="pt-6 pb-2 font-semibold text-xl">{dayjsInstance(_?.create_at).format("HH:mm DD/MM/YYYY")} - Id: {_?.ticket}</p>
+                                <p className="pt-6 pb-2 font-semibold text-xl">
+                                    Giờ mua: {dayjsInstance(_?.create_at).format("HH:mm DD/MM/YYYY")} {_?.time_done && (<>- Giờ kết thúc: {dayjsInstance(_?.time_done).format("HH:mm DD/MM/YYYY")}</>)} - Id: {_?.ticket}
+                                </p>
                                 <div className={_?.type === "SELL" ? "bg-red-50 hover:bg-white" : "bg-green-50 hover:bg-white"}>
                                     <div className={`border-t-4 border border-x-slate-500 ${_?.type === "SELL" ? "border-t-red-500" : "border-t-green-500"}`}>
                                     <div className="flex justify-between px-10 py-5">
@@ -256,20 +280,44 @@ export default function TradingSystem() {
                                                 <div className="text-xl font-semibold w-2/3">
                                                     <div className="grid grid-cols-3">
                                                         <p>Entry: {_?.price}</p>
-                                                        <p>Entry: {_?.price}</p>
+                                                        <p className="flex items-center">
+                                                            SL: {_?.sl_show}
+                                                            {_?.time_tp1 === null && value === 2 ? 
+                                                                <img src={check_icon} className="h-6 ml-3"/> :  
+                                                                <Spin style={{marginLeft: 10}}/> 
+                                                            }
+                                                        </p>
                                                     </div>
                                                     <div className="grid grid-cols-3 pt-2">
                                                         <p className="flex items-center">
-                                                            TP1: {_?.tp1}
-                                                            {_?.time_tp1 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                                                            TP1: {DecimalNumber(_?.tp1, _?.digit)}
+
+                                                            {_?.time_tp1 ? 
+                                                                <img src={check_icon} className="h-8 ml-3"/> : 
+                                                                value === 1 ? 
+                                                                    <Spin style={{marginLeft: 10}}/> : 
+                                                                    <img src={close} className="h-4 ml-3"/>
+                                                            }
                                                         </p>
                                                         <p className="flex items-center">
-                                                            TP2: {_?.tp2}
-                                                            {_?.time_tp2 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                                                            TP2: {DecimalNumber(_?.tp2, _?.digit)}
+                                                            
+                                                            {_?.time_tp2 ? 
+                                                                <img src={check_icon} className="h-8 ml-3"/> : 
+                                                                value === 1 ? 
+                                                                    <Spin style={{marginLeft: 10}}/> : 
+                                                                    <img src={close} className="h-4 ml-3"/>
+                                                            }
                                                         </p>
                                                         <p className="flex items-center">
-                                                            TP3: {_?.tp3}
-                                                            {_?.time_tp3 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                                                            TP3: {DecimalNumber(_?.tp3, _?.digit)}
+                                                            
+                                                            {_?.time_tp3 ? 
+                                                                <img src={check_icon} className="h-8 ml-3"/> : 
+                                                                value === 1 ? 
+                                                                    <Spin style={{marginLeft: 10}}/> : 
+                                                                    <img src={close} className="h-4 ml-3"/>
+                                                            }
                                                         </p>
                                                     </div>
                                                     <div className="flex items-center pt-6">
@@ -280,7 +328,18 @@ export default function TradingSystem() {
                                                 <div className="flex items-center">
                                                     <div className="text-center bg-blue-200 p-3">
                                                         <p className="text-xl">P&L(pips)</p>
-                                                        <p className="text-xl font-bold text-emerald-500">{Math.round(((dataSymbol[i]?.price - _?.price) * 10) * 100) / 100}</p>
+                                                        <p className="text-xl font-bold text-emerald-500">
+                                                            {value === 1 ?
+                                                                <>
+                                                                    {_?.type === "BUY" ?
+                                                                        DecimalNumber((((_?.price_symbol - _?.price) / _?.point) / 10), 2) :
+                                                                        DecimalNumber((((_?.price - _?.price_symbol) / _?.point) / 10), 2)
+                                                                    }
+                                                                </>
+                                                                :
+                                                                <>{DecimalNumber(_?.pips, 2)}</>
+                                                            }
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>

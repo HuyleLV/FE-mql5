@@ -9,6 +9,7 @@ import { IconSignal } from "../../utils/iconSignal";
 import dayjsInstance from "../../utils/dayjs";
 import check_icon from "../../component/image/icon/check.png"
 import close from "../../component/image/icon/close.png"
+import stop from "../../component/image/icon/stop.png"
 import { plainOptions, timeDifference } from "../../helper";
 import myGif from '../../component/image/gif.gif';
 import { DecimalNumber } from "../../utils/format";
@@ -19,7 +20,6 @@ export default function SignalOpen() {
     const [symbol, setSymbol] = useState();
     const [timeDone, setTimeDone] = useState(1);
     const [allRanking, setAllRanking] = useState([]);
-    const [dataSymbol, setDataSymbol] = useState([]);
     const [statistics, setStatistics] = useState([]);
     const [value, setValue] = useState(1);
     
@@ -80,28 +80,21 @@ export default function SignalOpen() {
         }
     }, [symbol, timeDone, checkedList]);
     
-        
     useEffect(() => { 
-        if (signal?.length > 0) {
-            const interval = setInterval(async () => {
-              try {
-                const fetchData = async () => {
-                    const promises = signal.map(async (symbol) => {
-                    const response = await axiosInstance.get(`/symbol/getBySymbol/${symbol?.symbol}`);
-                    return response.data[0];
-                  });
-                  const data = await Promise.all(promises);
-                  setDataSymbol(data);
-                };
-                await fetchData();
-              } catch (error) {
+        const interval = setInterval(async () => {
+            try {
+            if(checkedList.length > 0) {
+                getSignalCondition(checkedList, timeDone);
+            }else {
+                getSignalCondition(plainOptions, timeDone);
+            }
+            } catch (error) {
                 console.error('Error fetching data:', error);
-              }
-            }, 1500);
+            }
+        }, 1500);
 
-            return () => clearInterval(interval);
-          }
-    }, [signal, dataSymbol]);
+        return () => clearInterval(interval);
+    }, [signal]);
 
     return (
         <Row className="pb-10">
@@ -118,21 +111,10 @@ export default function SignalOpen() {
             <Col xs={24} xl={14} className="border rounded-2xl p-5">
                 <div className="flex items-center justify-between">
                     <div className="flex">
-                        <p className="text-2xl font-bold">Lệnh đang chạy</p>
-                        <img src={myGif} alt="My GIF" className="h-8 pl-5" />
+                        <p className="text-2xl font-bold">{value == 1 ? "Lệnh đang chạy" : "Đã kết thúc"}</p>
+                        <img src={value == 1 ? myGif : stop} alt="My GIF" className="h-8 pl-5" />
                     </div>
                     <div className="flex items-center">
-                        {/* <Select
-                            style={{
-                                width: 150,
-                            }}
-                            placeholder="Chọn cặp tiền"
-                            onChange={setSymbol}
-                            options={allSymbol?.map((value) => ({
-                                value: value.symbol,
-                                label: value.symbol,
-                              }))}
-                        /> */}
                         <Dropdown
                             dropdownRender={() => (
                                 <div className="flex justify-center">
@@ -165,7 +147,9 @@ export default function SignalOpen() {
                 <div>
                     {signal?.map((_,i) => (
                         <>
-                            <p className="pt-6 pb-2 font-semibold text-xl">{dayjsInstance(_?.create_at).format("HH:mm DD/MM/YYYY")} - Id: {_?.ticket}</p>
+                            <p className="pt-6 pb-2 font-semibold text-xl">
+                                Giờ mua: {dayjsInstance(_?.create_at).format("HH:mm DD/MM/YYYY")} {_?.time_done && (<>- Giờ kết thúc: {dayjsInstance(_?.time_done).format("HH:mm DD/MM/YYYY")}</>)} - Id: {_?.ticket}
+                            </p>
                             <div className={_?.type === "SELL" ? "bg-red-50 hover:bg-white" : "bg-green-50 hover:bg-white"}>
                                 <div className={`border-t-4 border border-x-slate-500 ${_?.type === "SELL" ? "border-t-red-500" : "border-t-green-500"}`}>
                                 <div className="flex justify-between px-10 py-5">
@@ -181,7 +165,7 @@ export default function SignalOpen() {
                                                 </p>
                                             </a>
                                             <p className={`${_?.type === "SELL" ? "text-red-500" : "text-green-500"} font-bold text-xl ml-5`}>
-                                                {dataSymbol[i]?.price}
+                                                {_?.price_symbol}
                                             </p>
                                             <img className="h-[40px]" src={_?.type === "SELL" ? icon_sell : icon_buy}/>
                                         </div>
@@ -222,7 +206,7 @@ export default function SignalOpen() {
                                                 </div>
                                                 <div className="grid grid-cols-3 pt-2">
                                                     <p className="flex items-center">
-                                                        TP1: {DecimalNumber(_?.tp1, dataSymbol[i]?.digit)}
+                                                        TP1: {DecimalNumber(_?.tp1, _?.digit)}
 
                                                         {_?.time_tp1 ? 
                                                             <img src={check_icon} className="h-8 ml-3"/> : 
@@ -232,7 +216,7 @@ export default function SignalOpen() {
                                                         }
                                                     </p>
                                                     <p className="flex items-center">
-                                                        TP2: {DecimalNumber(_?.tp2, dataSymbol[i]?.digit)}
+                                                        TP2: {DecimalNumber(_?.tp2, _?.digit)}
                                                         
                                                         {_?.time_tp2 ? 
                                                             <img src={check_icon} className="h-8 ml-3"/> : 
@@ -242,7 +226,7 @@ export default function SignalOpen() {
                                                         }
                                                     </p>
                                                     <p className="flex items-center">
-                                                        TP3: {DecimalNumber(_?.tp3, dataSymbol[i]?.digit)}
+                                                        TP3: {DecimalNumber(_?.tp3, _?.digit)}
                                                         
                                                         {_?.time_tp3 ? 
                                                             <img src={check_icon} className="h-8 ml-3"/> : 
@@ -264,14 +248,13 @@ export default function SignalOpen() {
                                                         {value === 1 ?
                                                             <>
                                                                 {_?.type === "BUY" ?
-                                                                    DecimalNumber((((dataSymbol[i]?.price - _?.price) / dataSymbol[i]?.point) / 10), 2) :
-                                                                    DecimalNumber((((_?.price - dataSymbol[i]?.price) / dataSymbol[i]?.point) / 10), 2)
+                                                                    DecimalNumber((((_?.price_symbol - _?.price) / _?.point) / 10), 2) :
+                                                                    DecimalNumber((((_?.price - _?.price_symbol) / _?.point) / 10), 2)
                                                                 }
                                                             </>
                                                             :
                                                             <>{DecimalNumber(_?.pips, 2)}</>
                                                         }
-                                                        
                                                     </p>
                                                 </div>
                                             </div>

@@ -179,10 +179,7 @@ export default function SignalPage() {
   }, [form, profile]);
 
   useEffect(() => { 
-    if(!cookies?.user && currentPath?.includes('/signal')){ 
-      message.warning("Vui lòng đăng nhập!")
-      navigate("/login");
-    } else {
+    if(cookies?.user && currentPath?.includes('/signal')){ 
       fetchProfile();
     }
   }, [pagination, cookies]);
@@ -401,12 +398,14 @@ export default function SignalPage() {
             </button>
             <img src={icon_hot} className="h-10 -ml-8"/>
           </div>
-          <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full mt-2" onClick={()=>setTab(2)}>
-            Các Nhà Giao Dịch Thành Công
-          </button>
+          {cookies?.user && currentPath?.includes('/signal') &&(
+            <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full mt-2" onClick={()=>setTab(2)}>
+              Các Nhà Giao Dịch Thành Công
+            </button>
+          )}
         </div>
 
-        {tab === 2 && (
+        {tab === 2 && cookies?.user && currentPath?.includes('/signal') && (
           <>
             <Row className="flex items-center p-[20px] my-10 border border-[var(--mid-gray)] rounded bg-gradient-to-r from-slate-800 to-blue-700 text-white">
               <Col xs={24} xl={6}>
