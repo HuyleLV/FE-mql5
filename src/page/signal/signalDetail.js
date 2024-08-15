@@ -7,6 +7,7 @@ import icon_buy from "../../component/image/icon/buy.svg"
 import icon_sell from "../../component/image/icon/sell.svg"
 import dayjsInstance from "../../utils/dayjs";
 import check_icon from "../../component/image/icon/check.png"
+import close from "../../component/image/icon/close.png"
 import { Spin } from "antd";
 import { DecimalNumber } from "../../utils/format";
 import facebook from "../../component/image/facebook.png"
@@ -199,19 +200,23 @@ export default function TradingSystemDetail() {
                             <p className="font-semibold text-xl py-2">Entry: {signal?.price}</p>
                             <p className="flex items-center font-semibold text-xl py-2">
                                 SL: {signal?.sl_show}
-                                {signal?.sl_entry === null && signal?.pass_sl === 1  ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                                {signal?.sl_entry === null && signal?.pass_sl === 1  ? (<img src={check_icon} className="h-8 ml-3"/>) :
+                                    signal?.time_done === null ? (<Spin style={{marginLeft: 10}}/>) : (<img src={close} className="h-4 ml-3"/>)}
                             </p>
                             <p className="flex items-center font-semibold text-xl py-2">
                                 TP1: {signal?.tp1}
-                                {signal?.time_tp1 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                                {signal?.time_tp1 ? (<img src={check_icon} className="h-8 ml-3"/>) : 
+                                    signal?.time_done === null ? (<Spin style={{marginLeft: 10}}/>) : (<img src={close} className="h-4 ml-3"/>)}
                             </p>
                             <p className="flex items-center font-semibold text-xl py-2">
                                 TP2: {signal?.tp2}
-                                {signal?.time_tp2 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                                {signal?.time_tp2 ? (<img src={check_icon} className="h-8 ml-3"/>) : 
+                                    signal?.time_done === null ? (<Spin style={{marginLeft: 10}}/>) : (<img src={close} className="h-4 ml-3"/>)}
                             </p>
                             <p className="flex items-center font-semibold text-xl py-2">
                                 TP3: {signal?.tp3}
-                                {signal?.time_tp3 ? (<img src={check_icon} className="h-8 ml-3"/>) : (<Spin style={{marginLeft: 10}}/>)}
+                                {signal?.time_tp3 ? (<img src={check_icon} className="h-8 ml-3"/>) : 
+                                    signal?.time_done === null ? (<Spin style={{marginLeft: 10}}/>) : (<img src={close} className="h-4 ml-3"/>)}
                             </p>
                         </div>
                     </div>

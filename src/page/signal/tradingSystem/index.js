@@ -360,7 +360,7 @@ export default function TradingSystem() {
                                 <p className="pt-5 text-lg font-semibold text-gray-600">Tín hiệu</p>
                                 <p className="font-bold text-xl">{tradingSystem?.count_signal}</p>
                                 <p className="pt-12 text-lg font-semibold text-gray-600">Tỷ lệ thắng</p>
-                                <p className="font-bold text-xl">{tradingSystem?.win_rate * 100}%</p>
+                                <p className="font-bold text-xl">{DecimalNumber(tradingSystem?.win_rate * 100, 2)}%</p>
                             </div>
                             <div>
                                 <p className="text-lg font-semibold text-gray-600">Lời/ Lỗ tích lũy</p>
