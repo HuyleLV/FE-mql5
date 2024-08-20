@@ -123,8 +123,8 @@ export default function Fund() {
                         <p className="text-8xl font-bold text-[#6CB74E]">Giải Pháp Đầu Tư</p>
                         <p className="text-6xl font-semibold text-[#FFDE59] py-5">TIPPER_Fund Investment</p>
                         <p className="px-10 font-semibold text-xl text-white leading-9">
-                            TIPPER_Fund Investment (NFI) là quỹ mở được quản lý chủ động và chuyên<br></br>
-                            nghiệp bởi ACE Capital Group. Quỹ NFI đầu tư chủ yếu vào <br></br>
+                            TIPPER_Fund Investment (TFI) là quỹ mở được quản lý chủ động và chuyên<br></br>
+                            nghiệp bởi ACE Capital Group. Quỹ TFI đầu tư chủ yếu vào <br></br>
                             các sản phẩm tài chính như hàng hoá, chứng khoán, CFD.  <br></br>
                             Đây là những sản phẩm có lợi thế cạnh tranh trên thị  <br></br>
                             trường và có tiềm năng tăng trưởng tốt. <br></br>
@@ -158,7 +158,7 @@ export default function Fund() {
                                 TẠI NGÀY {dayjs(Date()).format("DD/MM/YYYY")}
                             </p>
                             <p className="w-1/3 text-end">
-                                NFI
+                                TFI
                             </p>
                         </div>
                         <div className="flex p-10 font-semibold text-xl border-y border-gray-500">
@@ -215,85 +215,83 @@ export default function Fund() {
                 </Col>
             </Row>
 
-            <div className="max-w-screen-2xl mx-auto flex justify-center">
-                <div>
-                    <p className="font-bold text-4xl text-[#004AAD] py-10 text-center">Những Khách Hàng Đã Tham Gia Quỹ Của Chúng Tôi</p>
-                    {listFund?.map((_, i) => (
-                        <p className="text-2xl border-b-2 border-gray-500 p-5 flex justify-start">
-                            <span>{i+1}</span>
-                            - {_?.fullname} - {_?.phone}  - {_?.email} - ngày tham gia {dayjs(_?.create_at).format("DD/MM/YYYY")} đã đầu tư {FormatVND(_?.init_balance * dollar?.dollar_vnd)} 
-                        </p>
-                    ))}
-                    <Link to={""} className="flex justify-center">
-                        <button className="text-xl text-white border px-6 py-2 rounded-full bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-10">
-                            Xem Thêm
-                        </button>
-                    </Link>
-                </div>
-            </div>
-
-            <div className="bg-gradient-to-r from-[#1C7AB9] via-[#1C7AB9] to-[#00C4CC] my-10">
-                <div className="max-w-screen-2xl mx-auto py-10">
-                    <p className="font-bold text-2xl text-white">Tổng quan</p>
-                    <p className="font-bold text-2xl text-white">Thông tin về quỹ Tipper Fund Investment</p>
-                    <Row className="py-5">
-                        <Col xs={24} xl={12}>
+            <Row className="bg-gradient-to-r from-[#1C7AB9] via-[#1C7AB9] to-[#00C4CC]">
+                <Col xs={24} xl={12}>
+                    <div className="flex justify-center p-10">
+                        <div>
+                            <p className="font-bold text-4xl text-white py-8 text-center">Những Khách Hàng Đã Tham Gia Quỹ Của Chúng Tôi</p>
+                            {listFund?.map((_, i) => (
+                                <p className="text-2xl text-[#57E4FF] border-b border-gray-200 p-5 text-center">
+                                    <span>{i+1}</span>
+                                    - {_?.fullname} - {_?.phone}  - {_?.email} - ngày tham gia {dayjs(_?.create_at).format("DD/MM/YYYY")} đã đầu tư {FormatVND(_?.init_balance * dollar?.dollar_vnd)} 
+                                </p>
+                            ))}
+                            <Link to={""} className="flex justify-center">
+                                <button className="text-xl text-white border px-6 py-2 rounded-full bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 mt-10">
+                                    Xem Thêm
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
+                </Col>
+                <Col xs={24} xl={12}>
+                    <div className="flex items-center justify-center h-full">
+                        <div className="p-10">
+                            <p className="font-bold text-4xl text-white">Tổng quan</p>
+                            <p className="font-bold text-4xl pb-10 pt-2 text-white">Thông tin về quỹ Tipper Fund Investment</p>
                             <div className="font-semibold text-xl text-[#57E4FF] leading-8">
                                 <p>Hình Thức: </p>
                                 <p>Số tiền đầu tư tối thiểu: 1.000.000đ</p>
                                 <p>Tần xuất giao dịch: Từ thứ 2-6</p>
                                 <p>Phí quản lý: 30$/tháng</p>
                                 <p>Chỉ số tham chiếu tham khảo: Vn-Index</p>
-                            </div>
-                        </Col>
-                        <Col xs={24} xl={12}>
-                            <div className="font-semibold text-xl text-[#57E4FF] leading-8">
                                 <p>Ngày Thành Lập: 01/05/2024</p>
                                 <p>Tần xuất giao dịch: Từ thứ 2-6</p>
                                 <p>Phí quản lý: 30$/tháng</p>
                                 <p>Chỉ số tham chiếu tham khảo: Vn-Index</p>
                             </div>
-                        </Col>
-                    </Row>
-                </div>
-                <Row className="bg-[#0A1A44]">
-                    <Col xs={24} xl={8} className="py-10 px-20 border-r">
-                        <div className="flex items-center pb-5">
-                            <p className="bg-[#00C4CC] w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg">01</p>
-                            <p className="text-white pl-2 font-semibold text-xl">Tầm Nhìn</p>
                         </div>
-                        <p className="text-lg font-normal text-white">
-                            Tầm nhìn của chúng tôi là giúp các nhà giao dịch 
-                            đạt được Mục Tiêu Tài Chính của họ bằng cách cung cấp 
-                            cho họ những giải pháp tốt nhất
-                        </p>
-                    </Col>
-                    <Col xs={24} xl={8} className="py-10 px-20 border-r">
-                        <div className="flex items-center pb-5">
-                            <p className="bg-[#00C4CC] w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg">02</p>
-                            <p className="text-white pl-2 font-semibold text-xl">Sứ Mệnh</p>
-                        </div>
-                        <p className="text-lg font-normal text-white">
-                            Xây dựng TIPPER trở thành một nền tảng đầu tư tất cả 
-                            trong một với trải nghiệm đơn giản, dễ hiểu và thuận tiện, 
-                            giúp khách hàng đạt mục tiêu về tự do tài chính.
-                        </p>
-                    </Col>
-                    <Col xs={24} xl={8} className="py-10 px-20">
-                        <div className="flex items-center pb-5">
-                            <p className="bg-[#00C4CC] w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg">03</p>
-                            <p className="text-white pl-2 font-semibold text-xl">Tôn Chỉ Hoạt Động</p>
-                        </div>
-                        <p className="text-lg font-normal text-white">
-                            + An Toàn <br></br>
-                            + Nhanh Chóng <br></br>
-                            + Chính Xác <br></br>
-                            + Hiệu Quả <br></br>
-                            + Minh Bạch
-                        </p>
-                    </Col>
-                </Row>
-            </div>
+                    </div>
+                </Col>
+            </Row>
+            
+            <Row className="bg-[#0A1A44]">
+                <Col xs={24} xl={8} className="py-10 px-20 border-r">
+                    <div className="flex items-center pb-5">
+                        <p className="bg-[#00C4CC] w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg">01</p>
+                        <p className="text-white pl-2 font-semibold text-xl">Tầm Nhìn</p>
+                    </div>
+                    <p className="text-lg font-normal text-white">
+                        Tầm nhìn của chúng tôi là giúp các nhà giao dịch 
+                        đạt được Mục Tiêu Tài Chính của họ bằng cách cung cấp 
+                        cho họ những giải pháp tốt nhất
+                    </p>
+                </Col>
+                <Col xs={24} xl={8} className="py-10 px-20 border-r">
+                    <div className="flex items-center pb-5">
+                        <p className="bg-[#00C4CC] w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg">02</p>
+                        <p className="text-white pl-2 font-semibold text-xl">Sứ Mệnh</p>
+                    </div>
+                    <p className="text-lg font-normal text-white">
+                        Xây dựng TIPPER trở thành một nền tảng đầu tư tất cả 
+                        trong một với trải nghiệm đơn giản, dễ hiểu và thuận tiện, 
+                        giúp khách hàng đạt mục tiêu về tự do tài chính.
+                    </p>
+                </Col>
+                <Col xs={24} xl={8} className="py-10 px-20">
+                    <div className="flex items-center pb-5">
+                        <p className="bg-[#00C4CC] w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg">03</p>
+                        <p className="text-white pl-2 font-semibold text-xl">Tôn Chỉ Hoạt Động</p>
+                    </div>
+                    <p className="text-lg font-normal text-white">
+                        + An Toàn <br></br>
+                        + Nhanh Chóng <br></br>
+                        + Chính Xác <br></br>
+                        + Hiệu Quả <br></br>
+                        + Minh Bạch
+                    </p>
+                </Col>
+            </Row>
 
             <div className="max-w-screen-2xl mx-auto py-10">
                 <p className="font-bold text-4xl text-[#004AAD]">Ban Điều Hành Quỹ</p>

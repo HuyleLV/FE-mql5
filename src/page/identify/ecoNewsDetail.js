@@ -85,9 +85,14 @@ export default function EcoNewsDetail() {
                         <p className="font-semibold text-2xl text-center border-b mx-10 mb-5">Tin tức hot nhất</p>
                         {economicNewsHot?.map((_, index) => (
                             <a href={"/lich-kinh-te/" + _?.economic_news_slug} style={{color: "black"}}>
-                                <div className="pt-4 border-b border-slate-300">
-                                    <p className="font-semibold text-xl">{_?.economic_news_title}</p>
-                                    <p className="py-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                                <div className="grid grid-cols-4 gap-4 border-b border-slate-300">
+                                    <div className="flex items-center">
+                                        <img src={_?.economic_news_image} className="w-full"/>
+                                    </div>
+                                    <div className="col-span-3 pt-4">
+                                        <p className="font-semibold text-lg">{_?.economic_news_title}</p>
+                                        <p className="py-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                                    </div>
                                 </div>
                             </a>
                         ))}

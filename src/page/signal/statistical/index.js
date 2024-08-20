@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../utils/axios";
 import { Pie } from "react-chartjs-2";
 import logo from "../../../component/image/logo_signal.png"
+import { DecimalNumber } from "../../../utils/format";
 
 export default function Statistical() {
     const [detail, setDetail] = useState([]);
@@ -109,19 +110,19 @@ export default function Statistical() {
                             <div className="grid grid-cols-2 gap-4 text-center pt-5">
                                 <div className="border border-black rounded-xl px-2 py-6 m-1 font-semibold">
                                     <p className="text-base">Tín Hiệu Trung Bình/ Tuần</p>
-                                    <p className="text-lg pt-2">{Math.round(detail?.result[0]?.signal_week * 100) / 100}</p>
+                                    <p className="text-lg pt-2">{DecimalNumber(detail?.result[0]?.signal_week, 2)}</p>
                                 </div>
                                 <div className="border border-black rounded-xl px-2 py-6 m-1 font-semibold">
                                     <p className="text-base">Lời Lỗ Trung Bình/ Tuần</p>
-                                    <p className="text-lg pt-2">{Math.round(detail?.result[0]?.pips_week * 100) / 100}</p>
+                                    <p className="text-lg pt-2">{DecimalNumber(detail?.result[0]?.pips_week, 2)}</p>
                                 </div>
                                 <div className="border border-black rounded-xl px-2 py-6 m-1 font-semibold">
                                     <p className="text-base">Tín Hiệu Trung Bình/ Tháng</p>
-                                    <p className="text-lg pt-2">{Math.round(detail?.result[0]?.signal_month * 100) / 100}</p>
+                                    <p className="text-lg pt-2">{DecimalNumber(detail?.result[0]?.signal_month, 2)}</p>
                                 </div>
                                 <div className="border border-black rounded-xl px-2 py-6 m-1 font-semibold">
                                     <p className="text-base">Lời Lỗ Trung Bình/ Tháng</p>
-                                    <p className="text-lg pt-2">{Math.round(detail?.result[0]?.pips_month * 100) / 100}</p>
+                                    <p className="text-lg pt-2">{DecimalNumber(detail?.result[0]?.pips_month, 2)}</p>
                                 </div>
                             </div>
                         )}
@@ -195,31 +196,33 @@ export default function Statistical() {
                                 </div>
                                 <div className="flex justify-between border-b py-4">
                                     <p className="text-xl font-semibold text-gray-600">Lời/ Lỗ tích lũy</p>
-                                    <p className="text-xl font-bold">{signalByMonth?.pips ? signalByMonth?.pips > 0 ? "+"+ signalByMonth?.pips : signalByMonth?.pips : 0}</p>
+                                    <p className="text-xl font-bold">
+                                        {signalByMonth?.pips ? signalByMonth?.pips > 0 ? "+"+ DecimalNumber(signalByMonth?.pips, 2) : DecimalNumber(signalByMonth?.pips, 2) : 0}
+                                    </p>
                                 </div>
                                 <div className="flex justify-between border-b py-4">
                                     <p className="text-xl font-semibold text-gray-600">Tỷ lệ thắng</p>
-                                    <p className="text-xl font-bold">{signalByMonth?.win_rate * 100}%</p>
+                                    <p className="text-xl font-bold">{DecimalNumber(signalByMonth?.win_rate * 100, 2)}%</p>
                                 </div>
                                 <div className="flex justify-between border-b py-4">
                                     <p className="text-xl font-semibold text-gray-600">Tỷ lệ Lời/ Lỗ</p>
-                                    <p className="text-xl font-bold">{signalByMonth?.profit ? signalByMonth?.profit : 0}</p>
+                                    <p className="text-xl font-bold">{signalByMonth?.profit ? DecimalNumber(signalByMonth?.profit, 2) : 0}</p>
                                 </div>
                                 <div className="flex justify-between border-b py-4">
                                     <p className="text-xl font-semibold text-gray-600">Lời trung bình</p>
-                                    <p className="text-xl font-bold">{signalByMonth?.win_medium ? signalByMonth?.win_medium : 0}</p>
+                                    <p className="text-xl font-bold">{signalByMonth?.win_medium ? DecimalNumber(signalByMonth?.win_medium, 2) : 0}</p>
                                 </div>
                                 <div className="flex justify-between border-b py-4">
                                     <p className="text-xl font-semibold text-gray-600">Lỗ trung bình</p>
-                                    <p className="text-xl font-bold">{signalByMonth?.loss_medium ? signalByMonth?.loss_medium : 0}</p>
+                                    <p className="text-xl font-bold">{signalByMonth?.loss_medium ? DecimalNumber(signalByMonth?.loss_medium, 2) : 0}</p>
                                 </div>
                                 <div className="flex justify-between border-b py-4">
                                     <p className="text-xl font-semibold text-gray-600">Thời gian giữ lệnh trung bình</p>
-                                    <p className="text-xl font-bold">{signalByMonth?.hours_medium ? signalByMonth?.hours_medium : 0}</p>
+                                    <p className="text-xl font-bold">{signalByMonth?.hours_medium ? DecimalNumber(signalByMonth?.hours_medium, 2) : 0}</p>
                                 </div>
                                 <div className="flex justify-between border-b py-4">
                                     <p className="text-xl font-semibold text-gray-600">Tín hiệu trung bình hàng ngày</p>
-                                    <p className="text-xl font-bold">{signalByMonth?.signal_date}</p>
+                                    <p className="text-xl font-bold">{DecimalNumber(signalByMonth?.signal_date, 2)}</p>
                                 </div>
                             </div>
                         </div>

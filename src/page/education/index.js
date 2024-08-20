@@ -25,8 +25,8 @@ export default function Education() {
 
     return (
         <div className="max-w-screen-2xl items-center mx-auto">
-            <div className="mt-[100px]">
-                <p className="font-bold text-3xl text-center">---- Kiến thức Net Partner ----</p>
+            <div className="my-[100px]">
+                <p className="font-bold text-3xl text-center">---- Kiến thức Tipper Trade ----</p>
 
                 {educationCategory?.map((_, index) => (
                     <div>

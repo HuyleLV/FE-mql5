@@ -185,7 +185,13 @@ export default function EcoCalendar() {
                         {follow === 0 ? 
                             <button 
                                 className="border rounded-full bg-blue-500 px-4 py-1 text-xl font-semibold text-white hover:bg-blue-400"
-                                onClick={onFollow}
+                                onClick={() => {
+                                    if (cookies?.user) {
+                                        onFollow();
+                                    } else {
+                                        message.warning("Vui lòng đăng nhập để được xử dụng chức năng này!");
+                                    }    
+                                }}
                             >
                                 Theo Dõi
                             </button>

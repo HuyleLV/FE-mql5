@@ -305,7 +305,13 @@ export default function Wallet() {
                         <Input style={{marginTop: 10, marginBottom: 10}} value={price} onChange={(i)=> setPrice(i?.target?.value)} type="number" placeholder="Nhập số tiền muốn nộp!"/>
                         <button 
                             className="border px-4 py-2 rounded-[10px] bg-blue-600 border-blue-600 font-semibold hover:bg-blue-800 text-white"
-                            onClick={() => setIsModalOpen(true)}>
+                            onClick={() => {
+                              if(price > 0) {
+                                setIsModalOpen(true)
+                              } else {
+                                message.warning("Vui lòng nhập số tiền nạp lớn hơn 0$ !")
+                              }
+                            }}>
                             Tạo lệnh
                         </button>
                     </div>
