@@ -108,6 +108,14 @@ export default function MasterDashboard() {
       render: (_, record) => <div>{record?.master_key}</div>,
     },
     {
+      title: "Private key",
+      key: "private_key",
+      dataIndex: "private_key",
+      width: 80,
+      ...SearchProps("private_key"),
+      render: (_, record) => <div>{record?.private_key}</div>,
+    },
+    {
       title: "Exprice date",
       key: "exprice_date",
       dataIndex: "exprice_date",

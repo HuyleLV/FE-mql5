@@ -381,7 +381,7 @@ export default function Home() {
                     />
                 </div>
 
-                {<TopMaster setIsModalOpen={setIsModalOpen} />}
+                <TopMaster />
 
                 <p className="font-bold p-4 text-3xl border-b-2 border-blue-500">Tin Thị Trường</p>
                 <Row>

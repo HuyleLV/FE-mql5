@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { Modal, message } from "antd";
 import axios from "axios";
 import { Slide } from "react-slideshow-image";
 import { useCookies } from "react-cookie";
@@ -9,6 +9,7 @@ import oclock from "../../component/image/icon/oclock.png"
 import user from "../../component/image/icon/user.png"
 import verify from "../../component/image/icon/veri.png"
 import { DecimalNumber } from "../../utils/format";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
     ArcElement, 
@@ -18,9 +19,11 @@ ChartJS.register(
     Legend
 );
 
-export default function TopMaster({setIsModalOpen}) {
+export default function TopMaster() {
+    const navigate = useNavigate();
     const [topMaster, setTopMaster] = useState([]);
     const [cookies] = useCookies(["user"]);    
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const getTopMaster = async () => {
         await axios
@@ -119,19 +122,11 @@ export default function TopMaster({setIsModalOpen}) {
                                         </p>
                                     </div>
                                     <div className="flex justify-center py-2">
-                                        {cookies?.user ? 
-                                            <a href={"/master/" + _?.user?.master_key}>
-                                                <button className="py-1 px-4 rounded-xl bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
-                                                    Theo Dõi Ngay
-                                                </button>
-                                            </a>
-                                            :
-                                            <button 
-                                                className="py-1 px-4 rounded-xl bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white" 
-                                                onClick={()=>setIsModalOpen(true)}>
+                                        <a href={"/master/" + _?.user?.master_key}>
+                                            <button className="py-1 px-4 rounded-xl bg-gradient-to-r from-green-500 to-blue-600 text-lg font-semibold text-white">
                                                 Theo Dõi Ngay
                                             </button>
-                                        }
+                                        </a>
                                     </div>
                                 </div>
                             }
@@ -139,6 +134,16 @@ export default function TopMaster({setIsModalOpen}) {
                     ))}
                 </Slide>
             )}
+            <Modal
+                title="Bạn chưa đăng nhập?"
+                className="flex justify-center"
+                open={isModalOpen}
+                onOk={() => (setIsModalOpen(false), navigate('/login'))}
+                onCancel={() => setIsModalOpen(false)}
+                okButtonProps={{ className: "bg-blue-500" }}
+            >
+                <p className="p-5">Vui lòng đăng nhập để được sử dụng chức năng này!</p>
+            </Modal>
         </div>
     )
 }

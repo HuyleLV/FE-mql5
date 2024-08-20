@@ -79,10 +79,10 @@ export default function Identify() {
             });
     }
 
-    const getByNews_category = async (identify_category_id) => {
+    const getByNews_category = async () => {
         await axios
             .get(
-                `${process.env.REACT_APP_API_URL}/identify/getByIdentify_categoryNew/${identify_category_id}`,{
+                `${process.env.REACT_APP_API_URL}/identify/getByIdentify_categoryNew`,{
                     params: {
                         ...pagination,
                         pageSite: 2
@@ -149,9 +149,7 @@ export default function Identify() {
     }, [identify?.identify_id, paginationComment]);
 
     useEffect(() => { 
-        if(news.length === 0) {
-            getByNews_category(2);
-        }
+        getByNews_category();
     }, []);
 
     useEffect(() => { 

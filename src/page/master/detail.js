@@ -280,13 +280,6 @@ export default function MasterDetail() {
         getReportByMasterKey();
         getSignal();
     }, [masterKey, paginationSignal]);
-
-    useEffect(() => {         
-        if(!cookies?.user){ 
-            message.warning("Vui lòng đăng nhập!")
-            navigate("/login");
-        }
-    }, [cookies?.user]);
     
 
     useEffect(() => { 
@@ -359,7 +352,13 @@ export default function MasterDetail() {
                 <div className="flex justify-center py-5 border-b">
                     <button 
                         className="px-4 py-2 bg-blue-500 hover:bg-gray-500 rounded-full text-white font-semibold text-xl"
-                        onClick={()=>setIsOpen(true)}
+                        onClick={()=>{
+                            if(!cookies?.user) {
+                                message.warning("Vui lòng đăng nhập để dùng chức năng này!")
+                            } else {
+                                setIsOpen(true)
+                            }
+                        }}
                     >
                         Theo dõi master
                     </button>

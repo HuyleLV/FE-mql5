@@ -398,339 +398,346 @@ export default function SignalPage() {
             </button>
             <img src={icon_hot} className="h-10 -ml-8"/>
           </div>
-          {cookies?.user && currentPath?.includes('/signal') &&(
-            <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full mt-2" onClick={()=>setTab(2)}>
-              Các Nhà Giao Dịch Thành Công
-            </button>
-          )}
+          <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full mt-2" onClick={()=>setTab(2)}>
+            Các Nhà Giao Dịch Thành Công
+          </button>
         </div>
 
-        {tab === 2 && cookies?.user && currentPath?.includes('/signal') && (
+        {tab === 2 && (
           <>
-            <Row className="flex items-center p-[20px] my-10 border border-[var(--mid-gray)] rounded bg-gradient-to-r from-slate-800 to-blue-700 text-white">
-              <Col xs={24} xl={6}>
-                <div className="flex items-center justify-center">
-                    <img src={icon_master} style={{width: 100}}/>
-                    <p className="font-bold text-2xl pl-2">Master Trade</p>
-                </div>
-              </Col>
-              <Col xs={24} xl={12} >
-              <div className="flex justify-center">
-                  <div className="flex items-center px-5">
-                  <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
-                  <p className="pl-2 font-semibold text-lg">Đăng ký<br/> miễn phí</p>
-                  </div>
-                  <div className="flex items-center px-5">
-                  <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
-                  <p className="pl-2 font-semibold text-lg">Sử dụng indicator<br/> độc quyền</p>
-                  </div>
-                  <div className="flex items-center px-5">
-                  <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
-                  <p className="pl-2 font-semibold text-lg">Đo lường giao dịch<br/> chuyên nghiệp</p>
-                  </div>
-              </div>
-              </Col>
-              <Col xs={24} xl={6}>
-                {profile?.kyc === 0 ? 
-                  <div className="flex justify-center w-full">
-                    <p className="font-semibold bg-yellow-500 px-5 py-2 w-[200px] rounded-full text-center">Bạn phải KYC để được xử dụng chức năng này!</p> 
-                  </div>
-                  : 
-                  <div className="flex justify-center w-full">
-                    <CreateMasterKey allMaster={allMaster}/>
-                  </div>
-                }
-              </Col>
-            </Row>
-            
-            <Row justify={"center"} align={"middle"} className="border-b-2">
-            {profile?.kyc === 1 ?
+            {cookies?.user && currentPath?.includes('/signal') ? (
               <>
-                <Col xs={24} xl={10}>
-                    <div className="flex p-2">
-                      <Image
-                        preview={false}
-                        src={profile?.photos}
-                        width={150}
-                        height={150}
-                      />
-                      <div className="pl-5">
-                        <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{profile?.displayName}</span></p>
-                        <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{profile?.email}</span></p>
-                        {masterKeyName?.master_key && (
-                          <p className="text-[20px] font-none">My master Key: <span className="text-[22px] font-medium">{masterKeyName?.master_key}</span></p>
-                        )}
-                        {masterKeyName?.private_key && (
-                          <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{masterKeyName?.private_key}</span></p>
-                        )}
-                        {/* {masterKeyName?.description && (
-                          <>
-                            <p className="text-[20px] font-none">Thông tin: </p>
-                            <p className="text-[22px] font-medium">{masterKeyName?.description}</p>
-                          </>
-                        )} */}
-                        {masterKeyName?.master_key && (
-                          <a href={"tin-hieu/" + profile?.user_id}>
-                            <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full mt-2">
-                              Thông tin
-                            </button>
-                          </a>
-                        )}
-                      </div>
+                <Row className="flex items-center p-[20px] my-10 border border-[var(--mid-gray)] rounded bg-gradient-to-r from-slate-800 to-blue-700 text-white">
+                  <Col xs={24} xl={6}>
+                    <div className="flex items-center justify-center">
+                        <img src={icon_master} style={{width: 100}}/>
+                        <p className="font-bold text-2xl pl-2">Master Trade</p>
                     </div>
-                </Col>
-                <Col xs={24} xl={14} className="border-l-2">
-                  <div className="p-2 pl-5 text-black">
-                    <div className="flex justify-between">
-                      <p className="text-xl font-bold pb-5 float-start h-full">Thống kê giao dịch</p>
-                      <Dropdown
-                        trigger={['click']}
-                        dropdownRender={(menu) => (
-                          <div className="shadow-lg w-full p-5 rounded-xl bg-white">
-                            {allMaster?.map((_, index) => (
-                              <p className="my-1 text-lg border-b cursor-pointer" onClick={()=> setMasterKeyName(_)}>{_?.master_key} - {_?.master_key_name}</p>
-                            ))}
-                          </div>
-                        )}
-                      >
-                        <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full">Lựa chọn chiến dịch <FilterOutlined /></button>
-                      </Dropdown>
-                    </div>
-                    <div className="text-xl font-semibold flex">
-                      <div>
-                        <p>Ranking: {totalSignal?.rank ? totalSignal?.rank : "Chưa có rank!"}</p>
-                        <p className="py-2">Tổng signal: {totalSignal?.results?.[0]?.total ? Math.round(totalSignal?.results?.[0]?.total * 100) / 100 : 0}</p>
-                        <p>
-                          Win / Lost: {totalSignal?.results?.[0]?.gltb ? totalSignal?.results?.[0]?.win : 0} / {totalSignal?.results?.[0]?.loss ? totalSignal?.results?.[0]?.loss : 0}
-                        </p>
-                        <p className="py-2">Thời gian giao dịch: {totalSignal?.results?.[0]?.time_trade ? Math.round(totalSignal?.results?.[0]?.time_trade * 100) / 100 : 0} h</p>
-                        <p className="pb-2">Thời gian giữ lệnh trung bình: {totalSignal?.results?.[0]?.gltb ? Math.round(totalSignal?.results?.[0]?.gltb * 100) / 100 : 0} h</p>
-                      </div>
-                      <div className="pl-10">
-                        <p>Tỷ lệ win: {totalSignal?.results?.[0]?.win_rate ? Math.round(totalSignal?.results?.[0]?.win_rate * 100) / 100 : 0}</p>
-                        <p className="py-2">Profit: {totalSignal?.results?.[0]?.total_profit ? Math.round(totalSignal?.results?.[0]?.total_profit * 100) / 100 : 0}</p>
-                        <p>Lệnh trung bình 1 ngày: {totalSignal?.results?.[0]?.tb1n ? Math.round(totalSignal?.results?.[0]?.tb1n * 100) / 100 : 0}</p>
-                        <p className="py-2">Follower: {totalSignal?.results?.[0]?.follower ? Math.round(totalSignal?.results?.[0]?.follower * 100) / 100 : 0}</p>
-                        <p className="pb-2">Broker: {masterKey?.broker ? masterKey?.broker : "Chưa có"}</p>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              </>
-              :
-              <Col xs={24} xl={24}>
-                <div className="flex border-b-2 p-2 h-[200px]">
-                  <Image
-                    preview={false}
-                    src={profile?.photos}
-                    width={150}
-                    height={150}
-                  />
-                  <div className="pl-5">
-                    <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{profile?.displayName}</span></p>
-                    <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{profile?.email}</span></p>
-                  </div>
-                </div>
-              </Col>
-            }
-            </Row>
-            <Row justify={"center"} align={"middle"}>
-                {masterKey?.master_license_id && profile?.kyc === 1 ?
-                <>
-                  <Col
-                      lg={24}
-                      xs={24}
-                      className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
-                  >
-                  <div className="py-5 flex justify-center">
-                    <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl" onClick={()=>setIsReport(1)}>
-                        Báo cáo
-                    </button>
-                    <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl mx-20" onClick={()=>setIsReport(2)}>
-                        Phân tích
-                    </button>
-                    <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl" onClick={()=>setIsReport(3)}>
-                        Lịch sử
-                    </button>
-                  </div>
-                  <Tabs type="card">
-                      <TabPane tab="Quản lý Follower" key="1">
-                        <div className="w-full h-full mt-5 pb-2 relative">
-                            <Table
-                            className={"custom-table pb-[20px]"}
-                            dataSource={follower?.data}
-                            columns={columnFollower}
-                            pagination={false}
-                            />
-                            <Pagination
-                            className="flex justify-center"
-                            current={pagination.page}
-                            total={follower?.total}
-                            pageSize={pagination.pageSize}
-                            showSizeChanger
-                            onChange={(p, ps)=> {
-                                setPagination({
-                                page: p,
-                                pageSize: ps
-                                })
-                            }}
-                            />
-                        </div>
-                      </TabPane>
-                      {/* <TabPane tab="Quản lý lệnh" key="2">
-                        <div className="w-full h-full mt-5 pb-2 relative">
-                            <Table
-                              className={"custom-table pb-[20px]"}
-                              dataSource={signal?.data}
-                              columns={columnSignal}
-                              pagination={false}
-                            />
-                            <Pagination
-                              className="flex justify-center"
-                              current={paginationSignal.page}
-                              total={signal?.total}
-                              pageSize={paginationSignal.pageSize}
-                              showSizeChanger
-                              onChange={(p, ps)=> {
-                                  setPaginationSignal({
-                                  page: p,
-                                  pageSize: ps
-                                  })
-                              }}
-                            />
-                        </div>
-                      </TabPane> */}
-                      {/* <TabPane tab="Bắn tín hiệu" key="3">  
-                        <div className="flex justify-center">
-                            <Form
-                            layout={"vertical"}
-                            colon={false}
-                            form={form}
-                            onFinishFailed={(e) => console.log(e)}
-                            onFinish={onSendSignal}
-                            >
-                            <Row className="w-[500px]">
-                                <Col lg={24} xs={24}>
-                                <Form.Item 
-                                    label={"Type"} 
-                                    name="type" 
-                                    rules={[
-                                    {
-                                      required: true,
-                                      message: 'Vui lòng nhập!',
-                                    },
-                                    ]}
-                                >
-                                    <Select
-                                    size="large"
-                                    placeholder="Nhập"
-                                    options={[
-                                      {
-                                        value: "buy"
-                                      },
-                                      {
-                                        value: "sell"
-                                      }
-                                    ]}  
-                                    />
-                                </Form.Item>
-                                </Col>
-                                <Col lg={24} xs={24}>
-                                <Form.Item 
-                                    label="Symbol" 
-                                    name="symbol"
-                                    rules={[
-                                    {
-                                      required: true,
-                                      message: 'Vui lòng nhập!',
-                                    },
-                                    ]}
-                                >
-                                    <Input size="large" placeholder="Nhập"/>
-                                </Form.Item>
-                                </Col>
-                                <Col lg={24} xs={24}>
-                                <Form.Item 
-                                    label="Price" 
-                                    name="price"
-                                    rules={[
-                                    {
-                                      required: true,
-                                      message: 'Vui lòng nhập!',
-                                    },
-                                    ]}
-                                >
-                                    <Input size="large" placeholder="Nhập ..."/>
-                                </Form.Item>
-                                </Col>
-                                <Col lg={24} xs={24}>
-                                <Form.Item 
-                                    label="Take profit" 
-                                    name="take_profit"
-                                    rules={[
-                                    {
-                                      required: true,
-                                      message: 'Vui lòng nhập!',
-                                    },
-                                    {
-                                        validator() {
-                                        if(type === "buy" && Number(take_profit) < Number(price)){
-                                          return Promise.reject(`Giá mua phải lớn hơn ${price}!`);
-                                        } else if(type === "sell" && Number(take_profit) > Number(price)){
-                                          return Promise.reject(`Giá bán phải bé hơn ${price}!`);
-                                        } else {
-                                          return Promise.resolve();
-                                        }
-                                        }
-                                    }
-                                    ]}
-                                >
-                                    <Input size="large" />
-                                </Form.Item>
-                                </Col>
-                                <Col lg={24} xs={24}>
-                                <Form.Item 
-                                    label="Stop losss" 
-                                    name="stop_loss"
-                                    rules={[
-                                    {
-                                        required: true,
-                                        message: 'Vui lòng nhập!',
-                                    },
-                                    ]}
-                                >
-                                    <Input size="large"/>
-                                </Form.Item>
-                                </Col>
-                                <Col lg={24} xs={24} >
-                                <Button type={"primary"} htmlType={"submit"} className="w-[200px]">
-                                    <p className="font-bold">Send</p>
-                                </Button>
-                                </Col>
-                            </Row>
-                            </Form>
-                        </div>
-                      </TabPane> */}
-                  </Tabs>
                   </Col>
-                </>
-                :
-                  <Col
-                    xs={24}
-                    lg={24}
-                    className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded bg-gradient-to-r from-slate-800 to-blue-700 text-white"
-                  >
-                    {masterKeyName ?
-                      <>
-                        <p className="text-center text-2xl font-semibold">{messCheck}</p>
-                        <p className="text-center text-xl font-semibold">Vui lòng liên hệ nhân viên tư vấn để gia hạn thêm!</p>
-                      </>
-                      : <p className="text-center text-2xl font-semibold">Vui lòng chọn chiến dịch để xem chi tiết!</p>
+                  <Col xs={24} xl={12} >
+                  <div className="flex justify-center">
+                      <div className="flex items-center px-5">
+                      <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
+                      <p className="pl-2 font-semibold text-lg">Đăng ký<br/> miễn phí</p>
+                      </div>
+                      <div className="flex items-center px-5">
+                      <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
+                      <p className="pl-2 font-semibold text-lg">Sử dụng indicator<br/> độc quyền</p>
+                      </div>
+                      <div className="flex items-center px-5">
+                      <CheckOutlined className="bg-green-400 p-2 rounded-full font-bold text-xl"/>
+                      <p className="pl-2 font-semibold text-lg">Đo lường giao dịch<br/> chuyên nghiệp</p>
+                      </div>
+                  </div>
+                  </Col>
+                  <Col xs={24} xl={6}>
+                    {profile?.kyc === 0 ? 
+                      <div className="flex justify-center w-full">
+                        <p className="font-semibold bg-yellow-500 px-5 py-2 w-[200px] rounded-full text-center">Bạn phải KYC để được xử dụng chức năng này!</p> 
+                      </div>
+                      : 
+                      <div className="flex justify-center w-full">
+                        <CreateMasterKey allMaster={allMaster}/>
+                      </div>
                     }
-                    
                   </Col>
-                }
-            </Row>
+                </Row>
+
+                <Row justify={"center"} align={"middle"} className="border-b-2">
+                  {profile?.kyc === 1 ?
+                    <>
+                      <Col xs={24} xl={10}>
+                          <div className="flex p-2">
+                            <Image
+                              preview={false}
+                              src={profile?.photos}
+                              width={150}
+                              height={150}
+                            />
+                            <div className="pl-5">
+                              <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{profile?.displayName}</span></p>
+                              <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{profile?.email}</span></p>
+                              {masterKeyName?.master_key && (
+                                <p className="text-[20px] font-none">My master Key: <span className="text-[22px] font-medium">{masterKeyName?.master_key}</span></p>
+                              )}
+                              {masterKeyName?.private_key && (
+                                <p className="text-[20px] font-none">My private key: <span className="text-[22px] font-medium">{masterKeyName?.private_key}</span></p>
+                              )}
+                              {/* {masterKeyName?.description && (
+                                <>
+                                  <p className="text-[20px] font-none">Thông tin: </p>
+                                  <p className="text-[22px] font-medium">{masterKeyName?.description}</p>
+                                </>
+                              )} */}
+                              {masterKeyName?.master_key && (
+                                <a href={"tin-hieu/" + profile?.user_id}>
+                                  <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full mt-2">
+                                    Thông tin
+                                  </button>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                      </Col>
+                      <Col xs={24} xl={14} className="border-l-2">
+                        <div className="p-2 pl-5 text-black">
+                          <div className="flex justify-between">
+                            <p className="text-xl font-bold pb-5 float-start h-full">Thống kê giao dịch</p>
+                            <Dropdown
+                              trigger={['click']}
+                              dropdownRender={(menu) => (
+                                <div className="shadow-lg w-full p-5 rounded-xl bg-white">
+                                  {allMaster?.map((_, index) => (
+                                    <p className="my-1 text-lg border-b cursor-pointer" onClick={()=> setMasterKeyName(_)}>{_?.master_key} - {_?.master_key_name}</p>
+                                  ))}
+                                </div>
+                              )}
+                            >
+                              <button className="bg-blue-600 px-4 h-10 text-lg font-semibold text-white rounded-full">Lựa chọn chiến dịch <FilterOutlined /></button>
+                            </Dropdown>
+                          </div>
+                          <div className="text-xl font-semibold flex">
+                            <div>
+                              <p>Ranking: {totalSignal?.rank ? totalSignal?.rank : "Chưa có rank!"}</p>
+                              <p className="py-2">Tổng signal: {totalSignal?.results?.[0]?.total ? Math.round(totalSignal?.results?.[0]?.total * 100) / 100 : 0}</p>
+                              <p>
+                                Win / Lost: {totalSignal?.results?.[0]?.gltb ? totalSignal?.results?.[0]?.win : 0} / {totalSignal?.results?.[0]?.loss ? totalSignal?.results?.[0]?.loss : 0}
+                              </p>
+                              <p className="py-2">Thời gian giao dịch: {totalSignal?.results?.[0]?.time_trade ? Math.round(totalSignal?.results?.[0]?.time_trade * 100) / 100 : 0} h</p>
+                              <p className="pb-2">Thời gian giữ lệnh trung bình: {totalSignal?.results?.[0]?.gltb ? Math.round(totalSignal?.results?.[0]?.gltb * 100) / 100 : 0} h</p>
+                            </div>
+                            <div className="pl-10">
+                              <p>Tỷ lệ win: {totalSignal?.results?.[0]?.win_rate ? Math.round(totalSignal?.results?.[0]?.win_rate * 100) / 100 : 0}</p>
+                              <p className="py-2">Profit: {totalSignal?.results?.[0]?.total_profit ? Math.round(totalSignal?.results?.[0]?.total_profit * 100) / 100 : 0}</p>
+                              <p>Lệnh trung bình 1 ngày: {totalSignal?.results?.[0]?.tb1n ? Math.round(totalSignal?.results?.[0]?.tb1n * 100) / 100 : 0}</p>
+                              <p className="py-2">Follower: {totalSignal?.results?.[0]?.follower ? Math.round(totalSignal?.results?.[0]?.follower * 100) / 100 : 0}</p>
+                              <p className="pb-2">Broker: {masterKey?.broker ? masterKey?.broker : "Chưa có"}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                    </>
+                    :
+                    <Col xs={24} xl={24}>
+                      <div className="flex border-b-2 p-2 h-[200px]">
+                        <Image
+                          preview={false}
+                          src={profile?.photos}
+                          width={150}
+                          height={150}
+                        />
+                        <div className="pl-5">
+                          <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{profile?.displayName}</span></p>
+                          <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{profile?.email}</span></p>
+                        </div>
+                      </div>
+                    </Col>
+                  }
+                </Row>
+                <Row justify={"center"} align={"middle"}>
+                    {masterKey?.master_license_id && profile?.kyc === 1 ?
+                    <>
+                      <Col
+                          lg={24}
+                          xs={24}
+                          className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded"
+                      >
+                      <div className="py-5 flex justify-center">
+                        <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl" onClick={()=>setIsReport(1)}>
+                            Báo cáo
+                        </button>
+                        <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl mx-20" onClick={()=>setIsReport(2)}>
+                            Phân tích
+                        </button>
+                        <button className="px-4 py-2 bg-gray-500 hover:bg-blue-500 rounded-full text-white font-semibold text-xl" onClick={()=>setIsReport(3)}>
+                            Lịch sử
+                        </button>
+                      </div>
+                      <Tabs type="card">
+                          <TabPane tab="Quản lý Follower" key="1">
+                            <div className="w-full h-full mt-5 pb-2 relative">
+                                <Table
+                                className={"custom-table pb-[20px]"}
+                                dataSource={follower?.data}
+                                columns={columnFollower}
+                                pagination={false}
+                                />
+                                <Pagination
+                                className="flex justify-center"
+                                current={pagination.page}
+                                total={follower?.total}
+                                pageSize={pagination.pageSize}
+                                showSizeChanger
+                                onChange={(p, ps)=> {
+                                  setPagination({
+                                    page: p,
+                                    pageSize: ps
+                                  })
+                                }}
+                                />
+                            </div>
+                          </TabPane>
+                          {/* <TabPane tab="Quản lý lệnh" key="2">
+                            <div className="w-full h-full mt-5 pb-2 relative">
+                                <Table
+                                  className={"custom-table pb-[20px]"}
+                                  dataSource={signal?.data}
+                                  columns={columnSignal}
+                                  pagination={false}
+                                />
+                                <Pagination
+                                  className="flex justify-center"
+                                  current={paginationSignal.page}
+                                  total={signal?.total}
+                                  pageSize={paginationSignal.pageSize}
+                                  showSizeChanger
+                                  onChange={(p, ps)=> {
+                                      setPaginationSignal({
+                                      page: p,
+                                      pageSize: ps
+                                      })
+                                  }}
+                                />
+                            </div>
+                          </TabPane> */}
+                          {/* <TabPane tab="Bắn tín hiệu" key="3">  
+                            <div className="flex justify-center">
+                                <Form
+                                layout={"vertical"}
+                                colon={false}
+                                form={form}
+                                onFinishFailed={(e) => console.log(e)}
+                                onFinish={onSendSignal}
+                                >
+                                <Row className="w-[500px]">
+                                    <Col lg={24} xs={24}>
+                                    <Form.Item 
+                                        label={"Type"} 
+                                        name="type" 
+                                        rules={[
+                                        {
+                                          required: true,
+                                          message: 'Vui lòng nhập!',
+                                        },
+                                        ]}
+                                    >
+                                        <Select
+                                        size="large"
+                                        placeholder="Nhập"
+                                        options={[
+                                          {
+                                            value: "buy"
+                                          },
+                                          {
+                                            value: "sell"
+                                          }
+                                        ]}  
+                                        />
+                                    </Form.Item>
+                                    </Col>
+                                    <Col lg={24} xs={24}>
+                                    <Form.Item 
+                                        label="Symbol" 
+                                        name="symbol"
+                                        rules={[
+                                        {
+                                          required: true,
+                                          message: 'Vui lòng nhập!',
+                                        },
+                                        ]}
+                                    >
+                                        <Input size="large" placeholder="Nhập"/>
+                                    </Form.Item>
+                                    </Col>
+                                    <Col lg={24} xs={24}>
+                                    <Form.Item 
+                                        label="Price" 
+                                        name="price"
+                                        rules={[
+                                        {
+                                          required: true,
+                                          message: 'Vui lòng nhập!',
+                                        },
+                                        ]}
+                                    >
+                                        <Input size="large" placeholder="Nhập ..."/>
+                                    </Form.Item>
+                                    </Col>
+                                    <Col lg={24} xs={24}>
+                                    <Form.Item 
+                                        label="Take profit" 
+                                        name="take_profit"
+                                        rules={[
+                                        {
+                                          required: true,
+                                          message: 'Vui lòng nhập!',
+                                        },
+                                        {
+                                            validator() {
+                                            if(type === "buy" && Number(take_profit) < Number(price)){
+                                              return Promise.reject(`Giá mua phải lớn hơn ${price}!`);
+                                            } else if(type === "sell" && Number(take_profit) > Number(price)){
+                                              return Promise.reject(`Giá bán phải bé hơn ${price}!`);
+                                            } else {
+                                              return Promise.resolve();
+                                            }
+                                            }
+                                        }
+                                        ]}
+                                    >
+                                        <Input size="large" />
+                                    </Form.Item>
+                                    </Col>
+                                    <Col lg={24} xs={24}>
+                                    <Form.Item 
+                                        label="Stop losss" 
+                                        name="stop_loss"
+                                        rules={[
+                                        {
+                                            required: true,
+                                            message: 'Vui lòng nhập!',
+                                        },
+                                        ]}
+                                    >
+                                        <Input size="large"/>
+                                    </Form.Item>
+                                    </Col>
+                                    <Col lg={24} xs={24} >
+                                    <Button type={"primary"} htmlType={"submit"} className="w-[200px]">
+                                        <p className="font-bold">Send</p>
+                                    </Button>
+                                    </Col>
+                                </Row>
+                                </Form>
+                            </div>
+                          </TabPane> */}
+                      </Tabs>
+                      </Col>
+                    </>
+                    :
+                      <Col
+                        xs={24}
+                        lg={24}
+                        className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded bg-gradient-to-r from-slate-800 to-blue-700 text-white"
+                      >
+                        {masterKeyName ?
+                          <>
+                            <p className="text-center text-2xl font-semibold">{messCheck}</p>
+                            <p className="text-center text-xl font-semibold">Vui lòng liên hệ nhân viên tư vấn để gia hạn thêm!</p>
+                          </>
+                          : <p className="text-center text-2xl font-semibold">Vui lòng chọn chiến dịch để xem chi tiết!</p>
+                        }
+                        
+                      </Col>
+                    }
+                </Row>
+              </>
+            ) : (
+              <div className="p-[20px] mt-5 border border-[var(--mid-gray)] rounded bg-gradient-to-r from-slate-800 to-blue-700 text-white">
+                <p className="text-center text-2xl font-semibold py-5">Vui lòng đăng nhập để xem chi tiết!</p>
+              </div>
+            )}
+            
             {/* <div className="pt-10 border-y-2 mt-10">
               <h1 className="font-bold text-2xl py-5">Top Masters</h1>
               <Row className="py-2">
