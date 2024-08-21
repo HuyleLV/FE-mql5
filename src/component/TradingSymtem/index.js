@@ -77,7 +77,18 @@ export default function TradingSymtem() {
             })
             .then(( res ) => {
                 message.success(String(res?.data?.message));
-                getSignalOpen();
+            });
+    };
+
+    const closeSignal = async (trading_system_id, pips) => {
+        await axiosInstance.post(`/tradingSystem/closeSignal/${trading_system_id}`, {
+                pips: pips
+            })
+            .catch(function (error) {
+                message.error(error.response.status);
+            })
+            .then(( res ) => {
+                message.success(String(res?.data?.message));
             });
     };
 
@@ -424,11 +435,28 @@ export default function TradingSymtem() {
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        {_?.status == 0 && cookies?.admin && (
-                                                            <div className="flex justify-center pb-2">
-                                                                <Button type="primary" className="w-20" onClick={()=>updateStatus(_?.trading_system_id)}>Hiển Thị</Button>
-                                                            </div>
-                                                        )}
+                                                        <div className="flex justify-center pb-2">
+                                                            {_?.status == 0 && cookies?.admin && (
+                                                                <Button type="primary" className="w-20" onClick={()=>updateStatus(_?.trading_system_id)}>
+                                                                    Hiển Thị
+                                                                </Button>
+                                                            )}
+                                                            <Button 
+                                                                type="primary" 
+                                                                className="ml-2" 
+                                                                onClick={()=>{
+                                                                    closeSignal(
+                                                                        _?.trading_system_id, 
+                                                                        _?.type === "BUY" ? 
+                                                                            DecimalNumber((((_?.price_symbol - _?.price) / _?.point_symbol) / 10), 2) :
+                                                                            DecimalNumber((((_?.price - _?.price_symbol) / _?.point_symbol) / 10), 2)
+                                                                    )
+                                                                }} 
+                                                                danger
+                                                            >
+                                                                Close lệnh
+                                                            </Button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             )
