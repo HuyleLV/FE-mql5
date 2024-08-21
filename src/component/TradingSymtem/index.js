@@ -441,21 +441,23 @@ export default function TradingSymtem() {
                                                                     Hiển Thị
                                                                 </Button>
                                                             )}
-                                                            <Button 
-                                                                type="primary" 
-                                                                className="ml-2" 
-                                                                onClick={()=>{
-                                                                    closeSignal(
-                                                                        _?.trading_system_id, 
-                                                                        _?.type === "BUY" ? 
-                                                                            DecimalNumber((((_?.price_symbol - _?.price) / _?.point_symbol) / 10), 2) :
-                                                                            DecimalNumber((((_?.price - _?.price_symbol) / _?.point_symbol) / 10), 2)
-                                                                    )
-                                                                }} 
-                                                                danger
-                                                            >
-                                                                Close lệnh
-                                                            </Button>
+                                                            {cookies?.admin && (
+                                                                <Button 
+                                                                    type="primary" 
+                                                                    className="ml-2" 
+                                                                    onClick={()=>{
+                                                                        closeSignal(
+                                                                            _?.trading_system_id, 
+                                                                            _?.type === "BUY" ? 
+                                                                                DecimalNumber((((_?.price_symbol - _?.price) / _?.point_symbol) / 10), 2) :
+                                                                                DecimalNumber((((_?.price - _?.price_symbol) / _?.point_symbol) / 10), 2)
+                                                                        )
+                                                                    }} 
+                                                                    danger
+                                                                >
+                                                                    Close lệnh
+                                                                </Button>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
