@@ -1,7 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { List, message, Button, Rate, Modal, Upload, Tooltip, Pagination, Image } from "antd";
+import { List, message, Button, Rate, Modal, Upload, Tooltip, Pagination, Image, Form, Input } from "antd";
 import { Products } from "../../database";
 import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
@@ -48,13 +48,14 @@ export default function MarketDetail() {
   const [comment, setComment] = useState();
   const [cookies] = useCookies(["user"]);
   const params = useParams();
+  const [form] = Form.useForm();
   const { isMobile } = useDevice();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLearn, setIsLearn] = useState(false);
   const [hide, setHide] = useState(false);
   const [rateComment, setRateComment] = useState(5);
   const [comment_content, setcomment_content] = useState("");
-  const [isBuy, setIsBuy] = useState([]);
+  const [mt4, setMt4] =  useState(0);
   const [pagination, setPagination] = useState({
     page: 1,
     pageSize: 10,
@@ -95,19 +96,8 @@ export default function MarketDetail() {
     },
   };
 
-  const checkBuy = async () => {
-    await axios
-      .get(`${process.env.REACT_APP_API_URL}/report/checkBuy`, {params: {
-          product_id: product?.[0]?.product_id,
-          type: 1,
-          create_by: cookies?.user?.user_id
-      }})
-      .then(({ data }) => {
-        setIsBuy(data);
-      });
-  }
-
   const handleOk = async () => {
+    
     if(cookies?.user.account_balance >= product?.[0].product_price) {
       const transfer = {
         transfer_product_price: product?.[0].product_price,
@@ -116,6 +106,16 @@ export default function MarketDetail() {
         create_by: cookies?.user.user_id
       };
 
+      await axiosInstance.post(`/license/updateEndDateByMt4`, {
+          user_id: cookies?.user.user_id,
+          mt4_account: mt4,
+          product_id: product?.[0].product_id
+        })
+        .then((res) => {
+          message.success(String(res?.data?.message));
+        })
+        .catch(() => message.error("Error server!"));
+
       await axiosInstance
         .post(`/user/updateBalance`, {price: product?.[0].product_price})
         .catch((e) => message.error(String(e?.response?.data?.message)));
@@ -123,7 +123,8 @@ export default function MarketDetail() {
       await axios
         .post(`${process.env.REACT_APP_API_URL}/transferProduct/create`, transfer)
         .then((res) => {
-          message.success("Gửi lệnh chuyển tiền thành công!");
+          message.success("Bạn đã gia hạn thành công!");
+          form.resetFields();
           setIsModalOpen(false);
           setIsLearn(true);
         })
@@ -300,13 +301,8 @@ export default function MarketDetail() {
     if (params?.id) {
       fetchproduct();
       fetchcomment();
-      checkBuy();
     }
   }, [params?.id, pagination, paginationComment]);
-
-  useEffect(() => {
-    checkBuy();
-  }, [product]);
 
   const productLink = useMemo(() => {
     const productImage = product?.[0]?.product_image;
@@ -354,21 +350,14 @@ export default function MarketDetail() {
             </div>
           </div>
           <div className="px-4">
-            {isBuy?.length > 0 ?  
-              <button
-                className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
-                onClick={activate}
-              >
-                Buy: {product?.[0].product_price} USD
-              </button>
-              :
-              <button
-                className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
-                onClick={() => setIsModalOpen(true)}
-              >
-                Mua Ngay: {product?.[0].product_price} USD
-              </button>
-            }
+            
+            <button
+              className="bg-[#42639c] py-2 w-full mt-2 font-semibold text-white hover:bg-[#42637c]"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Mua Ngay: {product?.[0].product_price} USD
+            </button>
+
             {cookies?.user ?
               <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
                 <button className="border border-[#42639c] w-full py-2 w-[210px] mt-4 font-semibold text-[#42639c]" onClick={activate}>
@@ -520,23 +509,12 @@ export default function MarketDetail() {
                 {FormatDollar(product?.[0].product_price)} USD
               </p>
               
-              {isBuy?.length > 0 ?  
-                <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
-                  <button
-                    className="text-md bg-[#42639c] py-2 w-[210px] mt-2 font-semibold text-white hover:bg-white hover:border-[#42639c] hover:border hover:text-[#42639c]"
-                    onClick={activate}
-                  >
-                    Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
-                  </button>
-                </a>
-                :
-                <button
-                  className="text-md bg-[#42639c] py-2 w-[210px] mt-2 font-semibold text-white hover:bg-white hover:border-[#42639c] hover:border hover:text-[#42639c]"
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
-                </button>
-              }
+              <button
+                className="text-md bg-[#42639c] py-2 w-[210px] mt-2 font-semibold text-white hover:bg-white hover:border-[#42639c] hover:border hover:text-[#42639c]"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Mua Ngay: {FormatDollar(product?.[0].product_price)} USD
+              </button>
               {cookies?.user ?
                 <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
                   <button className="text-sm border border-[#42639c] w-[210px] py-2 mt-4 font-semibold text-[#42639c] hover:bg-[#42639c] hover:text-white" onClick={activate}>
@@ -760,9 +738,19 @@ export default function MarketDetail() {
           onCancel={() => setIsModalOpen(false)}
           okButtonProps={{ className: "bg-blue-500" }}
         >
-          <p className="flex px-5 py-5 text-lg">
-            Bạn muốn mua sản phẩm này!
+          <p className="flex px-5 py-2 pb-5 text-lg">
+            Vui lòng nhập id mt4 bạn muốn gia hạn!
           </p>
+          <Form>
+            <Form.Item
+              label={"Mt4 account"}
+              className="pt-10"
+              name="mt4_account"
+              rules={[{ required: true, message: "Vui lòng nhập mt4_account!" }]}
+            >
+              <Input size="large" placeholder={"Nhập"} onChange={(e)=> setMt4(e?.target?.value)} />
+            </Form.Item>
+          </Form>
         </Modal>
       ) : (
         <Modal
@@ -777,28 +765,28 @@ export default function MarketDetail() {
         </Modal>
       )}
 
-        <Modal
-          title="Hoàn tất mua hàng"
-          className="grid justify-items-center"
-          open={isLearn}
-          onOk={() => setIsLearn(false)}
-          okText="Xác nhận"
-          cancelText="Không"
-          onCancel={() => setIsLearn(false)}
-          okButtonProps={{ className: "bg-blue-500" }}
-        >
-          <p className="flex px-5 py-2 text-lg">
-            Bạn đã mua sản phẩm thành công!
-          </p>
-          <p className="flex px-5 py-2 text-lg">
-            Vui lòng tải sản phẩm bên dưới để sử dụng:
-          </p>
-          <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
-            <div className="flex justify-center">
-              <DownloadOutlined className="text-white font-bold text-2xl p-4 bg-green-400 rounded-full w-[50px] h-[50px]" onClick={activate}/>
-            </div>
-          </a>
-        </Modal>
+      <Modal
+        title="Hoàn tất mua hàng"
+        className="grid justify-items-center"
+        open={isLearn}
+        onOk={() => setIsLearn(false)}
+        okText="Xác nhận"
+        cancelText="Không"
+        onCancel={() => setIsLearn(false)}
+        okButtonProps={{ className: "bg-blue-500" }}
+      >
+        <p className="flex px-5 py-2 text-lg">
+          Bạn đã mua sản phẩm thành công!
+        </p>
+        <p className="flex px-5 py-2 text-lg">
+          Vui lòng tải sản phẩm bên dưới để sử dụng:
+        </p>
+        <a target="_blank" href={product?.[0].product_link} rel="noreferrer" >
+          <div className="flex justify-center">
+            <DownloadOutlined className="text-white font-bold text-2xl p-4 bg-green-400 rounded-full w-[50px] h-[50px]" onClick={activate}/>
+          </div>
+        </a>
+      </Modal>
     </div>
   );
 }

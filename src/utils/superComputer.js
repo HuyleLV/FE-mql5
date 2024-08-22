@@ -42,21 +42,20 @@ export default function SuperComputer({symbol, pips, volume}) {
                 symbol === "USDCHF" ?
                     DecimalNumber(1/symbolApi?.[4]?.price * (pips-(symbolApi?.[4]?.spreads/10)) * 10 * volume, 2) :
                 symbol === "USDJPY" ?
-
-                    DecimalNumber(1/symbolApi?.[3]?.price * (pips-(symbolApi?.[3]?.spreads/10)) * 10 * volume, 2) :
+                    DecimalNumber(1/symbolApi?.[3]?.price * 100 * (pips-(symbolApi?.[3]?.spreads/10)) * 10 * volume, 2) :
                 
                 symbol === "GBPJPY" ?
-                    DecimalNumber(1/symbolApi?.[9]?.price * (pips-(symbolApi?.[9]?.spreads/10)) * 10 * volume * symbolApi?.[5]?.price, 2) :
+                    DecimalNumber(1/symbolApi?.[9]?.price * 100 * (pips-(symbolApi?.[9]?.spreads/10)) * 10 * volume * symbolApi?.[5]?.price, 2) :
                 symbol === "EURJPY" ?
-                    DecimalNumber(1/symbolApi?.[8]?.price * (pips-(symbolApi?.[8]?.spreads/10)) * 10 * volume * symbolApi?.[2]?.price, 2) :
+                    DecimalNumber(1/symbolApi?.[8]?.price * 100 * (pips-(symbolApi?.[8]?.spreads/10)) * 10 * volume * symbolApi?.[2]?.price, 2) :
                 symbol === "CHFJPY" ?
-                    DecimalNumber(1/symbolApi?.[24]?.price * (pips-(symbolApi?.[24]?.spreads/10)) * 10 * volume * 1/symbolApi?.[4]?.price, 2) :
+                    DecimalNumber(1/symbolApi?.[24]?.price * 100 * (pips-(symbolApi?.[24]?.spreads/10)) * 10 * volume * 1/symbolApi?.[4]?.price, 2) :
                 symbol === "CADJPY" ?
-                    DecimalNumber(1/symbolApi?.[23]?.price * (pips-(symbolApi?.[23]?.spreads/10)) * 10 * volume * 1/symbolApi?.[6]?.price, 2) :
+                    DecimalNumber(1/symbolApi?.[23]?.price * 100 * (pips-(symbolApi?.[23]?.spreads/10)) * 10 * volume * 1/symbolApi?.[6]?.price, 2) :
                 symbol === "AUDJPY" ?
-                    DecimalNumber(1/symbolApi?.[15]?.price * (pips-(symbolApi?.[15]?.spreads/10)) * 10 * volume * symbolApi?.[0]?.price, 2) :
+                    DecimalNumber(1/symbolApi?.[15]?.price * 100 * (pips-(symbolApi?.[15]?.spreads/10)) * 10 * volume * symbolApi?.[0]?.price, 2) :
                 symbol === "NZDJPY" ?
-                    DecimalNumber(1/symbolApi?.[25]?.price * (pips-(symbolApi?.[25]?.spreads/10)) * 10 * volume * symbolApi?.[0]?.price, 2) :
+                    DecimalNumber(1/symbolApi?.[25]?.price * 100 * (pips-(symbolApi?.[25]?.spreads/10)) * 10 * volume * symbolApi?.[0]?.price, 2) :
                 symbol === "GBPCHF" ?
                     DecimalNumber(1/symbolApi?.[21]?.price * (pips-(symbolApi?.[21]?.spreads/10)) * 10 * volume * symbolApi?.[5]?.price, 2) :
                 symbol === "EURCHF" ?

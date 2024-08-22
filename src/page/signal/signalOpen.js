@@ -200,7 +200,8 @@ export default function SignalOpen() {
                                                         SL: {_?.sl_show}
                                                         {_?.time_tp1 === null && value === 2 ? 
                                                             <img src={check_icon} className="h-6 ml-3"/> :  
-                                                            <Spin style={{marginLeft: 10}}/> 
+                                                            value === 1 ? <Spin style={{marginLeft: 10}}/> :
+                                                                <img src={close} className="h-4 ml-3"/>
                                                         }
                                                     </p>
                                                 </div>

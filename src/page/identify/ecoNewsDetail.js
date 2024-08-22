@@ -87,7 +87,7 @@ export default function EcoNewsDetail() {
                             <a href={"/lich-kinh-te/" + _?.economic_news_slug} style={{color: "black"}}>
                                 <div className="grid grid-cols-4 gap-4 border-b border-slate-300">
                                     <div className="flex items-center">
-                                        <img src={_?.economic_news_image} className="w-full"/>
+                                        <img src={_?.economic_news_image} className="w-full h-[70px]"/>
                                     </div>
                                     <div className="col-span-3 pt-4">
                                         <p className="font-semibold text-lg">{_?.economic_news_title}</p>

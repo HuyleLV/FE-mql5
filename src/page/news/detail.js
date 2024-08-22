@@ -85,9 +85,14 @@ export default function NewsDetail() {
                         <p className="font-semibold text-2xl text-center border-b mx-10 mb-5">Tin tức hot nhất</p>
                         {identifyHot?.map((_, index) => (
                             <a href={"/tin-tuc/" + _?.identify_slug} style={{color: "black"}}>
-                                <div className="pt-4 border-b border-slate-300">
-                                    <p className="font-semibold text-xl">{_?.identify_title}</p>
-                                    <p className="py-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                                <div className="grid grid-cols-4 gap-4 border-b border-slate-300 py-2">
+                                    <div className="flex items-center">
+                                        <img src={_?.identify_image} className="w-full h-[70px]"/>
+                                    </div>
+                                    <div className="col-span-3">
+                                        <p className="font-semibold text-lg line-clamp-2">{_?.identify_title}</p>
+                                        <p className="py-2 text-sm">{dayjsInstance(_?.create_at).format("HH:mm:ss DD/MM/YYYY")}</p>
+                                    </div>
                                 </div>
                             </a>
                         ))}
