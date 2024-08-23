@@ -78,7 +78,7 @@ export default function CreateMasterKey({allMaster}) {
                 label="Mô tả" 
                 name="description"
                 required 
-                rules={[{ required: true, message: "Vui lòng nhập tên mô tả!" }]}
+                rules={[{ required: true, message: "Vui lòng nhập mô tả!" }]}
                 >
                 <TextArea
                     name="description"

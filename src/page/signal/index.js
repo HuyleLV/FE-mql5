@@ -455,7 +455,9 @@ export default function SignalPage() {
                               height={150}
                             />
                             <div className="pl-5">
-                              <p className="text-[20px] font-none">My name: <span className="text-[22px] font-medium">{profile?.displayName}</span></p>
+                              {masterKeyName?.master_key && (
+                                <p className="text-[20px] font-none"><span className="text-[22px] font-medium">{masterKeyName?.master_key_name}</span></p>
+                              )}
                               <p className="text-[20px] font-none">Email: <span className="text-[22px] font-medium">{profile?.email}</span></p>
                               {masterKeyName?.master_key && (
                                 <p className="text-[20px] font-none">My master Key: <span className="text-[22px] font-medium">{masterKeyName?.master_key}</span></p>

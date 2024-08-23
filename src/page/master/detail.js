@@ -994,7 +994,16 @@ export default function MasterDetail() {
                                 <Col xs={24} xl={24} className="py-2">
                                     <p className="text-lg font-medium flex items-center justify-between">
                                         Bạn muốn thuê copy VPS?
-                                        <Switch defaultChecked={false} onChange={()=>setIsOpenVps(!isOpenVps)} />
+                                        <Switch defaultChecked={false} onChange={(e)=>{
+                                            if(e === false) {
+                                                setPriceVps(0);
+                                                form.setFieldsValue({
+                                                    vps_id: null,
+                                                    vps_time: null
+                                                });
+                                            }
+                                            setIsOpenVps(e);
+                                        }} />
                                     </p>
                                     {isOpenVps && ( 
                                         <div>
