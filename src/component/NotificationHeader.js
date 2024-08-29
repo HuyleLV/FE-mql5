@@ -115,7 +115,7 @@ export default function NotificationHeader({ notifications, lengthSocket, length
                                 showInfo(item)
                             )}
                         >
-                            <Col className="w-[300px]">
+                            <Col className="w-[350px]">
                                 <div style={{ width: "100%", display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'space-between', alignItems: 'center' }}>
                                     <div>
                                         <span className="text-sm font-bold line-clamp-2">{item.notification_title}</span>
@@ -134,7 +134,7 @@ export default function NotificationHeader({ notifications, lengthSocket, length
                 }
             )
         }
-        )
+    )
 
     const showInfo = (values) => {
         Modal.info({
@@ -154,7 +154,13 @@ export default function NotificationHeader({ notifications, lengthSocket, length
 
     return (
         <>
-            <Dropdown placement="bottomRight" menu={{ items }}>
+            <Dropdown 
+                placement="bottomRight" 
+                menu={{ items, style: { 
+                    maxHeight: '500px', 
+                    overflowY: 'auto', 
+                }, 
+            }}>
                 <div className="w-auto" style={{ position: 'relative' }}>
                     <IoIosNotifications size={30} style={{ marginRight: 6 }} />
                     {count > 0 &&

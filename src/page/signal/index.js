@@ -776,7 +776,7 @@ export default function SignalPage() {
                 ))}
               </Row>
             </div> */}
-            <TopMaster />
+            <TopMaster num={2}/>
             {/* <div className="pt-10">
               <h1 className="font-bold text-2xl py-5">Top Signals</h1>
               <Row className="py-2">

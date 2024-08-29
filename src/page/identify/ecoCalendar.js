@@ -35,7 +35,7 @@ export default function EcoCalendar() {
         await axios
             .get(`${process.env.REACT_APP_API_URL}/indicatorNews/getByTime`, {
                 params: {
-                    create_at: dayjs(new Date()),
+                    create_at: dayjs(new Date()).format("YYYY-MM-DD 00:00:00"),
                     create_atD: dayjs(new Date()).add(1, 'day').format("YYYY-MM-DD 00:00:00")
                 }
             })
@@ -90,7 +90,7 @@ export default function EcoCalendar() {
     };
 
     const onChange = async (date) => {
-        const create_at = dayjs(date).format("YYYY-MM-DD");
+        const create_at = dayjs(date).format("YYYY-MM-DD 00:00:00");
         const create_atD = dayjs(date).add(1, 'day').format("YYYY-MM-DD 00:00:00");
         await axios
             .get(

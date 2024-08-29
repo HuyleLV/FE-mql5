@@ -26,12 +26,10 @@ import TopMaster from "../../component/TopMaster";
 export default function Home() {
     const { isMobile } = useDevice();
     const [products, setProducts] = useState([]);
-    const token = useLocation();
     const [shorts, setShorts] = useState([]);
     const [productPage, setProductPage] = useState([]);
     const [cookies] = useCookies(["user"]);
     const [key, setKey] = useState(1);
-    const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
 
     const navigate = useNavigate();
 
@@ -205,10 +203,6 @@ export default function Home() {
         fetchProducts();
         fetchShorts()
         getAllProductPage();
-        if (new URLSearchParams(token?.search).get('token') !== null) {
-            setCookieToken("accessToken", new URLSearchParams(token?.search).get('token'));
-            localStorage.setItem("token", new URLSearchParams(token?.search).get('token'));
-        }
     }, []);
 
     return (
@@ -381,7 +375,7 @@ export default function Home() {
                     />
                 </div>
 
-                <TopMaster />
+                <TopMaster num={1}/>
 
                 <p className="font-bold p-4 text-3xl border-b-2 border-blue-500">Tin Thị Trường</p>
                 <Row>

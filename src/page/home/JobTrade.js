@@ -36,6 +36,7 @@ export default function JobTrade({shorts}) {
 
     useEffect(() => {
         TimeAgo.addDefaultLocale(en);
+        console.log(shorts?.data)
     }, [])
 
     return (
@@ -45,7 +46,10 @@ export default function JobTrade({shorts}) {
                     shorts?.data ?
                         <Slide slidesToScroll={1} slidesToShow={3} indicators={true} arrows={false}>
                             {shorts?.data?.map((item, index) => (
-                                <div onClick={() => (handleId(index), handleOpen())} className="w-auto h-[400px] p-1 m-1" style={{ position: "relative", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center", backgroundImage: `url(${item.short_image})` }}>
+                                <div 
+                                    onClick={() => (handleId(index), handleOpen())} 
+                                    className="w-auto h-[400px] p-1 m-1" 
+                                    style={{ position: "relative", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center", backgroundImage: `url(${item.short_image})` }}>
                                     <div style={{ width: 100, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", borderRadius: 10, background: "rgba(255, 255, 255, 0.7)" }}>
                                         <FcClock size={22} />
                                         <div className="font-semibold text-[10px]">

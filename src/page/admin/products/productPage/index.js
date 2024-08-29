@@ -7,6 +7,7 @@ import { CustomUpload } from "../../../../component";
 import { parseSafe } from "../../../../helper";
 import JobTrade from "../../../home/JobTrade";
 import { isImageOrVideo } from "../../../../utils/isImageOrVideo";
+import { FormatSlug } from "../../../../utils/format";
 
 export default function ProductPageDashboard() {
     const [form] = Form.useForm();
@@ -18,10 +19,23 @@ export default function ProductPageDashboard() {
         await axiosInstance.get(`/productPage/getInfoPage`)
             .then((res) => {
                 const data = res?.data;
-                setProductPage(data[0]);
                 const coverShort = data[0]?.product_page_short
                     ? parseSafe(data[0]?.product_page_short)
                     : undefined;
+                const dataMerge = {
+                    ...data[0],
+                    shortTitle_1: coverShort[0].title,
+                    short_1: coverShort[0].link,
+                    shortLink_1: coverShort[0].image,
+                    shortTitle_2: coverShort[1].title,
+                    short_2: coverShort[1].link,
+                    shortLink_2: coverShort[1].image,
+                    shortTitle_3: coverShort[2].title,
+                    short_3: coverShort[2].link,
+                    shortLink_3: coverShort[2].image
+
+                }
+                setProductPage(dataMerge);
                 setShort(coverShort);
             })
             .catch(() => message.error("Error server!"));
@@ -43,6 +57,7 @@ export default function ProductPageDashboard() {
         await axiosInstance.post(`/productPage/updatePage`, merge)
             .then((res) => {
                 message.success(String(res?.data?.message));
+                getAllProductPage();
                 setIsOpen(false);
             })
     }

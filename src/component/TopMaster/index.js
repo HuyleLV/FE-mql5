@@ -19,7 +19,7 @@ ChartJS.register(
     Legend
 );
 
-export default function TopMaster() {
+export default function TopMaster({num}) {
     const navigate = useNavigate();
     const [top10Master, setTop10Master] = useState([]);
     const [top20Master, setTop20Master] = useState([]);
@@ -136,7 +136,7 @@ export default function TopMaster() {
                     ))}
                 </Slide>
             )}
-            {top20Master?.length > 0 && (
+            {top20Master?.length > 0 && num === 2 && (
                 <Slide slidesToScroll={1} slidesToShow={4} cssClass="py-10 mx-10">
                     {top20Master.map((_, i) => (
                         <div key={i}>

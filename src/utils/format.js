@@ -23,3 +23,12 @@ export const DecimalNumber = (num, n) => {
     
     return result;
 }
+
+export const FormatSlug = (str) => {
+  let slug = str.toLowerCase();
+  slug = slug.replace(/[^a-z0-9\s-]/g, '');
+  slug = slug.replace(/\s+/g, '-');
+  slug = slug.replace(/^-+|-+$/g, '');
+
+  return slug;
+}

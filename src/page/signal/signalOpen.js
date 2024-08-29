@@ -195,10 +195,17 @@ export default function SignalOpen() {
                                         <div className="flex items-center">
                                             <div className="text-xl font-semibold w-2/3">
                                                 <div className="grid grid-cols-3">
-                                                    <p>Entry: {_?.price}</p>
+                                                    <p className="flex items-center">
+                                                        Entry: {_?.price}
+                                                        {_?.time_tp1 === null && _?.pass_sl === null && value === 2 ? 
+                                                            <img src={check_icon} className="h-6 ml-3"/> :  
+                                                            value === 1 ? <Spin style={{marginLeft: 10}}/> :
+                                                                <img src={close} className="h-4 ml-3"/>
+                                                        }
+                                                    </p>
                                                     <p className="flex items-center">
                                                         SL: {_?.sl_show}
-                                                        {_?.time_tp1 === null && value === 2 ? 
+                                                        {_?.time_tp1 === null && _?.pass_sl === 1 && value === 2 ? 
                                                             <img src={check_icon} className="h-6 ml-3"/> :  
                                                             value === 1 ? <Spin style={{marginLeft: 10}}/> :
                                                                 <img src={close} className="h-4 ml-3"/>
@@ -303,13 +310,17 @@ export default function SignalOpen() {
 
                     {allRanking?.map((_,i) => (
                         <a href={"/signal/thong-ke/" + _?.trading_system}>
-                            <div className="flex py-4">
+                            <div className="flex items-center py-4">
                                 <img src={logo_black} className="h-[100px]"/>
                                 <div className="w-full px-4 text-black">
                                     <p className="font-semibold text-xl">Trading System {_?.trading_system}</p>
-                                    <div className="flex justify-between w-full pt-2">
-                                        <p className="text-lg">Tín hiệu: {_?.count_signal}</p>
-                                        <p className="text-lg">Tỷ lệ thắng: {DecimalNumber(_?.win_rate * 100, 2)}%</p>
+                                    <div className="grid grid-cols-2 pt-2">
+                                        <p className="text-lg">
+                                            Tín hiệu:<br></br> {_?.count_signal}
+                                        </p>
+                                        <p className="text-lg">
+                                            Tỷ lệ thắng:<br></br> {DecimalNumber(_?.win_rate * 100, 2)}%
+                                        </p>
                                     </div>
                                 </div>
                             </div>

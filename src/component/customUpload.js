@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons'
 import axios from "axios";
 import { getBase64 } from '../helper';
+import { FormatSlug } from '../utils/format';
 
 export default function CustomUpload({
   value,
@@ -26,13 +27,13 @@ export default function CustomUpload({
 
   const uploadFile = async (file) => {
     const uploadForm = new FormData();
-    uploadForm.append("product_link", file);
+    const newName = FormatSlug(file?.name.split(".")[0]) + "." + file?.name.split(".")[1];
+    uploadForm.append("product_link", file, newName);
     const result = await axios.post(
       `${process.env.REACT_APP_API_URL}/upload/file`,
       uploadForm
     );
     const url = `${process.env.REACT_APP_API_URL}${result?.data}`;
-
     return { url };
   };
 

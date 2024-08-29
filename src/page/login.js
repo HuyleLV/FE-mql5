@@ -26,7 +26,7 @@ const Login = () => {
         localStorage.setItem('token', res?.data);
         setCookieToken("accessToken", res?.data);
         message.success("Đăng nhập thành công!");
-        navigate("/");
+        navigate("/san-pham");
       })
       .catch(() => message.error("Tài khoản hoặc mật khẩu không đúng!"));
   };

@@ -23,7 +23,7 @@ import TradingSymtem from "../../component/TradingSymtem";
 export default function Product() {  
     const { isMobile } = useDevice();
     const location = useLocation();
-    const currentPath = location.pathname;
+    const token = useLocation();
     const navigate = useNavigate();
     const [product, setProduct] = useState([]);
     const [tab, setTab] = useState(1);
@@ -33,6 +33,7 @@ export default function Product() {
     const [report, setReport] = useState([]);
     const [isBuy, setIsBuy] = useState([]);
     const [checkBuy, setCheckBuy] = useState(false);
+    const [cookiesToken, setCookieToken, removeCookieToken] = useCookies(["accessToken"]);
 
     const fetchProducts = async () => {
         await axios
@@ -52,9 +53,7 @@ export default function Product() {
                 const coverShort = data[0]?.product_page_short
                     ? parseSafe(data[0]?.product_page_short)
                     : undefined;
-
                 setShort(coverShort);
-
             })
             .catch(() => message.error("Error server!"));
     };
@@ -246,6 +245,10 @@ export default function Product() {
         getAllProductPage();
         getAllCategoryWeb();
         checkBuyUser();
+        if (new URLSearchParams(token?.search).get('token') !== null) {
+            setCookieToken("accessToken", new URLSearchParams(token?.search).get('token'));
+            localStorage.setItem("token", new URLSearchParams(token?.search).get('token'));
+        }
     }, []);
 
     useEffect(() => { 
