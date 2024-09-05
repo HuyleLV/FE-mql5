@@ -320,7 +320,7 @@ export default function Product() {
                             </div>
                             <p className="font-bold text-xl flex justify-center py-2">Cố Vấn</p>
                         </div>
-                        <div className={`px-10 mx-5 py-5 rounded-full cursor-pointer ${tab === 6 ? 'bg-gray-200' : ''}`} onClick={()=>setTab(6)}>
+                        <div className={`px-10 mx-5 py-5 rounded-full cursor-pointer`} onClick={()=>navigate("/giai-phap-dot-pha")}>
                             <div className="flex justify-center">
                                 <img src={icon_6} width={80} style={{height: 80}}/>
                             </div>
@@ -392,10 +392,6 @@ export default function Product() {
                 <div className="flex justify-center py-10">
                     <p className="text-4xl font-bold text-center text-white w-1/2 p-5 bg-blue-500">Coming Soon</p>
                 </div>
-            )}
-                
-            {tab === 6  && (
-                <Partner />
             )}
         </>
     )

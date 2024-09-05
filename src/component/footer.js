@@ -26,7 +26,7 @@ export default function Footer() {
             <div className="text-base text-white">
               <p className="py-1 pt-2"><span className="text-white font-medium">Địa chỉ: <span className="text-[#999999]">Hà Nội, Việt Nam</span></span></p>
               <p><span className="text-white font-medium">Điện thoại: <span className="text-[#999999]">0964 412 494</span></span></p>
-              <p className="py-1"><span className="text-white font-medium">Email: <span className="text-[#999999]">supptippertrade@gmail.com</span></span></p>
+              <p className="py-1"><span className="text-white font-medium">Email: <span className="text-[#999999]">hello.tipper@gmail.com</span></span></p>
               <p><span className="text-white font-medium">Website: <Link to={"https://tippertrade.com"} className="text-[#999999]">tippertrade.com</Link></span></p>
             </div>
           </Col>
@@ -146,7 +146,7 @@ export default function Footer() {
           </Col>
         </Row>
       </div>
-        <p className="text-center border-t border-gray-600 py-2 text-[#999999]">Since 2016 © - Bản Quyền Thuộc Về Tipper Trade</p>
+        <p className="text-center border-t border-gray-600 py-2 text-[#999999]">Since 2020 © - Bản Quyền Thuộc Về Tipper Trade</p>
     </div>
   );
 }

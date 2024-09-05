@@ -29,6 +29,7 @@ import TradingSystemDetail from "../page/signal/signalDetail";
 import Statistical from "../page/signal/statistical";
 import StatisticalDetail from "../page/signal/statistical/detail";
 import TradingSystem from "../page/signal/tradingSystem";
+import Solution from "../page/product/solution";
 
 export default function User () {
     return (
@@ -36,6 +37,7 @@ export default function User () {
         <Route path="/" element={<Home />} />
         <Route path="/home-detail" element={<HomeDetail />} />
         <Route path="/san-pham" element={<Product />} />
+        <Route path="/giai-phap-dot-pha" element={<Solution />} />
         <Route path="/quy" element={<Fund />} />
         <Route path="/signal" element={<SignalPage />} />
         <Route path="/signal/:trading_system_id" element={<TradingSystemDetail />} />
