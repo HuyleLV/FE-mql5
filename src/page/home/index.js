@@ -213,7 +213,7 @@ export default function Home() {
                 <div className="absolute top-0 px-[5%] text-white">
                     <div className="w-full flex justify-center overflow-hidden">
                         <animated.div key={key} style={scrolling} className={"font-none w-full"}>
-                            Chào mừng bạn đến với phiên bản beta Tipper Trade - Hãy trải nghiệm những nội dung mới lạ những giải pháp cách mạng về tài chính. Tất cả hòm thư góp ý vui lòng gửi về supp.tippertrade@gmail.com, Tipper Trade xin chân thành cám ơn!!
+                            Chào mừng bạn đến với phiên bản beta Tipper Trade - Hãy trải nghiệm những nội dung mới lạ những giải pháp cách mạng về tài chính. Tất cả hòm thư góp ý vui lòng gửi về cskh.tipper@gmail.com, Tipper Trade xin chân thành cám ơn!!
                         </animated.div>
                     </div>
                     <p className="font-bold text-2xl top-0 pt-20 border-b w-[350px] py-2">Giải Pháp Đầu Tư An Toàn</p>

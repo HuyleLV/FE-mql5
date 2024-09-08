@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Market from "../page/market";
 import MarketDetail from "../page/market/detail";
 import Login from "../page/login";
@@ -30,9 +30,22 @@ import Statistical from "../page/signal/statistical";
 import StatisticalDetail from "../page/signal/statistical/detail";
 import TradingSystem from "../page/signal/tradingSystem";
 import Solution from "../page/product/solution";
+import { useEffect } from "react";
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 export default function User () {
-    return (
+  return (
+    <>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home-detail" element={<HomeDetail />} />
@@ -66,5 +79,6 @@ export default function User () {
         <Route path="/loginAdmin" element={<LoginAdmin />} />
         <Route path="/report/:report_slug" element={<ReportDetail />} />
       </Routes>
-    );
-  };
+    </>
+  );
+};

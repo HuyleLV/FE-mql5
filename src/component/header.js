@@ -320,7 +320,7 @@ export default function Header() {
                             <div className="grid grid-cols-4 gap-4 bg-white w-2/3 mt-3 p-5 rounded-xl drop-shadow-md">
                               <div>
                                 <div className="border-b h-[140px]">
-                                  <a href={"/tin-tuc"}>
+                                  <a href={"/"}>
                                     <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Khám Phá</p>
                                   </a>
                                   <p className="font-medium">
@@ -331,13 +331,13 @@ export default function Header() {
                                 </div>
                                 <div className="list-disc pt-4">
                                   <li>
-                                    <a href={"/tin-tuc"}>Blog của Tipper</a>
+                                    <a href={"/"}>Blog của Tipper</a>
                                   </li>
                                   <li>
-                                    <a href={"/tin-tuc"}>Câu Chuyện Khách Hàng</a>
+                                    <a href={"/"}>Câu Chuyện Khách Hàng</a>
                                   </li>
                                   <li>
-                                    <a href={"/tin-tuc"}>Zoom Thực Chiến</a>
+                                    <a href={"/"}>Zoom Thực Chiến</a>
                                   </li>
                                 </div>
                               </div>
@@ -354,19 +354,19 @@ export default function Header() {
                                 </div>
                                 <div className="list-disc pt-4">
                                   <li>
-                                    <a href={"/tin-tuc"}>Giáo Trình</a>
+                                    <a href={"/education"}>Giáo Trình</a>
                                   </li>
                                   <li>
-                                    <a href={"/tin-tuc"}>Video Hướng Dẫn</a>
+                                    <a href={"/education"}>Video Hướng Dẫn</a>
                                   </li>
                                   <li>
-                                    <a href={"/tin-tuc"}>Bằng Chứng Thành Công</a>
+                                    <a href={"/education"}>Bằng Chứng Thành Công</a>
                                   </li>
                                 </div>
                               </div>
                               <div>
                                 <div className="border-b h-[140px]">
-                                  <a href={"/tin-tuc"}>
+                                  <a href={"/"}>
                                     <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Kết Nối</p>
                                   </a>
                                   <p className="font-medium">
@@ -377,16 +377,16 @@ export default function Header() {
                                 </div>
                                 <div className="list-disc pt-4">
                                   <li>
-                                    <a href={"/tin-tuc"}>Tipper Community</a>
+                                    <a href={"/"}>Tipper Community</a>
                                   </li>
                                   <li>
-                                    <a href={"/tin-tuc"}>Cổng Thông Tin Đối Tác</a>
+                                    <a href={"/"}>Cổng Thông Tin Đối Tác</a>
                                   </li>
                                 </div>
                               </div>
                               <div>
                                 <div className="border-b h-[140px]">
-                                  <a href={"/tin-tuc"}>
+                                  <a href={"/"}>
                                     <p className="text-black block md:p-0 hover:text-blue-400 font-bold text-base">Hỗ Trợ</p>
                                   </a>
                                   <p className="font-medium">
@@ -396,16 +396,16 @@ export default function Header() {
                                 </div>
                                 <div className="list-disc pt-4">
                                   <li>
-                                    <a href={"/tin-tuc"}>
+                                    <a href={"/"}>
                                       Hỗ Trợ Khách Hàng <br></br>
                                       Chúng tôi hỗ trợ khách hàng mọi thắc mắc về thông tin thị trường 24/7 
                                     </a>
                                   </li>
                                   <li>
-                                    <a href={"/tin-tuc"}>
+                                    <a href={"/"}>
                                       Hỗ Trợ Đối Tác <br></br>
-                                      Liên hệ với Hotline: 0356 496 403 /  <br></br>
-                                      Email : invest.Tipperpartner@gmail.com để làm đối tác toàn diện của chúng tôi
+                                      Liên hệ với Hotline: 0964 412 494/  <br></br>
+                                      Email: hello.tipper@gmail.com để làm đối tác toàn diện của chúng tôi
                                     </a>
                                   </li>
                                 </div>

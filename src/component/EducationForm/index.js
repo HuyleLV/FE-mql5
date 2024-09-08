@@ -1,4 +1,4 @@
-import {
+  import {
     Form,
     Row,
     Input,
@@ -14,7 +14,7 @@ import {
   import axios from "axios";
   import { ExclamationCircleOutlined } from "@ant-design/icons";
   import CustomUpload from "../customUpload";
-import CustomSunEditor from "../customSunEditor";
+  import CustomSunEditor from "../customSunEditor";
   
   export default function EducationForm({
     id = "",
