@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useCookies } from "react-cookie";
-import { Image, Dropdown, Space, Select, message, Divider, Button } from "antd";
+import { Image, Dropdown, Space, Select, message, Divider, Button, Modal } from "antd";
 import { useDevice } from "../hooks";
 import { DownOutlined } from "@ant-design/icons";
 import logo from "../component/image/logo_white.png"
@@ -520,11 +520,11 @@ export default function Header() {
             </>
           )}
         </div>
-        <Dialog open={open} handler={handleOpen} style={{ background: "#00000099", position: 'relative' }} >
+        <Modal width={1000} open={open} onCancel={handleOpen} footer={<></>}>
           <DialogBody style={{ width: "100%", display: 'flex', justifyContent: 'center', alignItems: "center" }}>
-            <AccuracyKYC handleOpen={handleOpen} />
+              <AccuracyKYC handleOpen={handleOpen}/>
           </DialogBody>
-        </Dialog>
+        </Modal>
       </div>
     </nav>
   );

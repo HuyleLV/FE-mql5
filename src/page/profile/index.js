@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination, message, Tabs, Select, Flex, DatePicker } from "antd";
+import { Form, Input, Button, Image, Row, Col, Space, Table, Pagination, message, Tabs, Select, Flex, DatePicker, Modal } from "antd";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import dayjsInstance from "../../utils/dayjs";
@@ -129,7 +129,8 @@ export default function ProfilePage() {
                       </div>
                       <Button onClick={handleOpen} type="primary" className="mx-2"><p className="font-semibold text-sm textWhite">Xác thực ngay</p>
                       </Button>
-                    </div>}
+                    </div>
+                  }
                 </Space>
 
                 <div>
@@ -254,29 +255,38 @@ export default function ProfilePage() {
                 </Space>
               </div>
               <div style={{ width: "40%", display: 'flex', flexDirection: 'column', justifyContent: "center", alignItems: "center" }}>
-                <Col className="w-full border-2 text-center p-4">
-                  {!editProfile ? (
-                    <Image
-                      preview={false}
-                      src={profile?.photos}
-                      width={120}
-                      height={120}
-                    />
-                  ) : (
-                    <>
-                      <Form.Item name="photos">
-                        <CustomUpload
-                          type="image"
-                          accept=".png, .jpg, .jpeg, .jfif"
-                        />
-                      </Form.Item>
-                    </>
-                  )}
+                <Col className="w-full border-2 p-4">
+                  <div className="text-center">
+                    {!editProfile ? (
+                      <Image
+                        preview={false}
+                        src={profile?.photos}
+                        width={120}
+                        height={120}
+                      />
+                    ) : (
+                      <>
+                        <Form.Item name="photos">
+                          <CustomUpload
+                            type="image"
+                            accept=".png, .jpg, .jpeg, .jfif"
+                          />
+                        </Form.Item>
+                      </>
+                    )}
 
-                  <div className="text-[26px] font-medium">
-                    {profile?.displayName}
+                    <div className="text-[26px] font-medium">
+                      {profile?.displayName}
+                    </div>
+                    <div className="text-xs font-semibold textGreen">Online</div>
                   </div>
-                  <div className="text-xs font-semibold textGreen">Online</div>
+                                        
+                  {profile?.identification_image && (
+                    <div className="text-lg font-semibold p-2 list-disc">
+                      <li>Bạn đã gửi thông tin Kyc thành công vui lòng chờ quản trị viên phê duyệt!</li>
+                      <li>Nếu thông tin kyc bị nhầm thì bạn vui lòng điền lại vào biểu mẫu để cập nhật lại thông tin!</li>
+                    </div>
+                  )}
                 </Col>
               </div>
             </div>
@@ -284,11 +294,11 @@ export default function ProfilePage() {
         </Col>
       </Row>
 
-      <Dialog open={open} handler={handleOpen} style={{ background: "#00000099", position: 'relative' }} >
+      <Modal width={1000} open={open} onCancel={handleOpen} footer={<></>}>
         <DialogBody style={{ width: "100%", display: 'flex', justifyContent: 'center', alignItems: "center" }}>
-          <AccuracyKYC handleOpen={handleOpen}/>
+            <AccuracyKYC handleOpen={handleOpen}/>
         </DialogBody>
-      </Dialog>
+      </Modal>
     </div>
   );
 }

@@ -21,7 +21,7 @@ export default function Footer() {
           mỗi khách hàng của từng doanh nghiệp
         </p>
         <Row className={isMobile ? "px-[50px]" : "pb-10"}>
-          <Col xs={24} xl={6}>
+          <Col xs={24} xl={4}>
             <img src={logo} width={150}/>
             <div className="text-base text-white">
               <p className="py-1 pt-2"><span className="text-white font-medium">Địa chỉ: <span className="text-[#999999]">Hà Nội, Việt Nam</span></span></p>
@@ -30,77 +30,51 @@ export default function Footer() {
               <p><span className="text-white font-medium">Website: <Link to={"https://tippertrade.com"} className="text-[#999999]">tippertrade.com</Link></span></p>
             </div>
           </Col>
-          <Col xs={isMobile ? 12 : 24} xl={4}>
-            <div className="border-b-2 w-[140px] border-amber-200">
-              <p className="font-medium text-white py-2 text-lg">HOME</p>
-            </div>
-            <div className="font-medium text-lg">
-              {/* <a href="https://tippertrade.com/">
-                <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Trang Chủ</p>
-              </a> */}
-              <a href="https://tippertrade.com/san-pham/">
-                <p className="text-[#999999] py-1 pt-4 "><CaretRightOutlined /> Sản Phẩm</p>
-              </a>
-              {/* <a href="https://tippertrade.com/thi-truong/">
-                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Thị Trường</p>
-              </a>
-              <a href="https://tippertrade.com/blocks/block-giai-phap/">
-                <p className="text-[#999999]"><CaretRightOutlined /> Giải Pháp</p>
-              </a>
-              <a href="https://tippertrade.com/tai-lieu/">
-                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Tài Liệu</p>
-              </a>
-              <a href="https://tippertrade.com/blocks/footer-about-us/">
-                <p className="text-[#999999]"><CaretRightOutlined /> Về Chúng Tôi</p>
-              </a> */}
-            </div>
-          </Col>
-          <Col xs={isMobile ? 12 : 24} xl={4}>
-            <div className="border-b-2 w-[140px] border-amber-200">
-              <p className="font-medium text-white py-2 text-lg">DỊCH VỤ</p>
-            </div>
-            <div className="font-medium text-lg">
-              <a href="https://tippertrade.com/giai-phap-toan-dien/">
-                <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Giải Pháp Giao Dịch</p>
-              </a>
-              {/* <a href="https://tippertrade.com/tai-lieu/zoom-thuc-chien/">
-                <p className="text-[#999999]"><CaretRightOutlined /> Zoom Thực Chiến</p>
-              </a>
-              <a href="https://tippertrade.com/dao-tao-nhan-luc/">
-                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Đào Tạo Nhân Lực</p>
-              </a>
-              <a href="https://tippertrade.com/co-van-tai-chinh/">
-                <p className="text-[#999999]"><CaretRightOutlined /> Cố Vấn Tài Chính</p>
-              </a>
-              <a href="https://tippertrade.com/phan-mem-ket-noi/">
-                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Phần Mềm Kết Nối</p>
-              </a> */}
-            </div>
-          </Col>
-          <Col xs={isMobile ? 12 : 24} xl={4}>
-            <div className="border-b-2 w-[140px] border-amber-200">
-              <p className="font-medium text-white py-2 text-lg">THÔNG TIN</p>
-            </div>
-            <div className="font-medium text-lg">
-              {/* <a href="https://tippertrade.com/thong-tin/">
-                <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Thông Tin</p>
-              </a> */}
-              <a href="https://tippertrade.com/co-hoi-hop-tac/">
-                <p className="text-[#999999] py-1 pt-4"><CaretRightOutlined /> Cơ Hội Hợp Tác</p>
-              </a>
-              {/* <a href="https://tippertrade.com/co-hoi-lam-viec/">
-                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Cơ Hội Làm Việc</p>
-              </a>
-              <a href="https://tippertrade.com/chinh-sach-bao-mat/">
-                <p className="text-[#999999]"><CaretRightOutlined /> Chính Sách Bảo Mật</p>
-              </a>
-              <a href="https://tippertrade.com/ho-tro/">
-                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Hỗ Trợ</p>
-              </a>
-              <a href="https://tippertrade.com/cong-dong/">
-                <p className="py-1 text-[#999999]"><CaretRightOutlined /> Cộng Đồng</p>
-              </a> */}
-            </div>
+          <Col xs={isMobile ? 12 : 24} xl={14}>
+            <Row>
+              <Col xs={isMobile ? 12 : 24} xl={8}>
+                <div className="border-b-2 w-[140px] border-amber-200">
+                  <p className="font-medium text-white py-2 text-lg">HOME</p>
+                </div>
+                <div className="font-medium text-lg">
+                  <a href="https://tippertrade.com/san-pham/">
+                    <p className="text-[#999999] py-1 pt-4 "><CaretRightOutlined /> Sản Phẩm</p>
+                  </a>
+                </div>
+              </Col>
+              <Col xs={isMobile ? 12 : 24} xl={8}>
+                <div className="border-b-2 w-[140px] border-amber-200">
+                  <p className="font-medium text-white py-2 text-lg">DỊCH VỤ</p>
+                </div>
+                <div className="font-medium text-lg">
+                  <a href="https://tippertrade.com/giai-phap-toan-dien/">
+                    <p className="py-1 pt-4 text-[#999999]"><CaretRightOutlined /> Giải Pháp Giao Dịch</p>
+                  </a>
+                </div>
+              </Col>
+              <Col xs={isMobile ? 12 : 24} xl={8}>
+                <div className="border-b-2 w-[140px] border-amber-200">
+                  <p className="font-medium text-white py-2 text-lg">THÔNG TIN</p>
+                </div>
+                <div className="font-medium text-lg">
+                  <a href="https://tippertrade.com/co-hoi-hop-tac/">
+                    <p className="text-[#999999] py-1 pt-4"><CaretRightOutlined /> Cơ Hội Hợp Tác</p>
+                  </a>
+                </div>
+              </Col>
+              <Col xs={isMobile ? 12 : 24} xl={24}>
+                <div className="text-center px-5 pt-16">
+                  <p className="font-medium text-white text-lg">Cảnh báo rủi ro và miễn trừ trách nhiệm</p>
+                  <p className="font-medium p-2 text-lg text-[#999999]">
+                    Thị Trường Tài Chính là lĩnh vực đầu tư rất tiềm năng nhưng cũng tiềm ẩn đầy rủi ro. 
+                    Bạn không nên mạo hiểm quá số tiền mà bạn có thể chấp nhận mất mát, bạn không nên giao dịch hay đầu tư trừ khi bạn hiểu thật 
+                    sự đầy đủ về thị trường và mức độ rủi ro của nó. Việc giao dịch sử dụng đòn bẩy cao có thể rủi ro đáng kể với số vốn đầu tư của bạn. 
+                    Vì vậy, bạn hãy nên tìm hiểu thật kỹ, xây dựng nền tảng giao dịch vững chắc trước khi tham gia và hoàn toàn chịu trách nhiệm với số vốn 
+                    của mình.
+                  </p>
+                </div>
+              </Col>
+            </Row>
           </Col>
           <Col xs={24} xl={6}>
             <div className="border-b-2 w-[200px] border-amber-200">

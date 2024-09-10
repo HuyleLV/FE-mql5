@@ -7,10 +7,12 @@ import CustomUpload from "./customUpload";
 import { useForm } from "react-hook-form"
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AccuracyKYC({ handleOpen }) {
 
     const [form] = Form.useForm();
+    const navigate = useNavigate();
     const { register, handleSubmit } = useForm({});
     const identification_front = Form.useWatch('identification_front', form);
     const identification_back = Form.useWatch('identification_back', form);
@@ -25,25 +27,30 @@ export default function AccuracyKYC({ handleOpen }) {
 
     const onSubmit = async (values) => {
 
-        const data = {
-            fullname: values?.firstname + " " + values?.lastname,
-            phone: values?.phone,
-            gender: values?.gender,
-            birthday: values?.birthday,
-            country: values?.country,
-            identification_type: values?.identification_type,
-            identification_number: values?.identification_number,
-            identification_image: JSON.stringify({
-                identification_front: identification_front, 
-                identification_back: identification_back
-            })
+        if(values?.birthday === "" || values?.country === "" || values?.firstname === "" || values?.gender === "" || values?.phone === ""){
+            message.warning("Bạn đang điền thiếu thông tin ở bước 2!");
+        } else {
+            const data = {
+                fullname: values?.firstname + " " + values?.lastname,
+                phone: values?.phone,
+                gender: values?.gender,
+                birthday: values?.birthday,
+                country: values?.country,
+                identification_type: values?.identification_type,
+                identification_number: values?.identification_number,
+                identification_image: JSON.stringify({
+                    identification_front: identification_front, 
+                    identification_back: identification_back
+                })
+            }
+    
+            await axios.post(`${process.env.REACT_APP_API_URL}/user/updateInfoKyc/${cookies?.user?.user_id}`, data)
+                .finally(() => {
+                    message.success("Cập nhập thành công!");
+                    handleOpen();
+                    window.location.reload();
+                });
         }
-
-        await axios.post(`${process.env.REACT_APP_API_URL}/user/updateInfoKyc/${cookies?.user?.user_id}`, data)
-            .finally(() => {
-                message.success("Cập nhập thành công!");
-                handleOpen();
-            });
     };
 
 
